@@ -8,10 +8,42 @@ editor_options:
   chunk_output_type: console
 ---
 
+Tämä on esimerkki Rmarkdown-vihkosesta. Tähän tapaan voi hiukan helpommin luoda
+dokumentteja, jotka ovat vähän helpommin luettavia myös muille tutkijoille. Tähän
+kirjoitettu teksti muotoillaan leipätekstiksi.
+
+# Tämä on 1. tason otsikko (muista välilyönti risuaidan jälkeen)
+## Tämä on 2. tason otsikko 
+### Tämä on 3. tason otsikko jne.
+
+Tämä
+- on
+- lista 
+
+Tämä 
+1. on
+2. numeroitu
+3. lista
+
+Kaikki koodattava teksti kirjoitetaan koodipätkien sisään. Koodipätkän
+voi luoda joko kirjoittamalla alla olevan 3 pistettä ja  (backspacen 
+näppäin) {r}, valitesemalla ylempää insert -> code chunk tai suoraan 
+näppäinkomennolla Ctrl+Alt+I.
+
+
+```{r}
+
+```
+
 
 # 1 IL6R
 
 ## 1.1 IL6R: Type 1 diabetes and crp
+
+```{r}
+#Tämä on esimerkki koodipätkästä
+
+```
 
 ### 1.1.1 Obtain data
 
