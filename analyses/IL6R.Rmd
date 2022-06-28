@@ -1,0 +1,40 @@
+---
+title: "Proxying the efficacy of existing drugs for prevention of type 1 diabetes"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+
+# 1 IL6R
+
+## 1.1 IL6R: Type 1 diabetes and crp
+
+### 1.1.1 Obtain data
+
+### 1.1.2 Harmonize and check for alignment
+
+### 1.1.3 Coloc
+
+
+## 1.2 IL6R: Type 1 diabetes and sIL6R
+
+### 1.2.1 Obtain data
+
+### 1.2.2 Harmonize and check for alignment
+
+### 1.2.3 Coloc
+
+
+## 1.3 IL6R: Rheumatoid arthritis and crp
+
+### 1.3.1 Obtain data
+
+### 1.3.2 Harmonize and check for alignment
+
+### 1.3.3 Coloc
+
+
