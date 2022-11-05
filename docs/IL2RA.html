@@ -11,7 +11,7 @@
 
 
 
-<title>CRP levels (as a proxy of IL6 signalling)</title>
+<title>Proxying the efficacy of IL2RA for prevention of type 1 diabetes</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -276,8 +276,8 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">CRP levels (as a proxy of IL6
-signalling)</h1>
+<h1 class="title toc-ignore">Proxying the efficacy of IL2RA for
+prevention of type 1 diabetes</h1>
 
 </div>
 
@@ -521,8 +521,8 @@ have uncommitted changes.
 
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analyses/CRP.Rmd</code>) and HTML
-(<code>docs/CRP.html</code>) files. If you’ve configured a remote Git
+made to the R Markdown (<code>analyses/IL2RA.Rmd</code>) and HTML
+(<code>docs/IL2RA.html</code>) files. If you’ve configured a remote Git
 repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
 in the table below to view the files as they were in that past version.
 </p>
@@ -550,27 +550,10 @@ Message
 <tbody>
 <tr>
 <td>
-html
-</td>
-<td>
-ff80817
-</td>
-<td>
-Jaakko Koskenniemi
-</td>
-<td>
-2022-11-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
 Rmd
 </td>
 <td>
-5cf5846
+e86595d
 </td>
 <td>
 Jaakko Koskenniemi
@@ -579,7 +562,8 @@ Jaakko Koskenniemi
 2022-11-05
 </td>
 <td>
-wflow_publish("analyses/CRP.Rmd")
+wflow_publish(c("analyses/CRP.Rmd", "analyses/CXCL10.Rmd",
+"analyses/IL2RA.Rmd",
 </td>
 </tr>
 </tbody>
@@ -590,185 +574,398 @@ wflow_publish("analyses/CRP.Rmd")
 </div>
 </div>
 <p>Load packages</p>
-<pre class="r"><code>library(tidyverse)
-library(data.table)
-library(coloc)
-library(TwoSampleMR)
-library(ggpubr)</code></pre>
-<div id="il6r-type-1-diabetes-and-crp" class="section level1">
-<h1>1 IL6R: Type 1 diabetes and CRP</h1>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+<pre><code>v ggplot2 3.3.6     v purrr   0.3.4
+v tibble  3.1.7     v dplyr   1.0.9
+v tidyr   1.2.0     v stringr 1.4.0
+v readr   2.1.2     v forcats 0.5.1</code></pre>
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggpubr)
+library(data.table)</code></pre>
+<pre><code>
+Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:dplyr&#39;:
+
+    between, first, last</code></pre>
+<pre><code>The following object is masked from &#39;package:purrr&#39;:
+
+    transpose</code></pre>
+<pre class="r"><code>library(coloc)</code></pre>
+<pre><code>This is a new update to coloc.</code></pre>
+<pre class="r"><code>library(TwoSampleMR)</code></pre>
+<pre><code>TwoSampleMR version 0.5.6 
+[&gt;] New: Option to use non-European LD reference panels for clumping etc
+[&gt;] Some studies temporarily quarantined to verify effect allele
+[&gt;] See news(package=&#39;TwoSampleMR&#39;) and https://gwas.mrcieu.ac.uk for further details</code></pre>
+<pre class="r"><code>library(ieugwasr)</code></pre>
+<pre><code>API: public: http://gwas-api.mrcieu.ac.uk/</code></pre>
+<pre><code>
+Attaching package: &#39;ieugwasr&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:TwoSampleMR&#39;:
+
+    ld_matrix</code></pre>
+<div id="il2ra" class="section level1">
+<h1>2 IL2RA</h1>
 <div id="obtain-data" class="section level2">
-<h2>1.1 Obtain data</h2>
-<pre class="r"><code>IL6R_CRP &lt;- readRDS(&quot;data/sumstats/cisdata/IL6R_CRP_data.rds&quot;) %&gt;% tibble()
-IL6R_T1D &lt;- readRDS(&quot;data/sumstats/cisdata/IL6R_T1D_data.rds&quot;) %&gt;% tibble()</code></pre>
+<h2>2.1 Obtain data</h2>
+<p>GWAS sumstat of type 1 diabetes was obtained from the study by Chiou
+et al. (Nature 2021, <a
+href="https://doi.org/10.1038/s41586-021-03552-w"
+class="uri">https://doi.org/10.1038/s41586-021-03552-w</a>). GWAS
+sumstat for protein levels of IL2RA was obtained from the study by
+Ferkingstad et al. (Nature 2021, <a
+href="https://doi.org/10.1038/s41588-021-00978-w"
+class="uri">https://doi.org/10.1038/s41588-021-00978-w</a>). In terms of
+IL2RA, variants within 1,000,000 bases before the start site and
+1,000,000 after the stop site are included.</p>
+<pre class="r"><code>IL2RA_gwas &lt;- readRDS(&quot;data/sumstats/cisdata/IL2RA_gwas_data.rds&quot;) %&gt;% as_tibble()
+IL2RA_T1D  &lt;- readRDS(&quot;data/sumstats/cisdata/IL2RA_T1D_data_harm.rds&quot;)  %&gt;% as_tibble()
+IL2RA_anno &lt;- readRDS(&quot;data/sumstats/cisdata/IL2RA_anno_data.rds&quot;) %&gt;% as_tibble()</code></pre>
+<p>Ferkingstad et al. state in their README file</p>
+<blockquote>
+<p>Note that in the summary statistics files, the effectAllele is not
+always the minor allele, and therefore the ImpMAF is not always the
+frequency of the effect allele (it may be the frequency of the other
+allele). We now provide an Extra annotation file
+(assocvariants.annotated.txt.gz) that also includes the effect allele
+frequency – This file can be mapped to the other files using the “Name”
+column. Also, the summary statistics files sometimes incorrectly have
+effectAllele=otherAllele for multiallelic variants. In these cases the
+effectAllele is correct, but the otherAllele should be ‘!’, meaning that
+the effectAllele is tested against the other (two or more) alleles
+(using the ‘!’ sign as shorthand for ‘not effectAllele’). This has been
+corrected in the file Extra annotation file
+(assocvariants.annotated.txt.gz).</p>
+</blockquote>
+<blockquote>
+<p>Finally, a subset of the variants in the summary statistics files
+should be excluded due to quality issues. These variants are listed in a
+separate Excluded variants file (assocvariants.excluded.txt.gz). The
+Extra annotation file (assocvariants.annotated.txt.gz) does not include
+these variants.</p>
+</blockquote>
+<pre class="r"><code>#merge data (exclude those observations that are missing in anno)
+IL2RA_gwas &lt;- right_join(IL2RA_gwas, IL2RA_anno, by = &quot;Name&quot;)
+rm(IL2RA_anno)</code></pre>
+<p>All cases where the variables in the two data files (annotation and
+original sumstat of Ferkingstad) are either instances when - rsid has
+not been assigned (and the original sumstat has NA and the annotation
+“.”) - multiallelic allele, where the other allele is annotated with a
+“!”</p>
+<p>We decided to remove the multiallelic SNPs anyway, and after them,
+the columns were identical (equal and not discordant in terms of missing
+observations).</p>
+<pre class="r"><code>#Remove multiallelic snps and recode rsid &quot;.&quot; to NA
+IL2RA_gwas &lt;- IL2RA_gwas %&gt;%
+  mutate(rsids.y = replace(rsids.y, rsids.y == &quot;.&quot;, NA)) %&gt;%
+  filter(otherAllele.y != &quot;!&quot;)
+
+#Check that chrom, pos, rsids, effectAllele and otherAllele dont disagree between files
+IL2RA_gwas %&gt;%
+  filter(Chrom.x != Chrom.y | (!is.na(Chrom.x) &amp; is.na(Chrom.y)) |  (!is.na(Chrom.y) &amp; is.na(Chrom.x)) |
+           Pos.x != Pos.y | (!is.na(Pos.x) &amp; is.na(Pos.y)) |  (!is.na(Pos.y) &amp; is.na(Pos.x)) |
+           rsids.x != rsids.y | (!is.na(rsids.x) &amp; is.na(rsids.y)) |  (!is.na(rsids.y) &amp; is.na(rsids.x)) |
+           effectAllele.x != effectAllele.y | (!is.na(effectAllele.x) &amp; is.na(effectAllele.y)) |  (!is.na(effectAllele.y) &amp; is.na(effectAllele.x))|
+           otherAllele.x != otherAllele.y | (!is.na(otherAllele.x) &amp; is.na(otherAllele.y)) |  (!is.na(otherAllele.y) &amp; is.na(otherAllele.x)))</code></pre>
+<pre><code># A tibble: 0 x 18
+# ... with 18 variables: Chrom.x &lt;chr&gt;, Pos.x &lt;int&gt;, Name &lt;chr&gt;, rsids.x &lt;chr&gt;,
+#   effectAllele.x &lt;chr&gt;, otherAllele.x &lt;chr&gt;, Beta &lt;dbl&gt;, Pval &lt;dbl&gt;,
+#   minus_log10_pval &lt;dbl&gt;, SE &lt;dbl&gt;, N &lt;int&gt;, ImpMAF &lt;dbl&gt;, Chrom.y &lt;chr&gt;,
+#   Pos.y &lt;int&gt;, rsids.y &lt;chr&gt;, effectAllele.y &lt;chr&gt;, otherAllele.y &lt;chr&gt;,
+#   effectAlleleFreq &lt;dbl&gt;
+# i Use `colnames()` to see all variable names</code></pre>
+<pre class="r"><code>#None</code></pre>
+<p>Thus, only those values variables with .x in their name are
+preserved. Here, we also remove the remaining multiallelic SNPs (where
+effect allele equals the other allele.)</p>
+<pre class="r"><code>IL2RA_gwas &lt;- IL2RA_gwas %&gt;% 
+  select(!ends_with(&quot;.y&quot;)) #remove column names *.y
+
+IL2RA_gwas &lt;- IL2RA_gwas %&gt;% 
+  rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) #remove &quot;.x&quot; from variable names
+
+#Remove the other version of the coding of multiallelic variants
+IL2RA_gwas &lt;- IL2RA_gwas %&gt;%
+  filter(effectAllele != otherAllele)</code></pre>
 </div>
 <div id="harmonize-and-check-for-alignment" class="section level2">
-<h2>1.2 Harmonize and check for alignment</h2>
-<pre class="r"><code># Harmonize names
+<h2>2.2 Harmonize and check for alignment</h2>
+<p>Please note that the GWAS sumstat of type 1 diabetes has been
+harmonized by GWAS catalog, but the GWAS sumstat for serum IL2RA levels
+has not been harmonized.</p>
+<pre class="r"><code>#Rename IL2RA variables
+IL2RA_gwas &lt;- IL2RA_gwas %&gt;%
+  rename(rsid = rsids,
+         EA_prot = effectAllele, NEA_prot = otherAllele,
+         EAF_prot=effectAlleleFreq, BETA_prot=Beta,
+         p_prot = Pval, 
+         minus_log10_p_prot = minus_log10_pval, 
+         SE_prot = SE, N_prot = N, ImpMAF_prot = ImpMAF, variant_id_prot = Name)
 
-colnames(IL6R_T1D)</code></pre>
-<pre><code> [1] &quot;hm_variant_id&quot;              &quot;hm_rsid&quot;                   
- [3] &quot;hm_chrom&quot;                   &quot;hm_pos&quot;                    
- [5] &quot;hm_other_allele&quot;            &quot;hm_effect_allele&quot;          
- [7] &quot;hm_beta&quot;                    &quot;hm_odds_ratio&quot;             
- [9] &quot;hm_ci_lower&quot;                &quot;hm_ci_upper&quot;               
-[11] &quot;hm_effect_allele_frequency&quot; &quot;hm_code&quot;                   
-[13] &quot;variant_id&quot;                 &quot;p_value&quot;                   
-[15] &quot;chromosome&quot;                 &quot;base_pair_location&quot;        
-[17] &quot;effect_allele&quot;              &quot;other_allele&quot;              
-[19] &quot;effect_allele_frequency&quot;    &quot;beta&quot;                      
-[21] &quot;standard_error&quot;             &quot;odds_ratio&quot;                
-[23] &quot;ci_lower&quot;                   &quot;ci_upper&quot;                  </code></pre>
-<pre class="r"><code>colnames(IL6R_CRP)</code></pre>
-<pre><code> [1] &quot;hm_variant_id&quot;              &quot;hm_rsid&quot;                   
- [3] &quot;hm_chrom&quot;                   &quot;hm_pos&quot;                    
- [5] &quot;hm_other_allele&quot;            &quot;hm_effect_allele&quot;          
- [7] &quot;hm_beta&quot;                    &quot;hm_odds_ratio&quot;             
- [9] &quot;hm_ci_lower&quot;                &quot;hm_ci_upper&quot;               
-[11] &quot;hm_effect_allele_frequency&quot; &quot;hm_code&quot;                   
-[13] &quot;variant_id&quot;                 &quot;chromosome&quot;                
-[15] &quot;base_pair_location&quot;         &quot;effect_allele&quot;             
-[17] &quot;other_allele&quot;               &quot;beta&quot;                      
-[19] &quot;standard_error&quot;             &quot;p_value&quot;                   
-[21] &quot;odds_ratio&quot;                 &quot;ci_lower&quot;                  
-[23] &quot;ci_upper&quot;                   &quot;effect_allele_frequency&quot;   </code></pre>
-<pre class="r"><code>IL6R_T1D &lt;- IL6R_T1D %&gt;%
-  rename(Pval_T1D = p_value, EA_T1D=hm_effect_allele, NEA_T1D=hm_other_allele,
-         BETA_T1D=hm_beta, EAF_T1D=hm_effect_allele_frequency,
-         SE_T1D=standard_error, CI_lower_T1D = hm_ci_lower, CI_upper_T1D = hm_ci_upper, OR_T1D = hm_odds_ratio, code_T1D = hm_code) %&gt;%
-  select(-ci_lower, -ci_upper, -odds_ratio, -chromosome, -base_pair_location, -effect_allele, -other_allele, -effect_allele_frequency, -variant_id, -beta)
+#What is the difference between position and base_pair_location?
+IL2RA_T1D %&gt;%
+  filter(pos != base_pair_location) %&gt;%
+  select(chr, rsid, pos, base_pair_location) %&gt;% 
+  print(n=200) </code></pre>
+<pre><code># A tibble: 0 x 4
+# ... with 4 variables: chr &lt;chr&gt;, rsid &lt;chr&gt;, pos &lt;int&gt;,
+#   base_pair_location &lt;int&gt;
+# i Use `colnames()` to see all variable names</code></pre>
+<pre class="r"><code>#none
 
-IL6R_CRP &lt;- IL6R_CRP %&gt;%
-  rename(Pval_CRP = p_value, EA_CRP = hm_effect_allele, NEA_CRP = hm_other_allele,
-         BETA_CRP=hm_beta, EAF_CRP = hm_effect_allele_frequency, 
-         SE_CRP = standard_error, CI_lower_CRP = hm_ci_lower, CI_upper_CRP = hm_ci_upper, OR_CRP = hm_odds_ratio, code_CRP = hm_code) %&gt;%
-    select(-ci_lower, -ci_upper, -odds_ratio, -chromosome, -base_pair_location, -effect_allele, -other_allele, -effect_allele_frequency, -variant_id, -beta)
+IL2RA_T1D &lt;- IL2RA_T1D %&gt;% select(-base_pair_location)
+IL2RA_T1D &lt;- IL2RA_T1D %&gt;%  
+  rename(p_T1D = pval, Pos_T1D=pos,
+         EA_T1D=effectAllele, NEA_T1D=otherAllele, BETA_T1D=beta, 
+         EAF_T1D=EAF, SE_T1D=SE, variant_id_T1D = id)
 
+#Harmonize variant ID variable names
+IL2RA &lt;- inner_join(IL2RA_gwas, IL2RA_T1D, by = &quot;rsid&quot;)
+IL2RA %&gt;%
+  select(rsid, variant_id_prot, variant_id_T1D) %&gt;%
+  filter(variant_id_prot != variant_id_T1D)</code></pre>
+<pre><code># A tibble: 15,102 x 3
+   rsid        variant_id_prot   variant_id_T1D
+   &lt;chr&gt;       &lt;chr&gt;             &lt;chr&gt;         
+ 1 rs72472173  chr10:5052673:T:C 10_5052673_C_T
+ 2 rs4881383   chr10:5052676:C:T 10_5052676_T_C
+ 3 rs782470793 chr10:5052711:C:G 10_5052711_G_C
+ 4 rs149376616 chr10:5052797:A:G 10_5052797_G_A
+ 5 rs183726758 chr10:5052974:T:C 10_5052974_C_T
+ 6 rs184932874 chr10:5053148:T:C 10_5053148_C_T
+ 7 rs2186176   chr10:5053166:C:G 10_5053166_G_C
+ 8 rs113793757 chr10:5053310:T:C 10_5053310_C_T
+ 9 rs10904403  chr10:5053355:T:C 10_5053355_C_T
+10 rs181979760 chr10:5053387:T:C 10_5053387_C_T
+# ... with 15,092 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<pre class="r"><code>IL2RA_gwas &lt;- IL2RA_gwas %&gt;%
+  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;chr&quot;, &quot;&quot;))  %&gt;%
+  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;))  %&gt;%
+  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;))  %&gt;%
+  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;))
 
-IL6R &lt;- inner_join(IL6R_CRP, IL6R_T1D, by = c(&quot;hm_variant_id&quot;, &quot;hm_rsid&quot;, &quot;hm_pos&quot;, &quot;hm_chrom&quot;))
-colnames(IL6R)</code></pre>
-<pre><code> [1] &quot;hm_variant_id&quot; &quot;hm_rsid&quot;       &quot;hm_chrom&quot;      &quot;hm_pos&quot;       
- [5] &quot;NEA_CRP&quot;       &quot;EA_CRP&quot;        &quot;BETA_CRP&quot;      &quot;OR_CRP&quot;       
- [9] &quot;CI_lower_CRP&quot;  &quot;CI_upper_CRP&quot;  &quot;EAF_CRP&quot;       &quot;code_CRP&quot;     
-[13] &quot;SE_CRP&quot;        &quot;Pval_CRP&quot;      &quot;NEA_T1D&quot;       &quot;EA_T1D&quot;       
-[17] &quot;BETA_T1D&quot;      &quot;OR_T1D&quot;        &quot;CI_lower_T1D&quot;  &quot;CI_upper_T1D&quot; 
-[21] &quot;EAF_T1D&quot;       &quot;code_T1D&quot;      &quot;Pval_T1D&quot;      &quot;SE_T1D&quot;       </code></pre>
-<p>Test for alignment</p>
-<pre class="r"><code># IL6R %&gt;%
-#   ggplot(aes(x=EAF_CRP, y=EAF_T1D)) +
-#   geom_point()</code></pre>
+#Remove those variants where there are several rsids
+IL2RA_gwas &lt;- IL2RA_gwas %&gt;% filter(!str_detect(rsid, &quot;,&quot;))
+
+IL2RA_gwas %&gt;% filter(is.na(rsid))</code></pre>
+<pre><code># A tibble: 0 x 13
+# ... with 13 variables: Chrom &lt;chr&gt;, Pos &lt;int&gt;, variant_id_prot &lt;chr&gt;,
+#   rsid &lt;chr&gt;, EA_prot &lt;chr&gt;, NEA_prot &lt;chr&gt;, BETA_prot &lt;dbl&gt;, p_prot &lt;dbl&gt;,
+#   minus_log10_p_prot &lt;dbl&gt;, SE_prot &lt;dbl&gt;, N_prot &lt;int&gt;, ImpMAF_prot &lt;dbl&gt;,
+#   EAF_prot &lt;dbl&gt;
+# i Use `colnames()` to see all variable names</code></pre>
+<pre class="r"><code>IL2RA_T1D %&gt;% filter(is.na(rsid))</code></pre>
+<pre><code># A tibble: 0 x 11
+# ... with 11 variables: chr &lt;chr&gt;, Pos_T1D &lt;int&gt;, variant_id_T1D &lt;chr&gt;,
+#   rsid &lt;chr&gt;, EA_T1D &lt;chr&gt;, NEA_T1D &lt;chr&gt;, BETA_T1D &lt;dbl&gt;, SE_T1D &lt;dbl&gt;,
+#   p_T1D &lt;chr&gt;, EAF_T1D &lt;dbl&gt;, chromosome &lt;chr&gt;
+# i Use `colnames()` to see all variable names</code></pre>
+<pre class="r"><code>#merge the data
+IL2RA &lt;- inner_join(IL2RA_gwas, IL2RA_T1D, by = &quot;rsid&quot;)</code></pre>
 </div>
-<div id="draw-manhattan-plots" class="section level2">
-<h2>1.3 Draw manhattan plots</h2>
-<pre class="r"><code>#Change p-values to numeric
-IL6R &lt;- IL6R %&gt;%
-  mutate(Pval_T1D = as.numeric(Pval_T1D),
-         Pval_CRP = as.numeric(Pval_CRP))
-
-
-
-IL6R_CRP.fig &lt;- 
-  IL6R %&gt;%
-  ggplot(aes(x=hm_pos/1000, y = -log10(Pval_CRP))) +
-  geom_point() +
-  geom_hline(yintercept = 8, linetype =&quot;dashed&quot;) +
-  geom_vline(xintercept = 154.2e6/1000, linetype = &quot;dashed&quot;)+
-  geom_vline (xintercept = 154.75e6/1000, linetype = &quot;dashed&quot;)+
-  ggtitle(&quot;GWAS of CRP levels&quot;)+
+<div id="manhattan-plots" class="section level2">
+<h2>2.3 Manhattan plots</h2>
+<pre class="r"><code>#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+IL2RA_prot.fig &lt;- 
+  IL2RA %&gt;%
+  ggplot(aes(x = Pos/1000, y=minus_log10_p_prot)) +
+  geom_point()+
+  geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
+  geom_vline(xintercept=5.75e6/1000, linetype=&quot;dashed&quot;)+
+  geom_vline(xintercept=6.5e6/1000, linetype=&quot;dashed&quot;)+
+  ggtitle(&quot;GWAS of serum IL2RA levels&quot;)+
   xlab(NULL)
 
-IL6R_T1D.fig &lt;- 
-  IL6R %&gt;%
-  ggplot(aes(x=hm_pos/1000, y = -log10(Pval_T1D))) +
-  geom_point() +
-  geom_hline(yintercept = 8, linetype =&quot;dashed&quot;) +
-  geom_vline(xintercept = 154.2e6/1000, linetype = &quot;dashed&quot;)+
-  geom_vline (xintercept = 154.75e6/1000, linetype = &quot;dashed&quot;)+
-  ggtitle(&quot;GWAS of T1D&quot;)+
-  xlab(&quot;Position (kbp)&quot;)
+IL2RA_T1D.fig &lt;- 
+  IL2RA %&gt;%
+  mutate(minus_log10_p_T1D = -log10(as.numeric(p_T1D))) %&gt;%
+  ggplot()+
+  geom_point(mapping=aes(x = Pos_T1D/1000, y=minus_log10_p_T1D))+
+  geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
+  geom_vline(xintercept=5.75e6/1000, linetype=&quot;dashed&quot;)+
+  geom_vline(xintercept=6.5e6/1000, linetype=&quot;dashed&quot;)+
+  ggtitle(&quot;GWAS of type 1 diabetes&quot;)+
+  xlab(&quot;Position(kbp)&quot;)
 
-layer_scales(IL6R_T1D.fig)$x$range$range</code></pre>
-<pre><code>[1] 153377.7 155441.1</code></pre>
-<pre class="r"><code>IL6R_gene.fig &lt;- 
-  ggplot(data = IL6R) +
+layer_scales(IL2RA_prot.fig)$x$range$range</code></pre>
+<pre><code>[1] 5052.673 7104.244</code></pre>
+<pre class="r"><code>IL2RA_gene.fig &lt;- 
+  ggplot(data = IL2RA) +
   geom_blank() +
-  geom_segment(x= 154377.669, xend= 154441.926, y=1, yend=1, size = 2) +
-  annotate(&quot;text&quot;, label = &quot;IL6R&quot;, x= (154377.669 + 154441.926) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(153377.7, 155441.1) +
+  geom_segment(x=  6052.652, xend=6104.288, y=1, yend=1, size = 2) +
+  annotate(&quot;text&quot;, label = &quot;IL2RA&quot;, x= (6052.652 + 6104.288) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(5052.67, 7104.244) +
   ylim(0.75, 2) +
   ylab(NULL) + xlab(NULL) +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank())
 
-
-
 # Arrange figures
 
-ggarrange(IL6R_gene.fig, IL6R_CRP.fig,IL6R_T1D.fig,
+ggarrange(IL2RA_gene.fig, IL2RA_prot.fig,IL2RA_T1D.fig,
           heights = c(1, 3, 3), nrow = 3,
           ncol = 1, align = &quot;hv&quot;)</code></pre>
-<p><img src="figure/CRP.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(&quot;figures/IL6R-manhattan-combined-fig.pdf&quot;, height = 6, width = 8, units = &quot;in&quot;)</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;figures/IL2RA-manhattan-combined-fig.pdf&quot;, height = 8, width = 6, units = &quot;in&quot;)</code></pre>
 </div>
-<div id="coloc" class="section level2">
-<h2>1.4 Coloc</h2>
-<pre class="r"><code>#selecting the area with possible significant variants
-IL6R_close &lt;- IL6R %&gt;%
- filter(hm_pos &gt; 154.2e6 &amp; hm_pos &lt; 154.75e6)
+<div id="coloc-assuming-1-colocalizing-variant" class="section level2">
+<h2>2.4 Coloc assuming 1 colocalizing variant</h2>
+<pre class="r"><code>#select the area containing significant SNPs
+IL2RA &lt;- IL2RA %&gt;%
+  filter(Pos &gt; 5.75e6 &amp; Pos &lt; 6.5e6)
 
-# Deleting the SNP in which MAF=0
-IL6R_close &lt;- IL6R_close %&gt;%
-  filter(EAF_T1D != 1 &amp; EAF_T1D != 0) %&gt;%
-  mutate(MAF = ifelse(EAF_T1D &lt; 0.5, EAF_T1D, 1 - EAF_T1D)) 
 
-#Remove missing BETA values
-IL6R_close &lt;- IL6R_close  %&gt;% filter(!is.na(BETA_CRP) &amp; !is.na(BETA_T1D))</code></pre>
-<pre class="r"><code>#Exposure (CRP levels)
-D1_IL6R_close &lt;- list(
+#Change MAF to numeric
+IL2RA &lt;- IL2RA %&gt;%
+  mutate(EAF_T1D  = as.numeric(EAF_T1D)) %&gt;%
+  mutate(EAF_prot = as.numeric(EAF_prot)) %&gt;%
+  mutate(MAF_T1D  = ifelse(EAF_T1D  &gt; 0.5, 1 - EAF_T1D,  EAF_T1D)) %&gt;%
+  mutate(MAF_prot = ifelse(EAF_prot &gt; 0.5, 1 - EAF_prot, EAF_prot))
+
+
+#Calculate MAF
+IL2RA &lt;- IL2RA %&gt;%
+  mutate(MAF_T1D  = ifelse(EAF_T1D  &gt; 0.5, 1 - EAF_T1D,  EAF_T1D)) %&gt;%
+  mutate(MAF_prot = ifelse(EAF_prot &gt; 0.5, 1 - EAF_prot, EAF_prot))
+
+#remove the SNPs with MAF= 0
+IL2RA &lt;- IL2RA %&gt;%
+  filter(MAF_T1D != 0) %&gt;%
+  filter(MAF_prot != 0)
+
+#Remove duplicated SNPS
+rsid_dupl &lt;- IL2RA %&gt;% 
+  filter(duplicated(rsid)) %&gt;% pull(rsid)
+IL2RA &lt;- IL2RA %&gt;% filter(!(rsid %in% rsid_dupl))
+
+D1 &lt;- list(
   type = &quot;quant&quot;, # quantitative trait
-  beta = IL6R_close$BETA_CRP,
-  varbeta = IL6R_close$SE_CRP^2,
-  pvalues = IL6R_close$Pval_CRP,
-  N = 575531, #https://www.ebi.ac.uk/gwas/publications/35459240
-  MAF = IL6R_close$MAF,
-  position = IL6R_close$hm_pos,
-  snp = IL6R_close$hm_rsid,
+  beta = IL2RA$BETA_prot,
+  varbeta = IL2RA$SE_prot^2, 
+  pvalues = IL2RA$p_prot,
+  N = IL2RA$N_prot,
+  MAF = as.numeric(IL2RA$MAF_prot),
+  position = IL2RA$Pos,
+  snp = IL2RA$rsid,
   sdY = 1)
 
-#Outcome (t1d)
-D2_IL6R_close &lt;- list(
- type = &quot;cc&quot;, # case-control trait
- beta = IL6R_close$BETA_T1D,
- varbeta = IL6R_close$SE_T1D^2,
- pvalues = IL6R_close$Pval_T1D,
- N =  18942, # Case-control, Chiou et al. 2021 Nature
- s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
- MAF = IL6R_close$MAF,
-position = IL6R_close$hm_pos,
-snp = IL6R_close$hm_rsid,
- sdY = 1)
+D2 &lt;- list(
+  type = &quot;cc&quot;, # case-control trait
+  beta = IL2RA$BETA_T1D,
+  varbeta = IL2RA$SE_T1D^2,
+  pvalues = IL2RA$p_T1D,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = as.numeric(IL2RA$MAF_T1D),
+  position = IL2RA$Pos,
+  snp = IL2RA$rsid)
 
-#Check dataset (if returns NULL, data is ok)
-check_dataset(D1_IL6R_close)</code></pre>
-<pre><code>NULL</code></pre>
-<pre class="r"><code>check_dataset(D2_IL6R_close)</code></pre>
-<pre><code>NULL</code></pre>
-<pre class="r"><code>#run coloc
-coloc_results_IL6R_close &lt;- coloc.abf(D1_IL6R_close, D2_IL6R_close, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
+coloc_results_IL2RA &lt;- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
 <pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
-  0.00000   0.09320   0.00000   0.90500   0.00179 
-[1] &quot;PP abf for shared variant: 0.179%&quot;</code></pre>
-<pre class="r"><code>#run sensitivity analysis
-sensitivity(coloc_results_IL6R_close, &quot;H4 &gt; 0.70&quot;)</code></pre>
-<pre><code>Results fail decision rule H4 &gt; 0.70</code></pre>
-<p><img src="figure/CRP.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>#If there is evidence for coloc, which variants are likely candidates?
-coloc_results_IL6R_close$results %&gt;% filter(SNP.PP.H4 &gt; 0.05)</code></pre>
-<pre><code>         snp  position V.df1 z.df1     r.df1 lABF.df1       V.df2     z.df2
-1 rs12730935 154447416 4e-06 -46.8 0.9998223 1090.608 0.001410904 0.2773814
-      r.df2  lABF.df2 internal.sum.lABF SNP.PP.H4
-1 0.9659292 -1.652497          1088.955 0.9963833</code></pre>
+ 2.28e-46  2.27e-36  1.00e-10  1.00e+00  1.46e-12 
+[1] &quot;PP abf for shared variant: 1.46e-10%&quot;</code></pre>
+<pre class="r"><code>coloc_results_IL2RA$results %&gt;%
+  tibble() %&gt;%
+  arrange(SNP.PP.H4)</code></pre>
+<pre><code># A tibble: 5,249 x 12
+   snp       posit~1   V.df1   z.df1 r.df1 lABF.~2   V.df2   z.df2 r.df2 lABF.~3
+   &lt;chr&gt;       &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+ 1 rs4750531 6492422 3.13e-5  0.0179 0.999   -3.29 1.95e-4  0.235  0.995   -2.64
+ 2 rs2026432 6465641 6.12e-5  0.141  0.997   -2.95 2.05e-4  0.0556 0.995   -2.64
+ 3 rs3858254 6476543 5.99e-5  0.0388 0.997   -2.96 2.16e-4 -0.138  0.995   -2.60
+ 4 rs2296123 6456837 6.51e-5 -0.0867 0.997   -2.92 2.07e-4 -0.104  0.995   -2.63
+ 5 rs648778  6492630 6.47e-5  0.211  0.997   -2.90 2.15e-4  0.0438 0.995   -2.61
+ 6 rs109063~ 6369109 6.14e-5 -0.115  0.997   -2.95 2.25e-4  0.206  0.994   -2.57
+ 7 rs584820  6440857 6.38e-5  0.163  0.997   -2.92 2.08e-4  0.278  0.995   -2.59
+ 8 rs634492  6493470 6.68e-5  0.196  0.997   -2.89 2.15e-4  0.0175 0.995   -2.62
+ 9 rs620736  6494346 6.83e-5  0.194  0.997   -2.88 2.17e-4  0.0757 0.995   -2.61
+10 rs650652  6498761 6.49e-5  0.199  0.997   -2.91 2.12e-4 -0.299  0.995   -2.58
+# ... with 5,239 more rows, 2 more variables: internal.sum.lABF &lt;dbl&gt;,
+#   SNP.PP.H4 &lt;dbl&gt;, and abbreviated variable names 1: position, 2: lABF.df1,
+#   3: lABF.df2
+# i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
+<pre class="r"><code>sensitivity(coloc_results_IL2RA, &quot;H4 &gt; 0.7&quot;)</code></pre>
+<pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="susie" class="section level2">
+<h2>2.5 SusiE</h2>
+<pre class="r"><code># 
+# ldmat_IL2RA &lt;- ld_matrix_local(
+#     IL2RA$rsid,
+#     plink_bin = genetics.binaRies::get_plink_binary(),
+#     bfile = &quot;C:/Users/jajoko/Documents/MR Projects/plinkref/EUR&quot;)
+# 
+# str(ldmat_IL2RA)
+# ldmat_IL2RA[,1]
+# 
+# #In LD-mat the rsids are followed by reference and effect alleles (e.g. rs10905492_G_A). The effect alleles have to be harmonized between the LD matrix and data. The data is changed to follow ld matrix, because that is easier to do than vice versa.
+# 
+# #Extract rsid, non-effect allele and effect allele from LD-matrix
+# snps &lt;- data.frame(rsid_nea_ea = rownames(ldmat_IL2RA))
+# snps &lt;- snps %&gt;% 
+#   mutate(nea_ea = str_sub(rsid_nea_ea, -4,-1))
+# 
+# #Check that names in LD-matrix do not include indels (eg. G to CT)
+# snps %&gt;% mutate(underscore = str_sub(nea_ea, 1, 1)) %&gt;% 
+#   filter(underscore != &quot;_&quot;) #all have _ as the fourth last character, indicating that they are indeed single nucleotides
+# 
+# #Extract ea, nea, and rsid
+# snps &lt;- snps %&gt;% 
+#   mutate(nea = str_sub(nea_ea, 2,2), ea = str_sub(nea_ea, 4,4)) %&gt;%
+#   mutate(rsid = str_sub(rsid_nea_ea, 1, -5))
+# 
+# 
+# #prepare for merge 
+# snps &lt;- snps %&gt;% 
+#   select(-nea_ea) %&gt;%
+#   rename(nea_ldmat = nea, ea_ldmat = ea, rsid_ldmat = rsid_nea_ea, rsids = rsid)
+# 
+# #Merge
+# IL2RA_T1D_merged_ldsnps &lt;- 
+#   left_join(snps, IL2RA_T1D_merged, by = &quot;rsids&quot;)
+# 
+# #check for alignment
+# IL2RA_T1D_merged_ldsnps %&gt;% 
+#   filter(ea_ldmat != NEA_T1D_aligned) %&gt;% nrow()
+# 
+# IL2RA_T1D_merged_ldsnps %&gt;% 
+#   filter(ea_ldmat == NEA_T1D_aligned) %&gt;% nrow()
+# 
+# IL2RA_T1D_merged_ldsnps
+# 
+# 
+# #ongelma: kuinka saada ld-matriisin snp:t samaan muotoon kuin IL2RA-datan??
+# 
+# 
+# D1 &lt;- list(
+#   type = &quot;quant&quot;, # quantitative trait
+#   beta = IL2RA_T1D_merged_onlymat$BETA_prot_aligned,
+#   varbeta = IL2RA_T1D_merged_onlymat$SE_prot^2, 
+#   pvalues = IL2RA_T1D_merged_onlymat$p_prot,
+#   N = IL2RA_T1D_merged_onlymat$N_prot,
+#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_prot),
+#   snp = IL2RA_T1D_merged_onlymat$rsid,
+#   LD = ldmat_IL2RA,
+#   sdY = 1)
+# 
+# D2 &lt;- list(
+#   type = &quot;cc&quot;, # case-control trait
+#   beta = IL2RA_T1D_merged_onlymat$BETA_T1D_aligned,
+#   varbeta = IL2RA_T1D_merged_onlymat$SE_T1D^2,
+#   pvalues = IL2RA_T1D_merged_onlymat$p_T1D,
+#   N = IL2RA_T1D_merged_onlymat$N_T1D, # Case-control study (Chiou et al. 2021 Nature)
+#   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_T1D),
+#   LD = ldmat_IL2RA,
+#   snp = IL2RA_T1D_merged_onlymat$rsid)
+# 
+# check_alignment(D1)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -793,17 +990,17 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ggpubr_0.4.0      TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2
- [5] forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4      
- [9] readr_2.1.2       tidyr_1.2.0       tibble_3.1.7      ggplot2_3.3.6    
-[13] tidyverse_1.3.1   workflowr_1.7.0  
+ [1] ieugwasr_0.1.5    TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2
+ [5] ggpubr_0.4.0      forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
+ [9] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.7     
+[13] ggplot2_3.3.6     tidyverse_1.3.1   workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
  [1] matrixStats_0.62.0 fs_1.5.2           lubridate_1.8.0    httr_1.4.3        
  [5] rprojroot_2.0.3    tools_4.2.1        backports_1.4.1    bslib_0.4.0       
  [9] utf8_1.2.2         R6_2.5.1           irlba_2.3.5        nortest_1.0-4     
-[13] DBI_1.1.3          colorspace_2.0-3   withr_2.5.0        tidyselect_1.1.2  
-[17] gridExtra_2.3      processx_3.6.1     compiler_4.2.1     git2r_0.30.1      
+[13] DBI_1.1.3          colorspace_2.0-3   withr_2.5.0        gridExtra_2.3     
+[17] tidyselect_1.1.2   processx_3.6.1     compiler_4.2.1     git2r_0.30.1      
 [21] glmnet_4.1-4       cli_3.3.0          rvest_1.0.2        xml2_1.3.3        
 [25] labeling_0.4.2     sass_0.4.2         scales_1.2.0       callr_3.7.1       
 [29] mixsqp_0.3-43      digest_0.6.29      rmarkdown_2.14     pkgconfig_2.0.3   
@@ -818,8 +1015,8 @@ loaded via a namespace (and not attached):
 [65] cowplot_1.1.1      splines_4.2.1      haven_2.5.0        hms_1.1.1         
 [69] knitr_1.39         ps_1.7.1           pillar_1.8.0       ggsignif_0.6.3    
 [73] codetools_0.2-18   reprex_2.0.1       glue_1.6.2         evaluate_0.15     
-[77] getPass_0.2-2      modelr_0.1.8       vctrs_0.4.1        tzdb_0.3.0        
-[81] httpuv_1.6.5       foreach_1.5.2      cellranger_1.1.0   gtable_0.3.0      
+[77] getPass_0.2-2      modelr_0.1.8       foreach_1.5.2      vctrs_0.4.1       
+[81] tzdb_0.3.0         httpuv_1.6.5       cellranger_1.1.0   gtable_0.3.0      
 [85] reshape_0.8.9      assertthat_0.2.1   cachem_1.0.6       xfun_0.31         
 [89] broom_1.0.0        rstatix_0.7.0      later_1.3.0        survival_3.3-1    
 [93] viridisLite_0.4.0  iterators_1.0.14   ellipsis_0.3.2    </code></pre>
