@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>CRP levels (as a proxy of IL6 signalling)</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Growth-T1D</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">CRP levels (as a proxy of IL6
+signalling)</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-11-05
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Rotaatio-2022/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220313code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20220313)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220313code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220313)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong5cf5846">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong> 5cf5846
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong5cf5846"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version 5cf5846.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analyses/.Rhistory
+
+Untracked files:
+    Untracked:  .Rprofile
+    Untracked:  .gitattributes
+    Untracked:  .gitignore
+    Untracked:  CRP.Rmd
+    Untracked:  Functional_variants.pdf
+    Untracked:  IL2RA.Rmd
+    Untracked:  IL2RB.Rmd
+    Untracked:  MONDO_0005147-known-drugs.tsv
+    Untracked:  MR-articles-pubmed.csv
+    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data-to-ritta.pptx
+    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data.pptx
+    Untracked:  README.md
+    Untracked:  README.txt
+    Untracked:  _workflowr.yml
+    Untracked:  analyses/CXCL10.Rmd
+    Untracked:  analyses/IL12B.Rmd
+    Untracked:  analyses/IL2RA.Rmd
+    Untracked:  analyses/IL2RB.Rmd
+    Untracked:  analyses/IL6ST.Rmd
+    Untracked:  analyses/JAK2.Rmd
+    Untracked:  analyses/TNF.Rmd
+    Untracked:  analyses/TYK2.Rmd
+    Untracked:  analyses/_site.yml
+    Untracked:  analyses/about.Rmd
+    Untracked:  analyses/figure/
+    Untracked:  analyses/index.Rmd
+    Untracked:  analyses/license.Rmd
+    Untracked:  articles/
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  figures/
+    Untracked:  guidelines-for-review-of-MR-studies-20177.pdf
+    Untracked:  ld_finnge.zip
+    Untracked:  mendelian randomization.Rproj
+    Untracked:  output/
+
+Unstaged changes:
+    Modified:   analyses/IL6R.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analyses/CRP.Rmd</code>) and HTML
+(<code>docs/CRP.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+5cf5846
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2022-11-05
+</td>
+<td>
+wflow_publish("analyses/CRP.Rmd")
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Load packages</p>
+<pre class="r"><code>library(tidyverse)
+library(data.table)
+library(coloc)
+library(TwoSampleMR)
+library(ggpubr)</code></pre>
+<div id="il6r-type-1-diabetes-and-crp" class="section level1">
+<h1>1 IL6R: Type 1 diabetes and CRP</h1>
+<div id="obtain-data" class="section level2">
+<h2>1.1 Obtain data</h2>
+<pre class="r"><code>IL6R_CRP &lt;- readRDS(&quot;data/sumstats/cisdata/IL6R_CRP_data.rds&quot;) %&gt;% tibble()
+IL6R_T1D &lt;- readRDS(&quot;data/sumstats/cisdata/IL6R_T1D_data.rds&quot;) %&gt;% tibble()</code></pre>
+</div>
+<div id="harmonize-and-check-for-alignment" class="section level2">
+<h2>1.2 Harmonize and check for alignment</h2>
+<pre class="r"><code># Harmonize names
+
+colnames(IL6R_T1D)</code></pre>
+<pre><code> [1] &quot;hm_variant_id&quot;              &quot;hm_rsid&quot;                   
+ [3] &quot;hm_chrom&quot;                   &quot;hm_pos&quot;                    
+ [5] &quot;hm_other_allele&quot;            &quot;hm_effect_allele&quot;          
+ [7] &quot;hm_beta&quot;                    &quot;hm_odds_ratio&quot;             
+ [9] &quot;hm_ci_lower&quot;                &quot;hm_ci_upper&quot;               
+[11] &quot;hm_effect_allele_frequency&quot; &quot;hm_code&quot;                   
+[13] &quot;variant_id&quot;                 &quot;p_value&quot;                   
+[15] &quot;chromosome&quot;                 &quot;base_pair_location&quot;        
+[17] &quot;effect_allele&quot;              &quot;other_allele&quot;              
+[19] &quot;effect_allele_frequency&quot;    &quot;beta&quot;                      
+[21] &quot;standard_error&quot;             &quot;odds_ratio&quot;                
+[23] &quot;ci_lower&quot;                   &quot;ci_upper&quot;                  </code></pre>
+<pre class="r"><code>colnames(IL6R_CRP)</code></pre>
+<pre><code> [1] &quot;hm_variant_id&quot;              &quot;hm_rsid&quot;                   
+ [3] &quot;hm_chrom&quot;                   &quot;hm_pos&quot;                    
+ [5] &quot;hm_other_allele&quot;            &quot;hm_effect_allele&quot;          
+ [7] &quot;hm_beta&quot;                    &quot;hm_odds_ratio&quot;             
+ [9] &quot;hm_ci_lower&quot;                &quot;hm_ci_upper&quot;               
+[11] &quot;hm_effect_allele_frequency&quot; &quot;hm_code&quot;                   
+[13] &quot;variant_id&quot;                 &quot;chromosome&quot;                
+[15] &quot;base_pair_location&quot;         &quot;effect_allele&quot;             
+[17] &quot;other_allele&quot;               &quot;beta&quot;                      
+[19] &quot;standard_error&quot;             &quot;p_value&quot;                   
+[21] &quot;odds_ratio&quot;                 &quot;ci_lower&quot;                  
+[23] &quot;ci_upper&quot;                   &quot;effect_allele_frequency&quot;   </code></pre>
+<pre class="r"><code>IL6R_T1D &lt;- IL6R_T1D %&gt;%
+  rename(Pval_T1D = p_value, EA_T1D=hm_effect_allele, NEA_T1D=hm_other_allele,
+         BETA_T1D=hm_beta, EAF_T1D=hm_effect_allele_frequency,
+         SE_T1D=standard_error, CI_lower_T1D = hm_ci_lower, CI_upper_T1D = hm_ci_upper, OR_T1D = hm_odds_ratio, code_T1D = hm_code) %&gt;%
+  select(-ci_lower, -ci_upper, -odds_ratio, -chromosome, -base_pair_location, -effect_allele, -other_allele, -effect_allele_frequency, -variant_id, -beta)
+
+IL6R_CRP &lt;- IL6R_CRP %&gt;%
+  rename(Pval_CRP = p_value, EA_CRP = hm_effect_allele, NEA_CRP = hm_other_allele,
+         BETA_CRP=hm_beta, EAF_CRP = hm_effect_allele_frequency, 
+         SE_CRP = standard_error, CI_lower_CRP = hm_ci_lower, CI_upper_CRP = hm_ci_upper, OR_CRP = hm_odds_ratio, code_CRP = hm_code) %&gt;%
+    select(-ci_lower, -ci_upper, -odds_ratio, -chromosome, -base_pair_location, -effect_allele, -other_allele, -effect_allele_frequency, -variant_id, -beta)
+
+
+IL6R &lt;- inner_join(IL6R_CRP, IL6R_T1D, by = c(&quot;hm_variant_id&quot;, &quot;hm_rsid&quot;, &quot;hm_pos&quot;, &quot;hm_chrom&quot;))
+colnames(IL6R)</code></pre>
+<pre><code> [1] &quot;hm_variant_id&quot; &quot;hm_rsid&quot;       &quot;hm_chrom&quot;      &quot;hm_pos&quot;       
+ [5] &quot;NEA_CRP&quot;       &quot;EA_CRP&quot;        &quot;BETA_CRP&quot;      &quot;OR_CRP&quot;       
+ [9] &quot;CI_lower_CRP&quot;  &quot;CI_upper_CRP&quot;  &quot;EAF_CRP&quot;       &quot;code_CRP&quot;     
+[13] &quot;SE_CRP&quot;        &quot;Pval_CRP&quot;      &quot;NEA_T1D&quot;       &quot;EA_T1D&quot;       
+[17] &quot;BETA_T1D&quot;      &quot;OR_T1D&quot;        &quot;CI_lower_T1D&quot;  &quot;CI_upper_T1D&quot; 
+[21] &quot;EAF_T1D&quot;       &quot;code_T1D&quot;      &quot;Pval_T1D&quot;      &quot;SE_T1D&quot;       </code></pre>
+<p>Test for alignment</p>
+<pre class="r"><code># IL6R %&gt;%
+#   ggplot(aes(x=EAF_CRP, y=EAF_T1D)) +
+#   geom_point()</code></pre>
+</div>
+<div id="draw-manhattan-plots" class="section level2">
+<h2>1.3 Draw manhattan plots</h2>
+<pre class="r"><code>#Change p-values to numeric
+IL6R &lt;- IL6R %&gt;%
+  mutate(Pval_T1D = as.numeric(Pval_T1D),
+         Pval_CRP = as.numeric(Pval_CRP))
+
+
+
+IL6R_CRP.fig &lt;- 
+  IL6R %&gt;%
+  ggplot(aes(x=hm_pos/1000, y = -log10(Pval_CRP))) +
+  geom_point() +
+  geom_hline(yintercept = 8, linetype =&quot;dashed&quot;) +
+  geom_vline(xintercept = 154.2e6/1000, linetype = &quot;dashed&quot;)+
+  geom_vline (xintercept = 154.75e6/1000, linetype = &quot;dashed&quot;)+
+  ggtitle(&quot;GWAS of CRP levels&quot;)+
+  xlab(NULL)
+
+IL6R_T1D.fig &lt;- 
+  IL6R %&gt;%
+  ggplot(aes(x=hm_pos/1000, y = -log10(Pval_T1D))) +
+  geom_point() +
+  geom_hline(yintercept = 8, linetype =&quot;dashed&quot;) +
+  geom_vline(xintercept = 154.2e6/1000, linetype = &quot;dashed&quot;)+
+  geom_vline (xintercept = 154.75e6/1000, linetype = &quot;dashed&quot;)+
+  ggtitle(&quot;GWAS of T1D&quot;)+
+  xlab(&quot;Position (kbp)&quot;)
+
+layer_scales(IL6R_T1D.fig)$x$range$range</code></pre>
+<pre><code>[1] 153377.7 155441.1</code></pre>
+<pre class="r"><code>IL6R_gene.fig &lt;- 
+  ggplot(data = IL6R) +
+  geom_blank() +
+  geom_segment(x= 154377.669, xend= 154441.926, y=1, yend=1, size = 2) +
+  annotate(&quot;text&quot;, label = &quot;IL6R&quot;, x= (154377.669 + 154441.926) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(153377.7, 155441.1) +
+  ylim(0.75, 2) +
+  ylab(NULL) + xlab(NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+
+
+# Arrange figures
+
+ggarrange(IL6R_gene.fig, IL6R_CRP.fig,IL6R_T1D.fig,
+          heights = c(1, 3, 3), nrow = 3,
+          ncol = 1, align = &quot;hv&quot;)</code></pre>
+<p><img src="figure/CRP.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;figures/IL6R-manhattan-combined-fig.pdf&quot;, height = 6, width = 8, units = &quot;in&quot;)</code></pre>
+</div>
+<div id="coloc" class="section level2">
+<h2>1.4 Coloc</h2>
+<pre class="r"><code>#selecting the area with possible significant variants
+IL6R_close &lt;- IL6R %&gt;%
+ filter(hm_pos &gt; 154.2e6 &amp; hm_pos &lt; 154.75e6)
+
+# Deleting the SNP in which MAF=0
+IL6R_close &lt;- IL6R_close %&gt;%
+  filter(EAF_T1D != 1 &amp; EAF_T1D != 0) %&gt;%
+  mutate(MAF = ifelse(EAF_T1D &lt; 0.5, EAF_T1D, 1 - EAF_T1D)) 
+
+#Remove missing BETA values
+IL6R_close &lt;- IL6R_close  %&gt;% filter(!is.na(BETA_CRP) &amp; !is.na(BETA_T1D))</code></pre>
+<pre class="r"><code>#Exposure (CRP levels)
+D1_IL6R_close &lt;- list(
+  type = &quot;quant&quot;, # quantitative trait
+  beta = IL6R_close$BETA_CRP,
+  varbeta = IL6R_close$SE_CRP^2,
+  pvalues = IL6R_close$Pval_CRP,
+  N = 575531, #https://www.ebi.ac.uk/gwas/publications/35459240
+  MAF = IL6R_close$MAF,
+  position = IL6R_close$hm_pos,
+  snp = IL6R_close$hm_rsid,
+  sdY = 1)
+
+#Outcome (t1d)
+D2_IL6R_close &lt;- list(
+ type = &quot;cc&quot;, # case-control trait
+ beta = IL6R_close$BETA_T1D,
+ varbeta = IL6R_close$SE_T1D^2,
+ pvalues = IL6R_close$Pval_T1D,
+ N =  18942, # Case-control, Chiou et al. 2021 Nature
+ s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+ MAF = IL6R_close$MAF,
+position = IL6R_close$hm_pos,
+snp = IL6R_close$hm_rsid,
+ sdY = 1)
+
+#Check dataset (if returns NULL, data is ok)
+check_dataset(D1_IL6R_close)</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>check_dataset(D2_IL6R_close)</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>#run coloc
+coloc_results_IL6R_close &lt;- coloc.abf(D1_IL6R_close, D2_IL6R_close, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
+<pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+  0.00000   0.09320   0.00000   0.90500   0.00179 
+[1] &quot;PP abf for shared variant: 0.179%&quot;</code></pre>
+<pre class="r"><code>#run sensitivity analysis
+sensitivity(coloc_results_IL6R_close, &quot;H4 &gt; 0.70&quot;)</code></pre>
+<pre><code>Results fail decision rule H4 &gt; 0.70</code></pre>
+<p><img src="figure/CRP.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#If there is evidence for coloc, which variants are likely candidates?
+coloc_results_IL6R_close$results %&gt;% filter(SNP.PP.H4 &gt; 0.05)</code></pre>
+<pre><code>         snp  position V.df1 z.df1     r.df1 lABF.df1       V.df2     z.df2
+1 rs12730935 154447416 4e-06 -46.8 0.9998223 1090.608 0.001410904 0.2773814
+      r.df2  lABF.df2 internal.sum.lABF SNP.PP.H4
+1 0.9659292 -1.652497          1088.955 0.9963833</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.1 (2022-06-23 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 14393)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=Finnish_Finland.1252  LC_CTYPE=Finnish_Finland.1252   
+[3] LC_MONETARY=Finnish_Finland.1252 LC_NUMERIC=C                    
+[5] LC_TIME=Finnish_Finland.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggpubr_0.4.0      TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2
+ [5] forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4      
+ [9] readr_2.1.2       tidyr_1.2.0       tibble_3.1.7      ggplot2_3.3.6    
+[13] tidyverse_1.3.1   workflowr_1.7.0  
+
+loaded via a namespace (and not attached):
+ [1] matrixStats_0.62.0 fs_1.5.2           lubridate_1.8.0    httr_1.4.3        
+ [5] rprojroot_2.0.3    tools_4.2.1        backports_1.4.1    bslib_0.4.0       
+ [9] utf8_1.2.2         R6_2.5.1           irlba_2.3.5        nortest_1.0-4     
+[13] DBI_1.1.3          colorspace_2.0-3   withr_2.5.0        tidyselect_1.1.2  
+[17] gridExtra_2.3      processx_3.6.1     compiler_4.2.1     git2r_0.30.1      
+[21] glmnet_4.1-4       cli_3.3.0          rvest_1.0.2        xml2_1.3.3        
+[25] labeling_0.4.2     sass_0.4.2         scales_1.2.0       callr_3.7.1       
+[29] mixsqp_0.3-43      digest_0.6.29      rmarkdown_2.14     pkgconfig_2.0.3   
+[33] htmltools_0.5.2    mr.raps_0.2        highr_0.9          dbplyr_2.2.1      
+[37] fastmap_1.1.0      rlang_1.0.3        readxl_1.4.0       susieR_0.12.16    
+[41] rstudioapi_0.13    farver_2.1.1       shape_1.4.6        jquerylib_0.1.4   
+[45] generics_0.1.3     jsonlite_1.8.0     car_3.1-0          magrittr_2.0.3    
+[49] Matrix_1.4-1       Rcpp_1.0.8.3       munsell_0.5.0      fansi_1.0.3       
+[53] abind_1.4-5        viridis_0.6.2      lifecycle_1.0.1    stringi_1.7.6     
+[57] whisker_0.4        yaml_2.3.5         carData_3.0-5      plyr_1.8.7        
+[61] grid_4.2.1         promises_1.2.0.1   crayon_1.5.1       lattice_0.20-45   
+[65] cowplot_1.1.1      splines_4.2.1      haven_2.5.0        hms_1.1.1         
+[69] knitr_1.39         ps_1.7.1           pillar_1.8.0       ggsignif_0.6.3    
+[73] codetools_0.2-18   reprex_2.0.1       glue_1.6.2         evaluate_0.15     
+[77] getPass_0.2-2      modelr_0.1.8       vctrs_0.4.1        tzdb_0.3.0        
+[81] httpuv_1.6.5       foreach_1.5.2      cellranger_1.1.0   gtable_0.3.0      
+[85] reshape_0.8.9      assertthat_0.2.1   cachem_1.0.6       xfun_0.31         
+[89] broom_1.0.0        rstatix_0.7.0      later_1.3.0        survival_3.3-1    
+[93] viridisLite_0.4.0  iterators_1.0.14   ellipsis_0.3.2    </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
