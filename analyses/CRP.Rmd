@@ -1,0 +1,187 @@
+---
+title: "CRP levels (as a proxy of IL6 signalling)"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+
+Load packages
+```{r, message = FALSE, warning= FALSE}
+library(tidyverse)
+library(data.table)
+library(coloc)
+library(TwoSampleMR)
+library(ggpubr)
+```
+
+
+
+# 1 IL6R: Type 1 diabetes and CRP
+
+## 1.1 Obtain data
+
+```{r}
+
+IL6R_CRP <- readRDS("data/sumstats/cisdata/IL6R_CRP_data.rds") %>% tibble()
+IL6R_T1D <- readRDS("data/sumstats/cisdata/IL6R_T1D_data.rds") %>% tibble()
+```
+
+
+## 1.2 Harmonize and check for alignment
+
+```{r}
+# Harmonize names
+
+colnames(IL6R_T1D)
+colnames(IL6R_CRP)
+
+IL6R_T1D <- IL6R_T1D %>%
+  rename(Pval_T1D = p_value, EA_T1D=hm_effect_allele, NEA_T1D=hm_other_allele,
+         BETA_T1D=hm_beta, EAF_T1D=hm_effect_allele_frequency,
+         SE_T1D=standard_error, CI_lower_T1D = hm_ci_lower, CI_upper_T1D = hm_ci_upper, OR_T1D = hm_odds_ratio, code_T1D = hm_code) %>%
+  select(-ci_lower, -ci_upper, -odds_ratio, -chromosome, -base_pair_location, -effect_allele, -other_allele, -effect_allele_frequency, -variant_id, -beta)
+
+IL6R_CRP <- IL6R_CRP %>%
+  rename(Pval_CRP = p_value, EA_CRP = hm_effect_allele, NEA_CRP = hm_other_allele,
+         BETA_CRP=hm_beta, EAF_CRP = hm_effect_allele_frequency, 
+         SE_CRP = standard_error, CI_lower_CRP = hm_ci_lower, CI_upper_CRP = hm_ci_upper, OR_CRP = hm_odds_ratio, code_CRP = hm_code) %>%
+    select(-ci_lower, -ci_upper, -odds_ratio, -chromosome, -base_pair_location, -effect_allele, -other_allele, -effect_allele_frequency, -variant_id, -beta)
+
+
+IL6R <- inner_join(IL6R_CRP, IL6R_T1D, by = c("hm_variant_id", "hm_rsid", "hm_pos", "hm_chrom"))
+colnames(IL6R)
+
+```
+
+
+Test for alignment
+```{r}
+
+# IL6R %>%
+#   ggplot(aes(x=EAF_CRP, y=EAF_T1D)) +
+#   geom_point()
+
+```
+
+
+## 1.3 Draw manhattan plots
+
+```{r}
+
+
+#Change p-values to numeric
+IL6R <- IL6R %>%
+  mutate(Pval_T1D = as.numeric(Pval_T1D),
+         Pval_CRP = as.numeric(Pval_CRP))
+
+
+
+IL6R_CRP.fig <- 
+  IL6R %>%
+  ggplot(aes(x=hm_pos/1000, y = -log10(Pval_CRP))) +
+  geom_point() +
+  geom_hline(yintercept = 8, linetype ="dashed") +
+  geom_vline(xintercept = 154.2e6/1000, linetype = "dashed")+
+  geom_vline (xintercept = 154.75e6/1000, linetype = "dashed")+
+  ggtitle("GWAS of CRP levels")+
+  xlab(NULL)
+
+IL6R_T1D.fig <- 
+  IL6R %>%
+  ggplot(aes(x=hm_pos/1000, y = -log10(Pval_T1D))) +
+  geom_point() +
+  geom_hline(yintercept = 8, linetype ="dashed") +
+  geom_vline(xintercept = 154.2e6/1000, linetype = "dashed")+
+  geom_vline (xintercept = 154.75e6/1000, linetype = "dashed")+
+  ggtitle("GWAS of T1D")+
+  xlab("Position (kbp)")
+
+layer_scales(IL6R_T1D.fig)$x$range$range
+
+IL6R_gene.fig <- 
+  ggplot(data = IL6R) +
+  geom_blank() +
+  geom_segment(x= 154377.669, xend= 154441.926, y=1, yend=1, size = 2) +
+  annotate("text", label = "IL6R", x= (154377.669 + 154441.926) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(153377.7, 155441.1) +
+  ylim(0.75, 2) +
+  ylab(NULL) + xlab(NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+
+
+# Arrange figures
+
+ggarrange(IL6R_gene.fig, IL6R_CRP.fig,IL6R_T1D.fig,
+          heights = c(1, 3, 3), nrow = 3,
+          ncol = 1, align = "hv")
+ggsave("figures/IL6R-manhattan-combined-fig.pdf", height = 6, width = 8, units = "in")
+
+```
+
+
+## 1.4 Coloc
+
+```{r}
+#selecting the area with possible significant variants
+IL6R_close <- IL6R %>%
+ filter(hm_pos > 154.2e6 & hm_pos < 154.75e6)
+
+# Deleting the SNP in which MAF=0
+IL6R_close <- IL6R_close %>%
+  filter(EAF_T1D != 1 & EAF_T1D != 0) %>%
+  mutate(MAF = ifelse(EAF_T1D < 0.5, EAF_T1D, 1 - EAF_T1D)) 
+
+#Remove missing BETA values
+IL6R_close <- IL6R_close  %>% filter(!is.na(BETA_CRP) & !is.na(BETA_T1D))
+```
+
+
+```{r}
+#Exposure (CRP levels)
+D1_IL6R_close <- list(
+  type = "quant", # quantitative trait
+  beta = IL6R_close$BETA_CRP,
+  varbeta = IL6R_close$SE_CRP^2,
+  pvalues = IL6R_close$Pval_CRP,
+  N = 575531, #https://www.ebi.ac.uk/gwas/publications/35459240
+  MAF = IL6R_close$MAF,
+  position = IL6R_close$hm_pos,
+  snp = IL6R_close$hm_rsid,
+  sdY = 1)
+
+#Outcome (t1d)
+D2_IL6R_close <- list(
+ type = "cc", # case-control trait
+ beta = IL6R_close$BETA_T1D,
+ varbeta = IL6R_close$SE_T1D^2,
+ pvalues = IL6R_close$Pval_T1D,
+ N =  18942, # Case-control, Chiou et al. 2021 Nature
+ s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+ MAF = IL6R_close$MAF,
+position = IL6R_close$hm_pos,
+snp = IL6R_close$hm_rsid,
+ sdY = 1)
+
+#Check dataset (if returns NULL, data is ok)
+check_dataset(D1_IL6R_close)
+check_dataset(D2_IL6R_close)
+
+#run coloc
+coloc_results_IL6R_close <- coloc.abf(D1_IL6R_close, D2_IL6R_close, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+
+#run sensitivity analysis
+sensitivity(coloc_results_IL6R_close, "H4 > 0.70")
+
+
+#If there is evidence for coloc, which variants are likely candidates?
+coloc_results_IL6R_close$results %>% filter(SNP.PP.H4 > 0.05)
+
+
+```
