@@ -1,0 +1,368 @@
+---
+title: "IL12B"
+output: html_document
+date: '2022-11-04'
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+title: "Proxying the efficacy of IL12B for prevention of type 1 diabetes"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+Load packages
+```{r, echo = FALSE}
+library(coloc)
+library(tidyverse)
+library(ggpubr)
+library(data.table)
+library(TwoSampleMR)
+library(ieugwasr)
+```
+
+
+
+# 1 IL12B
+
+## 1.1 Obtain data
+
+GWAS sumstat of type 1 diabetes was obtained from the study by Chiou et al. (Nature 2021, https://doi.org/10.1038/s41586-021-03552-w). GWAS sumstat for protein levels of IL12B was obtained from the study by Ferkingstad et al. (Nature 2021, https://doi.org/10.1038/s41588-021-00978-w). Variants within 1 megabase before the start site of IL12B and 1 megabase after the stop site are included.
+
+
+```{r, echo = FALSE}
+IL12B_gwas <- readRDS("data/sumstats/cisdata/IL12B_gwas_data.rds") %>% as_tibble()
+IL12B_T1D  <- readRDS("data/sumstats/cisdata/IL12B_T1D_data_harm.rds")  %>% as_tibble()
+IL12B_anno <- readRDS("data/sumstats/cisdata/IL12B_anno_data.rds") %>% as_tibble()
+
+```
+
+Ferkingstad et al. state in their README file
+
+> Note that in the summary statistics files, the effectAllele is not always the minor allele, and therefore the ImpMAF is not always the frequency of the effect allele (it may be the frequency of the other allele).
+We now provide an Extra annotation file (assocvariants.annotated.txt.gz) that also includes the effect allele frequency -- This file can be mapped to the other files using the "Name" column.
+Also, the summary statistics files sometimes incorrectly have effectAllele=otherAllele for multiallelic variants.
+In these cases the effectAllele is correct, but the otherAllele should be '!', meaning that the effectAllele is tested against the other (two or more) alleles (using the '!' sign as shorthand for 'not effectAllele').
+This has been corrected in the file Extra annotation file (assocvariants.annotated.txt.gz).
+
+>Finally, a subset of the variants in the summary statistics files should be excluded due to quality issues.
+These variants are listed in a separate Excluded variants file (assocvariants.excluded.txt.gz).
+The Extra annotation file (assocvariants.annotated.txt.gz) does not include these variants.
+
+
+```{r, echo = FALSE}
+#merge data (exclude those observations that are missing in anno)
+IL12B_gwas <- right_join(IL12B_gwas, IL12B_anno, by = "Name")
+rm(IL12B_anno)
+```
+
+All cases where the variables in the two data files (annotation and original sumstat of Ferkingstad) are either instances when
+- rsid has not been assigned (and the original sumstat has NA and the annotation ".")
+- multiallelic allele, where the other allele is annotated with a "!"
+
+We decided to remove the multiallelic SNPs anyway, and after them, the columns were identical (equal and not discordant in terms of missing observations).
+
+```{r, echo = FALSE}
+
+#Remove multiallelic snps and recoed rsid "." to NA
+IL12B_gwas <- IL12B_gwas %>%
+  mutate(rsids.y = replace(rsids.y, rsids.y == ".", NA)) %>%
+  filter(otherAllele.y != "!")
+
+#Chrom, Pos, Rsids, effectAllele and otherAllele are the same in different files
+IL12B_gwas %>%
+  filter(Chrom.x != Chrom.y | (!is.na(Chrom.x) & is.na(Chrom.y)) |  (!is.na(Chrom.y) & is.na(Chrom.x)) |
+           Pos.x != Pos.y | (!is.na(Pos.x) & is.na(Pos.y)) |  (!is.na(Pos.y) & is.na(Pos.x)) |
+           rsids.x != rsids.y | (!is.na(rsids.x) & is.na(rsids.y)) |  (!is.na(rsids.y) & is.na(rsids.x)) |
+           effectAllele.x != effectAllele.y | (!is.na(effectAllele.x) & is.na(effectAllele.y)) |  (!is.na(effectAllele.y) & is.na(effectAllele.x))|
+           otherAllele.x != otherAllele.y | (!is.na(otherAllele.x) & is.na(otherAllele.y)) |  (!is.na(otherAllele.y) & is.na(otherAllele.x)))
+
+```
+
+Thus, only those values variables with .x in their name are preserved. Here, we also remove the remaining multiallelic SNPs 
+(where effect allele equals the other allele.)
+
+```{r, echo = FALSE}
+
+#Discard all variables that end with an ".y"
+IL12B_gwas <- IL12B_gwas %>% 
+  select(!ends_with(".y")) #remove column names *.y
+
+#Remove ".x" from variable names
+IL12B_gwas <- IL12B_gwas %>% 
+  rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
+
+#Remove the other version of the coding of multiallelic variants
+IL12B_gwas <- IL12B_gwas %>%
+  filter(effectAllele != otherAllele)
+```
+
+
+## 2.2 Harmonize and check for alignment
+
+Please note that the GWAS sumstat of type 1 diabetes has been harmonized by GWAS catalog, but the 
+GWAS sumstat for serum TYK2 levels has not been harmonized.
+
+
+```{r, echo = FALSE}
+#Rename IL12B variants
+IL12B_gwas <- IL12B_gwas %>%
+  rename(rsid = rsids,
+         EA_prot = effectAllele, NEA_prot = otherAllele,
+         EAF_prot=effectAlleleFreq, BETA_prot=Beta,
+         p_prot = Pval, 
+         minus_log10_p_prot = minus_log10_pval, 
+         SE_prot = SE, N_prot = N, ImpMAF_prot = ImpMAF, variant_id_prot = Name)
+
+#Rename columns
+IL12B_T1D <- IL12B_T1D %>%
+  rename(Chrom = chr, variant_id_T1D = id, EA_T1D = effectAllele, NEA_T1D = otherAllele, BETA_T1D = beta, SE_T1D = SE,
+         p_T1D = pval, EAF_T1D = EAF)
+
+#What is the difference between position and base_pair_location?
+IL12B_T1D %>%
+  filter(pos != base_pair_location) %>%
+  select(Chrom, rsid, pos, base_pair_location) %>% 
+  print(n=200)  #none
+
+#What's the difference between Chrom and chromosome?
+IL12B_T1D %>%
+  filter(Chrom != chromosome) %>%
+  select(Chrom, rsid, pos, base_pair_location) %>% 
+  print(n=200)  #none
+
+#Remove chromosome and base_pair_location
+IL12B_T1D <- IL12B_T1D %>% select(-chromosome, -base_pair_location)
+
+#Remove SNPs with multiple rsids
+IL12B_gwas <- IL12B_gwas %>% filter(!str_detect(rsid, ","))
+
+
+#remove "chr" from the beginning of the TNF_gwas
+IL12B_gwas <- IL12B_gwas %>% 
+  mutate(variant_id_prot = str_replace(variant_id_prot, "chr", "")) %>%
+  mutate(variant_id_prot = str_replace(variant_id_prot, ":", "_")) %>%
+  mutate(variant_id_prot = str_replace(variant_id_prot, ":", "_")) %>%
+  mutate(variant_id_prot = str_replace(variant_id_prot, ":", "_")) %>%
+  mutate(variant_id_prot = str_replace(variant_id_prot, ":", "_"))
+
+#merge the data
+IL12B <- inner_join(IL12B_gwas, IL12B_T1D, by = "rsid")
+
+IL12B %>% 
+  filter(Chrom.x != Chrom.y ) %>%
+  select(Chrom.x, Chrom.y) %>% print(n=500) #all are the same
+
+IL12B <- IL12B %>% select(-Chrom.y) %>% rename(Chrom = Chrom.x)
+
+
+IL12B %>% colnames()
+
+
+```
+
+```{r, echo = FALSE}
+#Remove those without a rsid
+IL12B <- IL12B %>% filter(!is.na(rsid))
+
+
+#examine how many SNPs have disconcordant EAF <40% OR >60% between the two data sets
+IL12B %>%
+  filter(!(EAF_T1D < 0.40 & EAF_prot < 0.40) | (EAF_T1D > 0.60 & EAF_prot > 0.60))
+
+# #remove SNPs with EAF 40-60%
+# IL12B <- IL12B %>%
+#   filter(!(flipped == 1 & (EAF_prot > 0.4 & EAF_prot < 0.6)  | (EAF_T1D > 0.4 &  EAF_T1D < 0.6)))
+
+
+```
+
+## 2.3 Manhattan plots
+```{r, echo = FALSE}
+#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+IL12B_prot.fig <- 
+  IL12B %>%
+  ggplot(aes(x = Pos/1000, y=minus_log10_p_prot)) +
+  geom_point()+
+  geom_hline(yintercept=8, linetype="dashed")+
+  geom_vline(xintercept=159e6/1000, linetype="dashed")+
+  geom_vline(xintercept=159.5e6/1000, linetype="dashed")+
+  ggtitle("GWAS of IL12B in serum") +
+  ylab("-log10(p)") +
+  xlab(NULL)
+
+
+IL12B_T1D.fig <- 
+  IL12B %>%
+  mutate(minus_log10_p_T1D = -log10(as.numeric(p_T1D))) %>%
+  ggplot()+
+  geom_point(mapping=aes(x = Pos/1000, y=minus_log10_p_T1D))+
+  geom_hline(yintercept=8, linetype="dashed")+
+  geom_vline(xintercept=159e6/1000, linetype="dashed")+
+  geom_vline(xintercept=159.5e6/1000, linetype="dashed")+
+  ggtitle("GWAS of risk of T1D") +
+  ylab("-log10(p)") +
+  xlab("position(kbp)")
+
+layer_scales(IL12B_T1D.fig)$x$range$range
+
+IL12B_gene.fig <- 
+  ggplot(data = IL12B) +
+  geom_blank() +
+  geom_segment(x= 1587.41791, xend= 1587.57895, y=1, yend=1, size = 2) +
+  annotate("text", label = "IL12B", x= (1587.41791 + 1587.57895) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(587.41791, 2587.57895) +
+  ylim(0.75, 2) +
+  ylab(NULL) + xlab(NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+ggarrange(IL12B_gene.fig, IL12B_prot.fig, IL12B_T1D.fig,
+          heights = c(1, 3, 3), nrow = 3,
+          ncol = 1, align = "hv")
+
+ggsave("figures/IL12B-manhattan-combined-fig.pdf", height = 8, width = 6, units = "in")
+```
+
+
+## 2.4 Coloc assuming 1 colocalizing variant
+```{r, echo = FALSE}
+#select the area containing significant SNPs
+  IL12B_close <- IL12B %>%
+  filter(Pos > 159e6 & Pos < 159.5e6)
+
+
+#filter a few multiallelic snps away
+duplicated_snps <- IL12B_close %>%
+  filter(duplicated(rsid)) %>% pull(rsid)
+
+IL12B_close <- IL12B_close %>%
+  filter(!rsid %in% duplicated_snps)
+
+
+#remove the SNP with MAF=0
+IL12B_close <- IL12B_close %>%
+  filter(EAF_T1D != 0)
+
+IL12B_close <- IL12B_close %>%
+  mutate(MAF_T1D = ifelse(EAF_T1D > 0.5, 1-EAF_T1D, EAF_T1D)) %>%
+  mutate(MAF_prot = ifelse(EAF_prot > 0.5, 1-EAF_prot, EAF_prot))
+
+D1 <- list(
+  type = "quant", # quantitative trait
+  beta = IL12B_close$BETA_prot,
+  varbeta = IL12B_close$SE_prot^2, 
+  pvalues = IL12B_close$p_prot,
+  N = IL12B_close$N_prot,
+  MAF = as.numeric(IL12B_close$MAF_prot),
+  pos = IL12B_close$Pos,
+  snp = IL12B_close$rsid,
+  sdY = 1)
+
+D2 <- list(
+  type = "cc", # case-control trait
+  beta = IL12B_close$BETA_T1D,
+  varbeta = IL12B_close$SE_T1D^2,
+  pvalues = IL12B_close$p_T1D,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = as.numeric(IL12B_close$MAF_T1D),
+  pos = IL12B_close$Pos,
+  snp = IL12B_close$rsid)
+
+coloc_results_IL12B <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+sensitivity(coloc_results_IL12B, "H4 > 0.1")
+```
+
+## 2.5 SusiE
+
+Älkää tehkö vielä tätä. Jätetään se kuitenkin tähän vielä jatkoa varten.
+
+```{r, echo = FALSE}
+# 
+# ldmat_TYK2 <- ld_matrix_local(
+#     TYK2_T1D_merged$rsid,
+#     plink_bin = genetics.binaRies::get_plink_binary(),
+#     bfile = "C:/Users/jajoko/Documents/MR Projects/plinkref/EUR")
+# 
+# #In LD-mat the rsid are followed by reference and effect alleles (e.g. rs10905492_G_A). The effect alleles have to be harmonized between the LD matrix and data. The data is changed to follow ld matrix, because that is easier to do than vice versa.
+# 
+# #Extract rsid, non-effect allele and effect allele from LD-matrix
+# snps <- data.frame(rsid_nea_ea = rownames(ldmat_TYK2))
+# snps <- snps %>% 
+#   mutate(nea_ea = str_sub(rsid_nea_ea, -4,-1))
+# 
+# #Check that names in LD-matrix do not include indels (eg. G to CT)
+# snps %>% mutate(underscore = str_sub(nea_ea, 1, 1)) %>% 
+#   filter(underscore != "_") #all have _ as the fourth last character, indicating that they are indeed single nucleotides
+# 
+# #Extract ea, nea, and rsid
+# snps <- snps %>% 
+#   mutate(nea = str_sub(nea_ea, 2,2), ea = str_sub(nea_ea, 4,4)) %>%
+#   mutate(rsid = str_sub(rsid_nea_ea, 1, -5))
+# 
+# 
+# #prepare for merge 
+# snps <- snps %>% 
+#   select(-nea_ea) %>%
+#   rename(nea_ldmat = nea, ea_ldmat = ea, rsid_ldmat = rsid_nea_ea, rsid = rsid)
+# 
+# #Merge
+# TYK2_T1D_merged_ldsnps <- 
+#   left_join(snps, TYK2_T1D_merged, by = "rsid")
+# 
+# #check for alignment
+# TYK2_T1D_merged_ldsnps %>% 
+#   filter(ea_ldmat != NEA_T1D_aligned) %>% nrow()
+# 
+# TYK2_T1D_merged_ldsnps %>% 
+#   filter(ea_ldmat == NEA_T1D_aligned) %>% nrow()
+# 
+# TYK2_T1D_merged_ldsnps
+# 
+# 
+# #ongelma: kuinka saada ld-matriisin snp:t samaan muotoon kuin IL2RA-datan??
+# 
+# 
+# D1 <- list(
+#   type = "quant", # quantitative trait
+#   beta = IL2RA_T1D_merged_onlymat$BETA_prot_aligned,
+#   varbeta = IL2RA_T1D_merged_onlymat$SE_prot^2, 
+#   pvalues = IL2RA_T1D_merged_onlymat$p_prot,
+#   N = IL2RA_T1D_merged_onlymat$N_prot,
+#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_prot),
+#   snp = IL2RA_T1D_merged_onlymat$rsid,
+#   LD = ldmat_IL2RA,
+#   sdY = 1)
+# 
+# D2 <- list(
+#   type = "cc", # case-control trait
+#   beta = IL2RA_T1D_merged_onlymat$BETA_T1D_aligned,
+#   varbeta = IL2RA_T1D_merged_onlymat$SE_T1D^2,
+#   pvalues = IL2RA_T1D_merged_onlymat$p_T1D,
+#   N = IL2RA_T1D_merged_onlymat$N_T1D, # Case-control study (Chiou et al. 2021 Nature)
+#   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_T1D),
+#   LD = ldmat_IL2RA,
+#   snp = IL2RA_T1D_merged_onlymat$rsid)
+# 
+# check_alignment(D1)
+
+```
+
+
+
+
+
+
