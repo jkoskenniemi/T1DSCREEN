@@ -1,7 +1,9 @@
 ---
 title: "Script to merge data"
 author: "Jaakko Koskenniemi"
-output: html_document
+output: 
+  html_document:
+    number_sections: true
 date: '2022-24-04'
 editor_options: 
   chunk_output_type: console
