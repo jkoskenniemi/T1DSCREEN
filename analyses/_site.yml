@@ -34,7 +34,7 @@ navbar:
   right:
   - icon: fab fa-github
     text: Source code
-    href: https://github.com/jkoskenniemi/Rotaatio-2022
+    href: https://github.com/jkoskenniemi/T1DSCREEN
 output:
   workflowr::wflow_html:
     toc: yes
