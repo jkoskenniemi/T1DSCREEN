@@ -545,13 +545,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong258ee85">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong9aff4fc">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 258ee85
+aria-hidden="true"></span> <strong>Repository version:</strong> 9aff4fc
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong258ee85"
+<div id="strongRepositoryversionstrong9aff4fc"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -560,7 +560,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 258ee85.
+The results in this page were generated with repository version 9aff4fc.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -588,6 +588,7 @@ Untracked files:
     Untracked:  README.md
     Untracked:  T1DSCREEN.Rproj
     Untracked:  _workflowr.yml
+    Untracked:  analyses/IL6ST.Rmd
     Untracked:  analyses/_site.yml
     Untracked:  analyses/about.Rmd
     Untracked:  analyses/license.Rmd
@@ -654,6 +655,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+9aff4fc
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+Fixed IL6ST_prot and IL6R_prot, added IL6R_crp, removed one extra
+passage of IL2RG_T1D
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+61a6ddc
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -896,7 +932,6 @@ IL2RA_prot  &lt;- import(&quot;data/cis_sumstats/IL2RA_prot.rds&quot;)
 IL2RB_prot  &lt;- import(&quot;data/cis_sumstats/IL2RB_prot.rds&quot;)  
 IL2RB_anno  &lt;- import(&quot;data/cis_sumstats/IL2RB_anno.rds&quot;)  
 
-IL6R_crp   &lt;- import(&quot;data/cis_sumstats/IL6R_crp.rds&quot;)  
 IL6R_anno  &lt;- import(&quot;data/cis_sumstats/IL6R_anno.rds&quot;)  
 IL6R_prot  &lt;- import(&quot;data/cis_sumstats/IL6R_prot.rds&quot;)
 
@@ -929,7 +964,7 @@ IL12B_prot_anno  &lt;- left_join(IL12B_prot, IL12B_anno, by = c(&quot;Name&quot;
 IL2RA_prot_anno  &lt;- left_join(IL2RA_prot, IL2RA_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 IL2RB_prot_anno  &lt;- left_join(IL2RB_prot, IL2RB_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 IL2RG_prot_anno  &lt;- left_join(IL2RG_prot, IL2RG_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
-# IL6R_prot_anno   &lt;- left_join(IL6R_prot,  IL6R_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+IL6R_prot_anno   &lt;- left_join(IL6R_prot,  IL6R_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 IL6ST_prot_anno  &lt;- left_join(IL6ST_prot, IL6ST_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 JAK2_prot_anno   &lt;- left_join(JAK2_prot,  JAK2_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 TNF_prot_anno    &lt;- left_join(TNF_prot,   TNF_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
@@ -937,9 +972,9 @@ TYK2_prot_anno   &lt;- left_join(TYK2_prot,  TYK2_anno, by = c(&quot;Name&quot;,
 
 rm(&quot;CXCL10_anno&quot;, &quot;CXCL10_prot&quot;, &quot;IL12B_anno&quot;, &quot;IL12B_prot&quot;, 
    &quot;IL2RA_anno&quot;, &quot;IL2RA_prot&quot;, &quot;IL2RB_anno&quot;, &quot;IL2RB_prot&quot;,  
-   &quot;IL2RG_anno&quot;, &quot;IL2RG_prot&quot;, &quot;IL6R_anno&quot;, &quot;IL6R_crp&quot;, 
+   &quot;IL2RG_anno&quot;, &quot;IL2RG_prot&quot;, &quot;IL6R_anno&quot;, &quot;IL6R_prot&quot;, 
    &quot;IL6ST_anno&quot;, &quot;IL6ST_prot&quot;, &quot;JAK2_anno&quot;, &quot;JAK2_prot&quot;, 
-   &quot;TNF_anno&quot;, &quot;TNF_prot&quot;, &quot;TYK2_anno&quot;, &quot;TYK2_prot&quot;, &quot;IL6R_prot&quot;)</code></pre>
+   &quot;TNF_anno&quot;, &quot;TNF_prot&quot;, &quot;TYK2_anno&quot;, &quot;TYK2_prot&quot;)</code></pre>
 </div>
 <div id="sort-conflicts" class="section level2">
 <h2>Sort conflicts</h2>
@@ -959,6 +994,7 @@ IL12B_prot_anno  &lt;- IL12B_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&q
 IL2RA_prot_anno  &lt;- IL2RA_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL2RB_prot_anno  &lt;- IL2RB_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL2RG_prot_anno  &lt;- IL2RG_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
+IL6R_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL6ST_prot_anno  &lt;- IL6ST_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 JAK2_prot_anno   &lt;- JAK2_prot_anno   %&gt;% filter(otherAllele.y != &quot;!&quot;)
 TNF_prot_anno    &lt;- TNF_prot_anno    %&gt;% filter(otherAllele.y != &quot;!&quot;)
@@ -984,6 +1020,7 @@ IL12B_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL2RA_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL2RB_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL2RG_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
+IL6R_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL6ST_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
 JAK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts
 TNF_prot_anno    %&gt;% check_conflicts_ea_oa() #0 conflicts
@@ -1011,7 +1048,8 @@ IL12B_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
 IL2RA_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
 IL2RB_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
 IL2RG_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
-# IL6ST_prot_anno  %&gt;% check_conflicts_rsid() #0 
+IL6R_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts
+IL6ST_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
 JAK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts
 TNF_prot_anno    %&gt;% check_conflicts_rsid() #0 conflicts
 TYK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
@@ -1025,7 +1063,8 @@ IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
 IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
 IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
-# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
+IL6R_prot_anno    &lt;- IL6ST_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
+IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% select(!ends_with(&quot;.y&quot;))
 TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% select(!ends_with(&quot;.y&quot;))
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% select(!ends_with(&quot;.y&quot;))
@@ -1037,7 +1076,8 @@ IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
-# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+IL6R_prot_anno    &lt;- IL6R_prot_anno   %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) </code></pre>
@@ -1048,7 +1088,8 @@ colnames(IL12B_prot_anno)
 colnames(IL2RA_prot_anno)
 colnames(IL2RB_prot_anno)
 colnames(IL2RG_prot_anno)
-#colnames(IL6ST_prot_anno)
+colnames(IL6ST_prot_anno)
+colnames(IL6R_prot_anno)
 colnames(JAK2_prot_anno)
 colnames(TNF_prot_anno)
 colnames(TYK2_prot_anno)</code></pre>
@@ -1060,7 +1101,8 @@ anyNA(IL12B_prot_anno$rsids)
 anyNA(IL2RA_prot_anno$rsids)
 anyNA(IL2RB_prot_anno$rsids)
 anyNA(IL2RG_prot_anno$rsids)
-#anyNA(IL6ST_prot_anno$rsids)
+anyNA(IL6ST_prot_anno$rsids)
+anyNA(IL6R_prot_anno$rsids)
 anyNA(JAK2_prot_anno$rsids)
 anyNA(TNF_prot_anno$rsids)
 anyNA(TYK2_prot_anno$rsids)
@@ -1071,41 +1113,25 @@ IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% filter(!is.na(rsids))
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% filter(!is.na(rsids))
 IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% filter(!is.na(rsids))
 IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% filter(!is.na(rsids))
-# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% filter(!is.na(rsids))
+IL6R_prot_anno    &lt;- IL6ST_prot_anno  %&gt;% filter(!is.na(rsids))
+IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% filter(!is.na(rsids))
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% filter(!is.na(rsids))
 TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% filter(!is.na(rsids))
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% filter(!is.na(rsids))</code></pre>
 <p>There were no duplicated rsids in data after exclusion of missing
 rsids (suppressed, please see /analyses/Harmonize.Rmd)</p>
-<pre class="r"><code>#Sanity 
+<pre class="r"><code>#Sanity check
 anyDuplicated(IL2RG_prot_anno$rsids)   
 anyDuplicated(CXCL10_prot_anno$rsids)  
 anyDuplicated(IL12B_prot_anno$rsids)
 anyDuplicated(IL2RA_prot_anno$rsids)
 anyDuplicated(IL2RB_prot_anno$rsids)
 anyDuplicated(IL2RG_prot_anno$rsids)
-#anyDuplicated(IL6ST_prot_anno$rsids)
+anyDuplicated(IL6ST_prot_anno$rsids)
+anyDuplicated(IL6R_prot_anno$rsids)
 anyDuplicated(JAK2_prot_anno$rsids)
 anyDuplicated(TNF_prot_anno$rsids)
 anyDuplicated(TYK2_prot_anno$rsids)</code></pre>
-</div>
-<div id="import-t1d-data" class="section level2">
-<h2>Import T1D data</h2>
-<pre class="r"><code># Import data
-IL2RG_T1D &lt;- import(&quot;data/cis_sumstats/IL2RG_T1D.rds&quot;) %&gt;% tibble()</code></pre>
-<p>There were no entries with missing rsids, but there were duplicated
-rsids. They are removed.</p>
-<pre class="r"><code>anyDuplicated(IL2RG_T1D$hm_rsid) #Duplicates</code></pre>
-<pre><code>[1] 2</code></pre>
-<pre class="r"><code>anyNA(IL2RG_T1D$hm_rsid) #No missing data</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>duplicated_snps_IL2RG_T1D &lt;- IL2RG_T1D %&gt;%
-  filter(duplicated(hm_rsid)) %&gt;% 
-  pull(hm_rsid)
-
-#Remove duplicated SNPs
-IL2RG_T1D &lt;- IL2RG_T1D %&gt;%
-  filter(!hm_rsid %in% duplicated_snps_IL2RG_T1D)</code></pre>
 </div>
 <div id="write-data-in-twosamplemr-format" class="section level2">
 <h2>Write data in TwoSampleMR format</h2>
@@ -1128,7 +1154,8 @@ IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
-# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
+IL6R_prot_anno    &lt;- IL6R_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
+IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
 TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% rename_for_TwoSampleMR_e()
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
@@ -1144,8 +1171,10 @@ IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;%
   mutate(Phenotype = &quot;Serum IL2RB level&quot;)
 IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;%  
   mutate(Phenotype = &quot;Serum IL2RG level&quot;)
-# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;%  
-  # mutate(Phenotype = &quot;Serum CXCL10 level&quot;)
+IL6R_prot_anno    &lt;- IL6R_prot_anno  %&gt;%
+  mutate(Phenotype = &quot;Serum IL6R level&quot;)
+IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;%
+  mutate(Phenotype = &quot;Serum IL6ST level&quot;)
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;%  
   mutate(Phenotype = &quot;Serum JAK2 level&quot;)
 TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;%  
@@ -1165,8 +1194,10 @@ IL2RB_prot_anno  %&gt;%
   export(&quot;data/export/IL2RB_prot_anno_TwoSampleMR.csv&quot;)
 IL2RG_prot_anno  %&gt;% 
   export(&quot;data/export/IL2RG_prot_anno_TwoSampleMR.csv&quot;)
-# IL6ST_prot_anno  %&gt;%
-#   export(&quot;data/export/IL6ST_prot_anno_TwoSampleMR.csv&quot;)
+IL6R_prot_anno  %&gt;%
+  export(&quot;data/export/IL6R_prot_anno_TwoSampleMR.csv&quot;)
+IL6ST_prot_anno  %&gt;%
+  export(&quot;data/export/IL6ST_prot_anno_TwoSampleMR.csv&quot;)
 JAK2_prot_anno   %&gt;% 
   export(&quot;data/export/JAK2_prot_anno_TwoSampleMR.csv&quot;)
 TNF_prot_anno    %&gt;% 
@@ -1179,10 +1210,31 @@ TYK2_prot_anno   %&gt;%
 # read_exposure_data(&quot;data/export/IL2RA_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/IL2RB_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/IL2RG_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
-# # read_exposure_data(&quot;data/export/IL6ST_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/IL6ST_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/IL6R_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/JAK2_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/TNF_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/TYK2_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)</code></pre>
+</div>
+<div id="write-il6r_crp-in-twosamplemr-format" class="section level2">
+<h2>Write IL6R_crp in TwoSampleMR format</h2>
+<pre class="r"><code>IL6R_crp   &lt;- import(&quot;data/cis_sumstats/IL6R_crp.rds&quot;)  
+
+# colnames(IL6R_crp)
+IL6R_crp &lt;- IL6R_crp %&gt;%
+  select(-other_allele, -effect_allele, -beta) %&gt;%
+  rename(SNP = hm_rsid, beta = hm_beta, se = standard_error, 
+           eaf = hm_effect_allele_frequency,
+           effect_allele = hm_effect_allele, 
+           other_allele = hm_other_allele,
+           pval = p_value, pos = hm_pos) %&gt;%
+  mutate(pval = as.numeric(pval),
+         eaf = as.numeric(eaf),
+         samplesize = 575531,
+         Phenotype = &quot;Serum C-reactive protein levels&quot;) 
+
+IL6R_crp  %&gt;% 
+  export(&quot;data/export/IL6R_crp_TwoSampleMR.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="outcome-data" class="section level1">
@@ -1283,7 +1335,7 @@ IL12B_T1D   &lt;- IL12B_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL2RA_T1D   &lt;- IL2RA_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL2RB_T1D   &lt;- IL2RB_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL2RG_T1D   &lt;- IL2RG_T1D  %&gt;% rename_for_TwoSampleMR_o()
-IL6ST_T1D &lt;- IL6ST_T1D  %&gt;% rename_for_TwoSampleMR_o()
+IL6ST_T1D   &lt;- IL6ST_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL6R_T1D    &lt;- IL6R_T1D   %&gt;% rename_for_TwoSampleMR_o()
 JAK2_T1D    &lt;- JAK2_T1D   %&gt;% rename_for_TwoSampleMR_o()
 TNF_T1D     &lt;- TNF_T1D    %&gt;% rename_for_TwoSampleMR_o()
