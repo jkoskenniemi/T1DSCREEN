@@ -66,7 +66,6 @@ IL2RA_prot  <- import("data/cis_sumstats/IL2RA_prot.rds")
 IL2RB_prot  <- import("data/cis_sumstats/IL2RB_prot.rds")  
 IL2RB_anno  <- import("data/cis_sumstats/IL2RB_anno.rds")  
 
-IL6R_crp   <- import("data/cis_sumstats/IL6R_crp.rds")  
 IL6R_anno  <- import("data/cis_sumstats/IL6R_anno.rds")  
 IL6R_prot  <- import("data/cis_sumstats/IL6R_prot.rds")
 
@@ -102,7 +101,7 @@ IL12B_prot_anno  <- left_join(IL12B_prot, IL12B_anno, by = c("Name", "Chrom", "P
 IL2RA_prot_anno  <- left_join(IL2RA_prot, IL2RA_anno, by = c("Name", "Chrom", "Pos"))
 IL2RB_prot_anno  <- left_join(IL2RB_prot, IL2RB_anno, by = c("Name", "Chrom", "Pos"))
 IL2RG_prot_anno  <- left_join(IL2RG_prot, IL2RG_anno, by = c("Name", "Chrom", "Pos"))
-# IL6R_prot_anno   <- left_join(IL6R_prot,  IL6R_anno, by = c("Name", "Chrom", "Pos"))
+IL6R_prot_anno   <- left_join(IL6R_prot,  IL6R_anno, by = c("Name", "Chrom", "Pos"))
 IL6ST_prot_anno  <- left_join(IL6ST_prot, IL6ST_anno, by = c("Name", "Chrom", "Pos"))
 JAK2_prot_anno   <- left_join(JAK2_prot,  JAK2_anno, by = c("Name", "Chrom", "Pos"))
 TNF_prot_anno    <- left_join(TNF_prot,   TNF_anno, by = c("Name", "Chrom", "Pos"))
@@ -110,9 +109,9 @@ TYK2_prot_anno   <- left_join(TYK2_prot,  TYK2_anno, by = c("Name", "Chrom", "Po
 
 rm("CXCL10_anno", "CXCL10_prot", "IL12B_anno", "IL12B_prot", 
    "IL2RA_anno", "IL2RA_prot", "IL2RB_anno", "IL2RB_prot",  
-   "IL2RG_anno", "IL2RG_prot", "IL6R_anno", "IL6R_crp", 
+   "IL2RG_anno", "IL2RG_prot", "IL6R_anno", "IL6R_prot", 
    "IL6ST_anno", "IL6ST_prot", "JAK2_anno", "JAK2_prot", 
-   "TNF_anno", "TNF_prot", "TYK2_anno", "TYK2_prot", "IL6R_prot")
+   "TNF_anno", "TNF_prot", "TYK2_anno", "TYK2_prot")
 ```
 
 
@@ -131,6 +130,7 @@ IL12B_prot_anno  <- IL12B_prot_anno  %>% filter(otherAllele.y != "!")
 IL2RA_prot_anno  <- IL2RA_prot_anno  %>% filter(otherAllele.y != "!")
 IL2RB_prot_anno  <- IL2RB_prot_anno  %>% filter(otherAllele.y != "!")
 IL2RG_prot_anno  <- IL2RG_prot_anno  %>% filter(otherAllele.y != "!")
+IL6R_prot_anno   <- IL6ST_prot_anno  %>% filter(otherAllele.y != "!")
 IL6ST_prot_anno  <- IL6ST_prot_anno  %>% filter(otherAllele.y != "!")
 JAK2_prot_anno   <- JAK2_prot_anno   %>% filter(otherAllele.y != "!")
 TNF_prot_anno    <- TNF_prot_anno    %>% filter(otherAllele.y != "!")
@@ -162,6 +162,7 @@ IL12B_prot_anno  %>% check_conflicts_ea_oa() #0 conflicts
 IL2RA_prot_anno  %>% check_conflicts_ea_oa() #0 conflicts
 IL2RB_prot_anno  %>% check_conflicts_ea_oa() #0 conflicts
 IL2RG_prot_anno  %>% check_conflicts_ea_oa() #0 conflicts
+IL6R_prot_anno   %>% check_conflicts_ea_oa() #0 conflicts
 IL6ST_prot_anno  %>% check_conflicts_ea_oa() #0 conflicts
 JAK2_prot_anno   %>% check_conflicts_ea_oa() #0 conflicts
 TNF_prot_anno    %>% check_conflicts_ea_oa() #0 conflicts
@@ -194,7 +195,8 @@ IL12B_prot_anno  %>% check_conflicts_rsid() #0 conflicts
 IL2RA_prot_anno  %>% check_conflicts_rsid() #0 conflicts
 IL2RB_prot_anno  %>% check_conflicts_rsid() #0 conflicts
 IL2RG_prot_anno  %>% check_conflicts_rsid() #0 conflicts
-# IL6ST_prot_anno  %>% check_conflicts_rsid() #0 
+IL6R_prot_anno   %>% check_conflicts_rsid() #0 conflicts
+IL6ST_prot_anno  %>% check_conflicts_rsid() #0 conflicts
 JAK2_prot_anno   %>% check_conflicts_rsid() #0 conflicts
 TNF_prot_anno    %>% check_conflicts_rsid() #0 conflicts
 TYK2_prot_anno   %>% check_conflicts_rsid() #0 conflicts
@@ -213,7 +215,8 @@ IL12B_prot_anno   <- IL12B_prot_anno  %>% select(!ends_with(".y"))
 IL2RA_prot_anno   <- IL2RA_prot_anno  %>% select(!ends_with(".y"))
 IL2RB_prot_anno   <- IL2RB_prot_anno  %>% select(!ends_with(".y"))
 IL2RG_prot_anno   <- IL2RG_prot_anno  %>% select(!ends_with(".y"))
-# IL6ST_prot_anno <- IL6ST_prot_anno  %>% select(!ends_with(".y"))
+IL6R_prot_anno    <- IL6ST_prot_anno  %>% select(!ends_with(".y"))
+IL6ST_prot_anno   <- IL6ST_prot_anno  %>% select(!ends_with(".y"))
 JAK2_prot_anno    <- JAK2_prot_anno   %>% select(!ends_with(".y"))
 TNF_prot_anno     <- TNF_prot_anno    %>% select(!ends_with(".y"))
 TYK2_prot_anno    <- TYK2_prot_anno   %>% select(!ends_with(".y"))
@@ -225,7 +228,8 @@ IL12B_prot_anno   <- IL12B_prot_anno  %>% rename_with(~gsub(".x", "", .x, fixed 
 IL2RA_prot_anno   <- IL2RA_prot_anno  %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
 IL2RB_prot_anno   <- IL2RB_prot_anno  %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
 IL2RG_prot_anno   <- IL2RG_prot_anno  %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
-# IL6ST_prot_anno <- IL6ST_prot_anno  %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
+IL6ST_prot_anno   <- IL6ST_prot_anno  %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
+IL6R_prot_anno    <- IL6R_prot_anno   %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
 JAK2_prot_anno    <- JAK2_prot_anno   %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
 TNF_prot_anno     <- TNF_prot_anno    %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
 TYK2_prot_anno    <- TYK2_prot_anno   %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)) 
@@ -240,7 +244,8 @@ colnames(IL12B_prot_anno)
 colnames(IL2RA_prot_anno)
 colnames(IL2RB_prot_anno)
 colnames(IL2RG_prot_anno)
-#colnames(IL6ST_prot_anno)
+colnames(IL6ST_prot_anno)
+colnames(IL6R_prot_anno)
 colnames(JAK2_prot_anno)
 colnames(TNF_prot_anno)
 colnames(TYK2_prot_anno)
@@ -256,7 +261,8 @@ anyNA(IL12B_prot_anno$rsids)
 anyNA(IL2RA_prot_anno$rsids)
 anyNA(IL2RB_prot_anno$rsids)
 anyNA(IL2RG_prot_anno$rsids)
-#anyNA(IL6ST_prot_anno$rsids)
+anyNA(IL6ST_prot_anno$rsids)
+anyNA(IL6R_prot_anno$rsids)
 anyNA(JAK2_prot_anno$rsids)
 anyNA(TNF_prot_anno$rsids)
 anyNA(TYK2_prot_anno$rsids)
@@ -267,7 +273,8 @@ IL12B_prot_anno   <- IL12B_prot_anno  %>% filter(!is.na(rsids))
 IL2RA_prot_anno   <- IL2RA_prot_anno  %>% filter(!is.na(rsids))
 IL2RB_prot_anno   <- IL2RB_prot_anno  %>% filter(!is.na(rsids))
 IL2RG_prot_anno   <- IL2RG_prot_anno  %>% filter(!is.na(rsids))
-# IL6ST_prot_anno <- IL6ST_prot_anno  %>% filter(!is.na(rsids))
+IL6R_prot_anno    <- IL6ST_prot_anno  %>% filter(!is.na(rsids))
+IL6ST_prot_anno   <- IL6ST_prot_anno  %>% filter(!is.na(rsids))
 JAK2_prot_anno    <- JAK2_prot_anno   %>% filter(!is.na(rsids))
 TNF_prot_anno     <- TNF_prot_anno    %>% filter(!is.na(rsids))
 TYK2_prot_anno    <- TYK2_prot_anno   %>% filter(!is.na(rsids))
@@ -278,39 +285,18 @@ There were no duplicated rsids in data after exclusion of missing
 rsids (suppressed, please see /analyses/Harmonize.Rmd)
 
 ```{r, results='hide'}
-#Sanity 
+#Sanity check
 anyDuplicated(IL2RG_prot_anno$rsids)   
 anyDuplicated(CXCL10_prot_anno$rsids)  
 anyDuplicated(IL12B_prot_anno$rsids)
 anyDuplicated(IL2RA_prot_anno$rsids)
 anyDuplicated(IL2RB_prot_anno$rsids)
 anyDuplicated(IL2RG_prot_anno$rsids)
-#anyDuplicated(IL6ST_prot_anno$rsids)
+anyDuplicated(IL6ST_prot_anno$rsids)
+anyDuplicated(IL6R_prot_anno$rsids)
 anyDuplicated(JAK2_prot_anno$rsids)
 anyDuplicated(TNF_prot_anno$rsids)
 anyDuplicated(TYK2_prot_anno$rsids)
-```
-
-
-## Import T1D data
-
-```{r}
-# Import data
-IL2RG_T1D <- import("data/cis_sumstats/IL2RG_T1D.rds") %>% tibble()
-```
-
-There were no entries with missing rsids, but there were duplicated rsids. They are removed.
-```{r}
-anyDuplicated(IL2RG_T1D$hm_rsid) #Duplicates
-anyNA(IL2RG_T1D$hm_rsid) #No missing data
-
-duplicated_snps_IL2RG_T1D <- IL2RG_T1D %>%
-  filter(duplicated(hm_rsid)) %>% 
-  pull(hm_rsid)
-
-#Remove duplicated SNPs
-IL2RG_T1D <- IL2RG_T1D %>%
-  filter(!hm_rsid %in% duplicated_snps_IL2RG_T1D)
 ```
 
 
@@ -337,7 +323,8 @@ IL12B_prot_anno   <- IL12B_prot_anno  %>% rename_for_TwoSampleMR_e()
 IL2RA_prot_anno   <- IL2RA_prot_anno  %>% rename_for_TwoSampleMR_e()
 IL2RB_prot_anno   <- IL2RB_prot_anno  %>% rename_for_TwoSampleMR_e()
 IL2RG_prot_anno   <- IL2RG_prot_anno  %>% rename_for_TwoSampleMR_e()
-# IL6ST_prot_anno <- IL6ST_prot_anno  %>% rename_for_TwoSampleMR_e()
+IL6R_prot_anno    <- IL6R_prot_anno   %>% rename_for_TwoSampleMR_e()
+IL6ST_prot_anno   <- IL6ST_prot_anno  %>% rename_for_TwoSampleMR_e()
 JAK2_prot_anno    <- JAK2_prot_anno   %>% rename_for_TwoSampleMR_e()
 TNF_prot_anno     <- TNF_prot_anno    %>% rename_for_TwoSampleMR_e()
 TYK2_prot_anno    <- TYK2_prot_anno   %>% rename_for_TwoSampleMR_e()
@@ -353,8 +340,10 @@ IL2RB_prot_anno   <- IL2RB_prot_anno  %>%
   mutate(Phenotype = "Serum IL2RB level")
 IL2RG_prot_anno   <- IL2RG_prot_anno  %>%  
   mutate(Phenotype = "Serum IL2RG level")
-# IL6ST_prot_anno <- IL6ST_prot_anno  %>%  
-  # mutate(Phenotype = "Serum CXCL10 level")
+IL6R_prot_anno    <- IL6R_prot_anno  %>%
+  mutate(Phenotype = "Serum IL6R level")
+IL6ST_prot_anno   <- IL6ST_prot_anno  %>%
+  mutate(Phenotype = "Serum IL6ST level")
 JAK2_prot_anno    <- JAK2_prot_anno   %>%  
   mutate(Phenotype = "Serum JAK2 level")
 TNF_prot_anno     <- TNF_prot_anno    %>%  
@@ -378,8 +367,10 @@ IL2RB_prot_anno  %>%
   export("data/export/IL2RB_prot_anno_TwoSampleMR.csv")
 IL2RG_prot_anno  %>% 
   export("data/export/IL2RG_prot_anno_TwoSampleMR.csv")
-# IL6ST_prot_anno  %>%
-#   export("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
+IL6R_prot_anno  %>%
+  export("data/export/IL6R_prot_anno_TwoSampleMR.csv")
+IL6ST_prot_anno  %>%
+  export("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
 JAK2_prot_anno   %>% 
   export("data/export/JAK2_prot_anno_TwoSampleMR.csv")
 TNF_prot_anno    %>% 
@@ -387,7 +378,6 @@ TNF_prot_anno    %>%
 TYK2_prot_anno   %>% 
   export("data/export/TYK2_prot_anno_TwoSampleMR.csv")
 ```
-
 
 ```{r, results = 'hide'}
 
@@ -397,11 +387,36 @@ TYK2_prot_anno   %>%
 # read_exposure_data("data/export/IL2RA_prot_anno_TwoSampleMR.csv", sep = ",")
 # read_exposure_data("data/export/IL2RB_prot_anno_TwoSampleMR.csv", sep = ",")
 # read_exposure_data("data/export/IL2RG_prot_anno_TwoSampleMR.csv", sep = ",")
-# # read_exposure_data("data/export/IL6ST_prot_anno_TwoSampleMR.csv", sep = ",")
+# read_exposure_data("data/export/IL6ST_prot_anno_TwoSampleMR.csv", sep = ",")
+# read_exposure_data("data/export/IL6R_prot_anno_TwoSampleMR.csv", sep = ",")
 # read_exposure_data("data/export/JAK2_prot_anno_TwoSampleMR.csv", sep = ",")
 # read_exposure_data("data/export/TNF_prot_anno_TwoSampleMR.csv", sep = ",")
 # read_exposure_data("data/export/TYK2_prot_anno_TwoSampleMR.csv", sep = ",")
 ```
+
+## Write IL6R_crp in TwoSampleMR format
+
+```{r}
+IL6R_crp   <- import("data/cis_sumstats/IL6R_crp.rds")  
+
+# colnames(IL6R_crp)
+IL6R_crp <- IL6R_crp %>%
+  select(-other_allele, -effect_allele, -beta) %>%
+  rename(SNP = hm_rsid, beta = hm_beta, se = standard_error, 
+           eaf = hm_effect_allele_frequency,
+           effect_allele = hm_effect_allele, 
+           other_allele = hm_other_allele,
+           pval = p_value, pos = hm_pos) %>%
+  mutate(pval = as.numeric(pval),
+         eaf = as.numeric(eaf),
+         samplesize = 575531,
+         Phenotype = "Serum C-reactive protein levels") 
+
+IL6R_crp  %>% 
+  export("data/export/IL6R_crp_TwoSampleMR.csv")
+```
+
+
 
 # Outcome data
 
@@ -517,7 +532,7 @@ IL12B_T1D   <- IL12B_T1D  %>% rename_for_TwoSampleMR_o()
 IL2RA_T1D   <- IL2RA_T1D  %>% rename_for_TwoSampleMR_o()
 IL2RB_T1D   <- IL2RB_T1D  %>% rename_for_TwoSampleMR_o()
 IL2RG_T1D   <- IL2RG_T1D  %>% rename_for_TwoSampleMR_o()
-IL6ST_T1D <- IL6ST_T1D  %>% rename_for_TwoSampleMR_o()
+IL6ST_T1D   <- IL6ST_T1D  %>% rename_for_TwoSampleMR_o()
 IL6R_T1D    <- IL6R_T1D   %>% rename_for_TwoSampleMR_o()
 JAK2_T1D    <- JAK2_T1D   %>% rename_for_TwoSampleMR_o()
 TNF_T1D     <- TNF_T1D    %>% rename_for_TwoSampleMR_o()
