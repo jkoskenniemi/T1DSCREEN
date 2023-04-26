@@ -9,8 +9,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Tea Heikkilä, Emilia Kaiser &amp; Jaakko Koskenniemi" />
 
-<meta name="date" content="2022-10-31" />
 
 <title>JAK2</title>
 
@@ -354,7 +354,9 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">JAK2</h1>
-<h4 class="date">2022-10-31</h4>
+<h4 class="author">Tea Heikkilä, Emilia Kaiser &amp; Jaakko
+Koskenniemi</h4>
+<h4 class="date">2022-24-05</h4>
 
 </div>
 
@@ -383,7 +385,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-05
+<strong>Last updated:</strong> 2023-04-26
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -514,13 +516,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstronge86595d">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong2db4317">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> e86595d
+aria-hidden="true"></span> <strong>Repository version:</strong> 2db4317
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstronge86595d"
+<div id="strongRepositoryversionstrong2db4317"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -529,7 +531,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version e86595d.
+The results in this page were generated with repository version 2db4317.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -553,34 +555,34 @@ Untracked files:
     Untracked:  .Rprofile
     Untracked:  .gitattributes
     Untracked:  .gitignore
-    Untracked:  CRP.Rmd
     Untracked:  Functional_variants.pdf
-    Untracked:  IL2RB.Rmd
-    Untracked:  IL6R.Rmd
-    Untracked:  IL6ST.Rmd
-    Untracked:  MONDO_0005147-known-drugs.tsv
-    Untracked:  MR-articles-pubmed.csv
-    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data-to-ritta.pptx
-    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data.pptx
     Untracked:  README.md
-    Untracked:  README.txt
-    Untracked:  TNF.Rmd
+    Untracked:  T1DSCREEN.Rproj
     Untracked:  _workflowr.yml
+    Untracked:  analyses/IL2RG.Rmd
     Untracked:  analyses/_site.yml
     Untracked:  analyses/about.Rmd
     Untracked:  analyses/index.Rmd
     Untracked:  analyses/license.Rmd
+    Untracked:  analyses/zz_archive/
+    Untracked:  analyses/zz_trash/
     Untracked:  articles/
     Untracked:  code/
     Untracked:  data/
+    Untracked:  docs.zip
     Untracked:  figures/
-    Untracked:  guidelines-for-review-of-MR-studies-20177.pdf
-    Untracked:  ld_finnge.zip
-    Untracked:  mendelian randomization.Rproj
     Untracked:  output/
+    Untracked:  plans/
+    Untracked:  references/
+    Untracked:  workflow.txt
+    Untracked:  zz_unsorted/
 
 Unstaged changes:
-    Deleted:    analyses/IL6R.Rmd
+    Deleted:    analyses/CRP.Rmd
+    Deleted:    analyses/CXCL10.Rmd
+    Deleted:    analyses/IL12B.Rmd
+    Deleted:    analyses/IL2RA.Rmd
+    Modified:   analyses/IL6R.Rmd
 
 </code></pre>
 <p>
@@ -630,6 +632,40 @@ Message
 Rmd
 </td>
 <td>
+2db4317
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+First commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+24d77f3
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2022-11-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 e86595d
 </td>
 <td>
@@ -650,13 +686,14 @@ wflow_publish(c("analyses/CRP.Rmd", "analyses/CXCL10.Rmd",
 </div>
 </div>
 </div>
-<p>Load packages</p>
+<p>Load packages and import data</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
-<pre><code>v ggplot2 3.3.6     v purrr   0.3.4
+<pre><code>v ggplot2 3.4.1     v purrr   0.3.4
 v tibble  3.1.7     v dplyr   1.0.9
 v tidyr   1.2.0     v stringr 1.4.0
 v readr   2.1.2     v forcats 0.5.1</code></pre>
+<pre><code>Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
 <pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
 x dplyr::filter() masks stats::filter()
 x dplyr::lag()    masks stats::lag()</code></pre>
@@ -684,375 +721,73 @@ Attaching package: &#39;ieugwasr&#39;</code></pre>
 <pre><code>The following object is masked from &#39;package:TwoSampleMR&#39;:
 
     ld_matrix</code></pre>
-<div id="jak2" class="section level1">
-<h1>1 JAK2</h1>
-<div id="obtain-data" class="section level2">
-<h2>1.1 Obtain data</h2>
-<p>GWAS sumstat of type 1 diabetes was obtained from the study by Chiou
-et al. (Nature 2021, <a
-href="https://doi.org/10.1038/s41586-021-03552-w"
-class="uri">https://doi.org/10.1038/s41586-021-03552-w</a>). GWAS
-sumstat for protein levels of JAK2 was obtained from the study by
-Ferkingstad et al. (Nature 2021, <a
-href="https://doi.org/10.1038/s41588-021-00978-w"
-class="uri">https://doi.org/10.1038/s41588-021-00978-w</a>). Variants
-within 1 megabase before the start site of JAK2 and 1 megabase after the
-stop site are included.</p>
-<pre class="r"><code>JAK2_gwas &lt;- readRDS(&quot;data/sumstats/cisdata/JAK2_gwas_data.rds&quot;) %&gt;% tibble()
-JAK2_anno &lt;- readRDS(&quot;data/sumstats/cisdata/JAK2_anno_data.rds&quot;) %&gt;% tibble()
-JAK2_T1D &lt;- readRDS(&quot;data/sumstats/cisdata/JAK2_T1D_data_harm.rds&quot;) %&gt;% tibble()</code></pre>
-<p>Ferkingstad et al. state in their README file</p>
-<blockquote>
-<p>Note that in the summary statistics files, the effectAllele is not
-always the minor allele, and therefore the ImpMAF is not always the
-frequency of the effect allele (it may be the frequency of the other
-allele). We now provide an Extra annotation file
-(assocvariants.annotated.txt.gz) that also includes the effect allele
-frequency – This file can be mapped to the other files using the “Name”
-column. Also, the summary statistics files sometimes incorrectly have
-effectAllele=otherAllele for multiallelic variants. In these cases the
-effectAllele is correct, but the otherAllele should be ‘!’, meaning that
-the effectAllele is tested against the other (two or more) alleles
-(using the ‘!’ sign as shorthand for ‘not effectAllele’). This has been
-corrected in the file Extra annotation file
-(assocvariants.annotated.txt.gz).</p>
-</blockquote>
-<blockquote>
-<p>Finally, a subset of the variants in the summary statistics files
-should be excluded due to quality issues. These variants are listed in a
-separate Excluded variants file (assocvariants.excluded.txt.gz). The
-Extra annotation file (assocvariants.annotated.txt.gz) does not include
-these variants.</p>
-</blockquote>
-<pre class="r"><code>#merge data (exclude those observations that are missing in anno)
-JAK2_gwas &lt;- right_join(JAK2_gwas, JAK2_anno, by = &quot;Name&quot;)
-rm(JAK2_anno)</code></pre>
-<p>All cases where the variables in the two data files (annotation and
-original sumstat of Ferkingstad) are either instances when - rsid has
-not been assigned (and the original sumstat has NA and the annotation
-“.”) - multiallelic allele, where the other allele is annotated with a
-“!”</p>
-<p>We decided to remove the multiallelic SNPs anyway, and after them,
-the columns were identical (equal and not discordant in terms of missing
-observations).</p>
-<pre class="r"><code>#Remove multiallelic snps and recoed rsid &quot;.&quot; to NA
-JAK2_gwas &lt;- JAK2_gwas %&gt;%
-  mutate(rsids.y = replace(rsids.y, rsids.y == &quot;.&quot;, NA)) %&gt;%
-  filter(otherAllele.y != &quot;!&quot;)
+<pre class="r"><code>library(rio)</code></pre>
+<pre><code>Warning: package &#39;rio&#39; was built under R version 4.2.2</code></pre>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>Warning: package &#39;here&#39; was built under R version 4.2.2</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>here::i_am(&quot;analyses/JAK2.Rmd&quot;)</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>JAK2_prot &lt;- read_exposure_data(&quot;data/export/JAK2_prot_anno_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
+JAK2_T1D  &lt;- read_outcome_data(&quot;data/export/JAK2_T1D_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
 
-#Chrom, Pos, Rsids, effectAllele and otherAllele are the same in different files
-JAK2_gwas %&gt;%
-  filter(Chrom.x != Chrom.y | (!is.na(Chrom.x) &amp; is.na(Chrom.y)) |  (!is.na(Chrom.y) &amp; is.na(Chrom.x)) |
-           Pos.x != Pos.y | (!is.na(Pos.x) &amp; is.na(Pos.y)) |  (!is.na(Pos.y) &amp; is.na(Pos.x)) |
-           rsids.x != rsids.y | (!is.na(rsids.x) &amp; is.na(rsids.y)) |  (!is.na(rsids.y) &amp; is.na(rsids.x)) |
-           effectAllele.x != effectAllele.y | (!is.na(effectAllele.x) &amp; is.na(effectAllele.y)) |  (!is.na(effectAllele.y) &amp; is.na(effectAllele.x))|
-           otherAllele.x != otherAllele.y | (!is.na(otherAllele.x) &amp; is.na(otherAllele.y)) |  (!is.na(otherAllele.y) &amp; is.na(otherAllele.x)))</code></pre>
-<pre><code># A tibble: 3 x 18
-  Chrom.x Pos.x Name     rsids.x effec~1 other~2  Beta  Pval minus~3    SE     N
-  &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-1 &lt;NA&gt;       NA chr9:41~ &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;       NA    NA      NA    NA    NA
-2 &lt;NA&gt;       NA chr9:48~ &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;       NA    NA      NA    NA    NA
-3 &lt;NA&gt;       NA chr9:58~ &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;       NA    NA      NA    NA    NA
-# ... with 7 more variables: ImpMAF &lt;dbl&gt;, Chrom.y &lt;chr&gt;, Pos.y &lt;int&gt;,
-#   rsids.y &lt;chr&gt;, effectAllele.y &lt;chr&gt;, otherAllele.y &lt;chr&gt;,
-#   effectAlleleFreq &lt;dbl&gt;, and abbreviated variable names 1: effectAllele.x,
-#   2: otherAllele.x, 3: minus_log10_pval
-# i Use `colnames()` to see all variable names</code></pre>
-<p>Thus, only those values variables with .x in their name are
-preserved. Here, we also remove the remaining multiallelic SNPs (where
-effect allele equals the other allele.)</p>
-<pre class="r"><code>#Discard all variables that end with an &quot;.y&quot;
-JAK2_gwas &lt;- JAK2_gwas %&gt;% 
-  select(!ends_with(&quot;.y&quot;)) #remove column names *.y
-
-#Remove &quot;.x&quot; from variable names
-JAK2_gwas &lt;- JAK2_gwas %&gt;% 
-  rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
-
-#Remove the other version of the coding of multiallelic variants
-JAK2_gwas &lt;- JAK2_gwas %&gt;%
-  filter(effectAllele != otherAllele)</code></pre>
-</div>
-<div id="harmonize-and-check-for-alignment" class="section level2">
-<h2>2.2 Harmonize and check for alignment</h2>
-<p>Please note that the GWAS sumstat of type 1 diabetes has been
-harmonized by GWAS catalog, but the GWAS sumstat for serum JAK2 levels
-has not been harmonized.</p>
-<pre class="r"><code>#Rename JAK2 variants
-JAK2_gwas &lt;- JAK2_gwas %&gt;%
-  rename(rsid = rsids,
-         EA_prot = effectAllele, NEA_prot = otherAllele,
-         EAF_prot=effectAlleleFreq, BETA_prot=Beta,
-         p_prot = Pval, 
-         minus_log10_p_prot = minus_log10_pval, 
-         SE_prot = SE, N_prot = N, ImpMAF_prot = ImpMAF, variant_id_prot = Name)
-
-#Rename columns
-JAK2_T1D &lt;- JAK2_T1D %&gt;%
-  rename(Chrom = chr, variant_id_T1D = id, EA_T1D = effectAllele, NEA_T1D = otherAllele, BETA_T1D = beta, SE_T1D = SE,
-         p_T1D = pval, EAF_T1D = EAF)
-
-#What is the difference between position and base_pair_location?
-JAK2_T1D %&gt;%
-  filter(pos != base_pair_location) %&gt;%
-  select(Chrom, rsid, pos, base_pair_location) %&gt;% 
-  print(n=200)  #none</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: Chrom &lt;chr&gt;, rsid &lt;chr&gt;, pos &lt;int&gt;,
-#   base_pair_location &lt;int&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>#What&#39;s the difference between Chrom and chromosome?
-JAK2_T1D %&gt;%
-  filter(Chrom != chromosome) %&gt;%
-  select(Chrom, rsid, pos, base_pair_location) %&gt;% 
-  print(n=200)  #none</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: Chrom &lt;chr&gt;, rsid &lt;chr&gt;, pos &lt;int&gt;,
-#   base_pair_location &lt;int&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>#Remove chromosome and base_pair_location
-JAK2_T1D &lt;- JAK2_T1D %&gt;% select(-chromosome, -base_pair_location)
-
-#Remove SNPs with multiple rsids
-JAK2_gwas &lt;- JAK2_gwas %&gt;% filter(!str_detect(rsid, &quot;,&quot;))
-
-
-#remove &quot;chr&quot; from the beginning of the JAK2_gwas
-JAK2_gwas &lt;- JAK2_gwas %&gt;% 
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;chr&quot;, &quot;&quot;)) %&gt;%
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;)) %&gt;%
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;)) %&gt;%
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;)) %&gt;%
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;))
-
-#merge the data
-JAK2 &lt;- inner_join(JAK2_gwas, JAK2_T1D, by = &quot;rsid&quot;)
-
-JAK2 %&gt;% 
-  filter(Chrom.x != Chrom.y ) %&gt;%
-  select(Chrom.x, Chrom.y) %&gt;% print(n=500) #all are the same</code></pre>
-<pre><code># A tibble: 0 x 2
-# ... with 2 variables: Chrom.x &lt;chr&gt;, Chrom.y &lt;chr&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>JAK2 &lt;- JAK2 %&gt;% select(-Chrom.y) %&gt;% rename(Chrom = Chrom.x)
-
-
-JAK2 %&gt;% colnames()</code></pre>
-<pre><code> [1] &quot;Chrom&quot;              &quot;Pos&quot;                &quot;variant_id_prot&quot;   
- [4] &quot;rsid&quot;               &quot;EA_prot&quot;            &quot;NEA_prot&quot;          
- [7] &quot;BETA_prot&quot;          &quot;p_prot&quot;             &quot;minus_log10_p_prot&quot;
-[10] &quot;SE_prot&quot;            &quot;N_prot&quot;             &quot;ImpMAF_prot&quot;       
-[13] &quot;EAF_prot&quot;           &quot;pos&quot;                &quot;variant_id_T1D&quot;    
-[16] &quot;EA_T1D&quot;             &quot;NEA_T1D&quot;            &quot;BETA_T1D&quot;          
-[19] &quot;SE_T1D&quot;             &quot;p_T1D&quot;              &quot;EAF_T1D&quot;           </code></pre>
-<pre class="r"><code>#Remove those without a rsid
-JAK2 &lt;- JAK2 %&gt;% filter(!is.na(rsid))
-
-
-#examine how many SNPs have disconcordant EAF &lt;40% OR &gt;60% between the two data sets
-JAK2 %&gt;%
-  filter(!(EAF_T1D &lt; 0.40 &amp; EAF_prot &lt; 0.40) | (EAF_T1D &gt; 0.60 &amp; EAF_prot &gt; 0.60))</code></pre>
-<pre><code># A tibble: 1,838 x 21
-   Chrom     Pos variant_~1 rsid  EA_prot NEA_p~2 BETA_~3 p_prot minus~4 SE_prot
-   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1 chr9  3987329 9_3987329~ rs78~ A       G        0.0104  0.203   0.693 0.00817
- 2 chr9  3989685 9_3989685~ rs48~ G       C        0.0978  0.675   0.171 0.233  
- 3 chr9  3989789 9_3989789~ rs48~ T       C        0.0044  0.629   0.201 0.00911
- 4 chr9  3989993 9_3989993~ rs68~ G       A        0.0046  0.613   0.212 0.00910
- 5 chr9  3990092 9_3990092~ rs57~ T       A        0.0045  0.616   0.211 0.00897
- 6 chr9  3991729 9_3991729~ rs70~ T       C       -0.0123  0.155   0.811 0.00864
- 7 chr9  3994090 9_3994090~ rs52~ A       T        0.0901  0.615   0.211 0.179  
- 8 chr9  4002823 9_4002823~ rs50~ A       G       -0.0202  0.125   0.903 0.0132 
- 9 chr9  4008954 9_4008954~ rs66~ T       C       -0.0171  0.200   0.699 0.0133 
-10 chr9  4023987 9_4023987~ rs15~ T       A        0.0028  0.729   0.137 0.00810
-# ... with 1,828 more rows, 11 more variables: N_prot &lt;int&gt;, ImpMAF_prot &lt;dbl&gt;,
-#   EAF_prot &lt;dbl&gt;, pos &lt;int&gt;, variant_id_T1D &lt;chr&gt;, EA_T1D &lt;chr&gt;,
-#   NEA_T1D &lt;chr&gt;, BETA_T1D &lt;dbl&gt;, SE_T1D &lt;dbl&gt;, p_T1D &lt;chr&gt;, EAF_T1D &lt;dbl&gt;,
-#   and abbreviated variable names 1: variant_id_prot, 2: NEA_prot,
-#   3: BETA_prot, 4: minus_log10_p_prot
-# i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>#JAK2 %&gt;% 
-#filter(flipped==1) %&gt;% 
-#filter((EAF_prot &gt; 0.4 &amp; EAF_prot &lt; 0.6)  | (EAF_T1D &gt; 0.4 &amp;  EAF_T1D &lt; 0.6)) #%&gt;% select (rsid, EA_prot, EA_T1D, NEA_prot, NEA_T1D, EAF_prot, EAF_T1D) %&gt;% #print(n=200)
-
-# remove SNPs with EAF 40-60%
-#JAK2 &lt;- JAK2 %&gt;% filter(!(flipped == 1 &amp; (EAF_prot &gt; 0.4 &amp; EAF_prot &lt; 0.6)  | #(EAF_T1D &gt; 0.4 &amp;  EAF_T1D &lt; 0.6)))</code></pre>
-</div>
+JAK2 &lt;- harmonise_data(JAK2_prot, JAK2_T1D)</code></pre>
+<pre><code>Harmonising Serum IL2RG level (4vucPG) and Risk of type 1 diabetes (xN25Oe)</code></pre>
+<pre><code>Removing the following SNPs for incompatible alleles:
+rs1207517620, rs141508055, rs372207026, rs372744561, rs530444901, rs539806656, rs568382606, rs571687697, rs574803352, rs576911975, rs74661850, rs75295775, rs756581954, rs759860808, rs762632985, rs766925196, rs76885790, rs770929012, rs773275069, rs773889954, rs867874883</code></pre>
+<pre><code>Removing the following SNPs for being palindromic with intermediate allele frequencies:
+rs10114548, rs10118317, rs10118468, rs10118904, rs10121225, rs10283872, rs1028912, rs1034531, rs10481522, rs10739030, rs10739062, rs10758645, rs10758665, rs10758700, rs10758702, rs10758704, rs10758706, rs10814847, rs10814894, rs10814951, rs10814972, rs10815009, rs10815062, rs10815123, rs10815273, rs10815351, rs10974345, rs10974495, rs10974520, rs10974560, rs10974566, rs10974601, rs10974847, rs10974897, rs10975056, rs10975263, rs10975266, rs11515140, rs12002985, rs12235675, rs12379318, rs1327496, rs13283292, rs13288137, rs13288897, rs149556337, rs1556362, rs1556989, rs184205, rs1971473, rs2380947, rs2380948, rs2760413, rs2760416, rs296842, rs296843, rs296849, rs301462, rs301485, rs340891, rs367147, rs376208, rs378809, rs3858043, rs3858046, rs386616, rs3896197, rs3934283, rs406455, rs409704, rs418122, rs419083, rs422499, rs4286995, rs4291329, rs4352902, rs436300, rs4439181, rs444826, rs4481663, rs4481664, rs4484748, rs453852, rs4740754, rs4740775, rs4740786, rs4741878, rs4741880, rs4741893, rs4741895, rs4741965, rs4741982, rs4741995, rs62540578, rs62543876, rs637742, rs6415794, rs6476889, rs6476968, rs6477031, rs6477032, rs650816, rs6915, rs7020394, rs7020673, rs7022369, rs7023770, rs7024686, rs7025900, rs7025968, rs7033052, rs7036458, rs7039093, rs7043371, rs7045178, rs7045196, rs7046183, rs751591, rs7851538, rs7853035, rs7853682, rs7853852, rs7854664, rs7857194, rs7865209, rs7868186, rs7869643, rs7874642, rs7875108, rs806053, rs806056, rs822336, rs958480, rs9775228</code></pre>
 <div id="manhattan-plots" class="section level2">
-<h2>2.3 Manhattan plots</h2>
+<h2>Manhattan plots</h2>
+<p>There are no GWAS hits in GWAS of JAK2 in serum, so no coloc or MR is
+done</p>
 <pre class="r"><code>#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
 JAK2_prot.fig &lt;- 
   JAK2 %&gt;%
-  ggplot(aes(x = Pos/1000, y=minus_log10_p_prot)) +
+  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
   geom_point()+
   geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
-  geom_vline(xintercept=4.2e6/1000, linetype=&quot;dashed&quot;)+
-  geom_vline(xintercept=4.4e6/1000, linetype=&quot;dashed&quot;)+
+  # geom_vline(xintercept=36.9e6/1000, linetype=&quot;dashed&quot;)+
+  # geom_vline(xintercept=37.3e6/1000, linetype=&quot;dashed&quot;)+
   ggtitle(&quot;GWAS of JAK2 in serum&quot;) +
   ylab(&quot;-log10(p)&quot;) +
   xlab(NULL)
 
 JAK2_T1D.fig &lt;- 
   JAK2 %&gt;%
-  mutate(minus_log10_p_T1D = -log10(as.numeric(p_T1D))) %&gt;%
   ggplot()+
-  geom_point(mapping=aes(x = Pos/1000, y=minus_log10_p_T1D))+
+  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
   geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
-  geom_vline(xintercept=4.2e6/1000, linetype=&quot;dashed&quot;)+
-  geom_vline(xintercept=4.4e6/1000, linetype=&quot;dashed&quot;)+
+  # geom_vline(xintercept=36.9e6/1000, linetype=&quot;dashed&quot;)+
+  # geom_vline(xintercept=37.3e6/1000, linetype=&quot;dashed&quot;)+
   ggtitle(&quot;GWAS of risk of T1D&quot;) +
   ylab(&quot;-log10(p)&quot;) +
   xlab(&quot;position(kbp)&quot;)
 
+#Obtain range for figure of gene
 layer_scales(JAK2_T1D.fig)$x$range$range</code></pre>
 <pre><code>[1] 3985.359 6128.137</code></pre>
 <pre class="r"><code>JAK2_gene.fig &lt;- 
   ggplot(data = JAK2) +
   geom_blank() +
-  geom_segment(x=4985.033, xend=5128.183, y=1, yend=1, size = 2) +
-  annotate(&quot;text&quot;, label = &quot;JAK2&quot;, x= (4985.033 + 5128.183) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(4885.033, 5228.183) +
+  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  annotate(&quot;text&quot;, label = &quot;JAK2&quot;, 
+           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(36521.878, 38571.094) +
   ylim(0.75, 2) +
   ylab(NULL) + xlab(NULL) +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank())
 
-ggarrange(JAK2_gene.fig, JAK2_prot.fig, JAK2_T1D.fig,
+fig_JAK2_manhattan &lt;- ggarrange(JAK2_gene.fig, JAK2_prot.fig, JAK2_T1D.fig,
           heights = c(1, 3, 3), nrow = 3,
-          ncol = 1, align = &quot;hv&quot;)</code></pre>
-<p><img src="figure/JAK2.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(&quot;figures/JAK2-manhattan-combined-fig.pdf&quot;, height = 6, width = 8, units = &quot;in&quot;)</code></pre>
-</div>
-<div id="coloc-assuming-1-colocalizing-variant" class="section level2">
-<h2>2.4 Coloc assuming 1 colocalizing variant</h2>
-<pre class="r"><code>#select the area containing significant SNPs
-JAK2_close &lt;- JAK2 %&gt;%
-  filter(Pos &gt; 4.2e6 &amp; Pos &lt; 4.4e6)
+          ncol = 1, align = &quot;hv&quot;)
 
-#filter a few multiallelic snps away
-duplicated_snps &lt;- JAK2_close %&gt;%
-  filter(duplicated(rsid)) %&gt;% pull(rsid)
-
-JAK2_close &lt;- JAK2_close %&gt;%
-  filter(!rsid %in% duplicated_snps)
-
-#remove the SNP with MAF=0
-JAK2_close &lt;- JAK2_close %&gt;%
-  filter(EAF_T1D != 0)
-
-JAK2_close &lt;- JAK2_close %&gt;%
-  mutate(MAF_T1D = ifelse(EAF_T1D &gt; 0.5, 1-EAF_T1D, EAF_T1D)) %&gt;%
-  mutate(MAF_prot = ifelse(EAF_prot &gt; 0.5, 1-EAF_prot, EAF_prot))
-
-JAK2_close &lt;- JAK2_close %&gt;%
-  filter(MAF_T1D != 0 &amp; MAF_prot != 0)
-
-D1 &lt;- list(
-  type = &quot;quant&quot;, # quantitative trait
-  beta = JAK2_close$BETA_prot,
-  varbeta = JAK2_close$SE_prot^2, 
-  pvalues = JAK2_close$p_prot,
-  N = JAK2_close$N_prot,
-  MAF = as.numeric(JAK2_close$MAF_prot),
-  pos = JAK2_close$Pos,
-  snp = JAK2_close$rsid,
-  sdY = 1)
-
-D2 &lt;- list(
-  type = &quot;cc&quot;, # case-control trait
-  beta = JAK2_close$BETA_T1D,
-  varbeta = JAK2_close$SE_T1D^2,
-  pvalues = JAK2_close$p_T1D,
-  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = as.numeric(JAK2_close$MAF_T1D),
-  pos = JAK2_close$Pos,
-  snp = JAK2_close$rsid)
-
-coloc_results_JAK2 &lt;- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
-<pre><code>Warning in check_dataset(d = dataset1, 1): minimum p value is: 0.00076101
-If this is what you expected, this is not a problem.
-If this is not as small as you expected, please check the 02_data vignette.</code></pre>
-<pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
- 2.09e-13  2.55e-14  8.85e-01  1.08e-01  6.91e-03 
-[1] &quot;PP abf for shared variant: 0.691%&quot;</code></pre>
-<pre class="r"><code>sensitivity(coloc_results_JAK2, &quot;H4 &gt; 0.1&quot;)</code></pre>
-<pre><code>Results fail decision rule H4 &gt; 0.1</code></pre>
-<p><img src="figure/JAK2.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="susie" class="section level2">
-<h2>2.5 SusiE</h2>
-<p>Älkää tehkö vielä tätä. Jätetään se kuitenkin tähän vielä jatkoa
-varten.</p>
-<pre class="r"><code># 
-# ldmat_CXCL10 &lt;- ld_matrix_local(
-#     IL2RA_T1D_merged$rsid,
-#     plink_bin = genetics.binaRies::get_plink_binary(),
-#     bfile = &quot;C:/Users/jajoko/Documents/MR Projects/plinkref/EUR&quot;)
-# 
-# #In LD-mat the rsid are followed by reference and effect alleles (e.g. rs10905492_G_A). The effect alleles have to be harmonized between the LD matrix and data. The data is changed to follow ld matrix, because that is easier to do than vice versa.
-# 
-# #Extract rsid, non-effect allele and effect allele from LD-matrix
-# snps &lt;- data.frame(rsid_nea_ea = rownames(ldmat_IL2RA))
-# snps &lt;- snps %&gt;% 
-#   mutate(nea_ea = str_sub(rsid_nea_ea, -4,-1))
-# 
-# #Check that names in LD-matrix do not include indels (eg. G to CT)
-# snps %&gt;% mutate(underscore = str_sub(nea_ea, 1, 1)) %&gt;% 
-#   filter(underscore != &quot;_&quot;) #all have _ as the fourth last character, indicating that they are indeed single nucleotides
-# 
-# #Extract ea, nea, and rsid
-# snps &lt;- snps %&gt;% 
-#   mutate(nea = str_sub(nea_ea, 2,2), ea = str_sub(nea_ea, 4,4)) %&gt;%
-#   mutate(rsid = str_sub(rsid_nea_ea, 1, -5))
-# 
-# 
-# #prepare for merge 
-# snps &lt;- snps %&gt;% 
-#   select(-nea_ea) %&gt;%
-#   rename(nea_ldmat = nea, ea_ldmat = ea, rsid_ldmat = rsid_nea_ea, rsid = rsid)
-# 
-# #Merge
-# IL2RA_T1D_merged_ldsnps &lt;- 
-#   left_join(snps, IL2RA_T1D_merged, by = &quot;rsid&quot;)
-# 
-# #check for alignment
-# IL2RA_T1D_merged_ldsnps %&gt;% 
-#   filter(ea_ldmat != NEA_T1D_aligned) %&gt;% nrow()
-# 
-# IL2RA_T1D_merged_ldsnps %&gt;% 
-#   filter(ea_ldmat == NEA_T1D_aligned) %&gt;% nrow()
-# 
-# IL2RA_T1D_merged_ldsnps
-# 
-# 
-# #ongelma: kuinka saada ld-matriisin snp:t samaan muotoon kuin IL2RA-datan??
-# 
-# 
-# D1 &lt;- list(
-#   type = &quot;quant&quot;, # quantitative trait
-#   beta = IL2RA_T1D_merged_onlymat$BETA_prot_aligned,
-#   varbeta = IL2RA_T1D_merged_onlymat$SE_prot^2, 
-#   pvalues = IL2RA_T1D_merged_onlymat$p_prot,
-#   N = IL2RA_T1D_merged_onlymat$N_prot,
-#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_prot),
-#   snp = IL2RA_T1D_merged_onlymat$rsid,
-#   LD = ldmat_IL2RA,
-#   sdY = 1)
-# 
-# D2 &lt;- list(
-#   type = &quot;cc&quot;, # case-control trait
-#   beta = IL2RA_T1D_merged_onlymat$BETA_T1D_aligned,
-#   varbeta = IL2RA_T1D_merged_onlymat$SE_T1D^2,
-#   pvalues = IL2RA_T1D_merged_onlymat$p_T1D,
-#   N = IL2RA_T1D_merged_onlymat$N_T1D, # Case-control study (Chiou et al. 2021 Nature)
-#   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_T1D),
-#   LD = ldmat_IL2RA,
-#   snp = IL2RA_T1D_merged_onlymat$rsid)
-# 
-# check_alignment(D1)</code></pre>
+fig_JAK2_manhattan</code></pre>
+<p><img src="figure/JAK2.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ggsave(&quot;figures/JAK2-manhattan-combined-fig.pdf&quot;, 
+#        height = 6, width = 8, units = &quot;in&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1077,37 +812,38 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ieugwasr_0.1.5    ggpubr_0.4.0      TwoSampleMR_0.5.6 coloc_5.1.0.1    
- [5] data.table_1.14.2 forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
- [9] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.7     
-[13] ggplot2_3.3.6     tidyverse_1.3.1   workflowr_1.7.0  
+ [1] here_1.0.1        rio_0.5.29        ieugwasr_0.1.5    ggpubr_0.4.0     
+ [5] TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2 forcats_0.5.1    
+ [9] stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4       readr_2.1.2      
+[13] tidyr_1.2.0       tibble_3.1.7      ggplot2_3.4.1     tidyverse_1.3.1  
+[17] workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] matrixStats_0.62.0 fs_1.5.2           lubridate_1.8.0    httr_1.4.3        
- [5] rprojroot_2.0.3    tools_4.2.1        backports_1.4.1    bslib_0.4.0       
- [9] utf8_1.2.2         R6_2.5.1           irlba_2.3.5        nortest_1.0-4     
-[13] DBI_1.1.3          colorspace_2.0-3   withr_2.5.0        tidyselect_1.1.2  
-[17] gridExtra_2.3      processx_3.6.1     compiler_4.2.1     git2r_0.30.1      
-[21] glmnet_4.1-4       cli_3.3.0          rvest_1.0.2        xml2_1.3.3        
-[25] labeling_0.4.2     sass_0.4.2         scales_1.2.0       callr_3.7.1       
-[29] mixsqp_0.3-43      digest_0.6.29      rmarkdown_2.14     pkgconfig_2.0.3   
-[33] htmltools_0.5.2    mr.raps_0.2        highr_0.9          dbplyr_2.2.1      
-[37] fastmap_1.1.0      rlang_1.0.3        readxl_1.4.0       susieR_0.12.16    
-[41] rstudioapi_0.13    farver_2.1.1       shape_1.4.6        jquerylib_0.1.4   
-[45] generics_0.1.3     jsonlite_1.8.0     car_3.1-0          magrittr_2.0.3    
-[49] Matrix_1.4-1       Rcpp_1.0.8.3       munsell_0.5.0      fansi_1.0.3       
-[53] abind_1.4-5        viridis_0.6.2      lifecycle_1.0.1    stringi_1.7.6     
-[57] whisker_0.4        yaml_2.3.5         carData_3.0-5      plyr_1.8.7        
-[61] grid_4.2.1         promises_1.2.0.1   crayon_1.5.1       lattice_0.20-45   
-[65] cowplot_1.1.1      splines_4.2.1      haven_2.5.0        hms_1.1.1         
-[69] knitr_1.39         ps_1.7.1           pillar_1.8.0       ggsignif_0.6.3    
-[73] codetools_0.2-18   reprex_2.0.1       glue_1.6.2         evaluate_0.15     
-[77] getPass_0.2-2      modelr_0.1.8       vctrs_0.4.1        tzdb_0.3.0        
-[81] httpuv_1.6.5       foreach_1.5.2      cellranger_1.1.0   gtable_0.3.0      
-[85] reshape_0.8.9      assertthat_0.2.1   cachem_1.0.6       xfun_0.31         
-[89] broom_1.0.0        rstatix_0.7.0      later_1.3.0        survival_3.3-1    
-[93] viridisLite_0.4.0  iterators_1.0.14   ellipsis_0.3.2    </code></pre>
-</div>
+ [1] colorspace_2.0-3   ggsignif_0.6.3     ellipsis_0.3.2     rprojroot_2.0.3   
+ [5] fs_1.5.2           rstudioapi_0.13    farver_2.1.1       fansi_1.0.3       
+ [9] lubridate_1.8.0    xml2_1.3.3         codetools_0.2-18   splines_4.2.1     
+[13] cachem_1.0.6       knitr_1.39         jsonlite_1.8.0     broom_1.0.0       
+[17] dbplyr_2.2.1       compiler_4.2.1     httr_1.4.3         backports_1.4.1   
+[21] assertthat_0.2.1   Matrix_1.4-1       fastmap_1.1.0      cli_3.6.0         
+[25] later_1.3.0        htmltools_0.5.2    tools_4.2.1        gtable_0.3.0      
+[29] glue_1.6.2         Rcpp_1.0.8.3       carData_3.0-5      cellranger_1.1.0  
+[33] jquerylib_0.1.4    vctrs_0.5.2        iterators_1.0.14   xfun_0.31         
+[37] ps_1.7.1           openxlsx_4.2.5.1   rvest_1.0.2        lifecycle_1.0.3   
+[41] irlba_2.3.5        rstatix_0.7.0      getPass_0.2-2      scales_1.2.0      
+[45] hms_1.1.1          promises_1.2.0.1   susieR_0.12.16     yaml_2.3.5        
+[49] curl_4.3.2         gridExtra_2.3      sass_0.4.2         reshape_0.8.9     
+[53] stringi_1.7.6      highr_0.9          foreach_1.5.2      nortest_1.0-4     
+[57] zip_2.2.0          shape_1.4.6        rlang_1.0.6        pkgconfig_2.0.3   
+[61] matrixStats_0.62.0 evaluate_0.15      lattice_0.20-45    labeling_0.4.2    
+[65] cowplot_1.1.1      processx_3.6.1     tidyselect_1.1.2   plyr_1.8.7        
+[69] magrittr_2.0.3     R6_2.5.1           generics_0.1.3     DBI_1.1.3         
+[73] pillar_1.8.0       haven_2.5.0        whisker_0.4        foreign_0.8-82    
+[77] withr_2.5.0        survival_3.3-1     abind_1.4-5        mixsqp_0.3-43     
+[81] modelr_0.1.8       crayon_1.5.1       car_3.1-0          utf8_1.2.2        
+[85] tzdb_0.3.0         rmarkdown_2.14     viridis_0.6.2      grid_4.2.1        
+[89] readxl_1.4.0       callr_3.7.1        git2r_0.30.1       mr.raps_0.2       
+[93] reprex_2.0.1       digest_0.6.29      httpuv_1.6.5       munsell_0.5.0     
+[97] glmnet_4.1-4       viridisLite_0.4.0  bslib_0.4.0       </code></pre>
 </div>
 </div>
 
