@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Tea Heikkilä, Emilia Kaiser &amp; Jaakko Koskenniemi" />
 
 
-<title>Proxying the efficacy of IL2RA for prevention of type 1 diabetes</title>
+<title>IL2RA</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -232,6 +236,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -239,6 +306,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -276,8 +353,10 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Proxying the efficacy of IL2RA for
-prevention of type 1 diabetes</h1>
+<h1 class="title toc-ignore">IL2RA</h1>
+<h4 class="author">Tea Heikkilä, Emilia Kaiser &amp; Jaakko
+Koskenniemi</h4>
+<h4 class="date">2022-24-05</h4>
 
 </div>
 
@@ -306,7 +385,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-05
+<strong>Last updated:</strong> 2023-04-26
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -437,13 +516,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstronge86595d">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongc2fe2f8">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> e86595d
+aria-hidden="true"></span> <strong>Repository version:</strong> c2fe2f8
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstronge86595d"
+<div id="strongRepositoryversionstrongc2fe2f8"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -452,7 +531,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version e86595d.
+The results in this page were generated with repository version c2fe2f8.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -471,39 +550,38 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analyses/.Rhistory
+    Ignored:    analyses/figure/
 
 Untracked files:
     Untracked:  .Rprofile
     Untracked:  .gitattributes
     Untracked:  .gitignore
-    Untracked:  CRP.Rmd
     Untracked:  Functional_variants.pdf
-    Untracked:  IL2RB.Rmd
-    Untracked:  IL6R.Rmd
-    Untracked:  IL6ST.Rmd
-    Untracked:  MONDO_0005147-known-drugs.tsv
-    Untracked:  MR-articles-pubmed.csv
-    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data-to-ritta.pptx
-    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data.pptx
     Untracked:  README.md
-    Untracked:  README.txt
-    Untracked:  TNF.Rmd
+    Untracked:  T1DSCREEN.Rproj
     Untracked:  _workflowr.yml
     Untracked:  analyses/_site.yml
     Untracked:  analyses/about.Rmd
     Untracked:  analyses/index.Rmd
     Untracked:  analyses/license.Rmd
+    Untracked:  analyses/zz_archive/
+    Untracked:  analyses/zz_trash/
     Untracked:  articles/
     Untracked:  code/
     Untracked:  data/
+    Untracked:  docs.zip
     Untracked:  figures/
-    Untracked:  guidelines-for-review-of-MR-studies-20177.pdf
-    Untracked:  ld_finnge.zip
-    Untracked:  mendelian randomization.Rproj
     Untracked:  output/
+    Untracked:  plans/
+    Untracked:  references/
+    Untracked:  workflow.txt
+    Untracked:  zz_unsorted/
 
 Unstaged changes:
-    Deleted:    analyses/IL6R.Rmd
+    Deleted:    analyses/CRP.Rmd
+    Deleted:    analyses/CXCL10.Rmd
+    Modified:   analyses/IL12B.Rmd
+    Modified:   analyses/IL6R.Rmd
 
 </code></pre>
 <p>
@@ -553,6 +631,40 @@ Message
 Rmd
 </td>
 <td>
+c2fe2f8
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+First commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+24d77f3
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2022-11-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 e86595d
 </td>
 <td>
@@ -573,18 +685,18 @@ wflow_publish(c("analyses/CRP.Rmd", "analyses/CXCL10.Rmd",
 </div>
 </div>
 </div>
-<p>Load packages</p>
+<p>Load packages and import data</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
-<pre><code>v ggplot2 3.3.6     v purrr   0.3.4
+<pre><code>v ggplot2 3.4.1     v purrr   0.3.4
 v tibble  3.1.7     v dplyr   1.0.9
 v tidyr   1.2.0     v stringr 1.4.0
 v readr   2.1.2     v forcats 0.5.1</code></pre>
+<pre><code>Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
 <pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
 x dplyr::filter() masks stats::filter()
 x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(ggpubr)
-library(data.table)</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
 <pre><code>
 Attaching package: &#39;data.table&#39;</code></pre>
 <pre><code>The following objects are masked from &#39;package:dplyr&#39;:
@@ -600,372 +712,774 @@ Attaching package: &#39;data.table&#39;</code></pre>
 [&gt;] New: Option to use non-European LD reference panels for clumping etc
 [&gt;] Some studies temporarily quarantined to verify effect allele
 [&gt;] See news(package=&#39;TwoSampleMR&#39;) and https://gwas.mrcieu.ac.uk for further details</code></pre>
-<pre class="r"><code>library(ieugwasr)</code></pre>
+<pre class="r"><code>library(ggpubr)
+library(ieugwasr)</code></pre>
 <pre><code>API: public: http://gwas-api.mrcieu.ac.uk/</code></pre>
 <pre><code>
 Attaching package: &#39;ieugwasr&#39;</code></pre>
 <pre><code>The following object is masked from &#39;package:TwoSampleMR&#39;:
 
     ld_matrix</code></pre>
-<div id="il2ra" class="section level1">
-<h1>2 IL2RA</h1>
-<div id="obtain-data" class="section level2">
-<h2>2.1 Obtain data</h2>
-<p>GWAS sumstat of type 1 diabetes was obtained from the study by Chiou
-et al. (Nature 2021, <a
-href="https://doi.org/10.1038/s41586-021-03552-w"
-class="uri">https://doi.org/10.1038/s41586-021-03552-w</a>). GWAS
-sumstat for protein levels of IL2RA was obtained from the study by
-Ferkingstad et al. (Nature 2021, <a
-href="https://doi.org/10.1038/s41588-021-00978-w"
-class="uri">https://doi.org/10.1038/s41588-021-00978-w</a>). In terms of
-IL2RA, variants within 1,000,000 bases before the start site and
-1,000,000 after the stop site are included.</p>
-<pre class="r"><code>IL2RA_gwas &lt;- readRDS(&quot;data/sumstats/cisdata/IL2RA_gwas_data.rds&quot;) %&gt;% as_tibble()
-IL2RA_T1D  &lt;- readRDS(&quot;data/sumstats/cisdata/IL2RA_T1D_data_harm.rds&quot;)  %&gt;% as_tibble()
-IL2RA_anno &lt;- readRDS(&quot;data/sumstats/cisdata/IL2RA_anno_data.rds&quot;) %&gt;% as_tibble()</code></pre>
-<p>Ferkingstad et al. state in their README file</p>
-<blockquote>
-<p>Note that in the summary statistics files, the effectAllele is not
-always the minor allele, and therefore the ImpMAF is not always the
-frequency of the effect allele (it may be the frequency of the other
-allele). We now provide an Extra annotation file
-(assocvariants.annotated.txt.gz) that also includes the effect allele
-frequency – This file can be mapped to the other files using the “Name”
-column. Also, the summary statistics files sometimes incorrectly have
-effectAllele=otherAllele for multiallelic variants. In these cases the
-effectAllele is correct, but the otherAllele should be ‘!’, meaning that
-the effectAllele is tested against the other (two or more) alleles
-(using the ‘!’ sign as shorthand for ‘not effectAllele’). This has been
-corrected in the file Extra annotation file
-(assocvariants.annotated.txt.gz).</p>
-</blockquote>
-<blockquote>
-<p>Finally, a subset of the variants in the summary statistics files
-should be excluded due to quality issues. These variants are listed in a
-separate Excluded variants file (assocvariants.excluded.txt.gz). The
-Extra annotation file (assocvariants.annotated.txt.gz) does not include
-these variants.</p>
-</blockquote>
-<pre class="r"><code>#merge data (exclude those observations that are missing in anno)
-IL2RA_gwas &lt;- right_join(IL2RA_gwas, IL2RA_anno, by = &quot;Name&quot;)
-rm(IL2RA_anno)</code></pre>
-<p>All cases where the variables in the two data files (annotation and
-original sumstat of Ferkingstad) are either instances when - rsid has
-not been assigned (and the original sumstat has NA and the annotation
-“.”) - multiallelic allele, where the other allele is annotated with a
-“!”</p>
-<p>We decided to remove the multiallelic SNPs anyway, and after them,
-the columns were identical (equal and not discordant in terms of missing
-observations).</p>
-<pre class="r"><code>#Remove multiallelic snps and recode rsid &quot;.&quot; to NA
-IL2RA_gwas &lt;- IL2RA_gwas %&gt;%
-  mutate(rsids.y = replace(rsids.y, rsids.y == &quot;.&quot;, NA)) %&gt;%
-  filter(otherAllele.y != &quot;!&quot;)
+<pre class="r"><code>library(rio)</code></pre>
+<pre><code>Warning: package &#39;rio&#39; was built under R version 4.2.2</code></pre>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>Warning: package &#39;here&#39; was built under R version 4.2.2</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>here::i_am(&quot;analyses/IL2RA.Rmd&quot;)</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>IL2RA_prot &lt;- read_exposure_data(&quot;data/export/IL2RA_prot_anno_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
+IL2RA_T1D  &lt;- read_outcome_data(&quot;data/export/IL2RA_T1D_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
 
-#Check that chrom, pos, rsids, effectAllele and otherAllele dont disagree between files
-IL2RA_gwas %&gt;%
-  filter(Chrom.x != Chrom.y | (!is.na(Chrom.x) &amp; is.na(Chrom.y)) |  (!is.na(Chrom.y) &amp; is.na(Chrom.x)) |
-           Pos.x != Pos.y | (!is.na(Pos.x) &amp; is.na(Pos.y)) |  (!is.na(Pos.y) &amp; is.na(Pos.x)) |
-           rsids.x != rsids.y | (!is.na(rsids.x) &amp; is.na(rsids.y)) |  (!is.na(rsids.y) &amp; is.na(rsids.x)) |
-           effectAllele.x != effectAllele.y | (!is.na(effectAllele.x) &amp; is.na(effectAllele.y)) |  (!is.na(effectAllele.y) &amp; is.na(effectAllele.x))|
-           otherAllele.x != otherAllele.y | (!is.na(otherAllele.x) &amp; is.na(otherAllele.y)) |  (!is.na(otherAllele.y) &amp; is.na(otherAllele.x)))</code></pre>
-<pre><code># A tibble: 0 x 18
-# ... with 18 variables: Chrom.x &lt;chr&gt;, Pos.x &lt;int&gt;, Name &lt;chr&gt;, rsids.x &lt;chr&gt;,
-#   effectAllele.x &lt;chr&gt;, otherAllele.x &lt;chr&gt;, Beta &lt;dbl&gt;, Pval &lt;dbl&gt;,
-#   minus_log10_pval &lt;dbl&gt;, SE &lt;dbl&gt;, N &lt;int&gt;, ImpMAF &lt;dbl&gt;, Chrom.y &lt;chr&gt;,
-#   Pos.y &lt;int&gt;, rsids.y &lt;chr&gt;, effectAllele.y &lt;chr&gt;, otherAllele.y &lt;chr&gt;,
-#   effectAlleleFreq &lt;dbl&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>#None</code></pre>
-<p>Thus, only those values variables with .x in their name are
-preserved. Here, we also remove the remaining multiallelic SNPs (where
-effect allele equals the other allele.)</p>
-<pre class="r"><code>IL2RA_gwas &lt;- IL2RA_gwas %&gt;% 
-  select(!ends_with(&quot;.y&quot;)) #remove column names *.y
-
-IL2RA_gwas &lt;- IL2RA_gwas %&gt;% 
-  rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) #remove &quot;.x&quot; from variable names
-
-#Remove the other version of the coding of multiallelic variants
-IL2RA_gwas &lt;- IL2RA_gwas %&gt;%
-  filter(effectAllele != otherAllele)</code></pre>
-</div>
-<div id="harmonize-and-check-for-alignment" class="section level2">
-<h2>2.2 Harmonize and check for alignment</h2>
-<p>Please note that the GWAS sumstat of type 1 diabetes has been
-harmonized by GWAS catalog, but the GWAS sumstat for serum IL2RA levels
-has not been harmonized.</p>
-<pre class="r"><code>#Rename IL2RA variables
-IL2RA_gwas &lt;- IL2RA_gwas %&gt;%
-  rename(rsid = rsids,
-         EA_prot = effectAllele, NEA_prot = otherAllele,
-         EAF_prot=effectAlleleFreq, BETA_prot=Beta,
-         p_prot = Pval, 
-         minus_log10_p_prot = minus_log10_pval, 
-         SE_prot = SE, N_prot = N, ImpMAF_prot = ImpMAF, variant_id_prot = Name)
-
-#What is the difference between position and base_pair_location?
-IL2RA_T1D %&gt;%
-  filter(pos != base_pair_location) %&gt;%
-  select(chr, rsid, pos, base_pair_location) %&gt;% 
-  print(n=200) </code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: chr &lt;chr&gt;, rsid &lt;chr&gt;, pos &lt;int&gt;,
-#   base_pair_location &lt;int&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>#none
-
-IL2RA_T1D &lt;- IL2RA_T1D %&gt;% select(-base_pair_location)
-IL2RA_T1D &lt;- IL2RA_T1D %&gt;%  
-  rename(p_T1D = pval, Pos_T1D=pos,
-         EA_T1D=effectAllele, NEA_T1D=otherAllele, BETA_T1D=beta, 
-         EAF_T1D=EAF, SE_T1D=SE, variant_id_T1D = id)
-
-#Harmonize variant ID variable names
-IL2RA &lt;- inner_join(IL2RA_gwas, IL2RA_T1D, by = &quot;rsid&quot;)
-IL2RA %&gt;%
-  select(rsid, variant_id_prot, variant_id_T1D) %&gt;%
-  filter(variant_id_prot != variant_id_T1D)</code></pre>
-<pre><code># A tibble: 15,102 x 3
-   rsid        variant_id_prot   variant_id_T1D
-   &lt;chr&gt;       &lt;chr&gt;             &lt;chr&gt;         
- 1 rs72472173  chr10:5052673:T:C 10_5052673_C_T
- 2 rs4881383   chr10:5052676:C:T 10_5052676_T_C
- 3 rs782470793 chr10:5052711:C:G 10_5052711_G_C
- 4 rs149376616 chr10:5052797:A:G 10_5052797_G_A
- 5 rs183726758 chr10:5052974:T:C 10_5052974_C_T
- 6 rs184932874 chr10:5053148:T:C 10_5053148_C_T
- 7 rs2186176   chr10:5053166:C:G 10_5053166_G_C
- 8 rs113793757 chr10:5053310:T:C 10_5053310_C_T
- 9 rs10904403  chr10:5053355:T:C 10_5053355_C_T
-10 rs181979760 chr10:5053387:T:C 10_5053387_C_T
-# ... with 15,092 more rows
-# i Use `print(n = ...)` to see more rows</code></pre>
-<pre class="r"><code>IL2RA_gwas &lt;- IL2RA_gwas %&gt;%
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;chr&quot;, &quot;&quot;))  %&gt;%
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;))  %&gt;%
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;))  %&gt;%
-  mutate(variant_id_prot = str_replace(variant_id_prot, &quot;:&quot;, &quot;_&quot;))
-
-#Remove those variants where there are several rsids
-IL2RA_gwas &lt;- IL2RA_gwas %&gt;% filter(!str_detect(rsid, &quot;,&quot;))
-
-IL2RA_gwas %&gt;% filter(is.na(rsid))</code></pre>
-<pre><code># A tibble: 0 x 13
-# ... with 13 variables: Chrom &lt;chr&gt;, Pos &lt;int&gt;, variant_id_prot &lt;chr&gt;,
-#   rsid &lt;chr&gt;, EA_prot &lt;chr&gt;, NEA_prot &lt;chr&gt;, BETA_prot &lt;dbl&gt;, p_prot &lt;dbl&gt;,
-#   minus_log10_p_prot &lt;dbl&gt;, SE_prot &lt;dbl&gt;, N_prot &lt;int&gt;, ImpMAF_prot &lt;dbl&gt;,
-#   EAF_prot &lt;dbl&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>IL2RA_T1D %&gt;% filter(is.na(rsid))</code></pre>
-<pre><code># A tibble: 0 x 11
-# ... with 11 variables: chr &lt;chr&gt;, Pos_T1D &lt;int&gt;, variant_id_T1D &lt;chr&gt;,
-#   rsid &lt;chr&gt;, EA_T1D &lt;chr&gt;, NEA_T1D &lt;chr&gt;, BETA_T1D &lt;dbl&gt;, SE_T1D &lt;dbl&gt;,
-#   p_T1D &lt;chr&gt;, EAF_T1D &lt;dbl&gt;, chromosome &lt;chr&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>#merge the data
-IL2RA &lt;- inner_join(IL2RA_gwas, IL2RA_T1D, by = &quot;rsid&quot;)</code></pre>
-</div>
+IL2RA &lt;- harmonise_data(IL2RA_prot, IL2RA_T1D)</code></pre>
+<pre><code>Harmonising Serum IL2RA level (4vucPG) and Risk of type 1 diabetes (xN25Oe)</code></pre>
+<pre><code>Removing the following SNPs for incompatible alleles:
+rs1239697436, rs146234410, rs181616042, rs186098898, rs190562868, rs386740511, rs531346267, rs542019362, rs548090231, rs560177340, rs573069020, rs746860105, rs750063845, rs750213776, rs755418169, rs755756582, rs757247524, rs758489854, rs759567632, rs771831814, rs780035046, rs936934735</code></pre>
+<pre><code>Removing the following SNPs for being palindromic with intermediate allele frequencies:
+rs10444202, rs10752125, rs10795239, rs10795240, rs10795260, rs10795263, rs10795591, rs10795990, rs10905054, rs10905919, rs10905924, rs10905925, rs1110030, rs11252965, rs11252969, rs11252984, rs11252986, rs11252995, rs11252997, rs11253001, rs11253120, rs11254981, rs11259366, rs11517339, rs11596992, rs11598835, rs12218872, rs12219621, rs12249094, rs12250785, rs12258845, rs12416002, rs12571428, rs12778215, rs139387406, rs1417017, rs1937877, rs1937911, rs1937918, rs200398754, rs2263201, rs2380208, rs2386632, rs2387089, rs2398200, rs2398206, rs2486876, rs2490678, rs2791417, rs2791425, rs28391561, rs2895063, rs34074567, rs34797495, rs3750638, rs4282898, rs4291579, rs4427472, rs4436455, rs4497300, rs4567357, rs4747385, rs4747846, rs4747876, rs4747892, rs4747960, rs4748301, rs4748304, rs4748361, rs4748627, rs56381101, rs61844469, rs630266, rs630516, rs631508, rs645611, rs6601912, rs6602364, rs672624, rs678304, rs7067727, rs7071371, rs7073128, rs7088072, rs7896234, rs7896512, rs7897260, rs7900903, rs7914609, rs7916376, rs7916509, rs9423766, rs9424179</code></pre>
 <div id="manhattan-plots" class="section level2">
-<h2>2.3 Manhattan plots</h2>
+<h2>Manhattan plots</h2>
 <pre class="r"><code>#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-IL2RA_prot.fig &lt;- 
+IL2RA_prot.fig &lt;-
   IL2RA %&gt;%
-  ggplot(aes(x = Pos/1000, y=minus_log10_p_prot)) +
+  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
   geom_point()+
   geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
-  geom_vline(xintercept=5.75e6/1000, linetype=&quot;dashed&quot;)+
-  geom_vline(xintercept=6.5e6/1000, linetype=&quot;dashed&quot;)+
-  ggtitle(&quot;GWAS of serum IL2RA levels&quot;)+
+  geom_vline(xintercept=5.9e3, linetype=&quot;dashed&quot;) +
+  geom_vline(xintercept=6.25e3, linetype=&quot;dashed&quot;) +
+  ggtitle(&quot;GWAS of IL2RA in serum&quot;) +
+  ylab(&quot;-log10(p)&quot;) +
   xlab(NULL)
 
-IL2RA_T1D.fig &lt;- 
+IL2RA_T1D.fig &lt;-
   IL2RA %&gt;%
-  mutate(minus_log10_p_T1D = -log10(as.numeric(p_T1D))) %&gt;%
   ggplot()+
-  geom_point(mapping=aes(x = Pos_T1D/1000, y=minus_log10_p_T1D))+
-  geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
-  geom_vline(xintercept=5.75e6/1000, linetype=&quot;dashed&quot;)+
-  geom_vline(xintercept=6.5e6/1000, linetype=&quot;dashed&quot;)+
-  ggtitle(&quot;GWAS of type 1 diabetes&quot;)+
-  xlab(&quot;Position(kbp)&quot;)
+  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
+  geom_hline(yintercept=8, linetype=&quot;dashed&quot;) +
+  geom_vline(xintercept=5.9e3, linetype=&quot;dashed&quot;) +
+  geom_vline(xintercept=6.25e3, linetype=&quot;dashed&quot;) +
+  ggtitle(&quot;GWAS of risk of T1D&quot;) +
+  ylab(&quot;-log10(p)&quot;) +
+  xlab(&quot;position(kbp)&quot;)
 
-layer_scales(IL2RA_prot.fig)$x$range$range</code></pre>
+#Obtain range for figure of gene
+layer_scales(IL2RA_T1D.fig)$x$range$range</code></pre>
 <pre><code>[1] 5052.673 7104.244</code></pre>
-<pre class="r"><code>IL2RA_gene.fig &lt;- 
+<pre class="r"><code>IL2RA_gene.fig &lt;-
   ggplot(data = IL2RA) +
   geom_blank() +
-  geom_segment(x=  6052.652, xend=6104.288, y=1, yend=1, size = 2) +
-  annotate(&quot;text&quot;, label = &quot;IL2RA&quot;, x= (6052.652 + 6104.288) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(5052.67, 7104.244) +
+  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  annotate(&quot;text&quot;, label = &quot;IL2RA&quot;,
+           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(36521.878, 38571.094) +
   ylim(0.75, 2) +
   ylab(NULL) + xlab(NULL) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank())
 
-# Arrange figures
-
-ggarrange(IL2RA_gene.fig, IL2RA_prot.fig,IL2RA_T1D.fig,
-          heights = c(1, 3, 3), nrow = 3,
-          ncol = 1, align = &quot;hv&quot;)</code></pre>
-<p><img src="figure/IL2RA.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(&quot;figures/IL2RA-manhattan-combined-fig.pdf&quot;, height = 8, width = 6, units = &quot;in&quot;)</code></pre>
+fig_IL2RA_manhattan &lt;- ggarrange(IL2RA_gene.fig, IL2RA_prot.fig, IL2RA_T1D.fig,
+                                 heights = c(1, 3, 3), nrow = 3,
+                                 ncol = 1, align = &quot;hv&quot;)
+fig_IL2RA_manhattan</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ggsave(&quot;figures/IL2RA-manhattan-combined-fig.pdf&quot;,
+#        height = 6, width = 8, units = &quot;in&quot;)</code></pre>
 </div>
 <div id="coloc-assuming-1-colocalizing-variant" class="section level2">
-<h2>2.4 Coloc assuming 1 colocalizing variant</h2>
+<h2>Coloc assuming 1 colocalizing variant</h2>
 <pre class="r"><code>#select the area containing significant SNPs
 IL2RA &lt;- IL2RA %&gt;%
-  filter(Pos &gt; 5.75e6 &amp; Pos &lt; 6.5e6)
+  filter(pos.exposure &gt; 5.9e6 &amp; pos.exposure &lt; 6.25e6)
 
 
-#Change MAF to numeric
 IL2RA &lt;- IL2RA %&gt;%
-  mutate(EAF_T1D  = as.numeric(EAF_T1D)) %&gt;%
-  mutate(EAF_prot = as.numeric(EAF_prot)) %&gt;%
-  mutate(MAF_T1D  = ifelse(EAF_T1D  &gt; 0.5, 1 - EAF_T1D,  EAF_T1D)) %&gt;%
-  mutate(MAF_prot = ifelse(EAF_prot &gt; 0.5, 1 - EAF_prot, EAF_prot))
-
-
-#Calculate MAF
-IL2RA &lt;- IL2RA %&gt;%
-  mutate(MAF_T1D  = ifelse(EAF_T1D  &gt; 0.5, 1 - EAF_T1D,  EAF_T1D)) %&gt;%
-  mutate(MAF_prot = ifelse(EAF_prot &gt; 0.5, 1 - EAF_prot, EAF_prot))
-
-#remove the SNPs with MAF= 0
-IL2RA &lt;- IL2RA %&gt;%
-  filter(MAF_T1D != 0) %&gt;%
-  filter(MAF_prot != 0)
-
-#Remove duplicated SNPS
-rsid_dupl &lt;- IL2RA %&gt;% 
-  filter(duplicated(rsid)) %&gt;% pull(rsid)
-IL2RA &lt;- IL2RA %&gt;% filter(!(rsid %in% rsid_dupl))
+  mutate(maf.exposure = ifelse(eaf.exposure &lt; 0.5, eaf.exposure, 1-eaf.exposure)) %&gt;%
+  mutate(maf.outcome  = ifelse(eaf.outcome  &lt; 0.5, eaf.outcome,  1-eaf.outcome))
 
 D1 &lt;- list(
   type = &quot;quant&quot;, # quantitative trait
-  beta = IL2RA$BETA_prot,
-  varbeta = IL2RA$SE_prot^2, 
-  pvalues = IL2RA$p_prot,
-  N = IL2RA$N_prot,
-  MAF = as.numeric(IL2RA$MAF_prot),
-  position = IL2RA$Pos,
-  snp = IL2RA$rsid,
+  Beta = IL2RA$beta.exposure,
+  varBeta = IL2RA$se.exposure^2,
+  pvalues = IL2RA$pval.exposure, #What is this _origin_?
+  N = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  pos = IL2RA$pos.exposure,
+  snp = IL2RA$SNP,
   sdY = 1)
 
 D2 &lt;- list(
   type = &quot;cc&quot;, # case-control trait
-  beta = IL2RA$BETA_T1D,
-  varbeta = IL2RA$SE_T1D^2,
-  pvalues = IL2RA$p_T1D,
+  Beta = IL2RA$beta.outcome,
+  varBeta = IL2RA$se.outcome,
+  pvalues = IL2RA$pval.outcome, #why _origin_?
   N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = as.numeric(IL2RA$MAF_T1D),
-  position = IL2RA$Pos,
-  snp = IL2RA$rsid)
+  MAF = IL2RA$maf.outcome,  #prot used here in purpose
+  pos = IL2RA$pos.outcome,
+  snp = IL2RA$SNP)
 
-coloc_results_IL2RA &lt;- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
+check_dataset(D1)</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>check_dataset(D2)</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>coloc_IL2RA &lt;- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
 <pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
- 2.28e-46  2.27e-36  1.00e-10  1.00e+00  1.46e-12 
-[1] &quot;PP abf for shared variant: 1.46e-10%&quot;</code></pre>
-<pre class="r"><code>coloc_results_IL2RA$results %&gt;%
-  tibble() %&gt;%
-  arrange(SNP.PP.H4)</code></pre>
-<pre><code># A tibble: 5,249 x 12
-   snp       posit~1   V.df1   z.df1 r.df1 lABF.~2   V.df2   z.df2 r.df2 lABF.~3
-   &lt;chr&gt;       &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
- 1 rs4750531 6492422 3.13e-5  0.0179 0.999   -3.29 1.95e-4  0.235  0.995   -2.64
- 2 rs2026432 6465641 6.12e-5  0.141  0.997   -2.95 2.05e-4  0.0556 0.995   -2.64
- 3 rs3858254 6476543 5.99e-5  0.0388 0.997   -2.96 2.16e-4 -0.138  0.995   -2.60
- 4 rs2296123 6456837 6.51e-5 -0.0867 0.997   -2.92 2.07e-4 -0.104  0.995   -2.63
- 5 rs648778  6492630 6.47e-5  0.211  0.997   -2.90 2.15e-4  0.0438 0.995   -2.61
- 6 rs109063~ 6369109 6.14e-5 -0.115  0.997   -2.95 2.25e-4  0.206  0.994   -2.57
- 7 rs584820  6440857 6.38e-5  0.163  0.997   -2.92 2.08e-4  0.278  0.995   -2.59
- 8 rs634492  6493470 6.68e-5  0.196  0.997   -2.89 2.15e-4  0.0175 0.995   -2.62
- 9 rs620736  6494346 6.83e-5  0.194  0.997   -2.88 2.17e-4  0.0757 0.995   -2.61
-10 rs650652  6498761 6.49e-5  0.199  0.997   -2.91 2.12e-4 -0.299  0.995   -2.58
-# ... with 5,239 more rows, 2 more variables: internal.sum.lABF &lt;dbl&gt;,
-#   SNP.PP.H4 &lt;dbl&gt;, and abbreviated variable names 1: position, 2: lABF.df1,
-#   3: lABF.df2
-# i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
-<pre class="r"><code>sensitivity(coloc_results_IL2RA, &quot;H4 &gt; 0.7&quot;)</code></pre>
-<pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
-<p><img src="figure/IL2RA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+ 1.57e-46  1.54e-36  1.02e-10  1.00e+00  1.35e-12 
+[1] &quot;PP abf for shared variant: 1.35e-10%&quot;</code></pre>
+<pre class="r"><code>sensitivity(coloc_IL2RA, &quot;H4 &gt; 0.1&quot;)</code></pre>
+<pre><code>Results fail decision rule H4 &gt; 0.1</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="susie" class="section level2">
-<h2>2.5 SusiE</h2>
-<pre class="r"><code># 
-# ldmat_IL2RA &lt;- ld_matrix_local(
-#     IL2RA$rsid,
+<h2>SusiE</h2>
+<div id="get-ld-matrix" class="section level3">
+<h3>Get LD matrix</h3>
+<pre class="r"><code># ldmat_IL2RA &lt;- ld_matrix_local(
+#     IL2RA$SNP,
 #     plink_bin = genetics.binaRies::get_plink_binary(),
 #     bfile = &quot;C:/Users/jajoko/Documents/MR Projects/plinkref/EUR&quot;)
 # 
-# str(ldmat_IL2RA)
-# ldmat_IL2RA[,1]
-# 
-# #In LD-mat the rsids are followed by reference and effect alleles (e.g. rs10905492_G_A). The effect alleles have to be harmonized between the LD matrix and data. The data is changed to follow ld matrix, because that is easier to do than vice versa.
-# 
-# #Extract rsid, non-effect allele and effect allele from LD-matrix
-# snps &lt;- data.frame(rsid_nea_ea = rownames(ldmat_IL2RA))
-# snps &lt;- snps %&gt;% 
-#   mutate(nea_ea = str_sub(rsid_nea_ea, -4,-1))
-# 
-# #Check that names in LD-matrix do not include indels (eg. G to CT)
-# snps %&gt;% mutate(underscore = str_sub(nea_ea, 1, 1)) %&gt;% 
-#   filter(underscore != &quot;_&quot;) #all have _ as the fourth last character, indicating that they are indeed single nucleotides
-# 
-# #Extract ea, nea, and rsid
-# snps &lt;- snps %&gt;% 
-#   mutate(nea = str_sub(nea_ea, 2,2), ea = str_sub(nea_ea, 4,4)) %&gt;%
-#   mutate(rsid = str_sub(rsid_nea_ea, 1, -5))
-# 
-# 
-# #prepare for merge 
-# snps &lt;- snps %&gt;% 
-#   select(-nea_ea) %&gt;%
-#   rename(nea_ldmat = nea, ea_ldmat = ea, rsid_ldmat = rsid_nea_ea, rsids = rsid)
-# 
-# #Merge
-# IL2RA_T1D_merged_ldsnps &lt;- 
-#   left_join(snps, IL2RA_T1D_merged, by = &quot;rsids&quot;)
-# 
-# #check for alignment
-# IL2RA_T1D_merged_ldsnps %&gt;% 
-#   filter(ea_ldmat != NEA_T1D_aligned) %&gt;% nrow()
-# 
-# IL2RA_T1D_merged_ldsnps %&gt;% 
-#   filter(ea_ldmat == NEA_T1D_aligned) %&gt;% nrow()
-# 
-# IL2RA_T1D_merged_ldsnps
-# 
-# 
-# #ongelma: kuinka saada ld-matriisin snp:t samaan muotoon kuin IL2RA-datan??
-# 
-# 
-# D1 &lt;- list(
-#   type = &quot;quant&quot;, # quantitative trait
-#   beta = IL2RA_T1D_merged_onlymat$BETA_prot_aligned,
-#   varbeta = IL2RA_T1D_merged_onlymat$SE_prot^2, 
-#   pvalues = IL2RA_T1D_merged_onlymat$p_prot,
-#   N = IL2RA_T1D_merged_onlymat$N_prot,
-#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_prot),
-#   snp = IL2RA_T1D_merged_onlymat$rsid,
-#   LD = ldmat_IL2RA,
-#   sdY = 1)
-# 
-# D2 &lt;- list(
-#   type = &quot;cc&quot;, # case-control trait
-#   beta = IL2RA_T1D_merged_onlymat$BETA_T1D_aligned,
-#   varbeta = IL2RA_T1D_merged_onlymat$SE_T1D^2,
-#   pvalues = IL2RA_T1D_merged_onlymat$p_T1D,
-#   N = IL2RA_T1D_merged_onlymat$N_T1D, # Case-control study (Chiou et al. 2021 Nature)
-#   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_T1D),
-#   LD = ldmat_IL2RA,
-#   snp = IL2RA_T1D_merged_onlymat$rsid)
-# 
-# check_alignment(D1)</code></pre>
+# save(ldmat_IL2RA, file = &quot;data/IL2RA_LDmat-2023-04-25.RData&quot;)
+load(file = &quot;data/IL2RA_LDmat-2023-04-25.RData&quot;)
+
+str(ldmat_IL2RA)</code></pre>
+<pre><code> num [1:1474, 1:1474] 1 -0.3851 0.5768 -0.0548 -0.1292 ...
+ - attr(*, &quot;dimnames&quot;)=List of 2
+  ..$ : chr [1:1474] &quot;rs34825212_A_G&quot; &quot;rs621628_C_T&quot; &quot;rs61832959_G_A&quot; &quot;rs56333805_T_C&quot; ...
+  ..$ : chr [1:1474] &quot;rs34825212_A_G&quot; &quot;rs621628_C_T&quot; &quot;rs61832959_G_A&quot; &quot;rs56333805_T_C&quot; ...</code></pre>
+</div>
+<div id="harmonize-correlation-matrix" class="section level3">
+<h3>Harmonize correlation matrix</h3>
+<p>Change data from correlation matrix to pairwise correlation
+format</p>
+<pre class="r"><code>#Data is changed to data.table so dtplyr can be used for better perfomance
+ldmat_IL2RA &lt;- cbind(rownames(ldmat_IL2RA), ldmat_IL2RA) %&gt;%
+  as.data.table() %&gt;%
+  pivot_longer(names_to = &quot;variant2&quot;,
+               values_to = &quot;r2&quot;,
+               cols = !matches(&quot;V1&quot;)) %&gt;%
+  rename(&quot;variant1&quot; = &quot;V1&quot;) %&gt;%
+  mutate(r2 = as.numeric(r2))</code></pre>
+<p>Identify effect orientation and remove effect orientation from
+variant names</p>
+<pre class="r"><code>#Extract SNPs and get rid of duplicates
+ldmat_IL2RA_snps &lt;- ldmat_IL2RA %&gt;%
+  as_tibble() %&gt;%
+  select(variant1) %&gt;%
+  filter(duplicated(variant1) == FALSE)
+
+#Extract EA and NEA
+ldmat_IL2RA_snps &lt;- ldmat_IL2RA_snps %&gt;%
+  mutate(EA_ld  = word(variant1, 2, sep = fixed(&#39;_&#39;))) %&gt;%
+  mutate(NEA_ld  = word(variant1, 3, sep = fixed(&#39;_&#39;))) %&gt;%
+  mutate(rsid = word(variant1, 1, sep=fixed(&#39;_&#39;)))</code></pre>
+<p>Correct the orientation of effect alleles in IL2RA data frame</p>
+<pre class="r"><code>#remove SNPs from original (IL2RA) data that are not included in LD
+#correlation matrix
+IL2RA &lt;- IL2RA %&gt;%
+  filter(SNP %in% ldmat_IL2RA_snps$rsid)
+
+#join SNP alignment data from the LD matrix to original (IL2RA) data
+#which includes betas and alignment data for the risk of T1D and protein
+#levels
+IL2RA &lt;- IL2RA %&gt;%
+  full_join(ldmat_IL2RA_snps, by = c(&quot;SNP&quot; = &quot;rsid&quot;))
+
+#Look if there are unlikely cases
+#variants that have different effect allele to ref allele combination
+IL2RA %&gt;% filter(EA_ld != effect_allele.exposure &amp;
+                   NEA_ld != other_allele.exposure) #no</code></pre>
+<pre><code> [1] SNP                    effect_allele.exposure other_allele.exposure 
+ [4] effect_allele.outcome  other_allele.outcome   beta.exposure         
+ [7] beta.outcome           eaf.exposure           eaf.outcome           
+[10] remove                 palindromic            ambiguous             
+[13] id.outcome             pos.outcome            pval.outcome          
+[16] se.outcome             ncase.outcome          ncontrol.outcome      
+[19] samplesize.outcome     outcome                mr_keep.outcome       
+[22] pval_origin.outcome    data_source.outcome    pos.exposure          
+[25] pval.exposure          se.exposure            samplesize.exposure   
+[28] exposure               mr_keep.exposure       pval_origin.exposure  
+[31] id.exposure            data_source.exposure   action                
+[34] mr_keep                maf.exposure           maf.outcome           
+[37] variant1               EA_ld                  NEA_ld                
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+<pre class="r"><code>IL2RA %&gt;% filter(NEA_ld != other_allele.exposure &amp;
+                   EA_ld != effect_allele.exposure) #no</code></pre>
+<pre><code> [1] SNP                    effect_allele.exposure other_allele.exposure 
+ [4] effect_allele.outcome  other_allele.outcome   beta.exposure         
+ [7] beta.outcome           eaf.exposure           eaf.outcome           
+[10] remove                 palindromic            ambiguous             
+[13] id.outcome             pos.outcome            pval.outcome          
+[16] se.outcome             ncase.outcome          ncontrol.outcome      
+[19] samplesize.outcome     outcome                mr_keep.outcome       
+[22] pval_origin.outcome    data_source.outcome    pos.exposure          
+[25] pval.exposure          se.exposure            samplesize.exposure   
+[28] exposure               mr_keep.exposure       pval_origin.exposure  
+[31] id.exposure            data_source.exposure   action                
+[34] mr_keep                maf.exposure           maf.outcome           
+[37] variant1               EA_ld                  NEA_ld                
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+<pre class="r"><code>#If no, harmonize the alignment of Betas with correlations coefficients in LD correlation matrix
+IL2RA &lt;- IL2RA %&gt;%
+  mutate(harmonized = ifelse(EA_ld != effect_allele.exposure |
+                               EA_ld != effect_allele.outcome, 1, 0))
+IL2RA %&gt;% filter(harmonized == 1) #0</code></pre>
+<pre><code> [1] SNP                    effect_allele.exposure other_allele.exposure 
+ [4] effect_allele.outcome  other_allele.outcome   beta.exposure         
+ [7] beta.outcome           eaf.exposure           eaf.outcome           
+[10] remove                 palindromic            ambiguous             
+[13] id.outcome             pos.outcome            pval.outcome          
+[16] se.outcome             ncase.outcome          ncontrol.outcome      
+[19] samplesize.outcome     outcome                mr_keep.outcome       
+[22] pval_origin.outcome    data_source.outcome    pos.exposure          
+[25] pval.exposure          se.exposure            samplesize.exposure   
+[28] exposure               mr_keep.exposure       pval_origin.exposure  
+[31] id.exposure            data_source.exposure   action                
+[34] mr_keep                maf.exposure           maf.outcome           
+[37] variant1               EA_ld                  NEA_ld                
+[40] harmonized            
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+<p>No variants were harmonized. Remove variants that are not found in
+IL2RA data frame</p>
+<pre class="r"><code>#Change to data.table for better performance in following tasks
+ldmat_IL2RA &lt;- ldmat_IL2RA %&gt;% as.data.table()
+
+#Remove orientation from rsids (this time using data.table because of computational reasons)
+ldmat_IL2RA &lt;- ldmat_IL2RA[,rsid1 := gsub(&#39;_[ATGC]*_[ATGC]*&#39;,&#39;&#39;,variant1)]
+ldmat_IL2RA &lt;- ldmat_IL2RA[,rsid2 := gsub(&#39;_[ATGC]*_[ATGC]*&#39;,&#39;&#39;,variant2)]
+
+## Proof that the approach above works (i.e. there are no characters
+## in rsids)
+# ldmat_IL2RA_unique &lt;- unique(ldmat_IL2RA, by = &quot;rsid1&quot;)
+# ldmat_IL2RA_unique &lt;- ldmat_IL2RA_unique[,rsid1 := gsub(&#39;rs&#39;,&#39;&#39;,rsid1)]
+# ldmat_IL2RA_unique &lt;- ldmat_IL2RA_unique[,rsid1 := as.numeric(rsid1)]
+# ldmat_IL2RA_unique[is.numeric(rsid1) == FALSE,]
+# rm(ldmat_IL2RA_unique)
+
+#Remove variants that are not found in IL2RA data frame
+ldmat_IL2RA &lt;- ldmat_IL2RA[rsid1 %in% IL2RA$SNP |
+                             rsid2 %in% IL2RA$SNP]
+length(unique(ldmat_IL2RA$rsid1)) #1460, the correct #</code></pre>
+<pre><code>[1] 1474</code></pre>
+<p>Format the pairwise LD matrix back to LD correlation matrix form</p>
+<pre class="r"><code>ldmat_IL2RA_corr &lt;- ldmat_IL2RA  %&gt;%
+  as_tibble() %&gt;%
+  select(-variant1, -variant2) %&gt;%
+  pivot_wider(names_from = &quot;rsid2&quot;, values_from = &quot;r2&quot;)
+
+#test for missing
+ldmat_IL2RA_corr %&gt;% anyNA() #none</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>dim(ldmat_IL2RA)</code></pre>
+<pre><code>[1] 2172676       5</code></pre>
+<p>Format LD-matrix</p>
+<pre class="r"><code>rownames &lt;- ldmat_IL2RA_corr$rsid1
+ldmat_IL2RA_corr &lt;- ldmat_IL2RA_corr %&gt;%
+  select(-rsid1)
+
+ldmat_IL2RA_corr &lt;- ldmat_IL2RA_corr %&gt;%
+  as.matrix()
+
+dimnames(ldmat_IL2RA_corr)[1] &lt;- list(rownames)</code></pre>
+</div>
+<div id="prepare-coloc-data-run-coloc.susie" class="section level3">
+<h3>Prepare coloc data &amp; run coloc.susie</h3>
+<pre class="r"><code>D3 &lt;- list(
+  type = &quot;quant&quot;, # quantitative trait
+  beta = IL2RA$beta.exposure,
+  varbeta = IL2RA$se.exposure^2,
+  pvalues = IL2RA$pval.exposure,
+  n = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  position = IL2RA$pos.exposure,
+  snp = IL2RA$SNP,
+  LD = ldmat_IL2RA_corr,
+  sdY = 1)
+
+D4 &lt;- list(
+  type = &quot;cc&quot;, # case-control trait
+  beta = IL2RA$beta.outcome,
+  varbeta = IL2RA$se.outcome^2,
+  pvalues = IL2RA$pval.outcome,
+  n = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = IL2RA$maf.outcome,
+  LD = ldmat_IL2RA_corr,
+  position = IL2RA$pos.outcome,
+  snp = IL2RA$SNP)
+
+check_dataset(D3, req = c(&quot;beta&quot;, &quot;varbeta&quot;, &quot;LD&quot;, &quot;snp&quot;))</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>check_dataset(D4, req = c(&quot;beta&quot;, &quot;varbeta&quot;, &quot;LD&quot;, &quot;snp&quot;))</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>check_alignment(D3)</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] 0.5045285</code></pre>
+<pre class="r"><code>check_alignment(D4)</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] 0.5086369</code></pre>
+</div>
+<div id="run-coloc.susie" class="section level3">
+<h3>Run coloc.susie</h3>
+<pre class="r"><code>S3 &lt;- runsusie(D3, n = IL2RA$samplesize.exposure[1])</code></pre>
+<pre><code>running max iterations: 100</code></pre>
+<pre><code>HINT: For large R or large XtX, consider installing the Rfast package for better performance.</code></pre>
+<pre><code>    converged: TRUE</code></pre>
+<pre class="r"><code>S4 &lt;- runsusie(D4, n = 18942+501638)</code></pre>
+<pre><code>running max iterations: 100</code></pre>
+<pre><code>HINT: For large R or large XtX, consider installing the Rfast package for better performance.</code></pre>
+<pre><code>Warning in susie_suff_stat(XtX = XtX, Xty = Xty, n = n, yty = (n - 1) * : IBSS algorithm did not converge in 100 iterations!
+                  Please check consistency between summary statistics and LD matrix.
+                  See https://stephenslab.github.io/susieR/articles/susierss_diagnostic.html</code></pre>
+<pre><code>    converged: FALSE</code></pre>
+<pre><code>running max iterations: 10000</code></pre>
+<pre><code>HINT: For large R or large XtX, consider installing the Rfast package for better performance.</code></pre>
+<pre><code>    converged: TRUE</code></pre>
+<pre class="r"><code>summary(S3)</code></pre>
+<pre><code>
+Variables in credible sets:
+
+ variable variable_prob cs
+      434   0.999893948  2
+      756   0.150649746  3
+      752   0.150578442  3
+      742   0.144122688  3
+     1358   0.118308053  1
+     1474   0.115666679  3
+      586   0.114847229  1
+       95   0.113886182  3
+     1473   0.113264221  3
+     1354   0.107631849  1
+      373   0.106084754  1
+      799   0.104686050  1
+     1329   0.092790735  3
+      739   0.084211405  3
+      358   0.082625120  1
+      375   0.060419688  1
+      391   0.040681069  1
+      209   0.030322517  1
+      383   0.027476899  1
+      380   0.027110414  1
+      395   0.025211480  1
+      871   0.025110176  1
+      389   0.024989009  1
+     1242   0.024512770  1
+      874   0.021232425  1
+      397   0.019388658  1
+     1310   0.017691185  1
+      516   0.014436145  1
+     1180   0.009790116  1
+
+Credible sets summary:
+
+ cs cs_log10bf cs_avg_r2 cs_min_r2
+  2   8.555132 1.0000000 1.0000000
+  3   1.873316 0.9750954 0.9371808
+  1   6.183828 0.8305060 0.4239625
+                                                                             variable
+                                                                                  434
+                                                    95,739,742,752,756,1329,1473,1474
+ 209,358,373,375,380,383,389,391,395,397,516,586,799,871,874,1180,1242,1310,1354,1358</code></pre>
+<pre class="r"><code>summary(S4)</code></pre>
+<pre><code>
+Variables in credible sets:
+
+ variable variable_prob cs
+      279     1.0000000  6
+      317     1.0000000  1
+      355     1.0000000  5
+      877     1.0000000  9
+     1005     1.0000000 10
+     1026     1.0000000  7
+      114     1.0000000  4
+     1140     0.9999999  3
+      380     0.9988399  8
+     1331     0.7053968  2
+      860     0.2946032  2
+
+Credible sets summary:
+
+ cs cs_log10bf cs_avg_r2 cs_min_r2 variable
+  1        Inf 1.0000000 1.0000000      317
+  3  129.94937 1.0000000 1.0000000     1140
+  4  126.02050 1.0000000 1.0000000      114
+  5        Inf 1.0000000 1.0000000      355
+  6        Inf 1.0000000 1.0000000      279
+  7  176.15329 1.0000000 1.0000000     1026
+  8        Inf 1.0000000 1.0000000      380
+  9        Inf 1.0000000 1.0000000      877
+ 10        Inf 1.0000000 1.0000000     1005
+  2   54.31225 0.9955649 0.9955649 860,1331</code></pre>
+<pre class="r"><code>if(requireNamespace(&quot;susieR&quot;,quietly=TRUE)) {
+  susie.res=coloc.susie(S3,S4)
+  print(susie.res$summary)
+}</code></pre>
+<pre><code>Using 1474/ 1474 and 1474 available</code></pre>
+<pre><code>    PP.H0.abf     PP.H1.abf     PP.H2.abf     PP.H3.abf     PP.H4.abf 
+8.320065e-320 4.400000e-312  1.890000e-08  1.000000e+00  3.170000e-10 
+[1] &quot;PP abf for shared variant: 3.17e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+3.66e-313 4.03e-312  8.32e-02  9.16e-01  1.08e-03 
+[1] &quot;PP abf for shared variant: 0.108%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+1.96e-317 4.40e-312  4.44e-06  1.00e+00  3.51e-08 
+[1] &quot;PP abf for shared variant: 3.51e-06%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+1.44e-137 7.62e-130  1.89e-08  1.00e+00  2.99e-10 
+[1] &quot;PP abf for shared variant: 2.99e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+6.34e-131 6.98e-130  8.32e-02  9.16e-01  9.12e-04 
+[1] &quot;PP abf for shared variant: 0.0912%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+3.39e-135 7.62e-130  4.44e-06  1.00e+00  5.51e-07 
+[1] &quot;PP abf for shared variant: 5.51e-05%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+1.22e-133 6.47e-126  1.89e-08  1.00e+00  1.32e-10 
+[1] &quot;PP abf for shared variant: 1.32e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+5.38e-127 5.92e-126  8.31e-02  9.15e-01  2.25e-03 
+[1] &quot;PP abf for shared variant: 0.225%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+2.88e-131 6.47e-126  4.44e-06  1.00e+00  2.00e-06 
+[1] &quot;PP abf for shared variant: 2e-04%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  1.89e-08  1.00e+00  4.15e-10 
+[1] &quot;PP abf for shared variant: 4.15e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+  0.00000   0.00000   0.08310   0.91500   0.00146 
+[1] &quot;PP abf for shared variant: 0.146%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  4.44e-06  1.00e+00  4.52e-08 
+[1] &quot;PP abf for shared variant: 4.52e-06%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  1.89e-08  1.00e+00  7.16e-09 
+[1] &quot;PP abf for shared variant: 7.16e-07%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.000000  0.000000  0.083200  0.916000  0.000877 
+[1] &quot;PP abf for shared variant: 0.0877%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  4.44e-06  1.00e+00  1.48e-07 
+[1] &quot;PP abf for shared variant: 1.48e-05%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+9.01e-184 4.77e-176  1.89e-08  1.00e+00  2.72e-10 
+[1] &quot;PP abf for shared variant: 2.72e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+3.96e-177 4.37e-176  8.32e-02  9.16e-01  1.04e-03 
+[1] &quot;PP abf for shared variant: 0.104%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+2.12e-181 4.77e-176  4.44e-06  1.00e+00  3.43e-08 
+[1] &quot;PP abf for shared variant: 3.43e-06%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  1.89e-08  1.00e+00  5.14e-10 
+[1] &quot;PP abf for shared variant: 5.14e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.000000  0.000000  0.083200  0.916000  0.000872 
+[1] &quot;PP abf for shared variant: 0.0872%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  3.29e-07  7.21e-02  9.28e-01 
+[1] &quot;PP abf for shared variant: 92.8%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  1.89e-08  1.00e+00  1.29e-10 
+[1] &quot;PP abf for shared variant: 1.29e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+  0.00000   0.00000   0.08310   0.91500   0.00164 
+[1] &quot;PP abf for shared variant: 0.164%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  4.44e-06  1.00e+00  7.24e-05 
+[1] &quot;PP abf for shared variant: 0.00724%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  1.89e-08  1.00e+00  3.52e-10 
+[1] &quot;PP abf for shared variant: 3.52e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+  0.00000   0.00000   0.08310   0.91500   0.00156 
+[1] &quot;PP abf for shared variant: 0.156%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 0.00e+00  0.00e+00  4.44e-06  1.00e+00  4.61e-08 
+[1] &quot;PP abf for shared variant: 4.61e-06%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 6.25e-62  3.31e-54  1.89e-08  1.00e+00  1.28e-10 
+[1] &quot;PP abf for shared variant: 1.28e-08%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 2.75e-55  3.02e-54  8.30e-02  9.14e-01  2.58e-03 
+[1] &quot;PP abf for shared variant: 0.258%&quot;
+PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 1.47e-59  3.31e-54  4.44e-06  1.00e+00  3.62e-05 
+[1] &quot;PP abf for shared variant: 0.00362%&quot;
+    nsnps       hit1       hit2     PP.H0.abf     PP.H1.abf    PP.H2.abf
+ 1:  1474 rs12778662 rs12254050 8.315125e-320 4.400557e-312 1.889601e-08
+ 2:  1474 rs41294031 rs12254050 3.659928e-313 4.029824e-312 8.316965e-02
+ 3:  1474   rs791593 rs12254050 1.955152e-317 4.400537e-312 4.442964e-06
+ 4:  1474 rs12778662  rs7068276 1.440455e-137 7.623064e-130 1.889601e-08
+ 5:  1474 rs41294031  rs7068276 6.341136e-131 6.982012e-130 8.318356e-02
+ 6:  1474   rs791593  rs7068276 3.386898e-135 7.623026e-130 4.442962e-06
+ 7:  1474 rs12778662 rs11256448 1.222856e-133 6.471505e-126 1.889601e-08
+ 8:  1474 rs41294031 rs11256448 5.376019e-127 5.919354e-126 8.307214e-02
+ 9:  1474   rs791593 rs11256448 2.875261e-131 6.471464e-126 4.442955e-06
+10:  1474 rs12778662 rs12722483  0.000000e+00  0.000000e+00 1.889601e-08
+11:  1474 rs41294031 rs12722483  0.000000e+00  0.000000e+00 8.313770e-02
+12:  1474   rs791593 rs12722483  0.000000e+00  0.000000e+00 4.442964e-06
+13:  1474 rs12778662 rs11816044  0.000000e+00  0.000000e+00 1.889601e-08
+14:  1474 rs41294031 rs11816044  0.000000e+00  0.000000e+00 8.318644e-02
+15:  1474   rs791593 rs11816044  0.000000e+00  0.000000e+00 4.442964e-06
+16:  1474 rs12778662 rs61839728 9.006982e-184 4.766605e-176 1.889601e-08
+17:  1474 rs41294031 rs61839728 3.964509e-177 4.365188e-176 8.317260e-02
+18:  1474   rs791593 rs61839728 2.117786e-181 4.766584e-176 4.442964e-06
+19:  1474 rs12778662 rs12722523  0.000000e+00  0.000000e+00 1.889601e-08
+20:  1474 rs41294031 rs12722523  0.000000e+00  0.000000e+00 8.318689e-02
+21:  1474   rs791593 rs12722523  0.000000e+00  0.000000e+00 3.285202e-07
+22:  1474 rs12778662  rs4747846  0.000000e+00  0.000000e+00 1.889601e-08
+23:  1474 rs41294031  rs4747846  0.000000e+00  0.000000e+00 8.312336e-02
+24:  1474   rs791593  rs4747846  0.000000e+00  0.000000e+00 4.442643e-06
+25:  1474 rs12778662 rs61833743  0.000000e+00  0.000000e+00 1.889601e-08
+26:  1474 rs41294031 rs61833743  0.000000e+00  0.000000e+00 8.312992e-02
+27:  1474   rs791593 rs61833743  0.000000e+00  0.000000e+00 4.442964e-06
+28:  1474 rs12778662  rs7907829  6.246346e-62  3.305643e-54 1.889601e-08
+29:  1474 rs41294031  rs7907829  2.745169e-55  3.022614e-54 8.304493e-02
+30:  1474   rs791593  rs7907829  1.468633e-59  3.305509e-54 4.442804e-06
+    nsnps       hit1       hit2     PP.H0.abf     PP.H1.abf    PP.H2.abf
+     PP.H3.abf    PP.H4.abf idx1 idx2
+ 1: 0.99999998 3.165520e-10    2    1
+ 2: 0.91575092 1.079431e-03    3    1
+ 3: 0.99999552 3.507463e-08    1    1
+ 4: 0.99999998 2.988247e-10    2    3
+ 5: 0.91590441 9.120294e-04    3    3
+ 6: 0.99999501 5.508355e-07    1    3
+ 7: 0.99999998 1.316008e-10    2    4
+ 8: 0.91467500 2.252857e-03    3    4
+ 9: 0.99999356 1.999807e-06    1    4
+10: 0.99999998 4.145143e-10    2    5
+11: 0.91539840 1.463901e-03    3    5
+12: 0.99999551 4.522334e-08    1    5
+13: 0.99999997 7.155144e-09    2    6
+14: 0.91593619 8.773773e-04    3    6
+15: 0.99999541 1.481311e-07    1    6
+16: 0.99999998 2.723157e-10    2    7
+17: 0.91578345 1.043957e-03    3    7
+18: 0.99999552 3.432410e-08    1    7
+19: 0.99999998 5.142979e-10    2    8
+20: 0.91594121 8.718937e-04    3    8
+21: 0.07208552 9.279142e-01    1    8
+22: 0.99999998 1.289162e-10    2    9
+23: 0.91524012 1.636523e-03    3    9
+24: 0.99992319 7.236978e-05    1    9
+25: 0.99999998 3.520164e-10    2   10
+26: 0.91531254 1.557539e-03    3   10
+27: 0.99999551 4.609925e-08    1   10
+28: 0.99999998 1.280061e-10    2    2
+29: 0.91437468 2.580389e-03    3    2
+30: 0.99995938 3.617389e-05    1    2
+     PP.H3.abf    PP.H4.abf idx1 idx2</code></pre>
+<pre class="r"><code>if(requireNamespace(&quot;susieR&quot;,quietly=TRUE)) {
+  sensitivity(susie.res,&quot;H4 &gt; 0.7&quot;,row=1,dataset1=D3,dataset2=D4)
+  sensitivity(susie.res,&quot;H4 &gt; 0.7&quot;,row=2,dataset1=D3,dataset2=D4)
+  sensitivity(susie.res,&quot;H4 &gt; 0.7&quot;,row=3,dataset1=D3,dataset2=D4)
+  sensitivity(susie.res,&quot;H4 &gt; 0.7&quot;,row=4,dataset1=D3,dataset2=D4)
+}</code></pre>
+<pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
+<pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-12-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/IL2RA.Rmd/unnamed-chunk-12-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>susie.res</code></pre>
+<pre><code>$summary
+    nsnps       hit1       hit2     PP.H0.abf     PP.H1.abf    PP.H2.abf
+ 1:  1474 rs12778662 rs12254050 8.315125e-320 4.400557e-312 1.889601e-08
+ 2:  1474 rs41294031 rs12254050 3.659928e-313 4.029824e-312 8.316965e-02
+ 3:  1474   rs791593 rs12254050 1.955152e-317 4.400537e-312 4.442964e-06
+ 4:  1474 rs12778662  rs7068276 1.440455e-137 7.623064e-130 1.889601e-08
+ 5:  1474 rs41294031  rs7068276 6.341136e-131 6.982012e-130 8.318356e-02
+ 6:  1474   rs791593  rs7068276 3.386898e-135 7.623026e-130 4.442962e-06
+ 7:  1474 rs12778662 rs11256448 1.222856e-133 6.471505e-126 1.889601e-08
+ 8:  1474 rs41294031 rs11256448 5.376019e-127 5.919354e-126 8.307214e-02
+ 9:  1474   rs791593 rs11256448 2.875261e-131 6.471464e-126 4.442955e-06
+10:  1474 rs12778662 rs12722483  0.000000e+00  0.000000e+00 1.889601e-08
+11:  1474 rs41294031 rs12722483  0.000000e+00  0.000000e+00 8.313770e-02
+12:  1474   rs791593 rs12722483  0.000000e+00  0.000000e+00 4.442964e-06
+13:  1474 rs12778662 rs11816044  0.000000e+00  0.000000e+00 1.889601e-08
+14:  1474 rs41294031 rs11816044  0.000000e+00  0.000000e+00 8.318644e-02
+15:  1474   rs791593 rs11816044  0.000000e+00  0.000000e+00 4.442964e-06
+16:  1474 rs12778662 rs61839728 9.006982e-184 4.766605e-176 1.889601e-08
+17:  1474 rs41294031 rs61839728 3.964509e-177 4.365188e-176 8.317260e-02
+18:  1474   rs791593 rs61839728 2.117786e-181 4.766584e-176 4.442964e-06
+19:  1474 rs12778662 rs12722523  0.000000e+00  0.000000e+00 1.889601e-08
+20:  1474 rs41294031 rs12722523  0.000000e+00  0.000000e+00 8.318689e-02
+21:  1474   rs791593 rs12722523  0.000000e+00  0.000000e+00 3.285202e-07
+22:  1474 rs12778662  rs4747846  0.000000e+00  0.000000e+00 1.889601e-08
+23:  1474 rs41294031  rs4747846  0.000000e+00  0.000000e+00 8.312336e-02
+24:  1474   rs791593  rs4747846  0.000000e+00  0.000000e+00 4.442643e-06
+25:  1474 rs12778662 rs61833743  0.000000e+00  0.000000e+00 1.889601e-08
+26:  1474 rs41294031 rs61833743  0.000000e+00  0.000000e+00 8.312992e-02
+27:  1474   rs791593 rs61833743  0.000000e+00  0.000000e+00 4.442964e-06
+28:  1474 rs12778662  rs7907829  6.246346e-62  3.305643e-54 1.889601e-08
+29:  1474 rs41294031  rs7907829  2.745169e-55  3.022614e-54 8.304493e-02
+30:  1474   rs791593  rs7907829  1.468633e-59  3.305509e-54 4.442804e-06
+    nsnps       hit1       hit2     PP.H0.abf     PP.H1.abf    PP.H2.abf
+     PP.H3.abf    PP.H4.abf idx1 idx2
+ 1: 0.99999998 3.165520e-10    2    1
+ 2: 0.91575092 1.079431e-03    3    1
+ 3: 0.99999552 3.507463e-08    1    1
+ 4: 0.99999998 2.988247e-10    2    3
+ 5: 0.91590441 9.120294e-04    3    3
+ 6: 0.99999501 5.508355e-07    1    3
+ 7: 0.99999998 1.316008e-10    2    4
+ 8: 0.91467500 2.252857e-03    3    4
+ 9: 0.99999356 1.999807e-06    1    4
+10: 0.99999998 4.145143e-10    2    5
+11: 0.91539840 1.463901e-03    3    5
+12: 0.99999551 4.522334e-08    1    5
+13: 0.99999997 7.155144e-09    2    6
+14: 0.91593619 8.773773e-04    3    6
+15: 0.99999541 1.481311e-07    1    6
+16: 0.99999998 2.723157e-10    2    7
+17: 0.91578345 1.043957e-03    3    7
+18: 0.99999552 3.432410e-08    1    7
+19: 0.99999998 5.142979e-10    2    8
+20: 0.91594121 8.718937e-04    3    8
+21: 0.07208552 9.279142e-01    1    8
+22: 0.99999998 1.289162e-10    2    9
+23: 0.91524012 1.636523e-03    3    9
+24: 0.99992319 7.236978e-05    1    9
+25: 0.99999998 3.520164e-10    2   10
+26: 0.91531254 1.557539e-03    3   10
+27: 0.99999551 4.609925e-08    1   10
+28: 0.99999998 1.280061e-10    2    2
+29: 0.91437468 2.580389e-03    3    2
+30: 0.99995938 3.617389e-05    1    2
+     PP.H3.abf    PP.H4.abf idx1 idx2
+
+$results
+             snp SNP.PP.H4.row1 SNP.PP.H4.row2 SNP.PP.H4.row3 SNP.PP.H4.row4
+   1: rs10400124  1.068258e-285  8.212418e-287  2.397365e-286  5.745624e-134
+   2: rs10400125  7.051903e-286  5.421273e-287  1.582575e-286  5.598998e-134
+   3: rs10400165  9.391956e-286  7.220230e-287  2.107726e-286  5.699065e-134
+   4: rs10466308  2.105350e-315  5.481439e-315  4.457584e-315  1.645103e-134
+   5: rs10466309  2.799454e-316  1.015065e-315  1.017115e-315  3.139114e-134
+  ---                                                                       
+1470:   rs943122  1.047289e-317  1.976116e-317  3.297056e-317  1.443315e-135
+1471:  rs9664762  7.246762e-318  2.336784e-317  1.934142e-317  3.800817e-134
+1472:  rs9733630  5.119103e-317  1.055754e-316  1.579622e-316  1.974682e-132
+1473:  rs9971043  5.114342e-316  5.974395e-311  1.291642e-315  4.841947e-131
+1474:  rs9971047  1.742500e-316  2.082193e-311  4.400448e-316  9.352917e-132
+      SNP.PP.H4.row5 SNP.PP.H4.row6 SNP.PP.H4.row7 SNP.PP.H4.row8
+   1:  4.935853e-135  7.750641e-136  2.779060e-125  4.250676e-127
+   2:  4.809892e-135  7.552847e-136  2.371713e-125  3.627623e-127
+   3:  4.895855e-135  7.687833e-136  2.645586e-125  4.046522e-127
+   4:  4.786228e-134  2.093682e-135  1.467403e-129  7.601243e-130
+   5:  1.271914e-133  6.855610e-135  1.470812e-129  1.061067e-129
+  ---                                                            
+1470:  3.043246e-135  2.731261e-136  1.072032e-129  4.024563e-130
+1471:  1.369562e-133  6.097669e-135  2.576256e-130  1.652833e-130
+1472:  4.550885e-132  3.662678e-133  4.909878e-130  2.014673e-130
+1473:  6.320541e-126  7.350466e-132  5.558864e-130  1.291978e-125
+1474:  1.248893e-126  1.419755e-132  2.357885e-130  5.605778e-126
+      SNP.PP.H4.row9 SNP.PP.H4.row10 SNP.PP.H4.row11 SNP.PP.H4.row12
+   1:  4.547508e-128               0               0               0
+   2:  3.880946e-128               0               0               0
+   3:  4.329098e-128               0               0               0
+   4:  2.265385e-131               0               0               0
+   5:  3.896471e-131               0               0               0
+  ---                                                               
+1470:  2.460849e-131               0               0               0
+1471:  5.013617e-132               0               0               0
+1472:  1.104708e-131               0               0               0
+1473:  1.023661e-131               0               0               0
+1474:  4.341745e-132               0               0               0
+      SNP.PP.H4.row13 SNP.PP.H4.row14 SNP.PP.H4.row15 SNP.PP.H4.row16
+   1:               0               0               0   2.051141e-172
+   2:               0               0               0   1.662782e-172
+   3:               0               0               0   1.921787e-172
+   4:               0               0               0   3.784478e-180
+   5:               0               0               0   1.758152e-180
+  ---                                                                
+1470:               0               0               0   9.145953e-182
+1471:               0               0               0   2.287039e-181
+1472:               0               0               0   2.647730e-175
+1473:               0               0               0   9.052188e-180
+1474:               0               0               0   3.062524e-180
+      SNP.PP.H4.row17 SNP.PP.H4.row18 SNP.PP.H4.row19 SNP.PP.H4.row20
+   1:   1.402639e-173   4.046459e-173               0               0
+   2:   1.137066e-173   3.280310e-173               0               0
+   3:   1.314182e-173   3.791271e-173               0               0
+   4:   8.764586e-180   7.043730e-180               0               0
+   5:   5.670642e-180   5.615321e-180               0               0
+  ---                                                                
+1470:   1.535077e-181   2.531106e-181               0               0
+1471:   6.559994e-181   5.365863e-181               0               0
+1472:   4.857331e-175   7.182149e-175               0               0
+1473:   9.406172e-175   2.009683e-179               0               0
+1474:   3.255239e-175   6.798689e-180               0               0
+      SNP.PP.H4.row21 SNP.PP.H4.row22 SNP.PP.H4.row23 SNP.PP.H4.row24
+   1:               0               0               0               0
+   2:               0               0               0               0
+   3:               0               0               0               0
+   4:               0               0               0               0
+   5:               0               0               0               0
+  ---                                                                
+1470:               0               0               0               0
+1471:               0               0               0               0
+1472:               0               0               0               0
+1473:               0               0               0               0
+1474:               0               0               0               0
+      SNP.PP.H4.row25 SNP.PP.H4.row26 SNP.PP.H4.row27 SNP.PP.H4.row28
+   1:               0               0               0    2.199813e-50
+   2:               0               0               0    1.792999e-50
+   3:               0               0               0    2.064547e-50
+   4:               0               0               0    6.741579e-58
+   5:               0               0               0    6.658633e-58
+  ---                                                                
+1470:               0               0               0    5.418264e-59
+1471:               0               0               0    1.396376e-58
+1472:               0               0               0    2.613429e-56
+1473:               0               0               0    6.131986e-58
+1474:               0               0               0    2.476176e-58
+      SNP.PP.H4.row29 SNP.PP.H4.row30
+   1:    2.856435e-52    1.935582e-54
+   2:    2.328191e-52    1.577633e-54
+   3:    2.680794e-52    1.816564e-54
+   4:    2.964664e-58    5.596349e-61
+   5:    4.078020e-58    9.485269e-61
+  ---                                
+1470:    1.726831e-59    6.687872e-62
+1471:    7.605376e-59    1.461218e-61
+1472:    9.103810e-57    3.161826e-59
+1473:    1.209898e-53    6.071857e-61
+1474:    4.997735e-54    2.451735e-61
+
+$priors
+   p1    p2   p12 
+1e-04 1e-04 5e-06 </code></pre>
+</div>
+</div>
+<div id="mr" class="section level2">
+<h2>MR</h2>
+<div id="import-gwas-of-protein-and-t1d-risk" class="section level3">
+<h3>Import GWAS of protein and T1D risk</h3>
+<pre class="r"><code>#Import data
+
+IL2RA_clumped &lt;- clump_data(IL2RA)</code></pre>
+<pre><code>pval.exposure and pval.outcome columns present. Using pval.exposure for clumping.</code></pre>
+<pre><code>Please look at vignettes for options on running this locally if you need to run many instances of this command.</code></pre>
+<pre><code>Clumping 4vucPG, 1474 variants, using EUR population reference</code></pre>
+<pre><code>Server code: 502; Server is possibly experiencing traffic, trying again...
+Server code: 502; Server is possibly experiencing traffic, trying again...</code></pre>
+<pre><code>Retry succeeded!</code></pre>
+<pre><code>Removing 1467 of 1474 variants due to LD with other variants or absence from LD reference panel</code></pre>
+<pre class="r"><code>MR_IL2RA_res &lt;- TwoSampleMR::mr(IL2RA_clumped)</code></pre>
+<pre><code>Analysing &#39;4vucPG&#39; on &#39;xN25Oe&#39;</code></pre>
+<pre class="r"><code>MR_IL2RA_res_scatter &lt;- mr_scatter_plot(MR_IL2RA_res, IL2RA_clumped)
+MR_IL2RA_res_single &lt;- mr_singlesnp(IL2RA_clumped)
+MR_IL2RA_res_forest &lt;- mr_forest_plot(MR_IL2RA_res_single)
+
+exp(MR_IL2RA_res[3,]$b)</code></pre>
+<pre><code>[1] 1.027023</code></pre>
+<pre class="r"><code>exp(MR_IL2RA_res[3,]$b)</code></pre>
+<pre><code>[1] 1.027023</code></pre>
+<pre class="r"><code>exp(MR_IL2RA_res[3,]$b - 1.96*MR_IL2RA_res[3,]$se)</code></pre>
+<pre><code>[1] 0.6472078</code></pre>
+<pre class="r"><code>exp(MR_IL2RA_res[3,]$b + 1.96*MR_IL2RA_res[3,]$se)</code></pre>
+<pre><code>[1] 1.629733</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -990,36 +1504,38 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ieugwasr_0.1.5    TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2
- [5] ggpubr_0.4.0      forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
- [9] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.7     
-[13] ggplot2_3.3.6     tidyverse_1.3.1   workflowr_1.7.0  
+ [1] here_1.0.1        rio_0.5.29        ieugwasr_0.1.5    ggpubr_0.4.0     
+ [5] TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2 forcats_0.5.1    
+ [9] stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4       readr_2.1.2      
+[13] tidyr_1.2.0       tibble_3.1.7      ggplot2_3.4.1     tidyverse_1.3.1  
+[17] workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] matrixStats_0.62.0 fs_1.5.2           lubridate_1.8.0    httr_1.4.3        
- [5] rprojroot_2.0.3    tools_4.2.1        backports_1.4.1    bslib_0.4.0       
- [9] utf8_1.2.2         R6_2.5.1           irlba_2.3.5        nortest_1.0-4     
-[13] DBI_1.1.3          colorspace_2.0-3   withr_2.5.0        gridExtra_2.3     
-[17] tidyselect_1.1.2   processx_3.6.1     compiler_4.2.1     git2r_0.30.1      
-[21] glmnet_4.1-4       cli_3.3.0          rvest_1.0.2        xml2_1.3.3        
-[25] labeling_0.4.2     sass_0.4.2         scales_1.2.0       callr_3.7.1       
-[29] mixsqp_0.3-43      digest_0.6.29      rmarkdown_2.14     pkgconfig_2.0.3   
-[33] htmltools_0.5.2    mr.raps_0.2        highr_0.9          dbplyr_2.2.1      
-[37] fastmap_1.1.0      rlang_1.0.3        readxl_1.4.0       susieR_0.12.16    
-[41] rstudioapi_0.13    farver_2.1.1       shape_1.4.6        jquerylib_0.1.4   
-[45] generics_0.1.3     jsonlite_1.8.0     car_3.1-0          magrittr_2.0.3    
-[49] Matrix_1.4-1       Rcpp_1.0.8.3       munsell_0.5.0      fansi_1.0.3       
-[53] abind_1.4-5        viridis_0.6.2      lifecycle_1.0.1    stringi_1.7.6     
-[57] whisker_0.4        yaml_2.3.5         carData_3.0-5      plyr_1.8.7        
-[61] grid_4.2.1         promises_1.2.0.1   crayon_1.5.1       lattice_0.20-45   
-[65] cowplot_1.1.1      splines_4.2.1      haven_2.5.0        hms_1.1.1         
-[69] knitr_1.39         ps_1.7.1           pillar_1.8.0       ggsignif_0.6.3    
-[73] codetools_0.2-18   reprex_2.0.1       glue_1.6.2         evaluate_0.15     
-[77] getPass_0.2-2      modelr_0.1.8       foreach_1.5.2      vctrs_0.4.1       
-[81] tzdb_0.3.0         httpuv_1.6.5       cellranger_1.1.0   gtable_0.3.0      
-[85] reshape_0.8.9      assertthat_0.2.1   cachem_1.0.6       xfun_0.31         
-[89] broom_1.0.0        rstatix_0.7.0      later_1.3.0        survival_3.3-1    
-[93] viridisLite_0.4.0  iterators_1.0.14   ellipsis_0.3.2    </code></pre>
+ [1] colorspace_2.0-3   ggsignif_0.6.3     ellipsis_0.3.2     rprojroot_2.0.3   
+ [5] fs_1.5.2           rstudioapi_0.13    farver_2.1.1       fansi_1.0.3       
+ [9] lubridate_1.8.0    xml2_1.3.3         codetools_0.2-18   splines_4.2.1     
+[13] cachem_1.0.6       knitr_1.39         jsonlite_1.8.0     broom_1.0.0       
+[17] dbplyr_2.2.1       compiler_4.2.1     httr_1.4.3         backports_1.4.1   
+[21] assertthat_0.2.1   Matrix_1.4-1       fastmap_1.1.0      cli_3.6.0         
+[25] later_1.3.0        htmltools_0.5.2    tools_4.2.1        gtable_0.3.0      
+[29] glue_1.6.2         Rcpp_1.0.8.3       carData_3.0-5      cellranger_1.1.0  
+[33] jquerylib_0.1.4    vctrs_0.5.2        iterators_1.0.14   xfun_0.31         
+[37] ps_1.7.1           openxlsx_4.2.5.1   rvest_1.0.2        lifecycle_1.0.3   
+[41] irlba_2.3.5        rstatix_0.7.0      getPass_0.2-2      scales_1.2.0      
+[45] hms_1.1.1          promises_1.2.0.1   susieR_0.12.16     yaml_2.3.5        
+[49] curl_4.3.2         gridExtra_2.3      sass_0.4.2         reshape_0.8.9     
+[53] stringi_1.7.6      highr_0.9          foreach_1.5.2      nortest_1.0-4     
+[57] zip_2.2.0          shape_1.4.6        rlang_1.0.6        pkgconfig_2.0.3   
+[61] matrixStats_0.62.0 evaluate_0.15      lattice_0.20-45    labeling_0.4.2    
+[65] cowplot_1.1.1      processx_3.6.1     tidyselect_1.1.2   plyr_1.8.7        
+[69] magrittr_2.0.3     R6_2.5.1           generics_0.1.3     DBI_1.1.3         
+[73] pillar_1.8.0       haven_2.5.0        whisker_0.4        foreign_0.8-82    
+[77] withr_2.5.0        survival_3.3-1     abind_1.4-5        mixsqp_0.3-43     
+[81] modelr_0.1.8       crayon_1.5.1       car_3.1-0          utf8_1.2.2        
+[85] tzdb_0.3.0         rmarkdown_2.14     viridis_0.6.2      grid_4.2.1        
+[89] readxl_1.4.0       callr_3.7.1        git2r_0.30.1       mr.raps_0.2       
+[93] reprex_2.0.1       digest_0.6.29      httpuv_1.6.5       munsell_0.5.0     
+[97] glmnet_4.1-4       viridisLite_0.4.0  bslib_0.4.0       </code></pre>
 </div>
 </div>
 </div>
@@ -1040,6 +1556,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -1072,6 +1590,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
