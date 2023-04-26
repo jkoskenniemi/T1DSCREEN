@@ -328,8 +328,7 @@ rename_for_TwoSampleMR_e  <- function(data, rsids, Beta, SE, effectAlleleFreq,
     rename(SNP = rsids, beta = Beta, se = SE, eaf = effectAlleleFreq,
          effect_allele = effectAllele, other_allele = otherAllele,
          pval = Pval, pos = Pos) %>%
-    mutate(Phenotype = "Serum IL2RG level",
-         samplesize = N) 
+    mutate(samplesize = N) 
   }
 
 #Rename
@@ -342,6 +341,26 @@ IL2RG_prot_anno   <- IL2RG_prot_anno  %>% rename_for_TwoSampleMR_e()
 JAK2_prot_anno    <- JAK2_prot_anno   %>% rename_for_TwoSampleMR_e()
 TNF_prot_anno     <- TNF_prot_anno    %>% rename_for_TwoSampleMR_e()
 TYK2_prot_anno    <- TYK2_prot_anno   %>% rename_for_TwoSampleMR_e()
+
+#Add phenotype information
+CXCL10_prot_anno  <- CXCL10_prot_anno %>% 
+  mutate(Phenotype = "Serum CXCL10 level")
+IL12B_prot_anno   <- IL12B_prot_anno  %>%  
+  mutate(Phenotype = "Serum IL12B level")
+IL2RA_prot_anno   <- IL2RA_prot_anno  %>%  
+  mutate(Phenotype = "Serum IL2RA level")
+IL2RB_prot_anno   <- IL2RB_prot_anno  %>%  
+  mutate(Phenotype = "Serum IL2RB level")
+IL2RG_prot_anno   <- IL2RG_prot_anno  %>%  
+  mutate(Phenotype = "Serum IL2RG level")
+# IL6ST_prot_anno <- IL6ST_prot_anno  %>%  
+  # mutate(Phenotype = "Serum CXCL10 level")
+JAK2_prot_anno    <- JAK2_prot_anno   %>%  
+  mutate(Phenotype = "Serum JAK2 level")
+TNF_prot_anno     <- TNF_prot_anno    %>%  
+  mutate(Phenotype = "Serum TNF level")
+TYK2_prot_anno    <- TYK2_prot_anno   %>%  
+  mutate(Phenotype = "Serum TYK2 level")
 ```
 
 
