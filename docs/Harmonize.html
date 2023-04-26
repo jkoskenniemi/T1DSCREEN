@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jaakko Koskenniemi" />
+
+
+<title>Script to merge data</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Growth-T1D</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Script to merge data</h1>
+<h4 class="author">Jaakko Koskenniemi</h4>
+<h4 class="date">2022-24-04</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2023-04-25
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Rotaatio-2022/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220313code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20220313)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220313code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220313)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong64dfa0b">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong> 64dfa0b
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong64dfa0b"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version 64dfa0b.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analyses/.Rhistory
+
+Untracked files:
+    Untracked:  .Rprofile
+    Untracked:  .gitattributes
+    Untracked:  .gitignore
+    Untracked:  Functional_variants.pdf
+    Untracked:  README.md
+    Untracked:  T1DSCREEN.Rproj
+    Untracked:  _workflowr.yml
+    Untracked:  analyses/IL2RG.Rmd
+    Untracked:  analyses/_site.yml
+    Untracked:  analyses/about.Rmd
+    Untracked:  analyses/index.Rmd
+    Untracked:  analyses/license.Rmd
+    Untracked:  analyses/zz_archive/
+    Untracked:  analyses/zz_trash/
+    Untracked:  articles/
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  docs.zip
+    Untracked:  figures/
+    Untracked:  output/
+    Untracked:  plans/
+    Untracked:  references/
+    Untracked:  workflow.txt
+    Untracked:  zz_unsorted/
+
+Unstaged changes:
+    Deleted:    analyses/CRP.Rmd
+    Deleted:    analyses/CXCL10.Rmd
+    Deleted:    analyses/IL12B.Rmd
+    Deleted:    analyses/IL2RA.Rmd
+    Modified:   analyses/IL2RB.Rmd
+    Deleted:    analyses/IL6R.Rmd
+    Deleted:    analyses/JAK2.Rmd
+    Deleted:    analyses/TYK2.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analyses/Harmonize.Rmd</code>) and HTML
+(<code>docs/Harmonize.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+64dfa0b
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-25
+</td>
+<td>
+First commit
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+<pre><code>v ggplot2 3.4.1     v purrr   0.3.4
+v tibble  3.1.7     v dplyr   1.0.9
+v tidyr   1.2.0     v stringr 1.4.0
+v readr   2.1.2     v forcats 0.5.1</code></pre>
+<pre><code>Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(rio)</code></pre>
+<pre><code>Warning: package &#39;rio&#39; was built under R version 4.2.2</code></pre>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>Warning: package &#39;here&#39; was built under R version 4.2.2</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>here::i_am(&quot;analyses/Harmonize.Rmd&quot;)</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<p>This script merges the annotation and protein data.</p>
+<p>GWAS sumstat of type 1 diabetes was obtained from the study by Chiou
+et al.  (Nature 2021, <a
+href="https://doi.org/10.1038/s41586-021-03552-w"
+class="uri">https://doi.org/10.1038/s41586-021-03552-w</a>). GWAS
+sumstat for protein levels of IL2RG was obtained from the study by
+Ferkingstad et al.  (Nature 2021, <a
+href="https://doi.org/10.1038/s41588-021-00978-w"
+class="uri">https://doi.org/10.1038/s41588-021-00978-w</a>).</p>
+<p>Variants within 1 megabase before the start site of IL2RG and 1
+megabase after the stop site are included. See ‘/code/gather.R’ on how
+the the variants within this area were filtered in each GWAS. The
+gather-script was run in the high performance computing cluster using
+the ‘run_gather.sh’ script. The output of ‘/code/Gather.R’ is saved in
+‘/data/cis_sumstats/’, and for each possible target gene there are three
+files:</p>
+<ol style="list-style-type: decimal">
+<li>*_T1D_data.rds: GWAS sumstat for the risk of T1D (Chiou et
+al. 2021)</li>
+<li>*_prot_data.rds: GWAS sumstat of serum protein level (Ferkingstad et
+al. 2021)</li>
+<li>*_anno_data.rds: further annotation for GWAS of serum protein
+level<br />
+Where * is a gene of interest (IL2RA, IL2RG, IL2RG, IL6ST, IL6R,
+etc.)</li>
+</ol>
+<p>except for IL6R for which IL6R_prot_data.rds is substituted with
+IL6R_crp_data.rds</p>
+<pre class="r"><code>#add here a figure that shows the project workflow</code></pre>
+<div id="exposure-data" class="section level1">
+<h1>Exposure data</h1>
+<div id="import-exposure-data" class="section level2">
+<h2>Import exposure data</h2>
+<pre class="r"><code>IL2RG_anno  &lt;- import(&quot;data/cis_sumstats/IL2RG_anno.rds&quot;)
+IL2RG_prot  &lt;- import(&quot;data/cis_sumstats/IL2RG_gwas.rds&quot;)
+
+CXCL10_anno &lt;- import(&quot;data/cis_sumstats/CXCL10_anno.rds&quot;)  
+CXCL10_prot &lt;- import(&quot;data/cis_sumstats/CXCL10_prot.rds&quot;)  
+
+IL12B_anno  &lt;- import(&quot;data/cis_sumstats/IL12B_anno.rds&quot;)  
+IL12B_prot  &lt;- import(&quot;data/cis_sumstats/IL12B_prot.rds&quot;)  
+
+IL2RA_anno  &lt;- import(&quot;data/cis_sumstats/IL2RA_anno.rds&quot;)  
+IL2RA_prot  &lt;- import(&quot;data/cis_sumstats/IL2RA_prot.rds&quot;)  
+
+IL2RB_prot  &lt;- import(&quot;data/cis_sumstats/IL2RB_prot.rds&quot;)  
+IL2RB_anno  &lt;- import(&quot;data/cis_sumstats/IL2RB_anno.rds&quot;)  
+
+IL6R_crp   &lt;- import(&quot;data/cis_sumstats/IL6R_crp.rds&quot;)  
+IL6R_anno  &lt;- import(&quot;data/cis_sumstats/IL6R_anno.rds&quot;)  
+IL6R_prot  &lt;- import(&quot;data/cis_sumstats/IL6R_prot.rds&quot;)
+
+IL6ST_anno  &lt;- import(&quot;data/cis_sumstats/IL6ST_anno.rds&quot;)  
+IL6ST_prot  &lt;- import(&quot;data/cis_sumstats/IL6ST_prot.rds&quot;)
+
+JAK2_anno   &lt;- import(&quot;data/cis_sumstats/JAK2_anno.rds&quot;)  
+JAK2_prot   &lt;- import(&quot;data/cis_sumstats/JAK2_prot.rds&quot;)  
+
+TNF_anno    &lt;- import(&quot;data/cis_sumstats/TNF_anno.rds&quot;)  
+TNF_prot    &lt;- import(&quot;data/cis_sumstats/TNF_prot.rds&quot;)  
+
+TYK2_anno   &lt;- import(&quot;data/cis_sumstats/TYK2_anno.rds&quot;)
+TYK2_prot   &lt;- import(&quot;data/cis_sumstats/TYK2_prot.rds&quot;)</code></pre>
+</div>
+<div id="merge-protein-data-with-annotations" class="section level2">
+<h2>Merge protein data with annotations</h2>
+<p>Ferkingstad et al. state in their README file &gt;A subset of the
+variants in the summary statistics files should be excluded due to
+quality issues. These variants are listed in a separate Excluded
+variants file (assocvariants.excluded.txt.gz). The Extra annotation file
+(assocvariants.annotated.txt.gz) does not include these variants.</p>
+<p>Therefore in the join process, only the data available in the
+annotation (IL2RG_anno) is used (hence, left_join)</p>
+<pre class="r"><code>CXCL10_prot_anno &lt;- left_join(CXCL10_prot, CXCL10_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+IL12B_prot_anno  &lt;- left_join(IL12B_prot, IL12B_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+IL2RA_prot_anno  &lt;- left_join(IL2RA_prot, IL2RA_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+IL2RB_prot_anno  &lt;- left_join(IL2RB_prot, IL2RB_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+IL2RG_prot_anno  &lt;- left_join(IL2RG_prot, IL2RG_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+# IL6R_prot_anno   &lt;- left_join(IL6R_prot,  IL6R_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+IL6ST_prot_anno  &lt;- left_join(IL6ST_prot, IL6ST_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+JAK2_prot_anno   &lt;- left_join(JAK2_prot,  JAK2_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+TNF_prot_anno    &lt;- left_join(TNF_prot,   TNF_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+TYK2_prot_anno   &lt;- left_join(TYK2_prot,  TYK2_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+
+rm(&quot;CXCL10_anno&quot;, &quot;CXCL10_prot&quot;, &quot;IL12B_anno&quot;, &quot;IL12B_prot&quot;, 
+   &quot;IL2RA_anno&quot;, &quot;IL2RA_prot&quot;, &quot;IL2RB_anno&quot;, &quot;IL2RB_prot&quot;,  
+   &quot;IL2RG_anno&quot;, &quot;IL2RG_prot&quot;, &quot;IL6R_anno&quot;, &quot;IL6R_crp&quot;, 
+   &quot;IL6ST_anno&quot;, &quot;IL6ST_prot&quot;, &quot;JAK2_anno&quot;, &quot;JAK2_prot&quot;, 
+   &quot;TNF_anno&quot;, &quot;TNF_prot&quot;, &quot;TYK2_anno&quot;, &quot;TYK2_prot&quot;, &quot;IL6R_prot&quot;)</code></pre>
+</div>
+<div id="sort-conflicts" class="section level2">
+<h2>Sort conflicts</h2>
+<p>Further in the README file of Ferkingstad et al. &gt; Also, the
+summary statistics files sometimes incorrectly have
+effectAllele=otherAllele for multiallelic variants. In these cases the
+effectAllele is correct, but the otherAllele should be ‘!’, meaning that
+the effectAllele is tested against the other (two or more) alleles
+(using the ‘!’ sign as shorthand for ‘not effectAllele’). This has been
+corrected in the file Extra annotation file
+(assocvariants.annotated.txt.gz).</p>
+<p>Therefore, multiallelic variants were removed.</p>
+<pre class="r"><code>CXCL10_prot_anno &lt;- CXCL10_prot_anno %&gt;% filter(otherAllele.y != &quot;!&quot;)
+IL12B_prot_anno  &lt;- IL12B_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
+IL2RA_prot_anno  &lt;- IL2RA_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
+IL2RB_prot_anno  &lt;- IL2RB_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
+IL2RG_prot_anno  &lt;- IL2RG_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
+IL6ST_prot_anno  &lt;- IL6ST_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
+JAK2_prot_anno   &lt;- JAK2_prot_anno   %&gt;% filter(otherAllele.y != &quot;!&quot;)
+TNF_prot_anno    &lt;- TNF_prot_anno    %&gt;% filter(otherAllele.y != &quot;!&quot;)
+TYK2_prot_anno   &lt;- TYK2_prot_anno   %&gt;% filter(otherAllele.y != &quot;!&quot;)</code></pre>
+<p>After removal of multiallelic variants, are there conflicts in
+effectAllele or otherAllele?</p>
+<pre class="r"><code>#Following function is simply to avoid repetition
+check_conflicts_ea_oa &lt;- function(data, effectAllele.x, effectAllele.y) {
+  filter(data, effectAllele.x != effectAllele.y | 
+           is.na(effectAllele.x) &amp; !is.na(effectAllele.y) |
+           !is.na(effectAllele.x) &amp;  is.na(effectAllele.y) | 
+           otherAllele.x != otherAllele.y | 
+            is.na(otherAllele.x) &amp; !is.na(otherAllele.y) |
+           !is.na(otherAllele.x) &amp;  is.na(otherAllele.y))
+}
+
+#List those with conflicts in effectAllele or otherAllele
+
+CXCL10_prot_anno %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<pre class="r"><code>IL12B_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<pre class="r"><code>IL2RA_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<pre class="r"><code>IL2RB_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<pre class="r"><code>IL2RG_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<pre class="r"><code>IL6ST_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<pre class="r"><code>JAK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<pre class="r"><code>TNF_prot_anno    %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<pre class="r"><code>TYK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
+<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+<p>After this, the remaining discrepancies between the variables
+obtained from annotation and protein data files were because those
+variants without an rsid were listed as “.” in the annotation file and
+as “NA” in the main GWAS sumstat file</p>
+<pre class="r"><code>#List subjects which had conflicting rsid information and show
+#which entries there are for these
+check_conflicts_rsid &lt;- function(data, effectAllele.x, effectAllele.y) {
+  filter(data, rsids.x != rsids.y | 
+           is.na(rsids.x) &amp; !is.na(rsids.y) |
+           !is.na(rsids.x) &amp;  is.na(rsids.y)) %&gt;%
+    mutate(rsids.x = factor(rsids.x),
+         rsids.y = factor(rsids.y)) %&gt;%
+  select(rsids.x, rsids.y) %&gt;%
+  summary()
+}
+
+#All the conflicts in rsid.x and rsid.y are because rsid.x is NA and rsid.y is &quot;.&quot;
+CXCL10_prot_anno %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
+<pre><code> rsids.x    rsids.y
+ NA&#39;s:684   .:684  </code></pre>
+<pre class="r"><code>IL12B_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
+<pre><code> rsids.x    rsids.y
+ NA&#39;s:712   .:712  </code></pre>
+<pre class="r"><code>IL2RA_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
+<pre><code> rsids.x    rsids.y
+ NA&#39;s:798   .:798  </code></pre>
+<pre class="r"><code>IL2RB_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
+<pre><code> rsids.x    rsids.y
+ NA&#39;s:722   .:722  </code></pre>
+<pre class="r"><code>IL2RG_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
+<pre><code> rsids.x     rsids.y 
+ NA&#39;s:2149   .:2149  </code></pre>
+<pre class="r"><code># IL6ST_prot_anno  %&gt;% check_conflicts_rsid() #0 
+JAK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
+<pre><code> rsids.x     rsids.y 
+ NA&#39;s:1103   .:1103  </code></pre>
+<pre class="r"><code>TNF_prot_anno    %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
+<pre><code> rsids.x    rsids.y
+ NA&#39;s:705   .:705  </code></pre>
+<pre class="r"><code>TYK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
+<pre><code> rsids.x    rsids.y
+ NA&#39;s:677   .:677  </code></pre>
+<p>Thus, only those values variables with .x in their name are
+preserved. Here, we also remove the remaining multiallelic SNPs (where
+effect allele equals the other allele.)</p>
+<pre class="r"><code>#Discard all variables that end with an &quot;.y&quot;
+IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
+CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% select(!ends_with(&quot;.y&quot;))
+IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
+IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
+IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
+IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
+# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
+JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% select(!ends_with(&quot;.y&quot;))
+TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% select(!ends_with(&quot;.y&quot;))
+TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% select(!ends_with(&quot;.y&quot;))
+
+#Remove &quot;.x&quot; from variable names
+IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
+TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) </code></pre>
+<pre class="r"><code>#Sanity checks
+colnames(IL2RG_prot_anno)   
+colnames(CXCL10_prot_anno)  
+colnames(IL12B_prot_anno)
+colnames(IL2RA_prot_anno)
+colnames(IL2RB_prot_anno)
+colnames(IL2RG_prot_anno)
+#colnames(IL6ST_prot_anno)
+colnames(JAK2_prot_anno)
+colnames(TNF_prot_anno)
+colnames(TYK2_prot_anno)</code></pre>
+<p>All data files seem to have entries without rsids. They are now
+removed</p>
+<pre class="r"><code>anyNA(IL2RG_prot_anno$rsids)   </code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>anyNA(CXCL10_prot_anno$rsids)  </code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>anyNA(IL12B_prot_anno$rsids)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>anyNA(IL2RA_prot_anno$rsids)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>anyNA(IL2RB_prot_anno$rsids)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>anyNA(IL2RG_prot_anno$rsids)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>#anyNA(IL6ST_prot_anno$rsids)
+anyNA(JAK2_prot_anno$rsids)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>anyNA(TNF_prot_anno$rsids)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>anyNA(TYK2_prot_anno$rsids)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% filter(!is.na(rsids))
+CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% filter(!is.na(rsids))
+IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% filter(!is.na(rsids))
+IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% filter(!is.na(rsids))
+IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% filter(!is.na(rsids))
+IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% filter(!is.na(rsids))
+# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% filter(!is.na(rsids))
+JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% filter(!is.na(rsids))
+TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% filter(!is.na(rsids))
+TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% filter(!is.na(rsids))</code></pre>
+<p>There were no duplicated rsids in data after exclusion of missing
+rsids (suppressed)</p>
+<pre class="r"><code>#Sanity 
+anyDuplicated(IL2RG_prot_anno$rsids)   
+anyDuplicated(CXCL10_prot_anno$rsids)  
+anyDuplicated(IL12B_prot_anno$rsids)
+anyDuplicated(IL2RA_prot_anno$rsids)
+anyDuplicated(IL2RB_prot_anno$rsids)
+anyDuplicated(IL2RG_prot_anno$rsids)
+#anyDuplicated(IL6ST_prot_anno$rsids)
+anyDuplicated(JAK2_prot_anno$rsids)
+anyDuplicated(TNF_prot_anno$rsids)
+anyDuplicated(TYK2_prot_anno$rsids)</code></pre>
+</div>
+<div id="import-t1d-data" class="section level2">
+<h2>Import T1D data</h2>
+<pre class="r"><code># Import data
+IL2RG_T1D &lt;- import(&quot;data/cis_sumstats/IL2RG_T1D.rds&quot;) %&gt;% tibble()</code></pre>
+<p>There were no entries with missing rsids, but there were duplicated
+rsids. They are removed.</p>
+<pre class="r"><code>anyDuplicated(IL2RG_T1D$hm_rsid) #Duplicates</code></pre>
+<pre><code>[1] 2</code></pre>
+<pre class="r"><code>anyNA(IL2RG_T1D$hm_rsid) #No missing data</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>duplicated_snps_IL2RG_T1D &lt;- IL2RG_T1D %&gt;%
+  filter(duplicated(hm_rsid)) %&gt;% 
+  pull(hm_rsid)
+
+#Remove duplicated SNPs
+IL2RG_T1D &lt;- IL2RG_T1D %&gt;%
+  filter(!hm_rsid %in% duplicated_snps_IL2RG_T1D)</code></pre>
+</div>
+<div id="write-data-in-twosamplemr-format" class="section level2">
+<h2>Write data in TwoSampleMR format</h2>
+<p>Data are written in TwoSampleMR format so that they can be easily
+opened in the main analyses scripts.</p>
+<p>Rename files</p>
+<pre class="r"><code>rename_for_TwoSampleMR_e  &lt;- function(data, rsids, Beta, SE, effectAlleleFreq,
+                                    effectAllele, otherAllele,
+                                    Pval, Pos, N) {
+  data %&gt;%
+    rename(SNP = rsids, beta = Beta, se = SE, eaf = effectAlleleFreq,
+         effect_allele = effectAllele, other_allele = otherAllele,
+         pval = Pval, pos = Pos) %&gt;%
+    mutate(Phenotype = &quot;Serum IL2RG level&quot;,
+         samplesize = N) 
+  }
+
+#Rename
+CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% rename_for_TwoSampleMR_e()
+IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
+IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
+IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
+IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
+# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
+JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
+TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% rename_for_TwoSampleMR_e()
+TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()</code></pre>
+<p>Export filest to a CSV file with default parameters of
+TwoSampleMR::read_exposure_data()</p>
+<pre class="r"><code>#Export
+CXCL10_prot_anno %&gt;%
+  export(&quot;data/export/CXCL10_prot_anno_TwoSampleMR.csv&quot;)
+IL12B_prot_anno  %&gt;% 
+  export(&quot;data/export/IL12B_prot_anno_TwoSampleMR.csv&quot;)
+IL2RA_prot_anno  %&gt;% 
+  export(&quot;data/export/IL2RA_prot_anno_TwoSampleMR.csv&quot;)
+IL2RB_prot_anno  %&gt;% 
+  export(&quot;data/export/IL2RB_prot_anno_TwoSampleMR.csv&quot;)
+IL2RG_prot_anno  %&gt;% 
+  export(&quot;data/export/IL2RG_prot_anno_TwoSampleMR.csv&quot;)
+# IL6ST_prot_anno  %&gt;%
+#   export(&quot;data/export/IL6ST_prot_anno_TwoSampleMR.csv&quot;)
+JAK2_prot_anno   %&gt;% 
+  export(&quot;data/export/JAK2_prot_anno_TwoSampleMR.csv&quot;)
+TNF_prot_anno    %&gt;% 
+  export(&quot;data/export/TNF_prot_anno_TwoSampleMR.csv&quot;)
+TYK2_prot_anno   %&gt;% 
+  export(&quot;data/export/TYK2_prot_anno_TwoSampleMR.csv&quot;)</code></pre>
+<pre class="r"><code>#Sanity check: no warnings
+# read_exposure_data(&quot;data/export/CXCL10_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/IL12B_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/IL2RA_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/IL2RB_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/IL2RG_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# # read_exposure_data(&quot;data/export/IL6ST_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/JAK2_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/TNF_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_exposure_data(&quot;data/export/TYK2_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)</code></pre>
+</div>
+</div>
+<div id="outcome-data" class="section level1">
+<h1>Outcome data</h1>
+<div id="import-outcome-data" class="section level2">
+<h2>Import outcome data</h2>
+<pre class="r"><code>IL12B_T1D   &lt;- import(&quot;data/cis_sumstats/IL12B_T1D.rds&quot;)  
+CXCL10_T1D  &lt;- import(&quot;data/cis_sumstats/CXCL10_T1D.rds&quot;)  
+TYK2_T1D    &lt;- import(&quot;data/cis_sumstats/TYK2_T1D.rds&quot;)
+TNF_T1D     &lt;- import(&quot;data/cis_sumstats/TNF_T1D.rds&quot;)  
+JAK2_T1D    &lt;- import(&quot;data/cis_sumstats/JAK2_T1D.rds&quot;)  
+IL6ST_T1D   &lt;- import(&quot;data/cis_sumstats/IL6ST_T1D.rds&quot;) 
+IL6R_T1D    &lt;- import(&quot;data/cis_sumstats/IL6R_T1D.rds&quot;)  
+IL2RB_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RB_T1D.rds&quot;)  
+IL2RG_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RG_T1D.rds&quot;)  
+IL2RA_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RA_T1D.rds&quot;)  </code></pre>
+<pre class="r"><code>#every 
+IL12B_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>CXCL10_T1D %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>TYK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA() </code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>TNF_T1D    %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>JAK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code># IL6ST_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
+IL6R_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>IL2RB_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>IL2RG_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>IL2RA_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code>IL12B_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
+<pre><code>[1] 44</code></pre>
+<pre class="r"><code>CXCL10_T1D %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
+<pre><code>[1] 158</code></pre>
+<pre class="r"><code>TYK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated() </code></pre>
+<pre><code>[1] 93</code></pre>
+<pre class="r"><code>TNF_T1D    %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
+<pre><code>[1] 159</code></pre>
+<pre class="r"><code>JAK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
+<pre><code>[1] 10</code></pre>
+<pre class="r"><code># IL6ST_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+IL6R_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
+<pre><code>[1] 85</code></pre>
+<pre class="r"><code>IL2RB_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
+<pre><code>[1] 7</code></pre>
+<pre class="r"><code>IL2RG_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
+<pre><code>[1] 2</code></pre>
+<pre class="r"><code>IL2RA_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
+<pre><code>[1] 25</code></pre>
+</div>
+<div id="remove-duplicated-snps" class="section level2">
+<h2>Remove duplicated SNPs</h2>
+<pre class="r"><code>duplicated_snps_IL12B  &lt;- IL12B_T1D  %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+duplicated_snps_CXCL10 &lt;- CXCL10_T1D %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+duplicated_snps_TYK2   &lt;- TYK2_T1D   %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid) 
+duplicated_snps_TNF   &lt;- TNF_T1D    %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+duplicated_snps_JAK2   &lt;- JAK2_T1D   %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+#duplicated_snps_IL6ST  &lt;- IL6ST_T1D  %&gt;% 
+# filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+duplicated_snps_IL6R   &lt;- IL6R_T1D   %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+duplicated_snps_IL2RB  &lt;- IL2RB_T1D  %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+duplicated_snps_IL2RG  &lt;- IL2RG_T1D  %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+duplicated_snps_IL2RA  &lt;- IL2RA_T1D  %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+
+
+IL12B_T1D  &lt;- IL12B_T1D   %&gt;% filter(!hm_rsid %in% duplicated_snps_IL12B)
+CXCL10_T1D &lt;- CXCL10_T1D  %&gt;% filter(!hm_rsid %in% duplicated_snps_CXCL10)
+TYK2_T1D   &lt;- TYK2_T1D    %&gt;% filter(!hm_rsid %in% duplicated_snps_TYK2) 
+TNF_T1D    &lt;- TNF_T1D     %&gt;% filter(!hm_rsid %in% duplicated_snps_TNF)
+JAK2_T1D   &lt;- JAK2_T1D    %&gt;% filter(!hm_rsid %in% duplicated_snps_JAK2)
+# IL6ST_T1D  &lt;- IL6ST_T1D %&gt;% filter(!hm_rsid %in% duplicated_snps_IL6ST)
+IL6R_T1D   &lt;- IL6R_T1D    %&gt;% filter(!hm_rsid %in% duplicated_snps_IL6R)
+IL2RB_T1D  &lt;- IL2RB_T1D   %&gt;% filter(!hm_rsid %in% duplicated_snps_IL2RB)
+IL2RG_T1D  &lt;- IL2RG_T1D   %&gt;% filter(!hm_rsid %in% duplicated_snps_IL2RG)
+IL2RA_T1D  &lt;- IL2RA_T1D   %&gt;% filter(!hm_rsid %in% duplicated_snps_IL2RA)</code></pre>
+</div>
+<div id="write-data-in-twosamplemr-format-1" class="section level2">
+<h2>Write data in TwoSampleMR format</h2>
+<pre class="r"><code>#Change to numeric
+TNF_T1D &lt;- TNF_T1D %&gt;% mutate(p_value = as.numeric(p_value))
+
+rename_for_TwoSampleMR_o  &lt;- function(data, beta, other_allele, effect_allele,
+                                      hm_rsid, hm_beta, standard_error, 
+                                      hm_effect_allele_frequency,
+                                      hm_effectAllele, hm_otherAllele,
+                                      p_value, hm_pos) {
+  data %&gt;%
+  select(-beta, -other_allele, -effect_allele) %&gt;%
+  rename(SNP = hm_rsid, beta = hm_beta, se = standard_error, eaf = hm_effect_allele_frequency,
+         effect_allele = hm_effect_allele, other_allele = hm_other_allele,
+         pval = p_value, pos = hm_pos) %&gt;%
+  mutate(Phenotype = &quot;Risk of type 1 diabetes&quot;,
+         ncase = 18942, ncontrol = 501638, samplesize = 18942+501638)
+  }
+
+CXCL10_T1D  &lt;- CXCL10_T1D %&gt;% rename_for_TwoSampleMR_o()
+IL12B_T1D   &lt;- IL12B_T1D  %&gt;% rename_for_TwoSampleMR_o()
+IL2RA_T1D   &lt;- IL2RA_T1D  %&gt;% rename_for_TwoSampleMR_o()
+IL2RB_T1D   &lt;- IL2RB_T1D  %&gt;% rename_for_TwoSampleMR_o()
+IL2RG_T1D   &lt;- IL2RG_T1D  %&gt;% rename_for_TwoSampleMR_o()
+# IL6ST_T1D &lt;- IL6ST_T1D  %&gt;% rename_for_TwoSampleMR_o()
+JAK2_T1D    &lt;- JAK2_T1D   %&gt;% rename_for_TwoSampleMR_o()
+TNF_T1D     &lt;- TNF_T1D    %&gt;% rename_for_TwoSampleMR_o()
+TYK2_T1D    &lt;- TYK2_T1D   %&gt;% rename_for_TwoSampleMR_o()</code></pre>
+<p>Write data in TwoSampleMR data format</p>
+<pre class="r"><code>CXCL10_T1D %&gt;%
+  export(&quot;data/export/CXCL10_T1D_TwoSampleMR.csv&quot;)
+IL12B_T1D  %&gt;% 
+  export(&quot;data/export/IL12B_T1D_TwoSampleMR.csv&quot;)
+IL2RA_T1D  %&gt;% 
+  export(&quot;data/export/IL2RA_T1D_TwoSampleMR.csv&quot;)
+IL2RB_T1D  %&gt;% 
+  export(&quot;data/export/IL2RB_T1D_TwoSampleMR.csv&quot;)
+IL2RG_T1D  %&gt;% 
+  export(&quot;data/export/IL2RG_T1D_TwoSampleMR.csv&quot;)
+# IL6ST_T1D  %&gt;%
+#   export(&quot;data/export/IL6ST_T1D_TwoSampleMR.csv&quot;)
+JAK2_T1D   %&gt;% 
+  export(&quot;data/export/JAK2_T1D_TwoSampleMR.csv&quot;)
+TNF_T1D    %&gt;% 
+  export(&quot;data/export/TNF_T1D_TwoSampleMR.csv&quot;)
+TYK2_T1D   %&gt;% 
+  export(&quot;data/export/TYK2_T1D_TwoSampleMR.csv&quot;)</code></pre>
+<pre class="r"><code>#Sanity check: no warnings
+# read_outcome_data(&quot;data/export/CXCL10_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/IL12B_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/IL2RA_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/IL2RB_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/IL2RG_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# # read_outcome_data(&quot;data/export/IL6ST_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/JAK2_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/TNF_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/TYK2_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.1 (2022-06-23 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 14393)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=Finnish_Finland.1252  LC_CTYPE=Finnish_Finland.1252   
+[3] LC_MONETARY=Finnish_Finland.1252 LC_NUMERIC=C                    
+[5] LC_TIME=Finnish_Finland.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] here_1.0.1      rio_0.5.29      forcats_0.5.1   stringr_1.4.0  
+ [5] dplyr_1.0.9     purrr_0.3.4     readr_2.1.2     tidyr_1.2.0    
+ [9] tibble_3.1.7    ggplot2_3.4.1   tidyverse_1.3.1 workflowr_1.7.0
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8.3      lubridate_1.8.0   getPass_0.2-2     ps_1.7.1         
+ [5] assertthat_0.2.1  rprojroot_2.0.3   digest_0.6.29     utf8_1.2.2       
+ [9] R6_2.5.1          cellranger_1.1.0  backports_1.4.1   reprex_2.0.1     
+[13] evaluate_0.15     httr_1.4.3        pillar_1.8.0      rlang_1.0.6      
+[17] curl_4.3.2        readxl_1.4.0      data.table_1.14.2 rstudioapi_0.13  
+[21] whisker_0.4       callr_3.7.1       jquerylib_0.1.4   rmarkdown_2.14   
+[25] foreign_0.8-82    munsell_0.5.0     broom_1.0.0       compiler_4.2.1   
+[29] httpuv_1.6.5      modelr_0.1.8      xfun_0.31         pkgconfig_2.0.3  
+[33] htmltools_0.5.2   tidyselect_1.1.2  fansi_1.0.3       crayon_1.5.1     
+[37] withr_2.5.0       tzdb_0.3.0        dbplyr_2.2.1      later_1.3.0      
+[41] grid_4.2.1        jsonlite_1.8.0    gtable_0.3.0      lifecycle_1.0.3  
+[45] DBI_1.1.3         git2r_0.30.1      magrittr_2.0.3    scales_1.2.0     
+[49] zip_2.2.0         cli_3.6.0         stringi_1.7.6     cachem_1.0.6     
+[53] fs_1.5.2          promises_1.2.0.1  xml2_1.3.3        bslib_0.4.0      
+[57] ellipsis_0.3.2    generics_0.1.3    vctrs_0.5.2       openxlsx_4.2.5.1 
+[61] tools_4.2.1       glue_1.6.2        hms_1.1.1         processx_3.6.1   
+[65] fastmap_1.1.0     yaml_2.3.5        colorspace_2.0-3  rvest_1.0.2      
+[69] knitr_1.39        haven_2.5.0       sass_0.4.2       </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
