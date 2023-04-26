@@ -384,7 +384,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-04-25
+<strong>Last updated:</strong> 2023-04-26
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -515,13 +515,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong83b8ba5">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong0e60a63">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 83b8ba5
+aria-hidden="true"></span> <strong>Repository version:</strong> 0e60a63
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong83b8ba5"
+<div id="strongRepositoryversionstrong0e60a63"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -530,7 +530,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 83b8ba5.
+The results in this page were generated with repository version 0e60a63.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -579,12 +579,9 @@ Untracked files:
 Unstaged changes:
     Deleted:    analyses/CRP.Rmd
     Deleted:    analyses/CXCL10.Rmd
-    Deleted:    analyses/IL12B.Rmd
-    Deleted:    analyses/IL2RA.Rmd
-    Modified:   analyses/IL2RB.Rmd
-    Deleted:    analyses/IL6R.Rmd
-    Deleted:    analyses/JAK2.Rmd
-    Deleted:    analyses/TYK2.Rmd
+    Modified:   analyses/IL12B.Rmd
+    Modified:   analyses/IL2RA.Rmd
+    Modified:   analyses/IL6R.Rmd
 
 </code></pre>
 <p>
@@ -630,6 +627,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+0e60a63
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+fixed an error that all Phenotypes in exposure data were labeled IL2RG
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+4fdafeb
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1010,8 +1041,7 @@ opened in the main analyses scripts.</p>
     rename(SNP = rsids, beta = Beta, se = SE, eaf = effectAlleleFreq,
          effect_allele = effectAllele, other_allele = otherAllele,
          pval = Pval, pos = Pos) %&gt;%
-    mutate(Phenotype = &quot;Serum IL2RG level&quot;,
-         samplesize = N) 
+    mutate(samplesize = N) 
   }
 
 #Rename
@@ -1023,7 +1053,27 @@ IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 # IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
 TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% rename_for_TwoSampleMR_e()
-TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()</code></pre>
+TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
+
+#Add phenotype information
+CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% 
+  mutate(Phenotype = &quot;Serum CXCL10 level&quot;)
+IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;%  
+  mutate(Phenotype = &quot;Serum IL12B level&quot;)
+IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;%  
+  mutate(Phenotype = &quot;Serum IL2RA level&quot;)
+IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;%  
+  mutate(Phenotype = &quot;Serum IL2RB level&quot;)
+IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;%  
+  mutate(Phenotype = &quot;Serum IL2RG level&quot;)
+# IL6ST_prot_anno &lt;- IL6ST_prot_anno  %&gt;%  
+  # mutate(Phenotype = &quot;Serum CXCL10 level&quot;)
+JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;%  
+  mutate(Phenotype = &quot;Serum JAK2 level&quot;)
+TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;%  
+  mutate(Phenotype = &quot;Serum TNF level&quot;)
+TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;%  
+  mutate(Phenotype = &quot;Serum TYK2 level&quot;)</code></pre>
 <p>Export filest to a CSV file with default parameters of
 TwoSampleMR::read_exposure_data()</p>
 <pre class="r"><code>#Export
