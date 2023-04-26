@@ -84,7 +84,8 @@ TYK2_prot   <- import("data/cis_sumstats/TYK2_prot.rds")
 
 ## Merge protein data with annotations
 
-Ferkingstad et al. state in their README file
+Ferkingstad et al. state in their README file  
+
 >A subset of the variants in the summary statistics files should be excluded 
 due to quality issues. These variants are listed in a separate Excluded variants 
 file (assocvariants.excluded.txt.gz). The Extra annotation file 
@@ -115,7 +116,8 @@ rm("CXCL10_anno", "CXCL10_prot", "IL12B_anno", "IL12B_prot",
 
 ## Sort conflicts
 
-Further in the README file of Ferkingstad et al.
+Further in the README file of Ferkingstad et al.  
+
 > Also, the summary statistics files sometimes incorrectly have effectAllele=otherAllele for multiallelic variants.
 In these cases the effectAllele is correct, but the otherAllele should be '!', meaning that the effectAllele is tested against the other (two or more) alleles (using the '!' sign as shorthand for 'not effectAllele').
 This has been corrected in the file Extra annotation file (assocvariants.annotated.txt.gz).
@@ -134,10 +136,12 @@ TYK2_prot_anno   <- TYK2_prot_anno   %>% filter(otherAllele.y != "!")
 
 ```
 
-After removal of multiallelic variants, are there  conflicts in 
-effectAllele or otherAllele? 
+After removal of multiallelic variants there were no conflicts 
+between effectAllele.x and effectAllele.y or between 
+otherAllele.x and otherAllele.y (results suppressed,
+please see "analyses/Harmonize.Rmd") 
 
-```{r}
+```{r, results = 'hide'}
 
 #Following function is simply to avoid repetition
 check_conflicts_ea_oa <- function(data, effectAllele.x, effectAllele.y) {
@@ -166,9 +170,10 @@ TYK2_prot_anno   %>% check_conflicts_ea_oa() #0 conflicts
 After this, the remaining discrepancies between the variables
 obtained from annotation and protein data files were because those
 variants without an rsid were listed as "." in the annotation file
-and as "NA" in the main GWAS sumstat file
+and as "NA" in the main GWAS sumstat file (please see 
+'/analyses/Harmonize.Rmd')
 
-```{r}
+```{r, results = 'hide'}
 #List subjects which had conflicting rsid information and show
 #which entries there are for these
 check_conflicts_rsid <- function(data, effectAllele.x, effectAllele.y) {
@@ -239,8 +244,10 @@ colnames(TNF_prot_anno)
 colnames(TYK2_prot_anno)
 ```
 
-All data files seem to have entries without rsids. They are now removed
-```{r}
+All data files seem to have entries without rsids (suppressed,
+please see '/analyses/Harmonize.Rmd'). They are now removed
+
+```{r, results = 'hide'}
 anyNA(IL2RG_prot_anno$rsids)   
 anyNA(CXCL10_prot_anno$rsids)  
 anyNA(IL12B_prot_anno$rsids)
@@ -265,7 +272,8 @@ TYK2_prot_anno    <- TYK2_prot_anno   %>% filter(!is.na(rsids))
 ```
 
 
-There were no duplicated rsids in data after exclusion of missing rsids (suppressed)
+There were no duplicated rsids in data after exclusion of missing 
+rsids (suppressed, please see /analyses/Harmonize.Rmd)
 
 ```{r, results='hide'}
 #Sanity 
@@ -392,8 +400,9 @@ IL2RG_T1D   <- import("data/cis_sumstats/IL2RG_T1D.rds")
 IL2RA_T1D   <- import("data/cis_sumstats/IL2RA_T1D.rds")  
 ```
 
+There were no missing rsid values (suppressed)
 
-```{r}
+```{r, results = 'hide'}
 #every 
 IL12B_T1D  %>% pull(hm_rsid) %>% anyNA()
 CXCL10_T1D %>% pull(hm_rsid) %>% anyNA()
@@ -405,7 +414,13 @@ IL6R_T1D   %>% pull(hm_rsid) %>% anyNA()
 IL2RB_T1D  %>% pull(hm_rsid) %>% anyNA()
 IL2RG_T1D  %>% pull(hm_rsid) %>% anyNA()
 IL2RA_T1D  %>% pull(hm_rsid) %>% anyNA()
+```
 
+## Remove duplicated SNPs
+
+All data frames had duplicated rsids (suppressed). They are
+removed.
+```{r, results = 'hide'}
 IL12B_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 CXCL10_T1D %>% pull(hm_rsid) %>% anyDuplicated()
 TYK2_T1D   %>% pull(hm_rsid) %>% anyDuplicated() 
@@ -419,8 +434,7 @@ IL2RA_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 ```
 
 
-## Remove duplicated SNPs
-```{r}
+```{r, results = 'hide'}
 duplicated_snps_IL12B  <- IL12B_T1D  %>% 
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_CXCL10 <- CXCL10_T1D %>% 
@@ -457,6 +471,7 @@ IL2RA_T1D  <- IL2RA_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RA)
 
 
 ## Write data in TwoSampleMR format
+
 ```{r}
 
 #Change to numeric
