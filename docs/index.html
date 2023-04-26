@@ -32,6 +32,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -299,7 +301,13 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/jkoskenniemi/T1DSCREEN">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -347,7 +355,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>Rotaatio-2022/</code> <span
+<strong>Knit directory:</strong> <code>T1DSCREEN/</code> <span
 class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
@@ -385,13 +393,15 @@ results.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongc132eaa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreea3feff0f1532a580e4777042101b55ed09541da8targetblanka3feff0a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> c132eaa
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/a3feff0f1532a580e4777042101b55ed09541da8" target="_blank">a3feff0</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongc132eaa"
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreea3feff0f1532a580e4777042101b55ed09541da8targetblanka3feff0a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -400,7 +410,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version c132eaa.
+The results in this page were generated with repository version
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/a3feff0f1532a580e4777042101b55ed09541da8" target="_blank">a3feff0</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -419,29 +430,19 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analyses/.Rhistory
+    Ignored:    figures/
 
 Untracked files:
     Untracked:  .Rprofile
     Untracked:  .gitattributes
     Untracked:  .gitignore
-    Untracked:  Functional_variants.pdf
     Untracked:  README.md
     Untracked:  T1DSCREEN.Rproj
     Untracked:  _workflowr.yml
-    Untracked:  analyses/_site.yml
     Untracked:  analyses/license.Rmd
-    Untracked:  analyses/zz_archive/
-    Untracked:  analyses/zz_trash/
-    Untracked:  articles/
     Untracked:  code/
     Untracked:  data/
-    Untracked:  docs.zip
-    Untracked:  figures/
     Untracked:  output/
-    Untracked:  plans/
-    Untracked:  references/
-    Untracked:  workflow.txt
-    Untracked:  zz_unsorted/
 
 Unstaged changes:
     Modified:   analyses/CRP.Rmd
@@ -454,6 +455,7 @@ Unstaged changes:
     Modified:   analyses/IL6ST.Rmd
     Modified:   analyses/JAK2.Rmd
     Modified:   analyses/TNF.Rmd
+    Modified:   analyses/about.Rmd
 
 </code></pre>
 <p>
@@ -503,7 +505,7 @@ Message
 html
 </td>
 <td>
-c132eaa
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/b91e2516e9492e66c55da9d43b75156b2a15873a/docs/index.html" target="_blank">b91e251</a>
 </td>
 <td>
 Jaakko Koskenniemi
@@ -520,7 +522,7 @@ Build site.
 html
 </td>
 <td>
-85188f2
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/c132eaa6f8c552f37374aff1c63b23ee2eb3bc5e/docs/index.html" target="_blank">c132eaa</a>
 </td>
 <td>
 Jaakko Koskenniemi
@@ -537,7 +539,7 @@ Build site.
 html
 </td>
 <td>
-c8d146f
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/85188f2ca9b182da9a9113791c5ecaca15e1d0c5/docs/index.html" target="_blank">85188f2</a>
 </td>
 <td>
 Jaakko Koskenniemi
@@ -554,7 +556,24 @@ Build site.
 html
 </td>
 <td>
-8a8823b
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/c8d146f5d34c2ded365b3a66c1596afc77c502b7/docs/index.html" target="_blank">c8d146f</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/8a8823b6afcd8b3c2860a7a4bf8012c950ae6264/docs/index.html" target="_blank">8a8823b</a>
 </td>
 <td>
 Jaakko Koskenniemi
@@ -571,7 +590,7 @@ Build site.
 Rmd
 </td>
 <td>
-2a07dce
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/2a07dce0e71e089d06ee39451b965d0ae1d202e2/analyses/index.Rmd" target="_blank">2a07dce</a>
 </td>
 <td>
 Jaakko Koskenniemi
