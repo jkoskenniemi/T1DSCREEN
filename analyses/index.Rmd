@@ -1,0 +1,12 @@
+---
+title: "Home"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+A research project aimed to evaluate the available genetic evidence
+for efficacy and safety of existing drugs to prevent type 1 diabetes.
