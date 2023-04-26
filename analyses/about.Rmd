@@ -7,4 +7,46 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+T1D is among the most common chronic childhood diseases and 
+requires lifelong daily monitoring of blood glucose and insulin 
+substitution. Failure to manage T1D increases the risk of 
+hypoglycemia and complications of hyperglycemia, such as 
+coronary artery disease, peripheral artery disease, 
+cerebrovascular disease, nephropathy, neuropathy, retinopathy, 
+and blindness. Therefore, the development of a disease-modifying 
+therapy represents a clear medical unmet need. 
+
+Discovery and validation of prognostic biomarkers of type 1 
+diabetes, such as presence of multiple autoantibodies against 
+beta cell derived peptides and mild glycemia in an oral glucose-
+tolerance test, have facilitated clinical trials to prevent type 
+1 diabetes during the asymptomatic phase when the beta-cell 
+function is not yet lost. However, they have generally struggled 
+to meet their recruitment goals, because of the limited access 
+to autoantibody positive subjects and the fact that asymptomatic 
+children at risk for type 1 diabetes are often risk averse and 
+reluctant to participate in intensive follow-up.
+
+Although Teplizumab, a monoclonal antibody against CD3, received an 
+indication for prevention of type 1 diabetes by Food and Drug 
+Administration in the USA in November 2022 under emergency 
+breakthrough designation, results from the vast majority of 
+prevention trials of type 1 diabetes have provided discouraging 
+results. Unfortunately, type 1 diabetes seems to be a heterogenous 
+disease that is poorly represented by the current animal models. 
+
+Recently, genetic evidence has been successfully used in target 
+validation for various diseases. Candidate drugs that are backed 
+by genetic evidence are twice as likely to be approved for clinical 
+use than those that are not. For instance, genetic evidence led 
+to clinical trials which found evidence for the use of ustekinumab, 
+a monoclonal antibody against IL-23, for treatment of Crohn’s 
+disease. Furthermore, techniques of genetics-informed causal 
+inference, such as Mendelian randomization and colocalization,
+can provide an estimate of efficacy and safety of a potential drug. 
+
+We aim to evaluate genetic evidence of efficacy and safety of seven 
+drugs that already have a market approval. We believe that this 
+information can be used to evaluate the potential of these drugs for
+prevention of type 1 diabetes.
+
