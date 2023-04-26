@@ -32,7 +32,7 @@ TYK2 <- harmonise_data(TYK2_prot, TYK2_T1D)
 
 There are no GWAS hits in TYK2 levels in serum. Thus, coloc and MR is not done.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message = "FALSE"}
 #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
 TYK2_prot.fig <-
   TYK2 %>%
@@ -64,8 +64,8 @@ TYK2_gene.fig <-
   geom_blank() +
   geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
   annotate("text", label = "TYK2",
-           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(36521.878, 38571.094) +
+           x= (10461.209 + 10491.352) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(layer_scales(TYK2_T1D.fig)$x$range$range) +
   ylim(0.75, 2) +
   ylab(NULL) + xlab(NULL) +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
