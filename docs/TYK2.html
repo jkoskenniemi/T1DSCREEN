@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Tea Heikkilä, Emilia Kaiser &amp; Jaakko Koskenniemi" />
 
-<meta name="date" content="2022-11-01" />
 
-<title>Proxying the efficacy of TYK2 for prevention of type 1 diabetes</title>
+<title>TYK2</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -353,9 +353,10 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Proxying the efficacy of TYK2 for
-prevention of type 1 diabetes</h1>
-<h4 class="date">2022-11-01</h4>
+<h1 class="title toc-ignore">TYK2</h1>
+<h4 class="author">Tea Heikkilä, Emilia Kaiser &amp; Jaakko
+Koskenniemi</h4>
+<h4 class="date">2022-26-04</h4>
 
 </div>
 
@@ -384,7 +385,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-05
+<strong>Last updated:</strong> 2023-04-26
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -515,13 +516,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstronge86595d">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong0e13d7a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> e86595d
+aria-hidden="true"></span> <strong>Repository version:</strong> 0e13d7a
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstronge86595d"
+<div id="strongRepositoryversionstrong0e13d7a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -530,7 +531,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version e86595d.
+The results in this page were generated with repository version 0e13d7a.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -554,34 +555,35 @@ Untracked files:
     Untracked:  .Rprofile
     Untracked:  .gitattributes
     Untracked:  .gitignore
-    Untracked:  CRP.Rmd
     Untracked:  Functional_variants.pdf
-    Untracked:  IL2RB.Rmd
-    Untracked:  IL6R.Rmd
-    Untracked:  IL6ST.Rmd
-    Untracked:  MONDO_0005147-known-drugs.tsv
-    Untracked:  MR-articles-pubmed.csv
-    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data-to-ritta.pptx
-    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data.pptx
     Untracked:  README.md
-    Untracked:  README.txt
-    Untracked:  TNF.Rmd
+    Untracked:  T1DSCREEN.Rproj
     Untracked:  _workflowr.yml
+    Untracked:  analyses/IL2RG.Rmd
     Untracked:  analyses/_site.yml
     Untracked:  analyses/about.Rmd
     Untracked:  analyses/index.Rmd
     Untracked:  analyses/license.Rmd
+    Untracked:  analyses/zz_archive/
+    Untracked:  analyses/zz_trash/
     Untracked:  articles/
     Untracked:  code/
     Untracked:  data/
+    Untracked:  docs.zip
     Untracked:  figures/
-    Untracked:  guidelines-for-review-of-MR-studies-20177.pdf
-    Untracked:  ld_finnge.zip
-    Untracked:  mendelian randomization.Rproj
     Untracked:  output/
+    Untracked:  plans/
+    Untracked:  references/
+    Untracked:  workflow.txt
+    Untracked:  zz_unsorted/
 
 Unstaged changes:
-    Deleted:    analyses/IL6R.Rmd
+    Deleted:    analyses/CRP.Rmd
+    Deleted:    analyses/CXCL10.Rmd
+    Deleted:    analyses/IL12B.Rmd
+    Deleted:    analyses/IL2RA.Rmd
+    Modified:   analyses/IL6R.Rmd
+    Deleted:    analyses/JAK2.Rmd
 
 </code></pre>
 <p>
@@ -631,6 +633,40 @@ Message
 Rmd
 </td>
 <td>
+0e13d7a
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+First commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+24d77f3
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2022-11-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 e86595d
 </td>
 <td>
@@ -651,16 +687,18 @@ wflow_publish(c("analyses/CRP.Rmd", "analyses/CXCL10.Rmd",
 </div>
 </div>
 </div>
-<p>Load packages</p>
-<pre><code>This is a new update to coloc.</code></pre>
+<p>Load packages and import data</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
-<pre><code>v ggplot2 3.3.6     v purrr   0.3.4
+<pre><code>v ggplot2 3.4.1     v purrr   0.3.4
 v tibble  3.1.7     v dplyr   1.0.9
 v tidyr   1.2.0     v stringr 1.4.0
 v readr   2.1.2     v forcats 0.5.1</code></pre>
+<pre><code>Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
 <pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
 x dplyr::filter() masks stats::filter()
 x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
 <pre><code>
 Attaching package: &#39;data.table&#39;</code></pre>
 <pre><code>The following objects are masked from &#39;package:dplyr&#39;:
@@ -669,135 +707,43 @@ Attaching package: &#39;data.table&#39;</code></pre>
 <pre><code>The following object is masked from &#39;package:purrr&#39;:
 
     transpose</code></pre>
+<pre class="r"><code>library(coloc)</code></pre>
+<pre><code>This is a new update to coloc.</code></pre>
+<pre class="r"><code>library(TwoSampleMR)</code></pre>
 <pre><code>TwoSampleMR version 0.5.6 
 [&gt;] New: Option to use non-European LD reference panels for clumping etc
 [&gt;] Some studies temporarily quarantined to verify effect allele
 [&gt;] See news(package=&#39;TwoSampleMR&#39;) and https://gwas.mrcieu.ac.uk for further details</code></pre>
+<pre class="r"><code>library(ggpubr)
+library(ieugwasr)</code></pre>
 <pre><code>API: public: http://gwas-api.mrcieu.ac.uk/</code></pre>
 <pre><code>
 Attaching package: &#39;ieugwasr&#39;</code></pre>
 <pre><code>The following object is masked from &#39;package:TwoSampleMR&#39;:
 
     ld_matrix</code></pre>
-<div id="tyk2" class="section level1">
-<h1>1 TYK2</h1>
-<div id="obtain-data" class="section level2">
-<h2>1.1 Obtain data</h2>
-<p>GWAS sumstat of type 1 diabetes was obtained from the study by Chiou
-et al. (Nature 2021, <a
-href="https://doi.org/10.1038/s41586-021-03552-w"
-class="uri">https://doi.org/10.1038/s41586-021-03552-w</a>). GWAS
-sumstat for protein levels of TYK2 was obtained from the study by
-Ferkingstad et al. (Nature 2021, <a
-href="https://doi.org/10.1038/s41588-021-00978-w"
-class="uri">https://doi.org/10.1038/s41588-021-00978-w</a>). Variants
-within 1 megabase before the start site of TYK2 and 1 megabase after the
-stop site are included.</p>
-<p>Ferkingstad et al. state in their README file</p>
-<blockquote>
-<p>Note that in the summary statistics files, the effectAllele is not
-always the minor allele, and therefore the ImpMAF is not always the
-frequency of the effect allele (it may be the frequency of the other
-allele). We now provide an Extra annotation file
-(assocvariants.annotated.txt.gz) that also includes the effect allele
-frequency – This file can be mapped to the other files using the “Name”
-column. Also, the summary statistics files sometimes incorrectly have
-effectAllele=otherAllele for multiallelic variants. In these cases the
-effectAllele is correct, but the otherAllele should be ‘!’, meaning that
-the effectAllele is tested against the other (two or more) alleles
-(using the ‘!’ sign as shorthand for ‘not effectAllele’). This has been
-corrected in the file Extra annotation file
-(assocvariants.annotated.txt.gz).</p>
-</blockquote>
-<blockquote>
-<p>Finally, a subset of the variants in the summary statistics files
-should be excluded due to quality issues. These variants are listed in a
-separate Excluded variants file (assocvariants.excluded.txt.gz). The
-Extra annotation file (assocvariants.annotated.txt.gz) does not include
-these variants.</p>
-</blockquote>
-<p>All cases where the variables in the two data files (annotation and
-original sumstat of Ferkingstad) are either instances when - rsid has
-not been assigned (and the original sumstat has NA and the annotation
-“.”) - multiallelic allele, where the other allele is annotated with a
-“!”</p>
-<p>We decided to remove the multiallelic SNPs anyway, and after them,
-the columns were identical (equal and not discordant in terms of missing
-observations).</p>
-<pre><code># A tibble: 0 x 18
-# ... with 18 variables: Chrom.x &lt;chr&gt;, Pos.x &lt;int&gt;, Name &lt;chr&gt;, rsids.x &lt;chr&gt;,
-#   effectAllele.x &lt;chr&gt;, otherAllele.x &lt;chr&gt;, Beta &lt;dbl&gt;, Pval &lt;dbl&gt;,
-#   minus_log10_pval &lt;dbl&gt;, SE &lt;dbl&gt;, N &lt;int&gt;, ImpMAF &lt;dbl&gt;, Chrom.y &lt;chr&gt;,
-#   Pos.y &lt;int&gt;, rsids.y &lt;chr&gt;, effectAllele.y &lt;chr&gt;, otherAllele.y &lt;chr&gt;,
-#   effectAlleleFreq &lt;dbl&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<p>Thus, only those values variables with .x in their name are
-preserved. Here, we also remove the remaining multiallelic SNPs (where
-effect allele equals the other allele.)</p>
-</div>
-<div id="harmonize-and-check-for-alignment" class="section level2">
-<h2>2.2 Harmonize and check for alignment</h2>
-<p>Please note that the GWAS sumstat of type 1 diabetes has been
-harmonized by GWAS catalog, but the GWAS sumstat for serum TYK2 levels
-has not been harmonized.</p>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: Chrom &lt;chr&gt;, rsid &lt;chr&gt;, pos &lt;int&gt;,
-#   base_pair_location &lt;int&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: Chrom &lt;chr&gt;, rsid &lt;chr&gt;, pos &lt;int&gt;,
-#   base_pair_location &lt;int&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre><code># A tibble: 0 x 2
-# ... with 2 variables: Chrom.x &lt;chr&gt;, Chrom.y &lt;chr&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre><code> [1] &quot;Chrom&quot;              &quot;Pos&quot;                &quot;variant_id_prot&quot;   
- [4] &quot;rsid&quot;               &quot;EA_prot&quot;            &quot;NEA_prot&quot;          
- [7] &quot;BETA_prot&quot;          &quot;p_prot&quot;             &quot;minus_log10_p_prot&quot;
-[10] &quot;SE_prot&quot;            &quot;N_prot&quot;             &quot;ImpMAF_prot&quot;       
-[13] &quot;EAF_prot&quot;           &quot;pos&quot;                &quot;variant_id_T1D&quot;    
-[16] &quot;EA_T1D&quot;             &quot;NEA_T1D&quot;            &quot;BETA_T1D&quot;          
-[19] &quot;SE_T1D&quot;             &quot;p_T1D&quot;              &quot;EAF_T1D&quot;           </code></pre>
-<pre><code># A tibble: 982 x 21
-   Chrom     Pos variant_~1 rsid  EA_prot NEA_p~2 BETA_~3 p_prot minus~4 SE_prot
-   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1 chr19 9462478 19_946247~ rs35~ A       G       -0.0051  0.521  0.283  0.00795
- 2 chr19 9462699 19_946269~ rs65~ T       C       -0.0005  0.954  0.0203 0.00873
- 3 chr19 9463856 19_946385~ rs81~ T       C       -0.0004  0.958  0.0187 0.00757
- 4 chr19 9465163 19_946516~ rs11~ A       G       -0.0027  0.738  0.132  0.00807
- 5 chr19 9470190 19_947019~ rs72~ T       C       -0.0049  0.535  0.272  0.00789
- 6 chr19 9470791 19_947079~ rs93~ T       A        0.0015  0.855  0.0680 0.00822
- 7 chr19 9472042 19_947204~ rs21~ G       A        0.0014  0.867  0.0620 0.00836
- 8 chr19 9472593 19_947259~ rs65~ T       C       -0.005   0.528  0.278  0.00791
- 9 chr19 9476511 19_947651~ rs12~ T       C       -0.0068  0.404  0.393  0.00816
-10 chr19 9477945 19_947794~ rs11~ T       C       -0.0051  0.525  0.280  0.00802
-# ... with 972 more rows, 11 more variables: N_prot &lt;int&gt;, ImpMAF_prot &lt;dbl&gt;,
-#   EAF_prot &lt;dbl&gt;, pos &lt;int&gt;, variant_id_T1D &lt;chr&gt;, EA_T1D &lt;chr&gt;,
-#   NEA_T1D &lt;chr&gt;, BETA_T1D &lt;dbl&gt;, SE_T1D &lt;dbl&gt;, p_T1D &lt;chr&gt;, EAF_T1D &lt;dbl&gt;,
-#   and abbreviated variable names 1: variant_id_prot, 2: NEA_prot,
-#   3: BETA_prot, 4: minus_log10_p_prot
-# i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
-</div>
+<pre class="r"><code>library(rio)</code></pre>
+<pre><code>Warning: package &#39;rio&#39; was built under R version 4.2.2</code></pre>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>Warning: package &#39;here&#39; was built under R version 4.2.2</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>here::i_am(&quot;analyses/TYK2.Rmd&quot;)</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>TYK2_prot &lt;- read_exposure_data(&quot;data/export/TYK2_prot_anno_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
+TYK2_T1D  &lt;- read_outcome_data(&quot;data/export/TYK2_T1D_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
+
+TYK2 &lt;- harmonise_data(TYK2_prot, TYK2_T1D)</code></pre>
+<pre><code>Harmonising Serum IL2RG level (4vucPG) and Risk of type 1 diabetes (xN25Oe)</code></pre>
+<pre><code>Removing the following SNPs for incompatible alleles:
+rs151165116, rs183479123, rs185264289, rs373524333, rs374964295, rs534737045, rs537688931, rs544285808, rs546195204, rs555277654, rs558187292, rs558830521, rs571297393, rs571727951, rs572069029, rs747556448, rs757688587, rs767437573, rs77444625, rs775432199, rs779038836</code></pre>
+<pre><code>Removing the following SNPs for being palindromic with intermediate allele frequencies:
+rs1037686, rs10409562, rs10416414, rs10417443, rs11085587, rs11668537, rs11668706, rs11673302, rs12462944, rs12975236, rs12979606, rs12981841, rs12982396, rs12982962, rs12985305, rs13344456, rs1368459, rs1644726, rs1644730, rs1862471, rs1895371, rs1968236, rs2075741, rs2161468, rs2287813, rs2305792, rs2445885, rs2569703, rs2738446, rs2738448, rs281432, rs322144, rs322145, rs3786698, rs3826709, rs3826803, rs4804161, rs4804526, rs55686442, rs61032644, rs62104327, rs62128757, rs6511685, rs67475684, rs6887, rs710845, rs7245579, rs7252965, rs7254559, rs7256625, rs7258340, rs73017023, rs749261, rs753859, rs8112953, rs8113000, rs8182463, rs885743, rs896412, rs918539, rs9973219</code></pre>
 <div id="manhattan-plots" class="section level2">
-<h2>2.3 Manhattan plots</h2>
+<h2>Manhattan plots</h2>
+<p>There are no GWAS hits in TYK2 levels in serum. Thus, coloc and MR is
+not done.</p>
 <pre><code>[1]  9461.514 11491.155</code></pre>
-<p><img src="figure/TYK2.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="coloc-assuming-1-colocalizing-variant" class="section level2">
-<h2>2.4 Coloc assuming 1 colocalizing variant</h2>
-<pre><code>Warning in check_dataset(d = dataset1, 1): minimum p value is: 0.00069343
-If this is what you expected, this is not a problem.
-If this is not as small as you expected, please check the 02_data vignette.</code></pre>
-<pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
- 4.69e-17  3.03e-18  7.96e-01  5.13e-02  1.53e-01 
-[1] &quot;PP abf for shared variant: 15.3%&quot;</code></pre>
-<pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
-<p><img src="figure/TYK2.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="susie" class="section level2">
-<h2>2.5 SusiE</h2>
-<p>Älkää tehkö vielä tätä. Jätetään se kuitenkin tähän vielä jatkoa
-varten.</p>
+<p><img src="figure/TYK2.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -822,37 +768,38 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ieugwasr_0.1.5    TwoSampleMR_0.5.6 data.table_1.14.2 ggpubr_0.4.0     
- [5] forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4      
- [9] readr_2.1.2       tidyr_1.2.0       tibble_3.1.7      ggplot2_3.3.6    
-[13] tidyverse_1.3.1   coloc_5.1.0.1     workflowr_1.7.0  
+ [1] here_1.0.1        rio_0.5.29        ieugwasr_0.1.5    ggpubr_0.4.0     
+ [5] TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2 forcats_0.5.1    
+ [9] stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4       readr_2.1.2      
+[13] tidyr_1.2.0       tibble_3.1.7      ggplot2_3.4.1     tidyverse_1.3.1  
+[17] workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] matrixStats_0.62.0 fs_1.5.2           lubridate_1.8.0    httr_1.4.3        
- [5] rprojroot_2.0.3    tools_4.2.1        backports_1.4.1    bslib_0.4.0       
- [9] utf8_1.2.2         R6_2.5.1           irlba_2.3.5        nortest_1.0-4     
-[13] DBI_1.1.3          colorspace_2.0-3   withr_2.5.0        tidyselect_1.1.2  
-[17] gridExtra_2.3      processx_3.6.1     compiler_4.2.1     git2r_0.30.1      
-[21] glmnet_4.1-4       cli_3.3.0          rvest_1.0.2        xml2_1.3.3        
-[25] labeling_0.4.2     sass_0.4.2         scales_1.2.0       callr_3.7.1       
-[29] mixsqp_0.3-43      digest_0.6.29      rmarkdown_2.14     pkgconfig_2.0.3   
-[33] htmltools_0.5.2    mr.raps_0.2        highr_0.9          dbplyr_2.2.1      
-[37] fastmap_1.1.0      rlang_1.0.3        readxl_1.4.0       susieR_0.12.16    
-[41] rstudioapi_0.13    farver_2.1.1       shape_1.4.6        jquerylib_0.1.4   
-[45] generics_0.1.3     jsonlite_1.8.0     car_3.1-0          magrittr_2.0.3    
-[49] Matrix_1.4-1       Rcpp_1.0.8.3       munsell_0.5.0      fansi_1.0.3       
-[53] abind_1.4-5        viridis_0.6.2      lifecycle_1.0.1    stringi_1.7.6     
-[57] whisker_0.4        yaml_2.3.5         carData_3.0-5      plyr_1.8.7        
-[61] grid_4.2.1         promises_1.2.0.1   crayon_1.5.1       lattice_0.20-45   
-[65] cowplot_1.1.1      splines_4.2.1      haven_2.5.0        hms_1.1.1         
-[69] knitr_1.39         ps_1.7.1           pillar_1.8.0       ggsignif_0.6.3    
-[73] codetools_0.2-18   reprex_2.0.1       glue_1.6.2         evaluate_0.15     
-[77] getPass_0.2-2      modelr_0.1.8       foreach_1.5.2      vctrs_0.4.1       
-[81] tzdb_0.3.0         httpuv_1.6.5       cellranger_1.1.0   gtable_0.3.0      
-[85] reshape_0.8.9      assertthat_0.2.1   cachem_1.0.6       xfun_0.31         
-[89] broom_1.0.0        rstatix_0.7.0      later_1.3.0        survival_3.3-1    
-[93] viridisLite_0.4.0  iterators_1.0.14   ellipsis_0.3.2    </code></pre>
-</div>
+ [1] colorspace_2.0-3   ggsignif_0.6.3     ellipsis_0.3.2     rprojroot_2.0.3   
+ [5] fs_1.5.2           rstudioapi_0.13    farver_2.1.1       fansi_1.0.3       
+ [9] lubridate_1.8.0    xml2_1.3.3         codetools_0.2-18   splines_4.2.1     
+[13] cachem_1.0.6       knitr_1.39         jsonlite_1.8.0     broom_1.0.0       
+[17] dbplyr_2.2.1       compiler_4.2.1     httr_1.4.3         backports_1.4.1   
+[21] assertthat_0.2.1   Matrix_1.4-1       fastmap_1.1.0      cli_3.6.0         
+[25] later_1.3.0        htmltools_0.5.2    tools_4.2.1        gtable_0.3.0      
+[29] glue_1.6.2         Rcpp_1.0.8.3       carData_3.0-5      cellranger_1.1.0  
+[33] jquerylib_0.1.4    vctrs_0.5.2        iterators_1.0.14   xfun_0.31         
+[37] ps_1.7.1           openxlsx_4.2.5.1   rvest_1.0.2        lifecycle_1.0.3   
+[41] irlba_2.3.5        rstatix_0.7.0      getPass_0.2-2      scales_1.2.0      
+[45] hms_1.1.1          promises_1.2.0.1   susieR_0.12.16     yaml_2.3.5        
+[49] curl_4.3.2         gridExtra_2.3      sass_0.4.2         reshape_0.8.9     
+[53] stringi_1.7.6      highr_0.9          foreach_1.5.2      nortest_1.0-4     
+[57] zip_2.2.0          shape_1.4.6        rlang_1.0.6        pkgconfig_2.0.3   
+[61] matrixStats_0.62.0 evaluate_0.15      lattice_0.20-45    labeling_0.4.2    
+[65] cowplot_1.1.1      processx_3.6.1     tidyselect_1.1.2   plyr_1.8.7        
+[69] magrittr_2.0.3     R6_2.5.1           generics_0.1.3     DBI_1.1.3         
+[73] pillar_1.8.0       haven_2.5.0        whisker_0.4        foreign_0.8-82    
+[77] withr_2.5.0        survival_3.3-1     abind_1.4-5        mixsqp_0.3-43     
+[81] modelr_0.1.8       crayon_1.5.1       car_3.1-0          utf8_1.2.2        
+[85] tzdb_0.3.0         rmarkdown_2.14     viridis_0.6.2      grid_4.2.1        
+[89] readxl_1.4.0       callr_3.7.1        git2r_0.30.1       mr.raps_0.2       
+[93] reprex_2.0.1       digest_0.6.29      httpuv_1.6.5       munsell_0.5.0     
+[97] glmnet_4.1-4       viridisLite_0.4.0  bslib_0.4.0       </code></pre>
 </div>
 </div>
 
