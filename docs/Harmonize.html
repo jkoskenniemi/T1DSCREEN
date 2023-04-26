@@ -515,13 +515,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong64dfa0b">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong3b88c47">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 64dfa0b
+aria-hidden="true"></span> <strong>Repository version:</strong> 3b88c47
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong64dfa0b"
+<div id="strongRepositoryversionstrong3b88c47"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -530,7 +530,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 64dfa0b.
+The results in this page were generated with repository version 3b88c47.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -630,6 +630,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+3b88c47
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-25
+</td>
+<td>
+Quick corrections to enhance how results are printed
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+0c334fc
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -737,11 +771,14 @@ TYK2_prot   &lt;- import(&quot;data/cis_sumstats/TYK2_prot.rds&quot;)</code></pr
 </div>
 <div id="merge-protein-data-with-annotations" class="section level2">
 <h2>Merge protein data with annotations</h2>
-<p>Ferkingstad et al. state in their README file &gt;A subset of the
-variants in the summary statistics files should be excluded due to
-quality issues. These variants are listed in a separate Excluded
-variants file (assocvariants.excluded.txt.gz). The Extra annotation file
-(assocvariants.annotated.txt.gz) does not include these variants.</p>
+<p>Ferkingstad et al. state in their README file</p>
+<blockquote>
+<p>A subset of the variants in the summary statistics files should be
+excluded due to quality issues. These variants are listed in a separate
+Excluded variants file (assocvariants.excluded.txt.gz). The Extra
+annotation file (assocvariants.annotated.txt.gz) does not include these
+variants.</p>
+</blockquote>
 <p>Therefore in the join process, only the data available in the
 annotation (IL2RG_anno) is used (hence, left_join)</p>
 <pre class="r"><code>CXCL10_prot_anno &lt;- left_join(CXCL10_prot, CXCL10_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
@@ -763,14 +800,16 @@ rm(&quot;CXCL10_anno&quot;, &quot;CXCL10_prot&quot;, &quot;IL12B_anno&quot;, &qu
 </div>
 <div id="sort-conflicts" class="section level2">
 <h2>Sort conflicts</h2>
-<p>Further in the README file of Ferkingstad et al. &gt; Also, the
-summary statistics files sometimes incorrectly have
+<p>Further in the README file of Ferkingstad et al. </p>
+<blockquote>
+<p>Also, the summary statistics files sometimes incorrectly have
 effectAllele=otherAllele for multiallelic variants. In these cases the
 effectAllele is correct, but the otherAllele should be ‘!’, meaning that
 the effectAllele is tested against the other (two or more) alleles
 (using the ‘!’ sign as shorthand for ‘not effectAllele’). This has been
 corrected in the file Extra annotation file
 (assocvariants.annotated.txt.gz).</p>
+</blockquote>
 <p>Therefore, multiallelic variants were removed.</p>
 <pre class="r"><code>CXCL10_prot_anno &lt;- CXCL10_prot_anno %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL12B_prot_anno  &lt;- IL12B_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
@@ -781,8 +820,10 @@ IL6ST_prot_anno  &lt;- IL6ST_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&q
 JAK2_prot_anno   &lt;- JAK2_prot_anno   %&gt;% filter(otherAllele.y != &quot;!&quot;)
 TNF_prot_anno    &lt;- TNF_prot_anno    %&gt;% filter(otherAllele.y != &quot;!&quot;)
 TYK2_prot_anno   &lt;- TYK2_prot_anno   %&gt;% filter(otherAllele.y != &quot;!&quot;)</code></pre>
-<p>After removal of multiallelic variants, are there conflicts in
-effectAllele or otherAllele?</p>
+<p>After removal of multiallelic variants there were no conflicts
+between effectAllele.x and effectAllele.y or between otherAllele.x and
+otherAllele.y (results suppressed, please see
+“analyses/Harmonize.Rmd”)</p>
 <pre class="r"><code>#Following function is simply to avoid repetition
 check_conflicts_ea_oa &lt;- function(data, effectAllele.x, effectAllele.y) {
   filter(data, effectAllele.x != effectAllele.y | 
@@ -795,28 +836,20 @@ check_conflicts_ea_oa &lt;- function(data, effectAllele.x, effectAllele.y) {
 
 #List those with conflicts in effectAllele or otherAllele
 
-CXCL10_prot_anno %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
-<pre class="r"><code>IL12B_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
-<pre class="r"><code>IL2RA_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
-<pre class="r"><code>IL2RB_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
-<pre class="r"><code>IL2RG_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
-<pre class="r"><code>IL6ST_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
-<pre class="r"><code>JAK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
-<pre class="r"><code>TNF_prot_anno    %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
-<pre class="r"><code>TYK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
-<pre><code>Empty data.table (0 rows and 16 cols): Chrom,Pos,Name,rsids.x,effectAllele.x,otherAllele.x...</code></pre>
+CXCL10_prot_anno %&gt;% check_conflicts_ea_oa() #0 conflicts
+IL12B_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
+IL2RA_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
+IL2RB_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
+IL2RG_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
+IL6ST_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
+JAK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts
+TNF_prot_anno    %&gt;% check_conflicts_ea_oa() #0 conflicts
+TYK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
 <p>After this, the remaining discrepancies between the variables
 obtained from annotation and protein data files were because those
 variants without an rsid were listed as “.” in the annotation file and
-as “NA” in the main GWAS sumstat file</p>
+as “NA” in the main GWAS sumstat file (please see
+‘/analyses/Harmonize.Rmd’)</p>
 <pre class="r"><code>#List subjects which had conflicting rsid information and show
 #which entries there are for these
 check_conflicts_rsid &lt;- function(data, effectAllele.x, effectAllele.y) {
@@ -830,31 +863,15 @@ check_conflicts_rsid &lt;- function(data, effectAllele.x, effectAllele.y) {
 }
 
 #All the conflicts in rsid.x and rsid.y are because rsid.x is NA and rsid.y is &quot;.&quot;
-CXCL10_prot_anno %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
-<pre><code> rsids.x    rsids.y
- NA&#39;s:684   .:684  </code></pre>
-<pre class="r"><code>IL12B_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
-<pre><code> rsids.x    rsids.y
- NA&#39;s:712   .:712  </code></pre>
-<pre class="r"><code>IL2RA_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
-<pre><code> rsids.x    rsids.y
- NA&#39;s:798   .:798  </code></pre>
-<pre class="r"><code>IL2RB_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
-<pre><code> rsids.x    rsids.y
- NA&#39;s:722   .:722  </code></pre>
-<pre class="r"><code>IL2RG_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
-<pre><code> rsids.x     rsids.y 
- NA&#39;s:2149   .:2149  </code></pre>
-<pre class="r"><code># IL6ST_prot_anno  %&gt;% check_conflicts_rsid() #0 
-JAK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
-<pre><code> rsids.x     rsids.y 
- NA&#39;s:1103   .:1103  </code></pre>
-<pre class="r"><code>TNF_prot_anno    %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
-<pre><code> rsids.x    rsids.y
- NA&#39;s:705   .:705  </code></pre>
-<pre class="r"><code>TYK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
-<pre><code> rsids.x    rsids.y
- NA&#39;s:677   .:677  </code></pre>
+CXCL10_prot_anno %&gt;% check_conflicts_rsid() #0 conflicts
+IL12B_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
+IL2RA_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
+IL2RB_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
+IL2RG_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
+# IL6ST_prot_anno  %&gt;% check_conflicts_rsid() #0 
+JAK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts
+TNF_prot_anno    %&gt;% check_conflicts_rsid() #0 conflicts
+TYK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
 <p>Thus, only those values variables with .x in their name are
 preserved. Here, we also remove the remaining multiallelic SNPs (where
 effect allele equals the other allele.)</p>
@@ -892,28 +909,20 @@ colnames(IL2RG_prot_anno)
 colnames(JAK2_prot_anno)
 colnames(TNF_prot_anno)
 colnames(TYK2_prot_anno)</code></pre>
-<p>All data files seem to have entries without rsids. They are now
-removed</p>
-<pre class="r"><code>anyNA(IL2RG_prot_anno$rsids)   </code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>anyNA(CXCL10_prot_anno$rsids)  </code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>anyNA(IL12B_prot_anno$rsids)</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>anyNA(IL2RA_prot_anno$rsids)</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>anyNA(IL2RB_prot_anno$rsids)</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>anyNA(IL2RG_prot_anno$rsids)</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>#anyNA(IL6ST_prot_anno$rsids)
-anyNA(JAK2_prot_anno$rsids)</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>anyNA(TNF_prot_anno$rsids)</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>anyNA(TYK2_prot_anno$rsids)</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<pre class="r"><code>IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% filter(!is.na(rsids))
+<p>All data files seem to have entries without rsids (suppressed, please
+see ‘/analyses/Harmonize.Rmd’). They are now removed</p>
+<pre class="r"><code>anyNA(IL2RG_prot_anno$rsids)   
+anyNA(CXCL10_prot_anno$rsids)  
+anyNA(IL12B_prot_anno$rsids)
+anyNA(IL2RA_prot_anno$rsids)
+anyNA(IL2RB_prot_anno$rsids)
+anyNA(IL2RG_prot_anno$rsids)
+#anyNA(IL6ST_prot_anno$rsids)
+anyNA(JAK2_prot_anno$rsids)
+anyNA(TNF_prot_anno$rsids)
+anyNA(TYK2_prot_anno$rsids)
+
+IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% filter(!is.na(rsids))
 CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% filter(!is.na(rsids))
 IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% filter(!is.na(rsids))
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% filter(!is.na(rsids))
@@ -924,7 +933,7 @@ JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% filter(!is.na(rsids))
 TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% filter(!is.na(rsids))
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% filter(!is.na(rsids))</code></pre>
 <p>There were no duplicated rsids in data after exclusion of missing
-rsids (suppressed)</p>
+rsids (suppressed, please see /analyses/Harmonize.Rmd)</p>
 <pre class="r"><code>#Sanity 
 anyDuplicated(IL2RG_prot_anno$rsids)   
 anyDuplicated(CXCL10_prot_anno$rsids)  
@@ -1028,48 +1037,33 @@ IL6R_T1D    &lt;- import(&quot;data/cis_sumstats/IL6R_T1D.rds&quot;)
 IL2RB_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RB_T1D.rds&quot;)  
 IL2RG_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RG_T1D.rds&quot;)  
 IL2RA_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RA_T1D.rds&quot;)  </code></pre>
+<p>There were no missing rsid values (suppressed)</p>
 <pre class="r"><code>#every 
-IL12B_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>CXCL10_T1D %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>TYK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA() </code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>TNF_T1D    %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>JAK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code># IL6ST_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
-IL6R_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>IL2RB_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>IL2RG_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>IL2RA_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
-<pre><code>[1] FALSE</code></pre>
-<pre class="r"><code>IL12B_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
-<pre><code>[1] 44</code></pre>
-<pre class="r"><code>CXCL10_T1D %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
-<pre><code>[1] 158</code></pre>
-<pre class="r"><code>TYK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated() </code></pre>
-<pre><code>[1] 93</code></pre>
-<pre class="r"><code>TNF_T1D    %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
-<pre><code>[1] 159</code></pre>
-<pre class="r"><code>JAK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
-<pre><code>[1] 10</code></pre>
-<pre class="r"><code># IL6ST_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
-IL6R_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
-<pre><code>[1] 85</code></pre>
-<pre class="r"><code>IL2RB_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
-<pre><code>[1] 7</code></pre>
-<pre class="r"><code>IL2RG_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
-<pre><code>[1] 2</code></pre>
-<pre class="r"><code>IL2RA_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
-<pre><code>[1] 25</code></pre>
+IL12B_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
+CXCL10_T1D %&gt;% pull(hm_rsid) %&gt;% anyNA()
+TYK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA() 
+TNF_T1D    %&gt;% pull(hm_rsid) %&gt;% anyNA()
+JAK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA()
+# IL6ST_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
+IL6R_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA()
+IL2RB_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
+IL2RG_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
+IL2RA_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
 </div>
 <div id="remove-duplicated-snps" class="section level2">
 <h2>Remove duplicated SNPs</h2>
+<p>All data frames had duplicated rsids (suppressed). They are
+removed.</p>
+<pre class="r"><code>IL12B_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+CXCL10_T1D %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+TYK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated() 
+TNF_T1D    %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+JAK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+# IL6ST_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+IL6R_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+IL2RB_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+IL2RG_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+IL2RA_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
 <pre class="r"><code>duplicated_snps_IL12B  &lt;- IL12B_T1D  %&gt;% 
   filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
 duplicated_snps_CXCL10 &lt;- CXCL10_T1D %&gt;% 
