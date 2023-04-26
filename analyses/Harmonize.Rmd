@@ -430,7 +430,7 @@ CXCL10_T1D %>% pull(hm_rsid) %>% anyNA()
 TYK2_T1D   %>% pull(hm_rsid) %>% anyNA() 
 TNF_T1D    %>% pull(hm_rsid) %>% anyNA()
 JAK2_T1D   %>% pull(hm_rsid) %>% anyNA()
-# IL6ST_T1D  %>% pull(hm_rsid) %>% anyNA()
+IL6ST_T1D  %>% pull(hm_rsid) %>% anyNA()
 IL6R_T1D   %>% pull(hm_rsid) %>% anyNA()
 IL2RB_T1D  %>% pull(hm_rsid) %>% anyNA()
 IL2RG_T1D  %>% pull(hm_rsid) %>% anyNA()
@@ -447,7 +447,7 @@ CXCL10_T1D %>% pull(hm_rsid) %>% anyDuplicated()
 TYK2_T1D   %>% pull(hm_rsid) %>% anyDuplicated() 
 TNF_T1D    %>% pull(hm_rsid) %>% anyDuplicated()
 JAK2_T1D   %>% pull(hm_rsid) %>% anyDuplicated()
-# IL6ST_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
+IL6ST_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 IL6R_T1D   %>% pull(hm_rsid) %>% anyDuplicated()
 IL2RB_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 IL2RG_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
@@ -466,8 +466,8 @@ duplicated_snps_TNF   <- TNF_T1D    %>%
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_JAK2   <- JAK2_T1D   %>% 
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
-#duplicated_snps_IL6ST  <- IL6ST_T1D  %>% 
-# filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
+duplicated_snps_IL6ST  <- IL6ST_T1D  %>%
+  filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_IL6R   <- IL6R_T1D   %>% 
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_IL2RB  <- IL2RB_T1D  %>% 
@@ -483,7 +483,7 @@ CXCL10_T1D <- CXCL10_T1D  %>% filter(!hm_rsid %in% duplicated_snps_CXCL10)
 TYK2_T1D   <- TYK2_T1D    %>% filter(!hm_rsid %in% duplicated_snps_TYK2) 
 TNF_T1D    <- TNF_T1D     %>% filter(!hm_rsid %in% duplicated_snps_TNF)
 JAK2_T1D   <- JAK2_T1D    %>% filter(!hm_rsid %in% duplicated_snps_JAK2)
-# IL6ST_T1D  <- IL6ST_T1D %>% filter(!hm_rsid %in% duplicated_snps_IL6ST)
+IL6ST_T1D  <- IL6ST_T1D %>% filter(!hm_rsid %in% duplicated_snps_IL6ST)
 IL6R_T1D   <- IL6R_T1D    %>% filter(!hm_rsid %in% duplicated_snps_IL6R)
 IL2RB_T1D  <- IL2RB_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RB)
 IL2RG_T1D  <- IL2RG_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RG)
@@ -517,7 +517,8 @@ IL12B_T1D   <- IL12B_T1D  %>% rename_for_TwoSampleMR_o()
 IL2RA_T1D   <- IL2RA_T1D  %>% rename_for_TwoSampleMR_o()
 IL2RB_T1D   <- IL2RB_T1D  %>% rename_for_TwoSampleMR_o()
 IL2RG_T1D   <- IL2RG_T1D  %>% rename_for_TwoSampleMR_o()
-# IL6ST_T1D <- IL6ST_T1D  %>% rename_for_TwoSampleMR_o()
+IL6ST_T1D <- IL6ST_T1D  %>% rename_for_TwoSampleMR_o()
+IL6R_T1D    <- IL6R_T1D   %>% rename_for_TwoSampleMR_o()
 JAK2_T1D    <- JAK2_T1D   %>% rename_for_TwoSampleMR_o()
 TNF_T1D     <- TNF_T1D    %>% rename_for_TwoSampleMR_o()
 TYK2_T1D    <- TYK2_T1D   %>% rename_for_TwoSampleMR_o()
@@ -535,8 +536,10 @@ IL2RB_T1D  %>%
   export("data/export/IL2RB_T1D_TwoSampleMR.csv")
 IL2RG_T1D  %>% 
   export("data/export/IL2RG_T1D_TwoSampleMR.csv")
-# IL6ST_T1D  %>%
-#   export("data/export/IL6ST_T1D_TwoSampleMR.csv")
+IL6ST_T1D  %>%
+  export("data/export/IL6ST_T1D_TwoSampleMR.csv")
+IL6R_T1D  %>%
+  export("data/export/IL6R_T1D_TwoSampleMR.csv")
 JAK2_T1D   %>% 
   export("data/export/JAK2_T1D_TwoSampleMR.csv")
 TNF_T1D    %>% 
@@ -552,7 +555,8 @@ TYK2_T1D   %>%
 # read_outcome_data("data/export/IL2RA_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export/IL2RB_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export/IL2RG_T1D_TwoSampleMR.csv", sep = ",")
-# # read_outcome_data("data/export/IL6ST_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export/IL6ST_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export/IL6R_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export/JAK2_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export/TNF_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export/TYK2_T1D_TwoSampleMR.csv", sep = ",")
