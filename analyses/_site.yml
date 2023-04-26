@@ -1,0 +1,43 @@
+name: T1DSCREEN
+output_dir: ../docs
+navbar:
+  title: T1DSCREEN
+  left:
+  - text: Home
+    href: index.html
+  - text: About
+    href: about.html
+  - text: License
+    href: license.html
+  - text: Harmonize
+    href: Harmonize.html
+  - text: IL2RA
+    href: IL2RA.html
+  - text: IL2RB
+    href: IL2RB.html
+  - text: IL2RG
+    href: IL2RG.html
+  - text: IL6R
+    href: IL6R.html
+  - text: CRP
+    href: CRP.html
+  - text: IL12B
+    href: IL12B.html
+  - text: JAK2
+    href: JAK2.html
+  - text: TNF
+    href: TNF.html
+  - text: TYK2
+    href: TYK2.html
+  - text: CXCL10
+    href: CXCL10.html
+  right:
+  - icon: fab fa-github
+    text: Source code
+    href: https://github.com/jkoskenniemi/Rotaatio-2022
+output:
+  workflowr::wflow_html:
+    toc: yes
+    toc_float: yes
+    theme: cosmo
+    highlight: textmate
