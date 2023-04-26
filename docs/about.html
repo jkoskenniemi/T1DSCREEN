@@ -317,7 +317,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -328,8 +328,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -342,9 +342,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>Rotaatio-2022/</code> <span
@@ -367,31 +367,34 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongc132eaa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongf1cc691">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> c132eaa
+aria-hidden="true"></span> <strong>Repository version:</strong> f1cc691
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongc132eaa"
+<div id="strongRepositoryversionstrongf1cc691"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -400,7 +403,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version c132eaa.
+The results in this page were generated with repository version f1cc691.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -454,6 +457,7 @@ Unstaged changes:
     Modified:   analyses/IL6ST.Rmd
     Modified:   analyses/JAK2.Rmd
     Modified:   analyses/TNF.Rmd
+    Modified:   analyses/about.Rmd
 
 </code></pre>
 <p>
@@ -498,6 +502,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+f1cc691
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+Wrote the first version
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+b91e251
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -556,7 +594,42 @@ Fixed issue affecting the X-axis of gene figures in Manhattan plots
 </div>
 </div>
 </div>
-<p>Describe your project.</p>
+<p>T1D is among the most common chronic childhood diseases and requires
+daily monitoring of blood glucose and insulin substitution. Failure to
+manage T1D increases the risk of hypoglycemia and complications of
+hyperglycemia, such as coronary artery disease, peripheral artery
+disease, cerebrovascular disease, nephropathy, neuropathy, retinopathy,
+and blindness. Therefore, the development of a disease-modifying therapy
+represents a clear medical unmet need.</p>
+<p>Discovery and validation of prognostic biomarkers of type 1 diabetes,
+such as presence of multiple autoantibodies against beta cell derived
+peptides and mild glycemia in an oral glucose- tolerance test, have
+facilitated clinical trials to prevent type 1 diabetes during the
+asymptomatic phase when the beta-cell function is not yet lost. However,
+they have generally struggled to meet their recruitment goals, because
+of the limited access to autoantibody positive subjects and the fact
+that asymptomatic children at risk for type 1 diabetes are often risk
+averse and reluctant to participate in intensive follow-up.</p>
+<p>Although Teplizumab, a monoclonal antibody against CD3, received an
+indication for prevention of type 1 diabetes by Food and Drug
+Administration in the USA in November 2022 under emergency breakthrough
+designation, results from the vast majority of prevention trials of type
+1 diabetes have provided discouraging results. Unfortunately, type 1
+diabetes seems to be a heterogenous disease that is poorly represented
+by the current animal models.</p>
+<p>Recently, genetic evidence has been successfully used in target
+validation for various diseases. Candidate drugs that are backed by
+genetic evidence are twice as likely to be approved for clinical use
+than those that are not. For instance, genetic evidence led to clinical
+trials which found evidence for the use of ustekinumab, a monoclonal
+antibody against IL-23, for treatment of Crohn’s disease. Furthermore,
+techniques of genetics-informed causal inference, such as Mendelian
+randomization and colocalization, can provide an estimate of efficacy
+and safety of a potential drug.</p>
+<p>We aim to evaluate genetic evidence of efficacy and safety of seven
+drugs that already have a market approval. We believe that this
+information can be used to evaluate the potential of these drugs for
+prevention of type 1 diabetes.</p>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
