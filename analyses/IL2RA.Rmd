@@ -1,336 +1,330 @@
 ---
-title: "Proxying the efficacy of IL2RA for prevention of type 1 diabetes"
-site: workflowr::wflow_site
-output:
-  workflowr::wflow_html:
-    toc: false
+title: "IL2RA"
+author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
+output: html_document
+date: '2022-24-05'
 editor_options:
   chunk_output_type: console
 ---
 
-Load packages
+Load packages and import data
 ```{r}
 library(tidyverse)
-library(ggpubr)
 library(data.table)
 library(coloc)
 library(TwoSampleMR)
+library(ggpubr)
 library(ieugwasr)
-```
+library(rio)
+library(here)
+
+here::i_am("analyses/IL2RA.Rmd")
 
 
+IL2RA_prot <- read_exposure_data("data/export/IL2RA_prot_anno_TwoSampleMR.csv", sep=",")
+IL2RA_T1D  <- read_outcome_data("data/export/IL2RA_T1D_TwoSampleMR.csv", sep=",")
 
-# 2 IL2RA
-
-## 2.1 Obtain data
-
-GWAS sumstat of type 1 diabetes was obtained from the study by Chiou et al. (Nature 2021, https://doi.org/10.1038/s41586-021-03552-w). GWAS sumstat for protein levels of IL2RA was obtained from the study by Ferkingstad et al. (Nature 2021, https://doi.org/10.1038/s41588-021-00978-w). In terms of IL2RA, 
-variants within 1,000,000 bases before the start site and 1,000,000 after the stop site are included.
-
-
-```{r}
-IL2RA_gwas <- readRDS("data/sumstats/cisdata/IL2RA_gwas_data.rds") %>% as_tibble()
-IL2RA_T1D  <- readRDS("data/sumstats/cisdata/IL2RA_T1D_data_harm.rds")  %>% as_tibble()
-IL2RA_anno <- readRDS("data/sumstats/cisdata/IL2RA_anno_data.rds") %>% as_tibble()
-```
-
-Ferkingstad et al. state in their README file
-
-> Note that in the summary statistics files, the effectAllele is not always the minor allele, and therefore the ImpMAF is not always the frequency of the effect allele (it may be the frequency of the other allele).
-We now provide an Extra annotation file (assocvariants.annotated.txt.gz) that also includes the effect allele frequency -- This file can be mapped to the other files using the "Name" column.
-Also, the summary statistics files sometimes incorrectly have effectAllele=otherAllele for multiallelic variants.
-In these cases the effectAllele is correct, but the otherAllele should be '!', meaning that the effectAllele is tested against the other (two or more) alleles (using the '!' sign as shorthand for 'not effectAllele').
-This has been corrected in the file Extra annotation file (assocvariants.annotated.txt.gz).
-
->Finally, a subset of the variants in the summary statistics files should be excluded due to quality issues.
-These variants are listed in a separate Excluded variants file (assocvariants.excluded.txt.gz).
-The Extra annotation file (assocvariants.annotated.txt.gz) does not include these variants.
-
-
-```{r}
-#merge data (exclude those observations that are missing in anno)
-IL2RA_gwas <- right_join(IL2RA_gwas, IL2RA_anno, by = "Name")
-rm(IL2RA_anno)
-```
-
-All cases where the variables in the two data files (annotation and original sumstat of Ferkingstad) are either instances when
-- rsid has not been assigned (and the original sumstat has NA and the annotation ".")
-- multiallelic allele, where the other allele is annotated with a "!"
-
-We decided to remove the multiallelic SNPs anyway, and after them, the columns were identical (equal and not discordant in terms of missing observations).
-
-```{r}
-
-#Remove multiallelic snps and recode rsid "." to NA
-IL2RA_gwas <- IL2RA_gwas %>%
-  mutate(rsids.y = replace(rsids.y, rsids.y == ".", NA)) %>%
-  filter(otherAllele.y != "!")
-
-#Check that chrom, pos, rsids, effectAllele and otherAllele dont disagree between files
-IL2RA_gwas %>%
-  filter(Chrom.x != Chrom.y | (!is.na(Chrom.x) & is.na(Chrom.y)) |  (!is.na(Chrom.y) & is.na(Chrom.x)) |
-           Pos.x != Pos.y | (!is.na(Pos.x) & is.na(Pos.y)) |  (!is.na(Pos.y) & is.na(Pos.x)) |
-           rsids.x != rsids.y | (!is.na(rsids.x) & is.na(rsids.y)) |  (!is.na(rsids.y) & is.na(rsids.x)) |
-           effectAllele.x != effectAllele.y | (!is.na(effectAllele.x) & is.na(effectAllele.y)) |  (!is.na(effectAllele.y) & is.na(effectAllele.x))|
-           otherAllele.x != otherAllele.y | (!is.na(otherAllele.x) & is.na(otherAllele.y)) |  (!is.na(otherAllele.y) & is.na(otherAllele.x)))
-#None
+IL2RA <- harmonise_data(IL2RA_prot, IL2RA_T1D)
 
 ```
 
-Thus, only those values variables with .x in their name are preserved. Here, we also remove the remaining multiallelic SNPs 
-(where effect allele equals the other allele.)
-
-```{r}
-IL2RA_gwas <- IL2RA_gwas %>% 
-  select(!ends_with(".y")) #remove column names *.y
-
-IL2RA_gwas <- IL2RA_gwas %>% 
-  rename_with(~gsub(".x", "", .x, fixed = TRUE)) #remove ".x" from variable names
-
-#Remove the other version of the coding of multiallelic variants
-IL2RA_gwas <- IL2RA_gwas %>%
-  filter(effectAllele != otherAllele)
-```
-
-
-## 2.2 Harmonize and check for alignment
-
-Please note that the GWAS sumstat of type 1 diabetes has been harmonized by GWAS catalog, but the 
-GWAS sumstat for serum IL2RA levels has not been harmonized.
-
-
-```{r}
-#Rename IL2RA variables
-IL2RA_gwas <- IL2RA_gwas %>%
-  rename(rsid = rsids,
-         EA_prot = effectAllele, NEA_prot = otherAllele,
-         EAF_prot=effectAlleleFreq, BETA_prot=Beta,
-         p_prot = Pval, 
-         minus_log10_p_prot = minus_log10_pval, 
-         SE_prot = SE, N_prot = N, ImpMAF_prot = ImpMAF, variant_id_prot = Name)
-
-#What is the difference between position and base_pair_location?
-IL2RA_T1D %>%
-  filter(pos != base_pair_location) %>%
-  select(chr, rsid, pos, base_pair_location) %>% 
-  print(n=200) 
-#none
-
-IL2RA_T1D <- IL2RA_T1D %>% select(-base_pair_location)
-IL2RA_T1D <- IL2RA_T1D %>%  
-  rename(p_T1D = pval, Pos_T1D=pos,
-         EA_T1D=effectAllele, NEA_T1D=otherAllele, BETA_T1D=beta, 
-         EAF_T1D=EAF, SE_T1D=SE, variant_id_T1D = id)
-
-#Harmonize variant ID variable names
-IL2RA <- inner_join(IL2RA_gwas, IL2RA_T1D, by = "rsid")
-IL2RA %>%
-  select(rsid, variant_id_prot, variant_id_T1D) %>%
-  filter(variant_id_prot != variant_id_T1D)
-
-
-IL2RA_gwas <- IL2RA_gwas %>%
-  mutate(variant_id_prot = str_replace(variant_id_prot, "chr", ""))  %>%
-  mutate(variant_id_prot = str_replace(variant_id_prot, ":", "_"))  %>%
-  mutate(variant_id_prot = str_replace(variant_id_prot, ":", "_"))  %>%
-  mutate(variant_id_prot = str_replace(variant_id_prot, ":", "_"))
-
-#Remove those variants where there are several rsids
-IL2RA_gwas <- IL2RA_gwas %>% filter(!str_detect(rsid, ","))
-
-IL2RA_gwas %>% filter(is.na(rsid))
-IL2RA_T1D %>% filter(is.na(rsid))
-
-#merge the data
-IL2RA <- inner_join(IL2RA_gwas, IL2RA_T1D, by = "rsid")
-```
-
-
-## 2.3 Manhattan plots
+## Manhattan plots
 ```{r}
 #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-IL2RA_prot.fig <- 
+IL2RA_prot.fig <-
   IL2RA %>%
-  ggplot(aes(x = Pos/1000, y=minus_log10_p_prot)) +
+  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
   geom_point()+
   geom_hline(yintercept=8, linetype="dashed")+
-  geom_vline(xintercept=5.75e6/1000, linetype="dashed")+
-  geom_vline(xintercept=6.5e6/1000, linetype="dashed")+
-  ggtitle("GWAS of serum IL2RA levels")+
+  geom_vline(xintercept=5.9e3, linetype="dashed") +
+  geom_vline(xintercept=6.25e3, linetype="dashed") +
+  ggtitle("GWAS of IL2RA in serum") +
+  ylab("-log10(p)") +
   xlab(NULL)
 
-IL2RA_T1D.fig <- 
+IL2RA_T1D.fig <-
   IL2RA %>%
-  mutate(minus_log10_p_T1D = -log10(as.numeric(p_T1D))) %>%
   ggplot()+
-  geom_point(mapping=aes(x = Pos_T1D/1000, y=minus_log10_p_T1D))+
-  geom_hline(yintercept=8, linetype="dashed")+
-  geom_vline(xintercept=5.75e6/1000, linetype="dashed")+
-  geom_vline(xintercept=6.5e6/1000, linetype="dashed")+
-  ggtitle("GWAS of type 1 diabetes")+
-  xlab("Position(kbp)")
+  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
+  geom_hline(yintercept=8, linetype="dashed") +
+  geom_vline(xintercept=5.9e3, linetype="dashed") +
+  geom_vline(xintercept=6.25e3, linetype="dashed") +
+  ggtitle("GWAS of risk of T1D") +
+  ylab("-log10(p)") +
+  xlab("position(kbp)")
 
-layer_scales(IL2RA_prot.fig)$x$range$range
+#Obtain range for figure of gene
+layer_scales(IL2RA_T1D.fig)$x$range$range
 
-IL2RA_gene.fig <- 
+IL2RA_gene.fig <-
   ggplot(data = IL2RA) +
   geom_blank() +
-  geom_segment(x=  6052.652, xend=6104.288, y=1, yend=1, size = 2) +
-  annotate("text", label = "IL2RA", x= (6052.652 + 6104.288) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(5052.67, 7104.244) +
+  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  annotate("text", label = "IL2RA",
+           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(36521.878, 38571.094) +
   ylim(0.75, 2) +
   ylab(NULL) + xlab(NULL) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank())
 
-# Arrange figures
-
-ggarrange(IL2RA_gene.fig, IL2RA_prot.fig,IL2RA_T1D.fig,
-          heights = c(1, 3, 3), nrow = 3,
-          ncol = 1, align = "hv")
-ggsave("figures/IL2RA-manhattan-combined-fig.pdf", height = 8, width = 6, units = "in")
+fig_IL2RA_manhattan <- ggarrange(IL2RA_gene.fig, IL2RA_prot.fig, IL2RA_T1D.fig,
+                                 heights = c(1, 3, 3), nrow = 3,
+                                 ncol = 1, align = "hv")
+fig_IL2RA_manhattan
+# ggsave("figures/IL2RA-manhattan-combined-fig.pdf",
+#        height = 6, width = 8, units = "in")
 ```
 
-
-## 2.4 Coloc assuming 1 colocalizing variant
+## Coloc assuming 1 colocalizing variant
 ```{r}
 #select the area containing significant SNPs
 IL2RA <- IL2RA %>%
-  filter(Pos > 5.75e6 & Pos < 6.5e6)
+  filter(pos.exposure > 5.9e6 & pos.exposure < 6.25e6)
 
 
-#Change MAF to numeric
 IL2RA <- IL2RA %>%
-  mutate(EAF_T1D  = as.numeric(EAF_T1D)) %>%
-  mutate(EAF_prot = as.numeric(EAF_prot)) %>%
-  mutate(MAF_T1D  = ifelse(EAF_T1D  > 0.5, 1 - EAF_T1D,  EAF_T1D)) %>%
-  mutate(MAF_prot = ifelse(EAF_prot > 0.5, 1 - EAF_prot, EAF_prot))
-
-
-#Calculate MAF
-IL2RA <- IL2RA %>%
-  mutate(MAF_T1D  = ifelse(EAF_T1D  > 0.5, 1 - EAF_T1D,  EAF_T1D)) %>%
-  mutate(MAF_prot = ifelse(EAF_prot > 0.5, 1 - EAF_prot, EAF_prot))
-
-#remove the SNPs with MAF= 0
-IL2RA <- IL2RA %>%
-  filter(MAF_T1D != 0) %>%
-  filter(MAF_prot != 0)
-
-#Remove duplicated SNPS
-rsid_dupl <- IL2RA %>% 
-  filter(duplicated(rsid)) %>% pull(rsid)
-IL2RA <- IL2RA %>% filter(!(rsid %in% rsid_dupl))
+  mutate(maf.exposure = ifelse(eaf.exposure < 0.5, eaf.exposure, 1-eaf.exposure)) %>%
+  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
 
 D1 <- list(
   type = "quant", # quantitative trait
-  beta = IL2RA$BETA_prot,
-  varbeta = IL2RA$SE_prot^2, 
-  pvalues = IL2RA$p_prot,
-  N = IL2RA$N_prot,
-  MAF = as.numeric(IL2RA$MAF_prot),
-  position = IL2RA$Pos,
-  snp = IL2RA$rsid,
+  Beta = IL2RA$beta.exposure,
+  varBeta = IL2RA$se.exposure^2,
+  pvalues = IL2RA$pval.exposure, #What is this _origin_?
+  N = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  pos = IL2RA$pos.exposure,
+  snp = IL2RA$SNP,
   sdY = 1)
 
 D2 <- list(
   type = "cc", # case-control trait
-  beta = IL2RA$BETA_T1D,
-  varbeta = IL2RA$SE_T1D^2,
-  pvalues = IL2RA$p_T1D,
+  Beta = IL2RA$beta.outcome,
+  varBeta = IL2RA$se.outcome,
+  pvalues = IL2RA$pval.outcome, #why _origin_?
   N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = as.numeric(IL2RA$MAF_T1D),
-  position = IL2RA$Pos,
-  snp = IL2RA$rsid)
+  MAF = IL2RA$maf.outcome,  #prot used here in purpose
+  pos = IL2RA$pos.outcome,
+  snp = IL2RA$SNP)
 
-coloc_results_IL2RA <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+check_dataset(D1)
+check_dataset(D2)
 
-coloc_results_IL2RA$results %>%
-  tibble() %>%
-  arrange(SNP.PP.H4)
-
-sensitivity(coloc_results_IL2RA, "H4 > 0.7")
+coloc_IL2RA <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+sensitivity(coloc_IL2RA, "H4 > 0.1")
 ```
 
-## 2.5 SusiE
+## SusiE
 
+### Get LD matrix
 ```{r}
-# 
+
 # ldmat_IL2RA <- ld_matrix_local(
-#     IL2RA$rsid,
+#     IL2RA$SNP,
 #     plink_bin = genetics.binaRies::get_plink_binary(),
 #     bfile = "C:/Users/jajoko/Documents/MR Projects/plinkref/EUR")
 # 
-# str(ldmat_IL2RA)
-# ldmat_IL2RA[,1]
-# 
-# #In LD-mat the rsids are followed by reference and effect alleles (e.g. rs10905492_G_A). The effect alleles have to be harmonized between the LD matrix and data. The data is changed to follow ld matrix, because that is easier to do than vice versa.
-# 
-# #Extract rsid, non-effect allele and effect allele from LD-matrix
-# snps <- data.frame(rsid_nea_ea = rownames(ldmat_IL2RA))
-# snps <- snps %>% 
-#   mutate(nea_ea = str_sub(rsid_nea_ea, -4,-1))
-# 
-# #Check that names in LD-matrix do not include indels (eg. G to CT)
-# snps %>% mutate(underscore = str_sub(nea_ea, 1, 1)) %>% 
-#   filter(underscore != "_") #all have _ as the fourth last character, indicating that they are indeed single nucleotides
-# 
-# #Extract ea, nea, and rsid
-# snps <- snps %>% 
-#   mutate(nea = str_sub(nea_ea, 2,2), ea = str_sub(nea_ea, 4,4)) %>%
-#   mutate(rsid = str_sub(rsid_nea_ea, 1, -5))
-# 
-# 
-# #prepare for merge 
-# snps <- snps %>% 
-#   select(-nea_ea) %>%
-#   rename(nea_ldmat = nea, ea_ldmat = ea, rsid_ldmat = rsid_nea_ea, rsids = rsid)
-# 
-# #Merge
-# IL2RA_T1D_merged_ldsnps <- 
-#   left_join(snps, IL2RA_T1D_merged, by = "rsids")
-# 
-# #check for alignment
-# IL2RA_T1D_merged_ldsnps %>% 
-#   filter(ea_ldmat != NEA_T1D_aligned) %>% nrow()
-# 
-# IL2RA_T1D_merged_ldsnps %>% 
-#   filter(ea_ldmat == NEA_T1D_aligned) %>% nrow()
-# 
-# IL2RA_T1D_merged_ldsnps
-# 
-# 
-# #ongelma: kuinka saada ld-matriisin snp:t samaan muotoon kuin IL2RA-datan??
-# 
-# 
-# D1 <- list(
-#   type = "quant", # quantitative trait
-#   beta = IL2RA_T1D_merged_onlymat$BETA_prot_aligned,
-#   varbeta = IL2RA_T1D_merged_onlymat$SE_prot^2, 
-#   pvalues = IL2RA_T1D_merged_onlymat$p_prot,
-#   N = IL2RA_T1D_merged_onlymat$N_prot,
-#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_prot),
-#   snp = IL2RA_T1D_merged_onlymat$rsid,
-#   LD = ldmat_IL2RA,
-#   sdY = 1)
-# 
-# D2 <- list(
-#   type = "cc", # case-control trait
-#   beta = IL2RA_T1D_merged_onlymat$BETA_T1D_aligned,
-#   varbeta = IL2RA_T1D_merged_onlymat$SE_T1D^2,
-#   pvalues = IL2RA_T1D_merged_onlymat$p_T1D,
-#   N = IL2RA_T1D_merged_onlymat$N_T1D, # Case-control study (Chiou et al. 2021 Nature)
-#   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-#   MAF = as.numeric(IL2RA_T1D_merged_onlymat$MAF_T1D),
-#   LD = ldmat_IL2RA,
-#   snp = IL2RA_T1D_merged_onlymat$rsid)
-# 
-# check_alignment(D1)
+# save(ldmat_IL2RA, file = "data/IL2RA_LDmat-2023-04-25.RData")
+load(file = "data/IL2RA_LDmat-2023-04-25.RData")
+
+str(ldmat_IL2RA)
+```
+
+
+### Harmonize correlation matrix
+
+Change data from correlation matrix to pairwise correlation format
+```{r}
+#Data is changed to data.table so dtplyr can be used for better perfomance
+ldmat_IL2RA <- cbind(rownames(ldmat_IL2RA), ldmat_IL2RA) %>%
+  as.data.table() %>%
+  pivot_longer(names_to = "variant2",
+               values_to = "r2",
+               cols = !matches("V1")) %>%
+  rename("variant1" = "V1") %>%
+  mutate(r2 = as.numeric(r2))
+```
+
+Identify effect orientation and remove effect orientation from variant names
+```{r}
+
+#Extract SNPs and get rid of duplicates
+ldmat_IL2RA_snps <- ldmat_IL2RA %>%
+  as_tibble() %>%
+  select(variant1) %>%
+  filter(duplicated(variant1) == FALSE)
+
+#Extract EA and NEA
+ldmat_IL2RA_snps <- ldmat_IL2RA_snps %>%
+  mutate(EA_ld  = word(variant1, 2, sep = fixed('_'))) %>%
+  mutate(NEA_ld  = word(variant1, 3, sep = fixed('_'))) %>%
+  mutate(rsid = word(variant1, 1, sep=fixed('_')))
+```
+
+Correct the orientation of effect alleles in IL2RA data frame
+```{r}
+#remove SNPs from original (IL2RA) data that are not included in LD
+#correlation matrix
+IL2RA <- IL2RA %>%
+  filter(SNP %in% ldmat_IL2RA_snps$rsid)
+
+#join SNP alignment data from the LD matrix to original (IL2RA) data
+#which includes betas and alignment data for the risk of T1D and protein
+#levels
+IL2RA <- IL2RA %>%
+  full_join(ldmat_IL2RA_snps, by = c("SNP" = "rsid"))
+
+#Look if there are unlikely cases
+#variants that have different effect allele to ref allele combination
+IL2RA %>% filter(EA_ld != effect_allele.exposure &
+                   NEA_ld != other_allele.exposure) #no
+IL2RA %>% filter(NEA_ld != other_allele.exposure &
+                   EA_ld != effect_allele.exposure) #no
+
+#If no, harmonize the alignment of Betas with correlations coefficients in LD correlation matrix
+IL2RA <- IL2RA %>%
+  mutate(harmonized = ifelse(EA_ld != effect_allele.exposure |
+                               EA_ld != effect_allele.outcome, 1, 0))
+IL2RA %>% filter(harmonized == 1) #0
+
+```
+
+No variants were harmonized. Remove variants that are not found in IL2RA data frame
+
+```{r}
+
+#Change to data.table for better performance in following tasks
+ldmat_IL2RA <- ldmat_IL2RA %>% as.data.table()
+
+#Remove orientation from rsids (this time using data.table because of computational reasons)
+ldmat_IL2RA <- ldmat_IL2RA[,rsid1 := gsub('_[ATGC]*_[ATGC]*','',variant1)]
+ldmat_IL2RA <- ldmat_IL2RA[,rsid2 := gsub('_[ATGC]*_[ATGC]*','',variant2)]
+
+## Proof that the approach above works (i.e. there are no characters
+## in rsids)
+# ldmat_IL2RA_unique <- unique(ldmat_IL2RA, by = "rsid1")
+# ldmat_IL2RA_unique <- ldmat_IL2RA_unique[,rsid1 := gsub('rs','',rsid1)]
+# ldmat_IL2RA_unique <- ldmat_IL2RA_unique[,rsid1 := as.numeric(rsid1)]
+# ldmat_IL2RA_unique[is.numeric(rsid1) == FALSE,]
+# rm(ldmat_IL2RA_unique)
+
+#Remove variants that are not found in IL2RA data frame
+ldmat_IL2RA <- ldmat_IL2RA[rsid1 %in% IL2RA$SNP |
+                             rsid2 %in% IL2RA$SNP]
+length(unique(ldmat_IL2RA$rsid1)) #1460, the correct #
 
 ```
 
 
+Format the pairwise LD matrix back to LD correlation matrix form
+```{r}
+ldmat_IL2RA_corr <- ldmat_IL2RA  %>%
+  as_tibble() %>%
+  select(-variant1, -variant2) %>%
+  pivot_wider(names_from = "rsid2", values_from = "r2")
+
+#test for missing
+ldmat_IL2RA_corr %>% anyNA() #none
+
+dim(ldmat_IL2RA)
+```
+
+Format LD-matrix
+```{r}
+rownames <- ldmat_IL2RA_corr$rsid1
+ldmat_IL2RA_corr <- ldmat_IL2RA_corr %>%
+  select(-rsid1)
+
+ldmat_IL2RA_corr <- ldmat_IL2RA_corr %>%
+  as.matrix()
+
+dimnames(ldmat_IL2RA_corr)[1] <- list(rownames)
+```
+
+### Prepare coloc data & run coloc.susie
+
+```{r}
+D3 <- list(
+  type = "quant", # quantitative trait
+  beta = IL2RA$beta.exposure,
+  varbeta = IL2RA$se.exposure^2,
+  pvalues = IL2RA$pval.exposure,
+  n = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  position = IL2RA$pos.exposure,
+  snp = IL2RA$SNP,
+  LD = ldmat_IL2RA_corr,
+  sdY = 1)
+
+D4 <- list(
+  type = "cc", # case-control trait
+  beta = IL2RA$beta.outcome,
+  varbeta = IL2RA$se.outcome^2,
+  pvalues = IL2RA$pval.outcome,
+  n = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = IL2RA$maf.outcome,
+  LD = ldmat_IL2RA_corr,
+  position = IL2RA$pos.outcome,
+  snp = IL2RA$SNP)
+
+check_dataset(D3, req = c("beta", "varbeta", "LD", "snp"))
+check_dataset(D4, req = c("beta", "varbeta", "LD", "snp"))
+
+check_alignment(D3)
+check_alignment(D4)
+
+```
+
+
+### Run coloc.susie
+```{r}
+S3 <- runsusie(D3, n = IL2RA$samplesize.exposure[1])
+S4 <- runsusie(D4, n = 18942+501638)
+
+summary(S3)
+summary(S4)
+
+if(requireNamespace("susieR",quietly=TRUE)) {
+  susie.res=coloc.susie(S3,S4)
+  print(susie.res$summary)
+}
+
+if(requireNamespace("susieR",quietly=TRUE)) {
+  sensitivity(susie.res,"H4 > 0.7",row=1,dataset1=D3,dataset2=D4)
+  sensitivity(susie.res,"H4 > 0.7",row=2,dataset1=D3,dataset2=D4)
+  sensitivity(susie.res,"H4 > 0.7",row=3,dataset1=D3,dataset2=D4)
+  sensitivity(susie.res,"H4 > 0.7",row=4,dataset1=D3,dataset2=D4)
+}
+
+susie.res
+
+```
+
+
+## MR
+
+
+### Import GWAS of protein and T1D risk
+```{r}
+
+#Import data
+
+IL2RA_clumped <- clump_data(IL2RA)
+MR_IL2RA_res <- TwoSampleMR::mr(IL2RA_clumped)
+
+MR_IL2RA_res_scatter <- mr_scatter_plot(MR_IL2RA_res, IL2RA_clumped)
+MR_IL2RA_res_single <- mr_singlesnp(IL2RA_clumped)
+MR_IL2RA_res_forest <- mr_forest_plot(MR_IL2RA_res_single)
+
+exp(MR_IL2RA_res[3,]$b)
+exp(MR_IL2RA_res[3,]$b)
+exp(MR_IL2RA_res[3,]$b - 1.96*MR_IL2RA_res[3,]$se)
+exp(MR_IL2RA_res[3,]$b + 1.96*MR_IL2RA_res[3,]$se)
+
+```
 
 
