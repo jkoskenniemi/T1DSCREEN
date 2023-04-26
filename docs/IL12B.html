@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Tea Heikkilä, Emilia Kaiser &amp; Jaakko Koskenniemi" />
 
-<meta name="date" content="2022-11-04" />
 
-<title>Proxying the efficacy of IL12B for prevention of type 1 diabetes</title>
+<title>IL12B</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -353,9 +353,10 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Proxying the efficacy of IL12B for
-prevention of type 1 diabetes</h1>
-<h4 class="date">2022-11-04</h4>
+<h1 class="title toc-ignore">IL12B</h1>
+<h4 class="author">Tea Heikkilä, Emilia Kaiser &amp; Jaakko
+Koskenniemi</h4>
+<h4 class="date">2022-24-04</h4>
 
 </div>
 
@@ -384,7 +385,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-05
+<strong>Last updated:</strong> 2023-04-26
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -515,13 +516,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstronge86595d">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong6edb7a6">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> e86595d
+aria-hidden="true"></span> <strong>Repository version:</strong> 6edb7a6
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstronge86595d"
+<div id="strongRepositoryversionstrong6edb7a6"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -530,7 +531,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version e86595d.
+The results in this page were generated with repository version 6edb7a6.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -554,34 +555,33 @@ Untracked files:
     Untracked:  .Rprofile
     Untracked:  .gitattributes
     Untracked:  .gitignore
-    Untracked:  CRP.Rmd
     Untracked:  Functional_variants.pdf
-    Untracked:  IL2RB.Rmd
-    Untracked:  IL6R.Rmd
-    Untracked:  IL6ST.Rmd
-    Untracked:  MONDO_0005147-known-drugs.tsv
-    Untracked:  MR-articles-pubmed.csv
-    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data-to-ritta.pptx
-    Untracked:  Mimicking-randomized-controlled-trials-with-genome-wide-data.pptx
     Untracked:  README.md
-    Untracked:  README.txt
-    Untracked:  TNF.Rmd
+    Untracked:  T1DSCREEN.Rproj
     Untracked:  _workflowr.yml
+    Untracked:  analyses/IL2RG.Rmd
     Untracked:  analyses/_site.yml
     Untracked:  analyses/about.Rmd
     Untracked:  analyses/index.Rmd
     Untracked:  analyses/license.Rmd
+    Untracked:  analyses/zz_archive/
+    Untracked:  analyses/zz_trash/
     Untracked:  articles/
     Untracked:  code/
     Untracked:  data/
+    Untracked:  docs.zip
     Untracked:  figures/
-    Untracked:  guidelines-for-review-of-MR-studies-20177.pdf
-    Untracked:  ld_finnge.zip
-    Untracked:  mendelian randomization.Rproj
     Untracked:  output/
+    Untracked:  plans/
+    Untracked:  references/
+    Untracked:  workflow.txt
+    Untracked:  zz_unsorted/
 
 Unstaged changes:
-    Deleted:    analyses/IL6R.Rmd
+    Deleted:    analyses/CRP.Rmd
+    Deleted:    analyses/CXCL10.Rmd
+    Deleted:    analyses/IL2RA.Rmd
+    Modified:   analyses/IL6R.Rmd
 
 </code></pre>
 <p>
@@ -631,6 +631,40 @@ Message
 Rmd
 </td>
 <td>
+6edb7a6
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+First commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+24d77f3
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2022-11-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 e86595d
 </td>
 <td>
@@ -651,16 +685,18 @@ wflow_publish(c("analyses/CRP.Rmd", "analyses/CXCL10.Rmd",
 </div>
 </div>
 </div>
-<p>Load packages</p>
-<pre><code>This is a new update to coloc.</code></pre>
+<p>Load packages and import data</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
-<pre><code>v ggplot2 3.3.6     v purrr   0.3.4
+<pre><code>v ggplot2 3.4.1     v purrr   0.3.4
 v tibble  3.1.7     v dplyr   1.0.9
 v tidyr   1.2.0     v stringr 1.4.0
 v readr   2.1.2     v forcats 0.5.1</code></pre>
+<pre><code>Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
 <pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
 x dplyr::filter() masks stats::filter()
 x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
 <pre><code>
 Attaching package: &#39;data.table&#39;</code></pre>
 <pre><code>The following objects are masked from &#39;package:dplyr&#39;:
@@ -669,135 +705,87 @@ Attaching package: &#39;data.table&#39;</code></pre>
 <pre><code>The following object is masked from &#39;package:purrr&#39;:
 
     transpose</code></pre>
+<pre class="r"><code>library(coloc)</code></pre>
+<pre><code>This is a new update to coloc.</code></pre>
+<pre class="r"><code>library(TwoSampleMR)</code></pre>
 <pre><code>TwoSampleMR version 0.5.6 
 [&gt;] New: Option to use non-European LD reference panels for clumping etc
 [&gt;] Some studies temporarily quarantined to verify effect allele
 [&gt;] See news(package=&#39;TwoSampleMR&#39;) and https://gwas.mrcieu.ac.uk for further details</code></pre>
+<pre class="r"><code>library(ggpubr)
+library(ieugwasr)</code></pre>
 <pre><code>API: public: http://gwas-api.mrcieu.ac.uk/</code></pre>
 <pre><code>
 Attaching package: &#39;ieugwasr&#39;</code></pre>
 <pre><code>The following object is masked from &#39;package:TwoSampleMR&#39;:
 
     ld_matrix</code></pre>
-<div id="il12b" class="section level1">
-<h1>1 IL12B</h1>
-<div id="obtain-data" class="section level2">
-<h2>1.1 Obtain data</h2>
-<p>GWAS sumstat of type 1 diabetes was obtained from the study by Chiou
-et al. (Nature 2021, <a
-href="https://doi.org/10.1038/s41586-021-03552-w"
-class="uri">https://doi.org/10.1038/s41586-021-03552-w</a>). GWAS
-sumstat for protein levels of IL12B was obtained from the study by
-Ferkingstad et al. (Nature 2021, <a
-href="https://doi.org/10.1038/s41588-021-00978-w"
-class="uri">https://doi.org/10.1038/s41588-021-00978-w</a>). Variants
-within 1 megabase before the start site of IL12B and 1 megabase after
-the stop site are included.</p>
-<p>Ferkingstad et al. state in their README file</p>
-<blockquote>
-<p>Note that in the summary statistics files, the effectAllele is not
-always the minor allele, and therefore the ImpMAF is not always the
-frequency of the effect allele (it may be the frequency of the other
-allele). We now provide an Extra annotation file
-(assocvariants.annotated.txt.gz) that also includes the effect allele
-frequency – This file can be mapped to the other files using the “Name”
-column. Also, the summary statistics files sometimes incorrectly have
-effectAllele=otherAllele for multiallelic variants. In these cases the
-effectAllele is correct, but the otherAllele should be ‘!’, meaning that
-the effectAllele is tested against the other (two or more) alleles
-(using the ‘!’ sign as shorthand for ‘not effectAllele’). This has been
-corrected in the file Extra annotation file
-(assocvariants.annotated.txt.gz).</p>
-</blockquote>
-<blockquote>
-<p>Finally, a subset of the variants in the summary statistics files
-should be excluded due to quality issues. These variants are listed in a
-separate Excluded variants file (assocvariants.excluded.txt.gz). The
-Extra annotation file (assocvariants.annotated.txt.gz) does not include
-these variants.</p>
-</blockquote>
-<p>All cases where the variables in the two data files (annotation and
-original sumstat of Ferkingstad) are either instances when - rsid has
-not been assigned (and the original sumstat has NA and the annotation
-“.”) - multiallelic allele, where the other allele is annotated with a
-“!”</p>
-<p>We decided to remove the multiallelic SNPs anyway, and after them,
-the columns were identical (equal and not discordant in terms of missing
-observations).</p>
-<pre><code># A tibble: 0 x 18
-# ... with 18 variables: Chrom.x &lt;chr&gt;, Pos.x &lt;int&gt;, Name &lt;chr&gt;, rsids.x &lt;chr&gt;,
-#   effectAllele.x &lt;chr&gt;, otherAllele.x &lt;chr&gt;, Beta &lt;dbl&gt;, Pval &lt;dbl&gt;,
-#   minus_log10_pval &lt;dbl&gt;, SE &lt;dbl&gt;, N &lt;int&gt;, ImpMAF &lt;dbl&gt;, Chrom.y &lt;chr&gt;,
-#   Pos.y &lt;int&gt;, rsids.y &lt;chr&gt;, effectAllele.y &lt;chr&gt;, otherAllele.y &lt;chr&gt;,
-#   effectAlleleFreq &lt;dbl&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<p>Thus, only those values variables with .x in their name are
-preserved. Here, we also remove the remaining multiallelic SNPs (where
-effect allele equals the other allele.)</p>
-</div>
-<div id="harmonize-and-check-for-alignment" class="section level2">
-<h2>2.2 Harmonize and check for alignment</h2>
-<p>Please note that the GWAS sumstat of type 1 diabetes has been
-harmonized by GWAS catalog, but the GWAS sumstat for serum TYK2 levels
-has not been harmonized.</p>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: Chrom &lt;chr&gt;, rsid &lt;chr&gt;, pos &lt;int&gt;,
-#   base_pair_location &lt;int&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: Chrom &lt;chr&gt;, rsid &lt;chr&gt;, pos &lt;int&gt;,
-#   base_pair_location &lt;int&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre><code># A tibble: 0 x 2
-# ... with 2 variables: Chrom.x &lt;chr&gt;, Chrom.y &lt;chr&gt;
-# i Use `colnames()` to see all variable names</code></pre>
-<pre><code> [1] &quot;Chrom&quot;              &quot;Pos&quot;                &quot;variant_id_prot&quot;   
- [4] &quot;rsid&quot;               &quot;EA_prot&quot;            &quot;NEA_prot&quot;          
- [7] &quot;BETA_prot&quot;          &quot;p_prot&quot;             &quot;minus_log10_p_prot&quot;
-[10] &quot;SE_prot&quot;            &quot;N_prot&quot;             &quot;ImpMAF_prot&quot;       
-[13] &quot;EAF_prot&quot;           &quot;pos&quot;                &quot;variant_id_T1D&quot;    
-[16] &quot;EA_T1D&quot;             &quot;NEA_T1D&quot;            &quot;BETA_T1D&quot;          
-[19] &quot;SE_T1D&quot;             &quot;p_T1D&quot;              &quot;EAF_T1D&quot;           </code></pre>
-<pre><code># A tibble: 1,324 x 21
-   Chrom       Pos varia~1 rsid  EA_prot NEA_p~2 BETA_~3  p_prot minus~4 SE_prot
-   &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1 chr5  157746333 5_1577~ rs68~ A       G        0.0135 1.22e-1   0.913 0.00873
- 2 chr5  157751211 5_1577~ rs13~ C       T       -0.0265 1.48e-3   2.83  0.00834
- 3 chr5  157757082 5_1577~ rs10~ C       G        0.0133 1.27e-1   0.897 0.00871
- 4 chr5  157764301 5_1577~ rs10~ G       C       -0.0269 1.21e-3   2.92  0.00831
- 5 chr5  157765194 5_1577~ rs77~ A       T        0.0156 7.60e-2   1.12  0.00879
- 6 chr5  157765627 5_1577~ rs12~ C       T       -0.0432 5.1 e-7   6.29  0.00860
- 7 chr5  157766124 5_1577~ rs66~ G       A        0.0253 2.48e-3   2.61  0.00836
- 8 chr5  157770130 5_1577~ rs10~ C       T       -0.0036 6.90e-1   0.161 0.00902
- 9 chr5  157771221 5_1577~ rs92~ G       T        0.0454 3.08e-1   0.512 0.0445 
-10 chr5  157772757 5_1577~ rs18~ C       T       -0.013  1.77e-1   0.753 0.00962
-# ... with 1,314 more rows, 11 more variables: N_prot &lt;int&gt;, ImpMAF_prot &lt;dbl&gt;,
-#   EAF_prot &lt;dbl&gt;, pos &lt;int&gt;, variant_id_T1D &lt;chr&gt;, EA_T1D &lt;chr&gt;,
-#   NEA_T1D &lt;chr&gt;, BETA_T1D &lt;dbl&gt;, SE_T1D &lt;dbl&gt;, p_T1D &lt;chr&gt;, EAF_T1D &lt;dbl&gt;,
-#   and abbreviated variable names 1: variant_id_prot, 2: NEA_prot,
-#   3: BETA_prot, 4: minus_log10_p_prot
-# i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
-</div>
+<pre class="r"><code>library(rio)</code></pre>
+<pre><code>Warning: package &#39;rio&#39; was built under R version 4.2.2</code></pre>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>Warning: package &#39;here&#39; was built under R version 4.2.2</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>here::i_am(&quot;analyses/IL12B.Rmd&quot;)</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre class="r"><code>IL12B_prot &lt;- read_exposure_data(&quot;data/export/IL12B_prot_anno_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
+IL12B_T1D  &lt;- read_outcome_data(&quot;data/export/IL12B_T1D_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
+
+IL12B &lt;- harmonise_data(IL12B_prot, IL12B_T1D)</code></pre>
+<pre><code>Harmonising Serum IL2RG level (4vucPG) and Risk of type 1 diabetes (xN25Oe)</code></pre>
+<pre><code>Removing the following SNPs for incompatible alleles:
+rs115808424, rs141354195, rs181165764, rs184596867, rs186813116, rs189575463, rs193144642, rs527558436, rs535337187, rs551717892, rs571410510, rs745765707, rs776172847</code></pre>
+<pre><code>Removing the following SNPs for being palindromic with intermediate allele frequencies:
+rs10037653, rs10046074, rs10065872, rs10075271, rs1030207, rs10447208, rs10475642, rs10476237, rs10476247, rs10476308, rs1081073, rs11135071, rs11954486, rs11960819, rs12516239, rs12516241, rs12522797, rs12716344, rs13183177, rs1363620, rs1422797, rs1422798, rs1422799, rs1565869, rs1650555, rs1650580, rs1650588, rs173423, rs1744346, rs17543640, rs17668927, rs17717527, rs17718288, rs2011291, rs2304056, rs2419042, rs2419388, rs2421061, rs244655, rs2946166, rs33134, rs34417617, rs34604401, rs371926, rs4256331, rs4262089, rs4358504, rs4371736, rs4466144, rs4489044, rs4613687, rs4704917, rs62385385, rs62385430, rs6556310, rs6556335, rs6556407, rs66725810, rs6864855, rs6872130, rs6894589, rs6898769, rs7444977, rs7704319, rs7715138, rs7736044, rs7737500, rs79700351, rs824851, rs882886, rs9313794</code></pre>
 <div id="manhattan-plots" class="section level2">
-<h2>2.3 Manhattan plots</h2>
+<h2>Manhattan plots</h2>
+<p>No GWAS hits were seen for the risk of T1D so no coloc/MR is
+done.</p>
+<pre class="r"><code>#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+IL12B_prot.fig &lt;-
+  IL12B %&gt;%
+  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
+  geom_point()+
+  geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
+  # geom_vline(xintercept=36.9e6/1000, linetype=&quot;dashed&quot;)+
+  # geom_vline(xintercept=37.3e6/1000, linetype=&quot;dashed&quot;)+
+  ggtitle(&quot;GWAS of IL12B in serum&quot;) +
+  ylab(&quot;-log10(p)&quot;) +
+  xlab(NULL)
+
+IL12B_T1D.fig &lt;-
+  IL12B %&gt;%
+  ggplot()+
+  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
+  geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
+  # geom_vline(xintercept=36.9e6/1000, linetype=&quot;dashed&quot;)+
+  # geom_vline(xintercept=37.3e6/1000, linetype=&quot;dashed&quot;)+
+  ggtitle(&quot;GWAS of risk of T1D&quot;) +
+  ylab(&quot;-log10(p)&quot;) +
+  xlab(&quot;position(kbp)&quot;)
+
+#Obtain range for figure of gene
+layer_scales(IL12B_T1D.fig)$x$range$range</code></pre>
 <pre><code>[1] 157741.8 159757.3</code></pre>
-<p><img src="figure/IL12B.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="coloc-assuming-1-colocalizing-variant" class="section level2">
-<h2>2.4 Coloc assuming 1 colocalizing variant</h2>
-<pre><code>Warning in check_dataset(d = dataset2, 2): minimum p value is: 0.0028485
-If this is what you expected, this is not a problem.
-If this is not as small as you expected, please check the 02_data vignette.</code></pre>
-<pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
-  0.00000   0.87500   0.00000   0.11600   0.00905 
-[1] &quot;PP abf for shared variant: 0.905%&quot;</code></pre>
-<pre><code>Results fail decision rule H4 &gt; 0.1</code></pre>
-<p><img src="figure/IL12B.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="susie" class="section level2">
-<h2>2.5 SusiE</h2>
-<p>Älkää tehkö vielä tätä. Jätetään se kuitenkin tähän vielä jatkoa
-varten.</p>
+<pre class="r"><code>IL12B_gene.fig &lt;-
+  ggplot(data = IL12B) +
+  geom_blank() +
+  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  annotate(&quot;text&quot;, label = &quot;IL12B&quot;,
+           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(36521.878, 38571.094) +
+  ylim(0.75, 2) +
+  ylab(NULL) + xlab(NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+fig_IL12B_manhattan &lt;- ggarrange(IL12B_gene.fig, IL12B_prot.fig, IL12B_T1D.fig,
+                                 heights = c(1, 3, 3), nrow = 3,
+                                 ncol = 1, align = &quot;hv&quot;)
+fig_IL12B_manhattan</code></pre>
+<p><img src="figure/IL12B.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ggsave(&quot;figures/IL12B-manhattan-combined-fig.pdf&quot;,
+#        height = 6, width = 8, units = &quot;in&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -822,37 +810,38 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ieugwasr_0.1.5    TwoSampleMR_0.5.6 data.table_1.14.2 ggpubr_0.4.0     
- [5] forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4      
- [9] readr_2.1.2       tidyr_1.2.0       tibble_3.1.7      ggplot2_3.3.6    
-[13] tidyverse_1.3.1   coloc_5.1.0.1     workflowr_1.7.0  
+ [1] here_1.0.1        rio_0.5.29        ieugwasr_0.1.5    ggpubr_0.4.0     
+ [5] TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2 forcats_0.5.1    
+ [9] stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4       readr_2.1.2      
+[13] tidyr_1.2.0       tibble_3.1.7      ggplot2_3.4.1     tidyverse_1.3.1  
+[17] workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] matrixStats_0.62.0 fs_1.5.2           lubridate_1.8.0    httr_1.4.3        
- [5] rprojroot_2.0.3    tools_4.2.1        backports_1.4.1    bslib_0.4.0       
- [9] utf8_1.2.2         R6_2.5.1           irlba_2.3.5        nortest_1.0-4     
-[13] DBI_1.1.3          colorspace_2.0-3   withr_2.5.0        tidyselect_1.1.2  
-[17] gridExtra_2.3      processx_3.6.1     compiler_4.2.1     git2r_0.30.1      
-[21] glmnet_4.1-4       cli_3.3.0          rvest_1.0.2        xml2_1.3.3        
-[25] labeling_0.4.2     sass_0.4.2         scales_1.2.0       callr_3.7.1       
-[29] mixsqp_0.3-43      digest_0.6.29      rmarkdown_2.14     pkgconfig_2.0.3   
-[33] htmltools_0.5.2    mr.raps_0.2        highr_0.9          dbplyr_2.2.1      
-[37] fastmap_1.1.0      rlang_1.0.3        readxl_1.4.0       susieR_0.12.16    
-[41] rstudioapi_0.13    farver_2.1.1       shape_1.4.6        jquerylib_0.1.4   
-[45] generics_0.1.3     jsonlite_1.8.0     car_3.1-0          magrittr_2.0.3    
-[49] Matrix_1.4-1       Rcpp_1.0.8.3       munsell_0.5.0      fansi_1.0.3       
-[53] abind_1.4-5        viridis_0.6.2      lifecycle_1.0.1    stringi_1.7.6     
-[57] whisker_0.4        yaml_2.3.5         carData_3.0-5      plyr_1.8.7        
-[61] grid_4.2.1         promises_1.2.0.1   crayon_1.5.1       lattice_0.20-45   
-[65] cowplot_1.1.1      splines_4.2.1      haven_2.5.0        hms_1.1.1         
-[69] knitr_1.39         ps_1.7.1           pillar_1.8.0       ggsignif_0.6.3    
-[73] codetools_0.2-18   reprex_2.0.1       glue_1.6.2         evaluate_0.15     
-[77] getPass_0.2-2      modelr_0.1.8       foreach_1.5.2      vctrs_0.4.1       
-[81] tzdb_0.3.0         httpuv_1.6.5       cellranger_1.1.0   gtable_0.3.0      
-[85] reshape_0.8.9      assertthat_0.2.1   cachem_1.0.6       xfun_0.31         
-[89] broom_1.0.0        rstatix_0.7.0      later_1.3.0        survival_3.3-1    
-[93] viridisLite_0.4.0  iterators_1.0.14   ellipsis_0.3.2    </code></pre>
-</div>
+ [1] colorspace_2.0-3   ggsignif_0.6.3     ellipsis_0.3.2     rprojroot_2.0.3   
+ [5] fs_1.5.2           rstudioapi_0.13    farver_2.1.1       fansi_1.0.3       
+ [9] lubridate_1.8.0    xml2_1.3.3         codetools_0.2-18   splines_4.2.1     
+[13] cachem_1.0.6       knitr_1.39         jsonlite_1.8.0     broom_1.0.0       
+[17] dbplyr_2.2.1       compiler_4.2.1     httr_1.4.3         backports_1.4.1   
+[21] assertthat_0.2.1   Matrix_1.4-1       fastmap_1.1.0      cli_3.6.0         
+[25] later_1.3.0        htmltools_0.5.2    tools_4.2.1        gtable_0.3.0      
+[29] glue_1.6.2         Rcpp_1.0.8.3       carData_3.0-5      cellranger_1.1.0  
+[33] jquerylib_0.1.4    vctrs_0.5.2        iterators_1.0.14   xfun_0.31         
+[37] ps_1.7.1           openxlsx_4.2.5.1   rvest_1.0.2        lifecycle_1.0.3   
+[41] irlba_2.3.5        rstatix_0.7.0      getPass_0.2-2      scales_1.2.0      
+[45] hms_1.1.1          promises_1.2.0.1   susieR_0.12.16     yaml_2.3.5        
+[49] curl_4.3.2         gridExtra_2.3      sass_0.4.2         reshape_0.8.9     
+[53] stringi_1.7.6      highr_0.9          foreach_1.5.2      nortest_1.0-4     
+[57] zip_2.2.0          shape_1.4.6        rlang_1.0.6        pkgconfig_2.0.3   
+[61] matrixStats_0.62.0 evaluate_0.15      lattice_0.20-45    labeling_0.4.2    
+[65] cowplot_1.1.1      processx_3.6.1     tidyselect_1.1.2   plyr_1.8.7        
+[69] magrittr_2.0.3     R6_2.5.1           generics_0.1.3     DBI_1.1.3         
+[73] pillar_1.8.0       haven_2.5.0        whisker_0.4        foreign_0.8-82    
+[77] withr_2.5.0        survival_3.3-1     abind_1.4-5        mixsqp_0.3-43     
+[81] modelr_0.1.8       crayon_1.5.1       car_3.1-0          utf8_1.2.2        
+[85] tzdb_0.3.0         rmarkdown_2.14     viridis_0.6.2      grid_4.2.1        
+[89] readxl_1.4.0       callr_3.7.1        git2r_0.30.1       mr.raps_0.2       
+[93] reprex_2.0.1       digest_0.6.29      httpuv_1.6.5       munsell_0.5.0     
+[97] glmnet_4.1-4       viridisLite_0.4.0  bslib_0.4.0       </code></pre>
 </div>
 </div>
 
