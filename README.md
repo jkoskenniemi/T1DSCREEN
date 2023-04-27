@@ -4,7 +4,7 @@ A [workflowr][] project.
 
 [workflowr]: https://github.com/jdblischak/workflowr
 
-OPEN IN EDIT MODE TO SEE CORRECTLY
+OPEN IN EDIT MODE TO DISPLAY THE FILE WORKFLOW CORRECTLY
 
 Original files───────────────────>Gather.R──────────────>Harmonize.R───────────────────────>/analyses/*.Rmd		
 
