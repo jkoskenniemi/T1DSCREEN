@@ -28,7 +28,7 @@ GWAS sumstat of type 1 diabetes was obtained from the study by Chiou et al. (Nat
 
 
 ```{r, echo = FALSE}
-CXCL10_gwas <- readRDS("data/sumstats/cisdata/CXCL10_gwas_data.rds") %>% as_tibble()
+CXCL10_gwas <- readRDS("data/sumstats/cisdata/CXCL10_prot_data.rds") %>% as_tibble()
 CXCL10_T1D  <- readRDS("data/sumstats/cisdata/CXCL10_T1D_data_harm.rds")  %>% as_tibble()
 CXCL10_anno <- readRDS("data/sumstats/cisdata/CXCL10_anno_data.rds") %>% as_tibble()
 ```
