@@ -193,5 +193,29 @@ TNF_T1D <- T1D[hm_chrom == "6"]
 TNF_T1D <- TNF_T1D[hm_pos >= 31575565 - mbp & hm_pos < 31578336 + mbp]
 saveRDS(TNF_T1D, file = "data/cis_sumstats/TNF_T1D.rds")
 
+
+#5 read data
+eqtl_fdr <- fread("data/cis-EQTL-full.txt") 
+eqtl_IL2RA  <- eqtl_fdr[GeneSymbol == "IL2RA"]
+eqtl_IL2RB  <- eqtl_fdr[GeneSymbol == "IL2RB"]
+eqtl_IL2RG  <- eqtl_fdr[GeneSymbol == "IL2RG"]
+eqtl_IFNAR2 <- eqtl_fdr[GeneSymbol == "IFNAR2"]
+eqtl_IL6R   <- eqtl_fdr[GeneSymbol == "IL6R"]
+eqtl_JAK1   <- eqtl_fdr[GeneSymbol == "JAK1"]
+eqtl_JAK2   <- eqtl_fdr[GeneSymbol == "JAK2"]
+eqtl_TYK2   <- eqtl_fdr[GeneSymbol == "TYK2"]
+
+saveRDS(eqtl_IL2RA, file = "data/cis_sumstats/eqtl_IL2RA.rds")
+saveRDS(eqtl_IL2RB, file = "data/cis_sumstats/eqtl_IL2RB.rds")
+saveRDS(eqtl_IL2RG, file = "data/cis_sumstats/eqtl_IL2RG.rds")
+saveRDS(eqtl_IFNAR2, file = "data/cis_sumstats/eqtl_IFNAR2.rds")
+saveRDS(eqtl_IL6R, file = "data/cis_sumstats/eqtl_IL6R.rds")
+saveRDS(eqtl_JAK1, file = "data/cis_sumstats/eqtl_JAK1.rds")
+saveRDS(eqtl_JAK2, file = "data/cis_sumstats/eqtl_JAK2.rds")
+saveRDS(eqtl_TYK2, file = "data/cis_sumstats/eqtl_TYK2.rds")
+
+
+
+
 cat("All Done with parsing")
 print(Sys.time())
