@@ -36,6 +36,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -357,6 +359,9 @@ div.tocify {
   <a href="IL6R.html">IL6R</a>
 </li>
 <li>
+  <a href="CRP.html">CRP</a>
+</li>
+<li>
   <a href="IL12B.html">IL12B</a>
 </li>
 <li>
@@ -369,11 +374,17 @@ div.tocify {
   <a href="TYK2.html">TYK2</a>
 </li>
 <li>
-  <a href="CXCL10.Rmd">CXCL10</a>
+  <a href="CXCL10.html">CXCL10</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/jkoskenniemi/T1DSCREEN">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -415,7 +426,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-04-26
+<strong>Last updated:</strong> 2023-04-28
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -424,7 +435,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>Rotaatio-2022/</code> <span
+<strong>Knit directory:</strong> <code>T1DSCREEN/</code> <span
 class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
@@ -546,13 +557,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong6e481af">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree553848054a9789cb00d20f583fad47866cdf96fftargetblank5538480a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 6e481af
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/553848054a9789cb00d20f583fad47866cdf96ff" target="_blank">5538480</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong6e481af"
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree553848054a9789cb00d20f583fad47866cdf96fftargetblank5538480a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -561,7 +574,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 6e481af.
+The results in this page were generated with repository version
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/553848054a9789cb00d20f583fad47866cdf96ff" target="_blank">5538480</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,40 +590,10 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .RData
-    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analyses/.Rhistory
-
-Untracked files:
-    Untracked:  .Rprofile
-    Untracked:  .gitattributes
-    Untracked:  .gitignore
-    Untracked:  Functional_variants.pdf
-    Untracked:  README.md
-    Untracked:  T1DSCREEN.Rproj
-    Untracked:  _workflowr.yml
-    Untracked:  analyses/_site.yml
-    Untracked:  analyses/about.Rmd
-    Untracked:  analyses/license.Rmd
-    Untracked:  analyses/zz_archive/
-    Untracked:  analyses/zz_trash/
-    Untracked:  articles/
-    Untracked:  code/
-    Untracked:  data/
-    Untracked:  docs.zip
-    Untracked:  figures/
-    Untracked:  output/
-    Untracked:  plans/
-    Untracked:  references/
-    Untracked:  workflow.txt
-    Untracked:  zz_unsorted/
 
 Unstaged changes:
-    Deleted:    analyses/CRP.Rmd
     Modified:   analyses/CXCL10.Rmd
-    Modified:   analyses/IL12B.Rmd
-    Modified:   analyses/IL6R.Rmd
 
 </code></pre>
 <p>
@@ -659,7 +643,24 @@ Message
 html
 </td>
 <td>
-ef6d816
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/c8d146f5d34c2ded365b3a66c1596afc77c502b7/docs/JAK2.html" target="_blank">c8d146f</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/ef6d816af176f675b2895f7a15f6bcabed10716c/docs/JAK2.html" target="_blank">ef6d816</a>
 </td>
 <td>
 Jaakko Koskenniemi
@@ -676,7 +677,7 @@ Build site.
 Rmd
 </td>
 <td>
-2db4317
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/2db43172332aa29d52cebbf310b1c13a67840638/analyses/JAK2.Rmd" target="_blank">2db4317</a>
 </td>
 <td>
 Jaakko Koskenniemi
@@ -693,7 +694,7 @@ First commit
 html
 </td>
 <td>
-24d77f3
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/24d77f36926c4897c8f7817b4eaa2bf63238fb73/docs/JAK2.html" target="_blank">24d77f3</a>
 </td>
 <td>
 Jaakko Koskenniemi
@@ -710,7 +711,7 @@ Build site.
 Rmd
 </td>
 <td>
-e86595d
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/e86595d567aec82d7280c4fdbbaed04cc0d85823/analyses/JAK2.Rmd" target="_blank">e86595d</a>
 </td>
 <td>
 Jaakko Koskenniemi
@@ -769,9 +770,9 @@ Attaching package: &#39;ieugwasr&#39;</code></pre>
 <pre><code>Warning: package &#39;rio&#39; was built under R version 4.2.2</code></pre>
 <pre class="r"><code>library(here)</code></pre>
 <pre><code>Warning: package &#39;here&#39; was built under R version 4.2.2</code></pre>
-<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Documents/T1DSCREEN</code></pre>
 <pre class="r"><code>here::i_am(&quot;analyses/JAK2.Rmd&quot;)</code></pre>
-<pre><code>here() starts at C:/Users/jajoko/Seafile/Rotaatio-2022</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/Documents/T1DSCREEN</code></pre>
 <pre class="r"><code>JAK2_prot &lt;- read_exposure_data(&quot;data/export/JAK2_prot_anno_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
 JAK2_T1D  &lt;- read_outcome_data(&quot;data/export/JAK2_T1D_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
 
