@@ -2,7 +2,7 @@
 title: "IL2RA"
 author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
 output: html_document
-date: '2022-24-05'
+date: '2022-05-03'
 editor_options:
   chunk_output_type: console
 ---
@@ -19,14 +19,112 @@ library(rio)
 library(here)
 
 here::i_am("analyses/IL2RA.Rmd")
+```
 
 
-IL2RA_prot <- read_exposure_data("data/export/IL2RA_prot_anno_TwoSampleMR.csv", sep=",")
+# eQTL
+
+
+```{r}
+IL2RA_eqtl <- read_exposure_data("data/export/IL2RA_eqtl_TwoSampleMR.csv", sep=",")
 IL2RA_T1D  <- read_outcome_data("data/export/IL2RA_T1D_TwoSampleMR.csv", sep=",")
-
-IL2RA <- harmonise_data(IL2RA_prot, IL2RA_T1D)
+IL2RA      <- harmonise_data(IL2RA_eqtl, IL2RA_T1D)
 
 ```
+
+
+
+## Manhattan plots
+```{r}
+#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+IL2RA_eqtl.fig <-
+  IL2RA %>%
+  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
+  geom_point()+
+  geom_hline(yintercept=8, linetype="dashed")+
+  ggtitle("GWAS of IL2RA gene expression in blood") +
+  ylab("-log10(p)") +
+  xlab(NULL)
+
+IL2RA_T1D.fig <-
+  IL2RA %>%
+  ggplot()+
+  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
+  geom_hline(yintercept=8, linetype="dashed")+
+  # geom_vline(xintercept=36.9e6/1000, linetype="dashed")+
+  # geom_vline(xintercept=37.3e6/1000, linetype="dashed")+
+  ggtitle("GWAS of risk of T1D") +
+  ylab("-log10(p)") +
+  xlab("position(kbp)")
+
+#Obtain range for figure of gene
+layer_scales(IL2RA_T1D.fig)$x$range$range
+
+IL2RA_gene.fig <-
+  ggplot(data = IL2RA) +
+  geom_blank() +
+  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  annotate("text", label = "IL2RA",
+           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(36521.878, 38571.094) +
+  ylim(0.75, 2) +
+  ylab(NULL) + xlab(NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+fig_IL2RA_manhattan <- ggarrange(IL2RA_gene.fig, IL2RA_eqtl.fig, IL2RA_T1D.fig,
+                                 heights = c(1, 3, 3), nrow = 3,
+                                 ncol = 1, align = "hv")
+# ggsave("figures/IL2RA-manhattan-combined-fig.pdf",
+#        height = 6, width = 8, units = "in")
+```
+
+## Coloc assuming 1 causal variant
+```{r}
+#recode MAF
+IL2RA <- IL2RA %>%
+  mutate(maf.exposure  = ifelse(eaf.exposure  < 0.5, eaf.exposure,  1-eaf.exposure)) %>%
+  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
+
+colnames(IL2RA)
+
+D1_eqtl <- list(
+  type = "quant", # quantitative trait
+  pvalues = IL2RA$pval.exposure, 
+  N = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  pos = IL2RA$pos.exposure,
+  snp = IL2RA$pos.exposure,
+  sdY = 1)
+
+D2_eqtl <- list(
+  type = "cc", # case-control trait
+  Beta = IL2RA$beta.outcome,
+  varBeta = IL2RA$se.outcome,
+  pvalues = IL2RA$pval.outcome,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = IL2RA$maf.exposure,  #eqtl used here in purpose
+  pos = IL2RA$pos.outcome,
+  snp = IL2RA$pos.outcome)
+
+check_dataset(D1_eqtl)
+check_dataset(D2_eqtl)
+
+coloc_IL2RA <- coloc.abf(D1_eqtl, D2_eqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+sensitivity(coloc_IL2RA, "H4 > 0.9")
+```
+
+
+
+# pQTL
+
+```{r}
+IL2RA_prot <- read_exposure_data("data/export/IL2RA_prot_anno_TwoSampleMR.csv", sep=",")
+IL2RA <- harmonise_data(IL2RA_prot, IL2RA_T1D)
+```
+
 
 ## Manhattan plots
 ```{r}
@@ -77,18 +175,17 @@ fig_IL2RA_manhattan
 #        height = 6, width = 8, units = "in")
 ```
 
-## Coloc assuming 1 colocalizing variant
+## Coloc assuming 1 causal variant
 ```{r}
 #select the area containing significant SNPs
-IL2RA <- IL2RA %>%
-  filter(pos.exposure > 5.9e6 & pos.exposure < 6.25e6)
+# IL2RA <- IL2RA %>%
+#   filter(pos.exposure > 5.9e6 & pos.exposure < 6.25e6)
 
 
 IL2RA <- IL2RA %>%
-  mutate(maf.exposure = ifelse(eaf.exposure < 0.5, eaf.exposure, 1-eaf.exposure)) %>%
-  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
+  mutate(maf.exposure  = ifelse(eaf.exposure  < 0.5, eaf.exposure,  1-eaf.exposure))
 
-D1 <- list(
+D1_pqtl <- list(
   type = "quant", # quantitative trait
   Beta = IL2RA$beta.exposure,
   varBeta = IL2RA$se.exposure^2,
@@ -96,28 +193,28 @@ D1 <- list(
   N = IL2RA$samplesize.exposure,
   MAF = IL2RA$maf.exposure,
   pos = IL2RA$pos.exposure,
-  snp = IL2RA$SNP,
+  snp = IL2RA$pos.exposure,
   sdY = 1)
 
-D2 <- list(
+D2_pqtl <- list(
   type = "cc", # case-control trait
   Beta = IL2RA$beta.outcome,
   varBeta = IL2RA$se.outcome,
   pvalues = IL2RA$pval.outcome, #why _origin_?
   N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = IL2RA$maf.outcome,  #prot used here in purpose
+  MAF = IL2RA$maf.exposure,  #prot used here in purpose
   pos = IL2RA$pos.outcome,
-  snp = IL2RA$SNP)
+  snp = IL2RA$pos.outcome)
 
-check_dataset(D1)
-check_dataset(D2)
+check_dataset(D1_pqtl)
+check_dataset(D2_pqtl)
 
-coloc_IL2RA <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+coloc_IL2RA <- coloc.abf(D1_pqtl, D2_pqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
 sensitivity(coloc_IL2RA, "H4 > 0.1")
 ```
 
-## SusiE
+## coloc.susie
 
 ### Get LD matrix
 ```{r}
@@ -266,7 +363,7 @@ D4 <- list(
   pvalues = IL2RA$pval.outcome,
   n = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = IL2RA$maf.outcome,
+  MAF = IL2RA$maf.exposure,
   LD = ldmat_IL2RA_corr,
   position = IL2RA$pos.outcome,
   snp = IL2RA$SNP)
