@@ -405,7 +405,7 @@ Koskenniemi</h4>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -416,8 +416,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -430,9 +430,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>T1DSCREEN/</code> <span
@@ -455,21 +455,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -560,15 +557,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreef6788b70b86715c68422e46d1f790902ba5ad8f1targetblankf6788b7a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree725b02dba222f6fa171c3d611bc281f47cde35aatargetblank725b02da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/f6788b70b86715c68422e46d1f790902ba5ad8f1" target="_blank">f6788b7</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/725b02dba222f6fa171c3d611bc281f47cde35aa" target="_blank">725b02d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreef6788b70b86715c68422e46d1f790902ba5ad8f1targetblankf6788b7a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree725b02dba222f6fa171c3d611bc281f47cde35aatargetblank725b02da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -578,7 +575,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/f6788b70b86715c68422e46d1f790902ba5ad8f1" target="_blank">f6788b7</a>.
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/725b02dba222f6fa171c3d611bc281f47cde35aa" target="_blank">725b02d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -616,17 +613,6 @@ Untracked files:
     Untracked:  data/export/JAK3_T1D_TwoSampleMR.csv
     Untracked:  data/export/JAK3_eqtl_TwoSampleMR.csv
     Untracked:  data/export/TYK2_eqtl_TwoSampleMR.csv
-
-Unstaged changes:
-    Modified:   .gitignore
-    Deleted:    analyses/CRP.Rmd
-    Deleted:    analyses/CXCL10.Rmd
-    Modified:   analyses/IL2RB.Rmd
-    Deleted:    analyses/TNF.Rmd
-    Modified:   analyses/TYK2.Rmd
-    Modified:   code/Gather.R
-    Modified:   code/linux-shell-script-wget-and-decompress.txt
-    Deleted:    data/IL6R_crp_LDmat-2023-04-25.RData
 
 </code></pre>
 <p>
@@ -671,6 +657,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/725b02dba222f6fa171c3d611bc281f47cde35aa/analyses/TYK2.Rmd" target="_blank">725b02d</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+wflow_publish(all = TRUE, republish = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/725b02dba222f6fa171c3d611bc281f47cde35aa/docs/TYK2.html" target="_blank">725b02d</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+wflow_publish(all = TRUE, republish = TRUE)
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1827,32 +1847,34 @@ other attached packages:
  [5] TwoSampleMR_0.5.6 coloc_5.1.0.1     data.table_1.14.2 forcats_0.5.1    
  [9] stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4       readr_2.1.2      
 [13] tidyr_1.2.0       tibble_3.1.7      ggplot2_3.4.1     tidyverse_1.3.1  
+[17] workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] matrixStats_0.62.0 fs_1.5.2           lubridate_1.8.0    httr_1.4.3        
- [5] rprojroot_2.0.3    tools_4.2.1        backports_1.4.1    bslib_0.4.0       
- [9] utf8_1.2.2         R6_2.5.1           irlba_2.3.5        nortest_1.0-4     
-[13] DBI_1.1.3          colorspace_2.0-3   withr_2.5.0        tidyselect_1.1.2  
-[17] gridExtra_2.3      curl_4.3.2         compiler_4.2.1     git2r_0.30.1      
-[21] glmnet_4.1-4       cli_3.6.0          rvest_1.0.2        xml2_1.3.3        
-[25] labeling_0.4.2     sass_0.4.2         scales_1.2.0       mixsqp_0.3-43     
-[29] digest_0.6.29      foreign_0.8-82     rmarkdown_2.14     pkgconfig_2.0.3   
-[33] htmltools_0.5.2    mr.raps_0.2        highr_0.9          dbplyr_2.2.1      
-[37] fastmap_1.1.0      rlang_1.0.6        readxl_1.4.0       susieR_0.12.16    
-[41] rstudioapi_0.13    farver_2.1.1       shape_1.4.6        jquerylib_0.1.4   
-[45] generics_0.1.3     jsonlite_1.8.0     zip_2.2.0          car_3.1-0         
-[49] magrittr_2.0.3     Matrix_1.4-1       Rcpp_1.0.8.3       munsell_0.5.0     
-[53] fansi_1.0.3        abind_1.4-5        viridis_0.6.2      lifecycle_1.0.3   
-[57] stringi_1.7.6      whisker_0.4        yaml_2.3.5         carData_3.0-5     
-[61] plyr_1.8.7         grid_4.2.1         promises_1.2.0.1   crayon_1.5.1      
-[65] lattice_0.20-45    cowplot_1.1.1      splines_4.2.1      haven_2.5.0       
-[69] hms_1.1.1          knitr_1.39         pillar_1.8.0       ggsignif_0.6.3    
-[73] codetools_0.2-18   reprex_2.0.1       glue_1.6.2         evaluate_0.15     
-[77] modelr_0.1.8       vctrs_0.5.2        tzdb_0.3.0         httpuv_1.6.5      
-[81] foreach_1.5.2      cellranger_1.1.0   gtable_0.3.0       reshape_0.8.9     
-[85] assertthat_0.2.1   cachem_1.0.6       openxlsx_4.2.5.1   xfun_0.31         
-[89] broom_1.0.0        rstatix_0.7.0      later_1.3.0        survival_3.3-1    
-[93] viridisLite_0.4.0  iterators_1.0.14   workflowr_1.7.0    ellipsis_0.3.2    </code></pre>
+ [1] colorspace_2.0-3   ggsignif_0.6.3     ellipsis_0.3.2     rprojroot_2.0.3   
+ [5] fs_1.5.2           rstudioapi_0.13    farver_2.1.1       fansi_1.0.3       
+ [9] lubridate_1.8.0    xml2_1.3.3         codetools_0.2-18   splines_4.2.1     
+[13] cachem_1.0.6       knitr_1.39         jsonlite_1.8.0     broom_1.0.0       
+[17] dbplyr_2.2.1       compiler_4.2.1     httr_1.4.3         backports_1.4.1   
+[21] assertthat_0.2.1   Matrix_1.4-1       fastmap_1.1.0      cli_3.6.0         
+[25] later_1.3.0        htmltools_0.5.2    tools_4.2.1        gtable_0.3.0      
+[29] glue_1.6.2         Rcpp_1.0.8.3       carData_3.0-5      cellranger_1.1.0  
+[33] jquerylib_0.1.4    vctrs_0.5.2        iterators_1.0.14   xfun_0.31         
+[37] ps_1.7.1           openxlsx_4.2.5.1   rvest_1.0.2        lifecycle_1.0.3   
+[41] irlba_2.3.5        rstatix_0.7.0      getPass_0.2-2      scales_1.2.0      
+[45] hms_1.1.1          promises_1.2.0.1   susieR_0.12.16     yaml_2.3.5        
+[49] curl_4.3.2         gridExtra_2.3      sass_0.4.2         reshape_0.8.9     
+[53] stringi_1.7.6      highr_0.9          foreach_1.5.2      nortest_1.0-4     
+[57] zip_2.2.0          shape_1.4.6        rlang_1.0.6        pkgconfig_2.0.3   
+[61] matrixStats_0.62.0 evaluate_0.15      lattice_0.20-45    labeling_0.4.2    
+[65] cowplot_1.1.1      processx_3.6.1     tidyselect_1.1.2   plyr_1.8.7        
+[69] magrittr_2.0.3     R6_2.5.1           generics_0.1.3     DBI_1.1.3         
+[73] pillar_1.8.0       haven_2.5.0        whisker_0.4        foreign_0.8-82    
+[77] withr_2.5.0        survival_3.3-1     abind_1.4-5        mixsqp_0.3-43     
+[81] modelr_0.1.8       crayon_1.5.1       car_3.1-0          utf8_1.2.2        
+[85] tzdb_0.3.0         rmarkdown_2.14     viridis_0.6.2      grid_4.2.1        
+[89] readxl_1.4.0       callr_3.7.1        git2r_0.30.1       mr.raps_0.2       
+[93] reprex_2.0.1       digest_0.6.29      httpuv_1.6.5       munsell_0.5.0     
+[97] glmnet_4.1-4       viridisLite_0.4.0  bslib_0.4.0       </code></pre>
 </div>
 </div>
 </div>
