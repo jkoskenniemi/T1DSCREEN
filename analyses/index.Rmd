@@ -15,7 +15,7 @@ library(tidyverse)
 A research project aimed to evaluate the available genetic evidence
 for efficacy and safety of existing drugs to prevent type 1 diabetes.
 
-```{r}
+```{r, echo = FALSE}
 data.frame("gene" = c("IFNAR2", "IL12B", "IL23A", "IL2RA", "IL2RB", "IL2RG",
                          "IL6R", "IL6ST", "JAK1", "JAK2", "JAK3", "TYK2"),
            "protein" = c("p40", "", "", "IL-2Rα/CD25", "IL-2Rβ/CD122", "γc/CD132",

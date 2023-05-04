@@ -75,7 +75,7 @@ IL2RB_gene.fig <-
 fig_IL2RB_manhattan <- ggarrange(IL2RB_gene.fig, IL2RB_eqtl.fig, IL2RB_T1D.fig,
           heights = c(1, 3, 3), nrow = 3,
           ncol = 1, align = "hv")
-# ggsave("figures/IL2RB-manhattan-combined-fig.pdf", 
+# ggsave("figures/IL2RB-manhattan-combined-fig.pdf",
 #        height = 6, width = 8, units = "in")
 ```
 
