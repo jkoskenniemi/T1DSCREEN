@@ -8,5 +8,29 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r}
+library(tidyverse)
+```
+
 A research project aimed to evaluate the available genetic evidence
 for efficacy and safety of existing drugs to prevent type 1 diabetes.
+
+```{r}
+data.frame("gene" = c("IFNAR2", "IL12B", "IL23A", "IL2RA", "IL2RB", "IL2RG",
+                         "IL6R", "IL6ST", "JAK1", "JAK2", "JAK3", "TYK2"),
+           "protein" = c("p40", "", "", "IL-2Rα/CD25", "IL-2Rβ/CD122", "γc/CD132",
+                         "s-IL6R (CRP as a proxy)", "Gp130", "", "", "", ""),
+           "GWAS_T1D" = c("", "0", "", "X", "X", "0", 
+                          "(X)", "0", "", "X", "", "X"),
+           "GWAS_pQTL" = c("", "", "", "", "", "", 
+                           "", "", "", "", "", ""),
+           "GWAS_eQTL" = c("", "", "", "", "", "", 
+                             "", "", "", "", "", ""),
+           "coloc_eQTL" = c("", "", "", "", "", "", 
+                             "", "", "", "", "", ""),
+           "coloc_pQTL" = c("", "", "", "", "", "", 
+                             "", "", "", "", "", "")) %>%
+  knitr::kable(caption = "Summary of study results")
+```
+
+
