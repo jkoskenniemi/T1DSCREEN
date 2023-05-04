@@ -19,26 +19,28 @@ library(rio)
 library(here)
 
 here::i_am("analyses/IL6R.Rmd")
+```
 
+# eQTL
 
-IL6R_prot <- read_exposure_data("data/export/IL6R_crp_TwoSampleMR.csv", sep=",")
+```{r}
+IL6R_eqtl <- read_exposure_data("data/export/IL6R_eqtl_TwoSampleMR.csv", sep=",")
 IL6R_T1D  <- read_outcome_data("data/export/IL6R_T1D_TwoSampleMR.csv", sep=",")
 
-IL6R <- harmonise_data(IL6R_prot, IL6R_T1D)
+IL6R <- harmonise_data(IL6R_eqtl, IL6R_T1D)
 
 ```
+
 
 ## Manhattan plots
 ```{r}
 #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-IL6R_prot.fig <-
+IL6R_eqtl.fig <-
   IL6R %>%
   ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
   geom_point()+
-  geom_hline(yintercept=8, linetype="dashed") +
-  geom_vline(xintercept=154.25e3, linetype="dashed") +
-  geom_vline(xintercept=154.75e3, linetype="dashed") +
-  ggtitle("GWAS of IL6R in serum") +
+  geom_hline(yintercept=8, linetype="dashed")+
+  ggtitle("GWAS of IL6R gene expression in blood") +
   ylab("-log10(p)") +
   xlab(NULL)
 
@@ -46,7 +48,105 @@ IL6R_T1D.fig <-
   IL6R %>%
   ggplot()+
   geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
-  geom_hline(yintercept=8, linetype="dashed") +
+  geom_hline(yintercept=8, linetype="dashed")+
+  # geom_vline(xintercept=36.9e6/1000, linetype="dashed")+
+  # geom_vline(xintercept=37.3e6/1000, linetype="dashed")+
+  ggtitle("GWAS of risk of T1D") +
+  ylab("-log10(p)") +
+  xlab("position(kbp)")
+
+#Obtain range for figure of gene
+layer_scales(IL6R_T1D.fig)$x$range$range
+
+IL6R_gene.fig <-
+  ggplot(data = IL6R) +
+  geom_blank() +
+  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  annotate("text", label = "IL6R",
+           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(36521.878, 38571.094) +
+  ylim(0.75, 2) +
+  ylab(NULL) + xlab(NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+fig_IL6R_manhattan <- ggarrange(IL6R_gene.fig, IL6R_eqtl.fig, IL6R_T1D.fig,
+                                 heights = c(1, 3, 3), nrow = 3,
+                                 ncol = 1, align = "hv")
+# ggsave("figures/IL6R-manhattan-combined-fig.pdf",
+#        height = 6, width = 8, units = "in")
+```
+
+## Coloc assuming 1 causal variant
+```{r}
+#recode MAF
+IL6R <- IL6R %>%
+  mutate(maf.exposure  = ifelse(eaf.exposure  < 0.5, eaf.exposure,  1-eaf.exposure)) %>%
+  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
+
+colnames(IL6R)
+
+D1 <- list(
+  type = "quant", # quantitative trait
+  pvalues = IL6R$pval.exposure,
+  N = IL6R$samplesize.exposure,
+  MAF = IL6R$maf.exposure,
+  pos = IL6R$pos.exposure,
+  snp = IL6R$pos.outcome,
+  sdY = 1)
+
+D2 <- list(
+  type = "cc", # case-control trait
+  Beta = IL6R$beta.outcome,
+  varBeta = IL6R$se.outcome,
+  pvalues = IL6R$pval.outcome,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = IL6R$maf.exposure,  #eqtl used here in purpose
+  pos = IL6R$pos.outcome,
+  snp = IL6R$pos.outcome)
+
+check_dataset(D1)
+check_dataset(D2)
+
+coloc_IL6R <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+sensitivity(coloc_IL6R, "H4 > 0.7")
+```
+
+
+
+# CRP
+
+```{r}
+IL6R_prot <- read_exposure_data("data/export/IL6R_crp_TwoSampleMR.csv", sep=",")
+IL6R_T1D  <- read_outcome_data("data/export/IL6R_T1D_TwoSampleMR.csv", sep=",")
+
+IL6R <- harmonise_data(IL6R_prot, IL6R_T1D)
+
+```
+
+
+
+## Manhattan plots
+```{r}
+#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+IL6R_crp.fig <-
+  IL6R %>%
+  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
+  geom_point()+
+  geom_hline(yintercept=8, linetype="dashed")+
+  geom_vline(xintercept=154.25e3, linetype="dashed") +
+  geom_vline(xintercept=154.75e3, linetype="dashed") +
+  ggtitle("GWAS of CRP") +
+  ylab("-log10(p)") +
+  xlab(NULL)
+
+IL6R_T1D.fig <-
+  IL6R %>%
+  ggplot()+
+  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
+  geom_hline(yintercept=8, linetype="dashed")+
   geom_vline(xintercept=154.25e3, linetype="dashed") +
   geom_vline(xintercept=154.75e3, linetype="dashed") +
   ggtitle("GWAS of risk of T1D") +
@@ -69,7 +169,8 @@ IL6R_gene.fig <-
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank())
 
-fig_IL6R_manhattan <- ggarrange(IL6R_gene.fig, IL6R_prot.fig, IL6R_T1D.fig,
+
+fig_IL6R_manhattan <- ggarrange(IL6R_gene.fig, IL6R_crp.fig, IL6R_T1D.fig,
                                  heights = c(1, 3, 3), nrow = 3,
                                  ncol = 1, align = "hv")
 
@@ -78,18 +179,18 @@ fig_IL6R_manhattan
 #        height = 6, width = 8, units = "in")
 ```
 
-## Coloc assuming 1 colocalizing variant
+## Coloc assuming 1 causal variant
 ```{r}
-#select the area containing significant SNPs
-IL6R <- IL6R %>%
-  filter(pos.exposure > 154.25e6 & pos.exposure < 154.75e6)
 
 IL6R <- IL6R %>%
   mutate(maf.exposure = ifelse(eaf.exposure < 0.5, eaf.exposure, 1-eaf.exposure)) %>%
   mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
 
-IL6R <- IL6R %>% filter(!is.na(beta.exposure) & !is.na(beta.outcome) &
-                          !is.na(maf.outcome))
+IL6R <- IL6R %>%
+  filter(!is.na(beta.exposure) & !is.na(maf.outcome))
+
+
+colnames(IL6R)
 
 D1 <- list(
   type = "quant", # quantitative trait
@@ -99,7 +200,7 @@ D1 <- list(
   N = IL6R$samplesize.exposure,
   MAF = IL6R$maf.outcome,
   pos = IL6R$pos.exposure,
-  snp = IL6R$SNP,
+  snp = IL6R$pos.exposure,
   sdY = 1)
 
 D2 <- list(
@@ -111,13 +212,14 @@ D2 <- list(
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
   MAF = IL6R$maf.outcome,  #prot used here in purpose
   pos = IL6R$pos.outcome,
-  snp = IL6R$SNP)
+  snp = IL6R$pos.outcome)
 
 check_dataset(D1)
 check_dataset(D2)
 
 coloc_IL6R <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
 sensitivity(coloc_IL6R, "H4 > 0.1")
+
 ```
 
 ## SusiE
@@ -130,7 +232,7 @@ sensitivity(coloc_IL6R, "H4 > 0.1")
 #     plink_bin = genetics.binaRies::get_plink_binary(),
 #     bfile = "C:/Users/jajoko/Documents/MR Projects/plinkref/EUR")
 # 
-# save(ldmat_IL6R, file = "data/IL6R_LDmat-2023-04-25.RData")
+# save(ldmat_IL6R, file = "data/IL6R_crp_LDmat-2023-04-25.RData")
 load(file = "data/IL6R_LDmat-2023-04-25.RData")
 
 str(ldmat_IL6R)
@@ -324,16 +426,21 @@ MR_IL6R_res_single <- mr_singlesnp(IL6R_clumped)
 MR_IL6R_res_forest <- mr_forest_plot(MR_IL6R_res_single)
 
 MR_IL6R_res
+MR_IL6R_res_scatter
+MR_IL6R_res_single
+MR_IL6R_res_forest
 
 exp(MR_IL6R_res[3,]$b)
 exp(MR_IL6R_res[3,]$b - 1.96*MR_IL6R_res[3,]$se)
 exp(MR_IL6R_res[3,]$b + 1.96*MR_IL6R_res[3,]$se)
-# 
-# 
+
+
 exp(MR_IL6R_res_single[3,]$b)
 exp(MR_IL6R_res_single[3,]$b - MR_IL6R_res_single[3,]$se)
 exp(MR_IL6R_res_single[3,]$b + 1.96*MR_IL6R_res_single[3,]$se)
 
 ```
+
+
 
 
