@@ -26,8 +26,6 @@ here::i_am("analyses/IL2RB.Rmd")
 
 
 ```{r}
-here::i_am("analyses/IL2RB_eQTL.Rmd")
-
 IL2RB_eqtl <- read_exposure_data("data/export/IL2RB_eqtl_TwoSampleMR.csv", sep=",")
 IL2RB_T1D  <- read_outcome_data("data/export/IL2RB_T1D_TwoSampleMR.csv", sep=",")
 

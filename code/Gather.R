@@ -1,4 +1,6 @@
 library(data.table)
+library(dtplyr)
+library(dplyr)
 mbp <- 1000000
 setwd("/scratch/project_2006579/")
 
@@ -118,6 +120,8 @@ TNF_anno <- TNF_anno[Pos >= 31575565  - mbp & Pos < 31578336  + mbp]
 saveRDS(TNF, file = "data/cis_sumstats/TNF_prot.rds")
 saveRDS(TNF_anno, file = "data/cis_sumstats/TNF_anno.rds")
 
+rm(list=ls())
+gc()
 #2 Read GWAS of CRP levels-----------------------------------------------------
 IL6R_CRP <- fread("data/sumstats/35459240-GCST90029070-EFO_0004458.h.tsv")
 IL6R_CRP <- IL6R_CRP[hm_chrom == "1"]
@@ -128,94 +132,122 @@ cat("Done parsing proteins, begin T1D GWAS selection of protein regions")
 print(Sys.time())
 
 rm(list=ls())
+gc()
 
-#3 Read data of type 1 diabetes------------------------------------------------
-T1D <- fread("data/sumstats/34012112-GCST90014023-EFO_0001359.h.tsv")
-
-#4 Filter areas of interest in GWAS of T1D for each protein--------------------
-cat("Begin IL2RA_T1D")
-print(Sys.time())
-IL2RA_T1D <- T1D[hm_chrom == "10"]
-IL2RA_T1D <- IL2RA_T1D[hm_pos >= 6052652 - mbp & hm_pos < 6104288 + mbp]
-saveRDS(IL2RA_T1D, file = "data/cis_sumstats/IL2RA_T1D.rds")
-
-cat("Begin IL6R_T1D")
-print(Sys.time())
-IL6R_T1D <- T1D[hm_chrom == "1"]
-IL6R_T1D <- IL6R_T1D[hm_pos >=  154377669 - mbp & hm_pos < 154441926 + mbp]
-saveRDS(IL6R_T1D, file = "data/cis_sumstats/IL6R_T1D.rds")
-
-cat("Begin IL6ST_T1D")
-print(Sys.time())
-IL6ST_T1D <- T1D[hm_chrom == "5"]
-IL6ST_T1D <- IL6ST_T1D[hm_pos >=  55230923 - mbp & hm_pos <  55290821 + mbp]
-saveRDS(IL6ST_T1D, file = "data/cis_sumstats/IL6ST_T1D.rds")
-
-cat("Begin TYK2_T1D")
-print(Sys.time())
-TYK2_T1D <- T1D[hm_chrom == "19"]
-TYK2_T1D <- TYK2_T1D[hm_pos >=  10461209 - mbp & hm_pos < 10491352  + mbp]
-saveRDS(TYK2_T1D, file = "data/cis_sumstats/TYK2_T1D.rds")
-
-cat("Begin JAK2_T1D")
-print(Sys.time())
-JAK2_T1D <- T1D[hm_chrom == "9"]
-JAK2_T1D <- JAK2_T1D[hm_pos >=  4985033 - mbp & hm_pos < 5128183 + mbp]
-saveRDS(JAK2_T1D, file = "data/cis_sumstats/JAK2_T1D.rds")
-
-cat("Begin IL12B_T1D")
-print(Sys.time())
-IL12B_T1D <- T1D[hm_chrom == "5"]
-IL12B_T1D <- IL12B_T1D[hm_pos >=  158741791 - mbp & hm_pos < 158757895 + mbp]
-saveRDS(IL12B_T1D, file = "data/cis_sumstats/IL12B_T1D.rds")
-
-cat("Begin IL2RG_T1D")
-print(Sys.time())
-IL2RG_T1D <- T1D[hm_chrom == "X"]
-IL2RG_T1D <- IL2RG_T1D[hm_pos >= 71107404 - mbp & hm_pos < 71111577 + mbp]
-saveRDS(IL2RG_T1D, file = "data/cis_sumstats/IL2RG_T1D.rds")
-
-cat("Begin IL2RB_T1D")
-print(Sys.time())
-IL2RB_T1D <- T1D[hm_chrom == "22"]
-IL2RB_T1D <- IL2RB_T1D[hm_pos >= 37521878  - mbp & hm_pos < 37571094  + mbp]
-saveRDS(IL2RB_T1D, file = "data/cis_sumstats/IL2RB_T1D.rds")
-
-cat("Begin CXCL10_T1D")
-print(Sys.time())
-CXCL10_T1D <- T1D[hm_chrom == "4"]
-CXCL10_T1D <- CXCL10_T1D[hm_pos >=  76021118 - mbp & hm_pos < 76023497 + mbp]
-saveRDS(CXCL10_T1D, file = "data/cis_sumstats/CXCL10_T1D.rds")
-
-cat("Begin TNF_T1d")
-print(Sys.time())
-TNF_T1D <- T1D[hm_chrom == "6"]
-TNF_T1D <- TNF_T1D[hm_pos >= 31575565 - mbp & hm_pos < 31578336 + mbp]
-saveRDS(TNF_T1D, file = "data/cis_sumstats/TNF_T1D.rds")
-
-
-#5 read data
-eqtl_fdr <- fread("data/cis-EQTL-full.txt") 
-eqtl_IL2RA  <- eqtl_fdr[GeneSymbol == "IL2RA"]
-eqtl_IL2RB  <- eqtl_fdr[GeneSymbol == "IL2RB"]
-eqtl_IL2RG  <- eqtl_fdr[GeneSymbol == "IL2RG"]
-eqtl_IFNAR2 <- eqtl_fdr[GeneSymbol == "IFNAR2"]
-eqtl_IL6R   <- eqtl_fdr[GeneSymbol == "IL6R"]
-eqtl_JAK1   <- eqtl_fdr[GeneSymbol == "JAK1"]
-eqtl_JAK2   <- eqtl_fdr[GeneSymbol == "JAK2"]
-eqtl_TYK2   <- eqtl_fdr[GeneSymbol == "TYK2"]
-
-saveRDS(eqtl_IL2RA, file = "data/cis_sumstats/eqtl_IL2RA.rds")
-saveRDS(eqtl_IL2RB, file = "data/cis_sumstats/eqtl_IL2RB.rds")
-saveRDS(eqtl_IL2RG, file = "data/cis_sumstats/eqtl_IL2RG.rds")
-saveRDS(eqtl_IFNAR2, file = "data/cis_sumstats/eqtl_IFNAR2.rds")
-saveRDS(eqtl_IL6R, file = "data/cis_sumstats/eqtl_IL6R.rds")
-saveRDS(eqtl_JAK1, file = "data/cis_sumstats/eqtl_JAK1.rds")
-saveRDS(eqtl_JAK2, file = "data/cis_sumstats/eqtl_JAK2.rds")
-saveRDS(eqtl_TYK2, file = "data/cis_sumstats/eqtl_TYK2.rds")
-
-
-
-
-cat("All Done with parsing")
-print(Sys.time())
+  #3 Read data of type 1 diabetes------------------------------------------------
+  T1D <- fread("data/sumstats/34012112-GCST90014023-EFO_0001359.h.tsv")
+  
+  #4 Filter areas of interest in GWAS of T1D for each protein--------------------
+  cat("Begin IL2RA_T1D")
+  print(Sys.time())
+  IL2RA_T1D <- T1D[hm_chrom == "10"]
+  IL2RA_T1D <- IL2RA_T1D[hm_pos >= 6052652 - mbp & hm_pos < 6104288 + mbp]
+  saveRDS(IL2RA_T1D, file = "data/cis_sumstats/IL2RA_T1D.rds")
+  
+  cat("Begin IL6R_T1D")
+  print(Sys.time())
+  IL6R_T1D <- T1D[hm_chrom == "1"]
+  IL6R_T1D <- IL6R_T1D[hm_pos >=  154377669 - mbp & hm_pos < 154441926 + mbp]
+  saveRDS(IL6R_T1D, file = "data/cis_sumstats/IL6R_T1D.rds")
+  
+  cat("Begin IL6ST_T1D")
+  print(Sys.time())
+  IL6ST_T1D <- T1D[hm_chrom == "5"]
+  IL6ST_T1D <- IL6ST_T1D[hm_pos >=  55230923 - mbp & hm_pos <  55290821 + mbp]
+  saveRDS(IL6ST_T1D, file = "data/cis_sumstats/IL6ST_T1D.rds")
+  
+  cat("Begin TYK2_T1D")
+  print(Sys.time())
+  TYK2_T1D <- T1D[hm_chrom == "19"]
+  TYK2_T1D <- TYK2_T1D[hm_pos >=  10461209 - mbp & hm_pos < 10491352  + mbp]
+  saveRDS(TYK2_T1D, file = "data/cis_sumstats/TYK2_T1D.rds")
+  
+  cat("Begin JAK1_T1D")
+  print(Sys.time())
+  JAK1_T1D <- T1D[hm_chrom == "1"]
+  JAK1_T1D <- JAK1_T1D[hm_pos >=  65298912 - mbp & hm_pos < 65432187  + mbp]
+  saveRDS(JAK1_T1D, file = "data/cis_sumstats/JAK1_T1D.rds")
+  
+  cat("Begin JAK2_T1D")
+  print(Sys.time())
+  JAK2_T1D <- T1D[hm_chrom == "9"]
+  JAK2_T1D <- JAK2_T1D[hm_pos >=  4985033 - mbp & hm_pos < 5128183 + mbp]
+  saveRDS(JAK2_T1D, file = "data/cis_sumstats/JAK2_T1D.rds")
+  
+  cat("Begin JAK3_T1D")
+  print(Sys.time())
+  JAK3_T1D <- T1D[hm_chrom == "19"]
+  JAK3_T1D <- JAK3_T1D[hm_pos >=  17935589 - mbp & hm_pos < 17958880  + mbp]
+  saveRDS(JAK3_T1D, file = "data/cis_sumstats/JAK3_T1D.rds")
+  
+  
+  cat("Begin IL12B_T1D")
+  print(Sys.time())
+  IL12B_T1D <- T1D[hm_chrom == "5"]
+  IL12B_T1D <- IL12B_T1D[hm_pos >=  158741791 - mbp & hm_pos < 158757895 + mbp]
+  saveRDS(IL12B_T1D, file = "data/cis_sumstats/IL12B_T1D.rds")
+  
+  cat("Begin IL2RG_T1D")
+  print(Sys.time())
+  IL2RG_T1D <- T1D[hm_chrom == "X"]
+  IL2RG_T1D <- IL2RG_T1D[hm_pos >= 71107404 - mbp & hm_pos < 71111577 + mbp]
+  saveRDS(IL2RG_T1D, file = "data/cis_sumstats/IL2RG_T1D.rds")
+  
+  cat("Begin IL2RB_T1D")
+  print(Sys.time())
+  IL2RB_T1D <- T1D[hm_chrom == "22"]
+  IL2RB_T1D <- IL2RB_T1D[hm_pos >= 37521878  - mbp & hm_pos < 37571094  + mbp]
+  saveRDS(IL2RB_T1D, file = "data/cis_sumstats/IL2RB_T1D.rds")
+  
+  cat("Begin CXCL10_T1D")
+  print(Sys.time())
+  CXCL10_T1D <- T1D[hm_chrom == "4"]
+  CXCL10_T1D <- CXCL10_T1D[hm_pos >=  76021118 - mbp & hm_pos < 76023497 + mbp]
+  saveRDS(CXCL10_T1D, file = "data/cis_sumstats/CXCL10_T1D.rds")
+  
+  cat("Begin TNF_T1d")
+  print(Sys.time())
+  TNF_T1D <- T1D[hm_chrom == "6"]
+  TNF_T1D <- TNF_T1D[hm_pos >= 31575565 - mbp & hm_pos < 31578336 + mbp]
+  saveRDS(TNF_T1D, file = "data/cis_sumstats/TNF_T1D.rds")
+  
+  rm(list=ls())
+  gc()
+  
+  #5 read EQTL data-----------------------------------------
+  
+  
+  eqtl_full <- fread("data/cis-EQTL-full.txt") 
+  eqtl_AF   <- fread("data/cis-EQTL-AF.txt") 
+  
+  eqtl_full <- lazy_dt(eqtl_full)
+  eqtl_AF  <- lazy_dt(eqtl_AF)
+  
+  eqtl_full_AF <- left_join(eqtl_full, eqtl_AF)
+  rm(eqtl_AF, eqtl_full)
+  
+  eqtl_full_AF <- as.data.table(eqtl_full_AF)
+  
+  eqtl_IL2RA  <- eqtl_full_AF[GeneSymbol == "IL2RA"]
+  eqtl_IL2RB  <- eqtl_full_AF[GeneSymbol == "IL2RB"]
+  eqtl_IL2RG  <- eqtl_full_AF[GeneSymbol == "IL2RG"]
+  eqtl_IFNAR2 <- eqtl_full_AF[GeneSymbol == "IFNAR2"]
+  eqtl_IL6R   <- eqtl_full_AF[GeneSymbol == "IL6R"]
+  eqtl_JAK1   <- eqtl_full_AF[GeneSymbol == "JAK1"]
+  eqtl_JAK2   <- eqtl_full_AF[GeneSymbol == "JAK2"]
+  eqtl_JAK3   <- eqtl_full_AF[GeneSymbol == "JAK3"]
+  eqtl_TYK2   <- eqtl_full_AF[GeneSymbol == "TYK2"]
+  
+  saveRDS(eqtl_IL2RA,  file = "data/cis_eqtl_sumstats/eqtl_IL2RA-Gather.rds")
+  saveRDS(eqtl_IL2RB,  file = "data/cis_eqtl_sumstats/eqtl_IL2RB-Gather.rds")
+  saveRDS(eqtl_IL2RG,  file = "data/cis_eqtl_sumstats/eqtl_IL2RG-Gather.rds")
+  saveRDS(eqtl_IFNAR2, file = "data/cis_eqtl_sumstats/eqtl_IFNAR2-Gather.rds")
+  saveRDS(eqtl_IL6R,   file = "data/cis_eqtl_sumstats/eqtl_IL6R-Gather.rds")
+  saveRDS(eqtl_JAK1,   file = "data/cis_eqtl_sumstats/eqtl_JAK1-Gather.rds")
+  saveRDS(eqtl_JAK2,   file = "data/cis_eqtl_sumstats/eqtl_JAK2-Gather.rds")
+  saveRDS(eqtl_JAK3,   file = "data/cis_eqtl_sumstats/eqtl_JAK3-Gather.rds")
+  saveRDS(eqtl_TYK2,   file = "data/cis_eqtl_sumstats/eqtl_TYK2-Gather.rds")
+  
+  
+  cat("All Done with parsing")
+  print(Sys.time())
