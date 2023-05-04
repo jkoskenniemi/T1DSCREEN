@@ -28,6 +28,13 @@ IL2RG <- harmonise_data(IL2RG_prot, IL2RG_T1D)
 
 ```
 
+# eQTL
+
+For some reason, no IL2RG variants were selected from eQTL data. I will double-check the Gather.R script soon.
+- JK
+
+# pQTL
+
 ## Manhattan plots
 
 There were no hits in neither serum IL2RG levels nor risk of T1D in this area 
