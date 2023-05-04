@@ -373,9 +373,6 @@ div.tocify {
 <li>
   <a href="TYK2.html">TYK2</a>
 </li>
-<li>
-  <a href="CXCL10.html">CXCL10</a>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -425,7 +422,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-04-28
+<strong>Last updated:</strong> 2023-05-03
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -556,15 +553,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree553848054a9789cb00d20f583fad47866cdf96fftargetblank5538480a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreececc956cdafd8b7cd8686b43882d1ac6181e4ff0targetblankcecc956a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/553848054a9789cb00d20f583fad47866cdf96ff" target="_blank">5538480</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/cecc956cdafd8b7cd8686b43882d1ac6181e4ff0" target="_blank">cecc956</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree553848054a9789cb00d20f583fad47866cdf96fftargetblank5538480a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreececc956cdafd8b7cd8686b43882d1ac6181e4ff0targetblankcecc956a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -574,7 +571,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/553848054a9789cb00d20f583fad47866cdf96ff" target="_blank">5538480</a>.
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/cecc956cdafd8b7cd8686b43882d1ac6181e4ff0" target="_blank">cecc956</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -589,10 +586,42 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    data/README_cis_eqtl.txt
+    Ignored:    data/README_cis_eqtl_AF.txt
+    Ignored:    data/cis-EQTL-AF.txt
+    Ignored:    data/cis_sumstats/2018-07-18_SNP_AF_for_AlleleB_combined_allele_counts_and_MAF_pos_added.txt
+    Ignored:    refs/
+
+Untracked files:
+    Untracked:  analyses/IL2RG_eqtl.Rmd
+    Untracked:  analyses/JAK1_eqtl.Rmd
+    Untracked:  analyses/JAK2_eqtl.Rmd
+    Untracked:  analyses/JAK3_eqtl.Rmd
+    Untracked:  analyses/TYK2_eqtl.Rmd
+    Untracked:  data/cis_eqtl_sumstats/
+    Untracked:  data/cis_sumstats/JAK1_T1D.rds
+    Untracked:  data/cis_sumstats/JAK3_T1D.rds
+    Untracked:  data/export/IFNAR2_eqtl_TwoSampleMR.csv
+    Untracked:  data/export/IL2RA_eqtl_TwoSampleMR.csv
+    Untracked:  data/export/IL2RB_eqtl_TwoSampleMR.csv
+    Untracked:  data/export/IL2RG_eqtl_TwoSampleMR.csv
+    Untracked:  data/export/IL6R_eqtl_TwoSampleMR.csv
+    Untracked:  data/export/JAK1_T1D_TwoSampleMR.csv
+    Untracked:  data/export/JAK1_eqtl_TwoSampleMR.csv
+    Untracked:  data/export/JAK2_eqtl_TwoSampleMR.csv
+    Untracked:  data/export/JAK3_T1D_TwoSampleMR.csv
+    Untracked:  data/export/JAK3_eqtl_TwoSampleMR.csv
+    Untracked:  data/export/TYK2_eqtl_TwoSampleMR.csv
 
 Unstaged changes:
-    Modified:   analyses/CXCL10.Rmd
+    Modified:   .gitignore
+    Modified:   analyses/CRP.Rmd
+    Deleted:    analyses/CXCL10.Rmd
+    Modified:   analyses/_site.yml
+    Modified:   code/linux-shell-script-wget-and-decompress.txt
+    Deleted:    data/IL6R_crp_LDmat-2023-04-25.RData
 
 </code></pre>
 <p>
@@ -638,6 +667,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/cecc956cdafd8b7cd8686b43882d1ac6181e4ff0/analyses/Harmonize.Rmd" target="_blank">cecc956</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-03
+</td>
+<td>
+Added eQTL data, removed CXCL10 &amp; TNF
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/e0d3987fcbf69cf5b42d345572022434bb91990f/docs/Harmonize.html" target="_blank">e0d3987</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-04-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -950,6 +1013,11 @@ x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(here)</code></pre>
 <pre><code>Warning: package &#39;here&#39; was built under R version 4.2.2</code></pre>
 <pre><code>here() starts at C:/Users/jajoko/Documents/T1DSCREEN</code></pre>
+<pre class="r"><code>library(TwoSampleMR)</code></pre>
+<pre><code>TwoSampleMR version 0.5.6 
+[&gt;] New: Option to use non-European LD reference panels for clumping etc
+[&gt;] Some studies temporarily quarantined to verify effect allele
+[&gt;] See news(package=&#39;TwoSampleMR&#39;) and https://gwas.mrcieu.ac.uk for further details</code></pre>
 <pre class="r"><code>here::i_am(&quot;analyses/Harmonize.Rmd&quot;)</code></pre>
 <pre><code>here() starts at C:/Users/jajoko/Documents/T1DSCREEN</code></pre>
 <p>This script merges the annotation and protein data.</p>
@@ -981,37 +1049,24 @@ etc.)</li>
 <p>except for IL6R for which IL6R_prot_data.rds is substituted with
 IL6R_crp_data.rds</p>
 <pre class="r"><code>#add here a figure that shows the project workflow</code></pre>
-<div id="exposure-data" class="section level1">
-<h1>Exposure data</h1>
-<div id="import-exposure-data" class="section level2">
-<h2>Import exposure data</h2>
+<div id="pqtl-data" class="section level1">
+<h1>pQTL data</h1>
+<div id="import-pqtl-data" class="section level2">
+<h2>Import pQTL data</h2>
 <pre class="r"><code>IL2RG_anno  &lt;- import(&quot;data/cis_sumstats/IL2RG_anno.rds&quot;)
 IL2RG_prot  &lt;- import(&quot;data/cis_sumstats/IL2RG_gwas.rds&quot;)
-
-CXCL10_anno &lt;- import(&quot;data/cis_sumstats/CXCL10_anno.rds&quot;)  
-CXCL10_prot &lt;- import(&quot;data/cis_sumstats/CXCL10_prot.rds&quot;)  
-
 IL12B_anno  &lt;- import(&quot;data/cis_sumstats/IL12B_anno.rds&quot;)  
 IL12B_prot  &lt;- import(&quot;data/cis_sumstats/IL12B_prot.rds&quot;)  
-
 IL2RA_anno  &lt;- import(&quot;data/cis_sumstats/IL2RA_anno.rds&quot;)  
 IL2RA_prot  &lt;- import(&quot;data/cis_sumstats/IL2RA_prot.rds&quot;)  
-
 IL2RB_prot  &lt;- import(&quot;data/cis_sumstats/IL2RB_prot.rds&quot;)  
 IL2RB_anno  &lt;- import(&quot;data/cis_sumstats/IL2RB_anno.rds&quot;)  
-
 IL6R_anno  &lt;- import(&quot;data/cis_sumstats/IL6R_anno.rds&quot;)  
 IL6R_prot  &lt;- import(&quot;data/cis_sumstats/IL6R_prot.rds&quot;)
-
 IL6ST_anno  &lt;- import(&quot;data/cis_sumstats/IL6ST_anno.rds&quot;)  
 IL6ST_prot  &lt;- import(&quot;data/cis_sumstats/IL6ST_prot.rds&quot;)
-
 JAK2_anno   &lt;- import(&quot;data/cis_sumstats/JAK2_anno.rds&quot;)  
 JAK2_prot   &lt;- import(&quot;data/cis_sumstats/JAK2_prot.rds&quot;)  
-
-TNF_anno    &lt;- import(&quot;data/cis_sumstats/TNF_anno.rds&quot;)  
-TNF_prot    &lt;- import(&quot;data/cis_sumstats/TNF_prot.rds&quot;)  
-
 TYK2_anno   &lt;- import(&quot;data/cis_sumstats/TYK2_anno.rds&quot;)
 TYK2_prot   &lt;- import(&quot;data/cis_sumstats/TYK2_prot.rds&quot;)</code></pre>
 </div>
@@ -1027,22 +1082,20 @@ variants.</p>
 </blockquote>
 <p>Therefore in the join process, only the data available in the
 annotation (IL2RG_anno) is used (hence, left_join)</p>
-<pre class="r"><code>CXCL10_prot_anno &lt;- left_join(CXCL10_prot, CXCL10_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
-IL12B_prot_anno  &lt;- left_join(IL12B_prot, IL12B_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
+<pre class="r"><code>IL12B_prot_anno  &lt;- left_join(IL12B_prot, IL12B_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 IL2RA_prot_anno  &lt;- left_join(IL2RA_prot, IL2RA_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 IL2RB_prot_anno  &lt;- left_join(IL2RB_prot, IL2RB_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 IL2RG_prot_anno  &lt;- left_join(IL2RG_prot, IL2RG_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 IL6R_prot_anno   &lt;- left_join(IL6R_prot,  IL6R_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 IL6ST_prot_anno  &lt;- left_join(IL6ST_prot, IL6ST_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 JAK2_prot_anno   &lt;- left_join(JAK2_prot,  JAK2_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
-TNF_prot_anno    &lt;- left_join(TNF_prot,   TNF_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 TYK2_prot_anno   &lt;- left_join(TYK2_prot,  TYK2_anno, by = c(&quot;Name&quot;, &quot;Chrom&quot;, &quot;Pos&quot;))
 
-rm(&quot;CXCL10_anno&quot;, &quot;CXCL10_prot&quot;, &quot;IL12B_anno&quot;, &quot;IL12B_prot&quot;, 
+rm(&quot;IL12B_anno&quot;, &quot;IL12B_prot&quot;, 
    &quot;IL2RA_anno&quot;, &quot;IL2RA_prot&quot;, &quot;IL2RB_anno&quot;, &quot;IL2RB_prot&quot;,  
    &quot;IL2RG_anno&quot;, &quot;IL2RG_prot&quot;, &quot;IL6R_anno&quot;, &quot;IL6R_prot&quot;, 
    &quot;IL6ST_anno&quot;, &quot;IL6ST_prot&quot;, &quot;JAK2_anno&quot;, &quot;JAK2_prot&quot;, 
-   &quot;TNF_anno&quot;, &quot;TNF_prot&quot;, &quot;TYK2_anno&quot;, &quot;TYK2_prot&quot;)</code></pre>
+   &quot;TYK2_anno&quot;, &quot;TYK2_prot&quot;)</code></pre>
 </div>
 <div id="sort-conflicts" class="section level2">
 <h2>Sort conflicts</h2>
@@ -1057,15 +1110,13 @@ corrected in the file Extra annotation file
 (assocvariants.annotated.txt.gz).</p>
 </blockquote>
 <p>Therefore, multiallelic variants were removed.</p>
-<pre class="r"><code>CXCL10_prot_anno &lt;- CXCL10_prot_anno %&gt;% filter(otherAllele.y != &quot;!&quot;)
-IL12B_prot_anno  &lt;- IL12B_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
+<pre class="r"><code>IL12B_prot_anno  &lt;- IL12B_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL2RA_prot_anno  &lt;- IL2RA_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL2RB_prot_anno  &lt;- IL2RB_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL2RG_prot_anno  &lt;- IL2RG_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL6R_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 IL6ST_prot_anno  &lt;- IL6ST_prot_anno  %&gt;% filter(otherAllele.y != &quot;!&quot;)
 JAK2_prot_anno   &lt;- JAK2_prot_anno   %&gt;% filter(otherAllele.y != &quot;!&quot;)
-TNF_prot_anno    &lt;- TNF_prot_anno    %&gt;% filter(otherAllele.y != &quot;!&quot;)
 TYK2_prot_anno   &lt;- TYK2_prot_anno   %&gt;% filter(otherAllele.y != &quot;!&quot;)</code></pre>
 <p>After removal of multiallelic variants there were no conflicts
 between effectAllele.x and effectAllele.y or between otherAllele.x and
@@ -1083,7 +1134,6 @@ check_conflicts_ea_oa &lt;- function(data, effectAllele.x, effectAllele.y) {
 
 #List those with conflicts in effectAllele or otherAllele
 
-CXCL10_prot_anno %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL12B_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL2RA_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL2RB_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
@@ -1091,7 +1141,6 @@ IL2RG_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL6R_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts
 IL6ST_prot_anno  %&gt;% check_conflicts_ea_oa() #0 conflicts
 JAK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts
-TNF_prot_anno    %&gt;% check_conflicts_ea_oa() #0 conflicts
 TYK2_prot_anno   %&gt;% check_conflicts_ea_oa() #0 conflicts</code></pre>
 <p>After this, the remaining discrepancies between the variables
 obtained from annotation and protein data files were because those
@@ -1111,7 +1160,6 @@ check_conflicts_rsid &lt;- function(data, effectAllele.x, effectAllele.y) {
 }
 
 #All the conflicts in rsid.x and rsid.y are because rsid.x is NA and rsid.y is &quot;.&quot;
-CXCL10_prot_anno %&gt;% check_conflicts_rsid() #0 conflicts
 IL12B_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
 IL2RA_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
 IL2RB_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
@@ -1119,14 +1167,11 @@ IL2RG_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
 IL6R_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts
 IL6ST_prot_anno  %&gt;% check_conflicts_rsid() #0 conflicts
 JAK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts
-TNF_prot_anno    %&gt;% check_conflicts_rsid() #0 conflicts
 TYK2_prot_anno   %&gt;% check_conflicts_rsid() #0 conflicts</code></pre>
 <p>Thus, only those values variables with .x in their name are
 preserved. Here, we also remove the remaining multiallelic SNPs (where
 effect allele equals the other allele.)</p>
 <pre class="r"><code>#Discard all variables that end with an &quot;.y&quot;
-IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
-CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% select(!ends_with(&quot;.y&quot;))
 IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
 IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
@@ -1134,12 +1179,9 @@ IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;
 IL6R_prot_anno    &lt;- IL6ST_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
 IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% select(!ends_with(&quot;.y&quot;))
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% select(!ends_with(&quot;.y&quot;))
-TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% select(!ends_with(&quot;.y&quot;))
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% select(!ends_with(&quot;.y&quot;))
 
 #Remove &quot;.x&quot; from variable names
-IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
-CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
@@ -1147,11 +1189,9 @@ IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;
 IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 IL6R_prot_anno    &lt;- IL6R_prot_anno   %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
-TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) 
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% rename_with(~gsub(&quot;.x&quot;, &quot;&quot;, .x, fixed = TRUE)) </code></pre>
 <pre class="r"><code>#Sanity checks
 colnames(IL2RG_prot_anno)   
-colnames(CXCL10_prot_anno)  
 colnames(IL12B_prot_anno)
 colnames(IL2RA_prot_anno)
 colnames(IL2RB_prot_anno)
@@ -1159,12 +1199,10 @@ colnames(IL2RG_prot_anno)
 colnames(IL6ST_prot_anno)
 colnames(IL6R_prot_anno)
 colnames(JAK2_prot_anno)
-colnames(TNF_prot_anno)
 colnames(TYK2_prot_anno)</code></pre>
 <p>All data files seem to have entries without rsids (suppressed, please
 see ‘/analyses/Harmonize.Rmd’). They are now removed</p>
 <pre class="r"><code>anyNA(IL2RG_prot_anno$rsids)   
-anyNA(CXCL10_prot_anno$rsids)  
 anyNA(IL12B_prot_anno$rsids)
 anyNA(IL2RA_prot_anno$rsids)
 anyNA(IL2RB_prot_anno$rsids)
@@ -1172,11 +1210,9 @@ anyNA(IL2RG_prot_anno$rsids)
 anyNA(IL6ST_prot_anno$rsids)
 anyNA(IL6R_prot_anno$rsids)
 anyNA(JAK2_prot_anno$rsids)
-anyNA(TNF_prot_anno$rsids)
 anyNA(TYK2_prot_anno$rsids)
 
 IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% filter(!is.na(rsids))
-CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% filter(!is.na(rsids))
 IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% filter(!is.na(rsids))
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% filter(!is.na(rsids))
 IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% filter(!is.na(rsids))
@@ -1184,13 +1220,11 @@ IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% filter(!is.na(rsids))
 IL6R_prot_anno    &lt;- IL6ST_prot_anno  %&gt;% filter(!is.na(rsids))
 IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% filter(!is.na(rsids))
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% filter(!is.na(rsids))
-TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% filter(!is.na(rsids))
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% filter(!is.na(rsids))</code></pre>
 <p>There were no duplicated rsids in data after exclusion of missing
 rsids (suppressed, please see /analyses/Harmonize.Rmd)</p>
 <pre class="r"><code>#Sanity check
 anyDuplicated(IL2RG_prot_anno$rsids)   
-anyDuplicated(CXCL10_prot_anno$rsids)  
 anyDuplicated(IL12B_prot_anno$rsids)
 anyDuplicated(IL2RA_prot_anno$rsids)
 anyDuplicated(IL2RB_prot_anno$rsids)
@@ -1198,7 +1232,6 @@ anyDuplicated(IL2RG_prot_anno$rsids)
 anyDuplicated(IL6ST_prot_anno$rsids)
 anyDuplicated(IL6R_prot_anno$rsids)
 anyDuplicated(JAK2_prot_anno$rsids)
-anyDuplicated(TNF_prot_anno$rsids)
 anyDuplicated(TYK2_prot_anno$rsids)</code></pre>
 </div>
 <div id="write-data-in-twosamplemr-format" class="section level2">
@@ -1217,7 +1250,6 @@ opened in the main analyses scripts.</p>
   }
 
 #Rename
-CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% rename_for_TwoSampleMR_e()
 IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 IL2RB_prot_anno   &lt;- IL2RB_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
@@ -1225,12 +1257,9 @@ IL2RG_prot_anno   &lt;- IL2RG_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 IL6R_prot_anno    &lt;- IL6R_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
 IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;% rename_for_TwoSampleMR_e()
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
-TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;% rename_for_TwoSampleMR_e()
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;% rename_for_TwoSampleMR_e()
 
 #Add phenotype information
-CXCL10_prot_anno  &lt;- CXCL10_prot_anno %&gt;% 
-  mutate(Phenotype = &quot;Serum CXCL10 level&quot;)
 IL12B_prot_anno   &lt;- IL12B_prot_anno  %&gt;%  
   mutate(Phenotype = &quot;Serum IL12B level&quot;)
 IL2RA_prot_anno   &lt;- IL2RA_prot_anno  %&gt;%  
@@ -1245,15 +1274,11 @@ IL6ST_prot_anno   &lt;- IL6ST_prot_anno  %&gt;%
   mutate(Phenotype = &quot;Serum IL6ST level&quot;)
 JAK2_prot_anno    &lt;- JAK2_prot_anno   %&gt;%  
   mutate(Phenotype = &quot;Serum JAK2 level&quot;)
-TNF_prot_anno     &lt;- TNF_prot_anno    %&gt;%  
-  mutate(Phenotype = &quot;Serum TNF level&quot;)
 TYK2_prot_anno    &lt;- TYK2_prot_anno   %&gt;%  
   mutate(Phenotype = &quot;Serum TYK2 level&quot;)</code></pre>
 <p>Export filest to a CSV file with default parameters of
 TwoSampleMR::read_exposure_data()</p>
 <pre class="r"><code>#Export
-CXCL10_prot_anno %&gt;%
-  export(&quot;data/export/CXCL10_prot_anno_TwoSampleMR.csv&quot;)
 IL12B_prot_anno  %&gt;% 
   export(&quot;data/export/IL12B_prot_anno_TwoSampleMR.csv&quot;)
 IL2RA_prot_anno  %&gt;% 
@@ -1268,12 +1293,9 @@ IL6ST_prot_anno  %&gt;%
   export(&quot;data/export/IL6ST_prot_anno_TwoSampleMR.csv&quot;)
 JAK2_prot_anno   %&gt;% 
   export(&quot;data/export/JAK2_prot_anno_TwoSampleMR.csv&quot;)
-TNF_prot_anno    %&gt;% 
-  export(&quot;data/export/TNF_prot_anno_TwoSampleMR.csv&quot;)
 TYK2_prot_anno   %&gt;% 
   export(&quot;data/export/TYK2_prot_anno_TwoSampleMR.csv&quot;)</code></pre>
 <pre class="r"><code>#Sanity check: no warnings
-# read_exposure_data(&quot;data/export/CXCL10_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/IL12B_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/IL2RA_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/IL2RB_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
@@ -1281,9 +1303,11 @@ TYK2_prot_anno   %&gt;%
 # read_exposure_data(&quot;data/export/IL6ST_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/IL6R_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/JAK2_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
-# read_exposure_data(&quot;data/export/TNF_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_exposure_data(&quot;data/export/TYK2_prot_anno_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)</code></pre>
 </div>
+</div>
+<div id="il6-crp-data" class="section level1">
+<h1>IL6 CRP data</h1>
 <div id="write-il6r_crp-in-twosamplemr-format" class="section level2">
 <h2>Write IL6R_crp in TwoSampleMR format</h2>
 <pre class="r"><code>IL6R_crp   &lt;- import(&quot;data/cis_sumstats/IL6R_crp.rds&quot;)  
@@ -1303,44 +1327,742 @@ IL6R_crp &lt;- IL6R_crp %&gt;%
 
 IL6R_crp  %&gt;% 
   export(&quot;data/export/IL6R_crp_TwoSampleMR.csv&quot;)</code></pre>
+<p>#eQTL data</p>
+</div>
+<div id="import-data" class="section level2">
+<h2>Import data</h2>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>
+Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:dplyr&#39;:
+
+    between, first, last</code></pre>
+<pre><code>The following object is masked from &#39;package:purrr&#39;:
+
+    transpose</code></pre>
+<pre class="r"><code>library(dtplyr)
+
+#Read eqtl sumstat
+IFNAR2_eqtl &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_IFNAR2-Gather.rds&quot;) %&gt;% as_tibble()
+IL2RA_eqtl  &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_IL2RA-Gather.rds&quot;) %&gt;% as_tibble()
+IL2RG_eqtl  &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_IL2RG-Gather.rds&quot;) %&gt;% as_tibble()
+IL2RB_eqtl  &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_IL2RB-Gather.rds&quot;) %&gt;% as_tibble()
+IL6R_eqtl   &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_IL6R-Gather.rds&quot;) %&gt;% as_tibble()
+JAK1_eqtl   &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_JAK1-Gather.rds&quot;) %&gt;% as_tibble()
+JAK2_eqtl   &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_JAK2-Gather.rds&quot;) %&gt;% as_tibble()
+JAK3_eqtl   &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_JAK3-Gather.rds&quot;) %&gt;% as_tibble()
+TYK2_eqtl   &lt;- import(&quot;data/cis_eqtl_sumstats/eqtl_TYK2-Gather.rds&quot;) %&gt;% as_tibble()
+
+
+names_eqtl &lt;- c(&quot;IFNAR2_eqtl&quot;, 
+&quot;IL2RA_eqtl&quot;, 
+&quot;IL2RG_eqtl&quot;, 
+&quot;IL2RB_eqtl&quot;, 
+&quot;IL6R_eqtl&quot;, 
+&quot;JAK1_eqtl&quot;, 
+&quot;JAK2_eqtl&quot;, 
+&quot;JAK3_eqtl&quot;, 
+&quot;TYK2_eqtl&quot;)</code></pre>
+<p>According to the readme files of eQTLGEN phase I
+(data/REAMDE_cis_eqtl.txt and
+data/README_cis_eqtl_allele_frequency.txt),</p>
+<table style="width:100%;">
+<caption>sources: README_cis_eqtl_AF.txt = <a
+href="https://molgenis26.gcc.rug.nl/downloads/eqtlgen/cis-eqtl/README_allele_frequency"
+class="uri">https://molgenis26.gcc.rug.nl/downloads/eqtlgen/cis-eqtl/README_allele_frequency</a>,
+README_cis_eqtl.txt = <a
+href="https://molgenis26.gcc.rug.nl/downloads/eqtlgen/cis-eqtl/README_cis"
+class="uri">https://molgenis26.gcc.rug.nl/downloads/eqtlgen/cis-eqtl/README_cis</a></caption>
+<colgroup>
+<col width="14%" />
+<col width="63%" />
+<col width="21%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left">Pvalue</td>
+<td align="left">P-value</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="even">
+<td align="left">SNP</td>
+<td align="left">SNP rs ID</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">SNPChr</td>
+<td align="left">SNP chromosome</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="even">
+<td align="left">SNPPos</td>
+<td align="left">SNP position</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">AssessedAllele</td>
+<td align="left">Assessed allele, the Z-score refers to this allele</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="even">
+<td align="left">OtherAllele</td>
+<td align="left">Not assessed allele</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">Zscore</td>
+<td align="left">Z-score</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="even">
+<td align="left">Gene</td>
+<td align="left">ENSG name (Ensembl v71) of the eQTL gene</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">GeneSymbol</td>
+<td align="left">HGNC name of the gene</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="even">
+<td align="left">GeneChr</td>
+<td align="left">Gene chromosome</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">GenePos</td>
+<td align="left">Centre of gene position</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="even">
+<td align="left">NrCohorts</td>
+<td align="left">Total number of cohorts where this SNP-gene combination
+was tested</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">NrSamples</td>
+<td align="left">Total number of samples where this SNP-gene combination
+was tested</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="even">
+<td align="left">FDR</td>
+<td align="left">False discovery rate estimated based on
+permutations</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">BonferroniP</td>
+<td align="left">P-value after Bonferroni correction</td>
+<td align="left">README_cis_eqtl.txt</td>
+</tr>
+<tr class="even">
+<td align="left">SNP</td>
+<td align="left">SNP rs ID</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">hg19_chr</td>
+<td align="left">chr number</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+<tr class="even">
+<td align="left">hg19_pos</td>
+<td align="left">SNP position (hg19)</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">AlleleA</td>
+<td align="left">Other allele</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB</td>
+<td align="left">Assessed allele</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">allA_total</td>
+<td align="left">Total allele count of genotype AA</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+<tr class="even">
+<td align="left">allAB_total</td>
+<td align="left">Total allele count of genotype AB</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+<tr class="odd">
+<td align="left">allB_total</td>
+<td align="left">Total allele count of genotype BB</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB_all</td>
+<td align="left">Allele frequency of assessed allele</td>
+<td align="left">README_cis_eqtl_AF.txt</td>
+</tr>
+</tbody>
+</table>
+<p>There is some disagreement between the readme and the original file.
+E.g. there are 1,053 subjects near IL2RB which for which
+‘AssessedAllele’ is not equal to ‘AlleleB’.</p>
+<pre class="r"><code>colnames(IL2RB_eqtl)</code></pre>
+<pre><code> [1] &quot;Pvalue&quot;         &quot;SNP&quot;            &quot;SNPChr&quot;         &quot;SNPPos&quot;        
+ [5] &quot;AssessedAllele&quot; &quot;OtherAllele&quot;    &quot;Zscore&quot;         &quot;Gene&quot;          
+ [9] &quot;GeneSymbol&quot;     &quot;GeneChr&quot;        &quot;GenePos&quot;        &quot;NrCohorts&quot;     
+[13] &quot;NrSamples&quot;      &quot;FDR&quot;            &quot;BonferroniP&quot;    &quot;hg19_chr&quot;      
+[17] &quot;hg19_pos&quot;       &quot;AlleleA&quot;        &quot;AlleleB&quot;        &quot;allA_total&quot;    
+[21] &quot;allAB_total&quot;    &quot;allB_total&quot;     &quot;AlleleB_all&quot;   </code></pre>
+<pre class="r"><code>get_n_conflicts  &lt;- function(data, AlleleB=AlleleB, AssessedAllele=AssessedAllele) {
+  data %&gt;%
+  filter(AlleleB != AssessedAllele) %&gt;% 
+  pull(SNP) %&gt;% length()
+}
+
+table_conflicts_eqtl &lt;- c(&quot;IFNAR2&quot;, get_n_conflicts(IFNAR2_eqtl),
+  &quot;IL2RA&quot;, get_n_conflicts(IL2RA_eqtl),
+  &quot;IL2RG&quot;, get_n_conflicts(IL2RG_eqtl),
+  &quot;IL2RB&quot;, get_n_conflicts(IL2RB_eqtl),
+  &quot;IL6R&quot;, get_n_conflicts(IL6R_eqtl),
+  &quot;JAK1&quot;, get_n_conflicts(JAK1_eqtl),
+  &quot;JAK2&quot;, get_n_conflicts(JAK2_eqtl),
+  &quot;JAK3&quot;, get_n_conflicts(JAK3_eqtl),
+  &quot;TYK2&quot;, get_n_conflicts(TYK2_eqtl)) %&gt;%
+  matrix(ncol = 2, byrow = TRUE)
+
+colnames(table_conflicts_eqtl) &lt;- c(&quot;EQTL&quot;, &quot;n conflicts&quot;)
+
+knitr::kable(table_conflicts_eqtl)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">EQTL</th>
+<th align="left">n conflicts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">IFNAR2</td>
+<td align="left">1981</td>
+</tr>
+<tr class="even">
+<td align="left">IL2RA</td>
+<td align="left">1695</td>
+</tr>
+<tr class="odd">
+<td align="left">IL2RG</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">IL2RB</td>
+<td align="left">1053</td>
+</tr>
+<tr class="odd">
+<td align="left">IL6R</td>
+<td align="left">672</td>
+</tr>
+<tr class="even">
+<td align="left">JAK1</td>
+<td align="left">932</td>
+</tr>
+<tr class="odd">
+<td align="left">JAK2</td>
+<td align="left">1393</td>
+</tr>
+<tr class="even">
+<td align="left">JAK3</td>
+<td align="left">1025</td>
+</tr>
+<tr class="odd">
+<td align="left">TYK2</td>
+<td align="left">1353</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summarize_agreement &lt;- function(data, AlleleB=AlleleB, 
+                           AssessedAllele=AssessedAllele, 
+                           AlleleB_all=AlleleB_all) {
+  data %&gt;%
+  mutate(AlleleB_vs_AssessedAllele = 
+           ifelse(AlleleB == AssessedAllele, &quot;AlleleB == AssessedAllele&quot;, 
+                  &quot;AlleleB != AssessedAllele&quot;)) %&gt;%
+  group_by(AlleleB_vs_AssessedAllele) %&gt;%
+  summarise(p_AF_m40  = round(sum(AlleleB_all &lt; 0.40) / length(AlleleB_all), 4),
+            p_AF_4050 = round(sum(AlleleB_all &gt;= 0.40 &amp; AlleleB_all &lt; 0.50)  /
+                                length(AlleleB_all), 4),
+            p_AF_5060 = round(sum(AlleleB_all &gt; 0.50 &amp; AlleleB_all &lt;= 0.60)  /
+                                length(AlleleB_all), 4),
+            p_AF_p60  = round(sum(AlleleB_all &gt; 0.60) / length(AlleleB_all), 4),
+            p_AF_50  = round(sum(AlleleB_all == 0.50) / length(AlleleB_all), 4),
+            n_AF_NA = sum(is.na(AlleleB_all)))
+}</code></pre>
+<p>In a remarkably stable pattern between files, AlleleB == Assessed
+allele when whenAF &lt; 0.50 and AlleleB != Assessed allele when AF &gt;
+0.50.</p>
+<pre class="r"><code>summarize_agreement(IFNAR2_eqtl) %&gt;% 
+  knitr::kable(caption = &quot;IFNAR2_eqtl&quot;)</code></pre>
+<table>
+<caption>IFNAR2_eqtl</caption>
+<colgroup>
+<col width="32%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">AlleleB_vs_AssessedAllele</th>
+<th align="right">p_AF_m40</th>
+<th align="right">p_AF_4050</th>
+<th align="right">p_AF_5060</th>
+<th align="right">p_AF_p60</th>
+<th align="right">p_AF_50</th>
+<th align="right">n_AF_NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AlleleB != AssessedAllele</td>
+<td align="right">0.0000</td>
+<td align="right">0.0288</td>
+<td align="right">0.3458</td>
+<td align="right">0.6254</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB == AssessedAllele</td>
+<td align="right">0.9392</td>
+<td align="right">0.0590</td>
+<td align="right">0.0018</td>
+<td align="right">0.0000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summarize_agreement(IL2RA_eqtl) %&gt;% 
+  knitr::kable(caption = &quot;IL2RA_eqtl&quot;)</code></pre>
+<table>
+<caption>IL2RA_eqtl</caption>
+<colgroup>
+<col width="32%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">AlleleB_vs_AssessedAllele</th>
+<th align="right">p_AF_m40</th>
+<th align="right">p_AF_4050</th>
+<th align="right">p_AF_5060</th>
+<th align="right">p_AF_p60</th>
+<th align="right">p_AF_50</th>
+<th align="right">n_AF_NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AlleleB != AssessedAllele</td>
+<td align="right">0.0006</td>
+<td align="right">0.0265</td>
+<td align="right">0.1971</td>
+<td align="right">0.7758</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB == AssessedAllele</td>
+<td align="right">0.9302</td>
+<td align="right">0.0637</td>
+<td align="right">0.0058</td>
+<td align="right">0.0004</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summarize_agreement(IL2RB_eqtl) %&gt;% 
+  knitr::kable(caption = &quot;IL2RB_eqtl&quot;)</code></pre>
+<table>
+<caption>IL2RB_eqtl</caption>
+<colgroup>
+<col width="32%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">AlleleB_vs_AssessedAllele</th>
+<th align="right">p_AF_m40</th>
+<th align="right">p_AF_4050</th>
+<th align="right">p_AF_5060</th>
+<th align="right">p_AF_p60</th>
+<th align="right">p_AF_50</th>
+<th align="right">n_AF_NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AlleleB != AssessedAllele</td>
+<td align="right">0.0038</td>
+<td align="right">0.0465</td>
+<td align="right">0.3761</td>
+<td align="right">0.5736</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB == AssessedAllele</td>
+<td align="right">0.9205</td>
+<td align="right">0.0778</td>
+<td align="right">0.0017</td>
+<td align="right">0.0000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summarize_agreement(IL6R_eqtl) %&gt;% 
+  knitr::kable(caption = &quot;IL6R_eqtl&quot;)</code></pre>
+<table>
+<caption>IL6R_eqtl</caption>
+<colgroup>
+<col width="32%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">AlleleB_vs_AssessedAllele</th>
+<th align="right">p_AF_m40</th>
+<th align="right">p_AF_4050</th>
+<th align="right">p_AF_5060</th>
+<th align="right">p_AF_p60</th>
+<th align="right">p_AF_50</th>
+<th align="right">n_AF_NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AlleleB != AssessedAllele</td>
+<td align="right">0.0000</td>
+<td align="right">0.0967</td>
+<td align="right">0.5015</td>
+<td align="right">0.4018</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB == AssessedAllele</td>
+<td align="right">0.9295</td>
+<td align="right">0.0616</td>
+<td align="right">0.0090</td>
+<td align="right">0.0000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summarize_agreement(JAK1_eqtl) %&gt;% 
+  knitr::kable(caption = &quot;JAK1_eqtl&quot;)</code></pre>
+<table>
+<caption>JAK1_eqtl</caption>
+<colgroup>
+<col width="32%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">AlleleB_vs_AssessedAllele</th>
+<th align="right">p_AF_m40</th>
+<th align="right">p_AF_4050</th>
+<th align="right">p_AF_5060</th>
+<th align="right">p_AF_p60</th>
+<th align="right">p_AF_50</th>
+<th align="right">n_AF_NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AlleleB != AssessedAllele</td>
+<td align="right">0.0054</td>
+<td align="right">0.0064</td>
+<td align="right">0.2768</td>
+<td align="right">0.7114</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB == AssessedAllele</td>
+<td align="right">0.9510</td>
+<td align="right">0.0435</td>
+<td align="right">0.0054</td>
+<td align="right">0.0000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summarize_agreement(JAK2_eqtl) %&gt;% 
+  knitr::kable(caption = &quot;JAK2_eqtl&quot;)</code></pre>
+<table>
+<caption>JAK2_eqtl</caption>
+<colgroup>
+<col width="32%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">AlleleB_vs_AssessedAllele</th>
+<th align="right">p_AF_m40</th>
+<th align="right">p_AF_4050</th>
+<th align="right">p_AF_5060</th>
+<th align="right">p_AF_p60</th>
+<th align="right">p_AF_50</th>
+<th align="right">n_AF_NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AlleleB != AssessedAllele</td>
+<td align="right">0.0029</td>
+<td align="right">0.0223</td>
+<td align="right">0.2032</td>
+<td align="right">0.7717</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB == AssessedAllele</td>
+<td align="right">0.9383</td>
+<td align="right">0.0495</td>
+<td align="right">0.0122</td>
+<td align="right">0.0000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summarize_agreement(JAK3_eqtl) %&gt;% 
+  knitr::kable(caption = &quot;JAK3_eqtl&quot;)</code></pre>
+<table>
+<caption>JAK3_eqtl</caption>
+<colgroup>
+<col width="32%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">AlleleB_vs_AssessedAllele</th>
+<th align="right">p_AF_m40</th>
+<th align="right">p_AF_4050</th>
+<th align="right">p_AF_5060</th>
+<th align="right">p_AF_p60</th>
+<th align="right">p_AF_50</th>
+<th align="right">n_AF_NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AlleleB != AssessedAllele</td>
+<td align="right">0.0000</td>
+<td align="right">0.0478</td>
+<td align="right">0.3044</td>
+<td align="right">0.6468</td>
+<td align="right">0.001</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB == AssessedAllele</td>
+<td align="right">0.9429</td>
+<td align="right">0.0531</td>
+<td align="right">0.0030</td>
+<td align="right">0.0009</td>
+<td align="right">0.000</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summarize_agreement(TYK2_eqtl) %&gt;% 
+  knitr::kable(caption = &quot;TYK2_eqtl&quot;)</code></pre>
+<table>
+<caption>TYK2_eqtl</caption>
+<colgroup>
+<col width="32%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">AlleleB_vs_AssessedAllele</th>
+<th align="right">p_AF_m40</th>
+<th align="right">p_AF_4050</th>
+<th align="right">p_AF_5060</th>
+<th align="right">p_AF_p60</th>
+<th align="right">p_AF_50</th>
+<th align="right">n_AF_NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AlleleB != AssessedAllele</td>
+<td align="right">0.0000</td>
+<td align="right">0.0244</td>
+<td align="right">0.1471</td>
+<td align="right">0.8285</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AlleleB == AssessedAllele</td>
+<td align="right">0.9158</td>
+<td align="right">0.0803</td>
+<td align="right">0.0039</td>
+<td align="right">0.0000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>From this, it is taken that AF is given per effect alleles mentioned
+in README_cis_eqtl_AF.txt. Therefore, EAFs are harmonized to align with
+the variable ‘AssessedAllele’</p>
+<pre class="r"><code>IFNAR2_eqtl &lt;- IFNAR2_eqtl %&gt;% rename(AF_B = AlleleB_all)
+IL2RA_eqtl  &lt;- IL2RA_eqtl  %&gt;% rename(AF_B = AlleleB_all)
+IL2RG_eqtl  &lt;- IL2RG_eqtl  %&gt;% rename(AF_B = AlleleB_all)
+IL2RB_eqtl  &lt;- IL2RB_eqtl  %&gt;% rename(AF_B = AlleleB_all)
+IL6R_eqtl   &lt;- IL6R_eqtl   %&gt;% rename(AF_B = AlleleB_all)
+JAK1_eqtl   &lt;- JAK1_eqtl   %&gt;% rename(AF_B = AlleleB_all)
+JAK2_eqtl   &lt;- JAK2_eqtl   %&gt;% rename(AF_B = AlleleB_all)
+JAK3_eqtl   &lt;- JAK3_eqtl   %&gt;% rename(AF_B = AlleleB_all)
+TYK2_eqtl   &lt;- TYK2_eqtl   %&gt;% rename(AF_B = AlleleB_all)
+
+IFNAR2_eqtl &lt;- IFNAR2_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+IL2RA_eqtl  &lt;- IL2RA_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+IL2RG_eqtl  &lt;- IL2RG_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+IL2RB_eqtl  &lt;- IL2RB_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+IL6R_eqtl   &lt;- IL6R_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+JAK1_eqtl   &lt;- JAK1_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+JAK2_eqtl   &lt;- JAK2_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+JAK3_eqtl   &lt;- JAK3_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+TYK2_eqtl   &lt;- TYK2_eqtl %&gt;%
+  mutate(EAF = ifelse(AlleleB == AssessedAllele, AF_B, 1 - AF_B))
+
+
+IFNAR2_eqtl &lt;- IFNAR2_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))
+IL2RA_eqtl  &lt;- IL2RA_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))
+IL2RG_eqtl  &lt;- IL2RG_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))
+IL2RB_eqtl  &lt;- IL2RB_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))
+IL6R_eqtl   &lt;- IL6R_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))
+JAK1_eqtl   &lt;- JAK1_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))
+JAK2_eqtl   &lt;- JAK2_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))
+JAK3_eqtl   &lt;- JAK3_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))
+TYK2_eqtl   &lt;- TYK2_eqtl %&gt;%
+  mutate(MAF = ifelse(EAF &lt; 0.5,  EAF, 1 - EAF))</code></pre>
+<pre class="r"><code>rename_eqtl_data &lt;- function(data, Phenotype, Zscore, EAF, AssessedAllele, OtherAllele,
+                              Pvalue, SNPPos, NrSamples) {
+   data %&gt;%
+  rename(beta = Zscore, 
+         eaf = EAF,
+         effect_allele = AssessedAllele, 
+         other_allele = OtherAllele,
+         pval = Pvalue, 
+         pos = SNPPos,
+         samplesize = NrSamples) %&gt;%
+  mutate(pval = as.numeric(pval),
+         eaf = as.numeric(eaf),
+         Phenotype = Phenotype,
+         se = NA) 
+ }
+
+IFNAR2_eqtl %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood IFNAR2 mRNA&quot;) %&gt;% export(&quot;data/export/IFNAR2_eqtl_TwoSampleMR.csv&quot;)
+IL2RA_eqtl  %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood IL2RA mRNA&quot;) %&gt;% export(&quot;data/export/IL2RA_eqtl_TwoSampleMR.csv&quot;)
+IL2RG_eqtl  %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood IL2RG mRNA&quot;) %&gt;% export(&quot;data/export/IL2RG_eqtl_TwoSampleMR.csv&quot;)
+IL2RB_eqtl  %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood IL2RB mRNA&quot;) %&gt;% export(&quot;data/export/IL2RB_eqtl_TwoSampleMR.csv&quot;)
+IL6R_eqtl   %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood IL6L mRNA&quot;) %&gt;% export(&quot;data/export/IL6R_eqtl_TwoSampleMR.csv&quot;)
+JAK1_eqtl   %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood JAK1 mRNA&quot;) %&gt;% export(&quot;data/export/JAK1_eqtl_TwoSampleMR.csv&quot;)
+JAK2_eqtl   %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood JAK2 mRNA&quot;) %&gt;% export(&quot;data/export/JAK2_eqtl_TwoSampleMR.csv&quot;)
+JAK3_eqtl   %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood JAK3 mRNA&quot;) %&gt;% export(&quot;data/export/JAK3_eqtl_TwoSampleMR.csv&quot;)
+TYK2_eqtl   %&gt;%  rename_eqtl_data(Phenotype = &quot;Whole blood TYK2 mRNA&quot;) %&gt;% export(&quot;data/export/TYK2_eqtl_TwoSampleMR.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="outcome-data" class="section level1">
 <h1>Outcome data</h1>
 <div id="import-outcome-data" class="section level2">
 <h2>Import outcome data</h2>
-<pre class="r"><code>IL12B_T1D   &lt;- import(&quot;data/cis_sumstats/IL12B_T1D.rds&quot;)  
-CXCL10_T1D  &lt;- import(&quot;data/cis_sumstats/CXCL10_T1D.rds&quot;)  
-TYK2_T1D    &lt;- import(&quot;data/cis_sumstats/TYK2_T1D.rds&quot;)
-TNF_T1D     &lt;- import(&quot;data/cis_sumstats/TNF_T1D.rds&quot;)  
-JAK2_T1D    &lt;- import(&quot;data/cis_sumstats/JAK2_T1D.rds&quot;)  
-IL6ST_T1D   &lt;- import(&quot;data/cis_sumstats/IL6ST_T1D.rds&quot;) 
-IL6R_T1D    &lt;- import(&quot;data/cis_sumstats/IL6R_T1D.rds&quot;)  
-IL2RB_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RB_T1D.rds&quot;)  
-IL2RG_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RG_T1D.rds&quot;)  
-IL2RA_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RA_T1D.rds&quot;)  </code></pre>
+<pre class="r"><code>IL12B_T1D   &lt;- import(&quot;data/cis_sumstats/IL12B_T1D.rds&quot;) %&gt;% as_tibble()  
+TYK2_T1D    &lt;- import(&quot;data/cis_sumstats/TYK2_T1D.rds&quot;)  %&gt;% as_tibble()
+JAK1_T1D    &lt;- import(&quot;data/cis_sumstats/JAK1_T1D.rds&quot;)  %&gt;% as_tibble()
+JAK2_T1D    &lt;- import(&quot;data/cis_sumstats/JAK2_T1D.rds&quot;)  %&gt;% as_tibble()
+JAK3_T1D    &lt;- import(&quot;data/cis_sumstats/JAK3_T1D.rds&quot;)  %&gt;% as_tibble()
+IL6ST_T1D   &lt;- import(&quot;data/cis_sumstats/IL6ST_T1D.rds&quot;) %&gt;% as_tibble()
+IL6R_T1D    &lt;- import(&quot;data/cis_sumstats/IL6R_T1D.rds&quot;)  %&gt;% as_tibble()
+IL2RB_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RB_T1D.rds&quot;) %&gt;% as_tibble()
+IL2RG_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RG_T1D.rds&quot;) %&gt;% as_tibble()
+IL2RA_T1D   &lt;- import(&quot;data/cis_sumstats/IL2RA_T1D.rds&quot;) %&gt;% as_tibble()</code></pre>
 <p>There were no missing rsid values (suppressed)</p>
-<pre class="r"><code>#every 
-IL12B_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
-CXCL10_T1D %&gt;% pull(hm_rsid) %&gt;% anyNA()
-TYK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA() 
-TNF_T1D    %&gt;% pull(hm_rsid) %&gt;% anyNA()
-JAK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA()
-IL6ST_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
-IL6R_T1D   %&gt;% pull(hm_rsid) %&gt;% anyNA()
-IL2RB_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
-IL2RG_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()
-IL2RA_T1D  %&gt;% pull(hm_rsid) %&gt;% anyNA()</code></pre>
 </div>
 <div id="remove-duplicated-snps" class="section level2">
 <h2>Remove duplicated SNPs</h2>
 <p>All data frames had duplicated rsids (suppressed). They are
 removed.</p>
 <pre class="r"><code>IL12B_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
-CXCL10_T1D %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
 TYK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated() 
-TNF_T1D    %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+JAK1_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
 JAK2_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
+JAK3_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
 IL6ST_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
 IL6R_T1D   %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
 IL2RB_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
@@ -1348,13 +2070,13 @@ IL2RG_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()
 IL2RA_T1D  %&gt;% pull(hm_rsid) %&gt;% anyDuplicated()</code></pre>
 <pre class="r"><code>duplicated_snps_IL12B  &lt;- IL12B_T1D  %&gt;% 
   filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
-duplicated_snps_CXCL10 &lt;- CXCL10_T1D %&gt;% 
-  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
 duplicated_snps_TYK2   &lt;- TYK2_T1D   %&gt;% 
   filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid) 
-duplicated_snps_TNF   &lt;- TNF_T1D    %&gt;% 
+duplicated_snps_JAK1   &lt;- JAK1_T1D   %&gt;% 
   filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
 duplicated_snps_JAK2   &lt;- JAK2_T1D   %&gt;% 
+  filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
+duplicated_snps_JAK3   &lt;- JAK3_T1D   %&gt;% 
   filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
 duplicated_snps_IL6ST  &lt;- IL6ST_T1D  %&gt;%
   filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
@@ -1367,12 +2089,11 @@ duplicated_snps_IL2RG  &lt;- IL2RG_T1D  %&gt;%
 duplicated_snps_IL2RA  &lt;- IL2RA_T1D  %&gt;% 
   filter(duplicated(hm_rsid)) %&gt;% pull(hm_rsid)
 
-
 IL12B_T1D  &lt;- IL12B_T1D   %&gt;% filter(!hm_rsid %in% duplicated_snps_IL12B)
-CXCL10_T1D &lt;- CXCL10_T1D  %&gt;% filter(!hm_rsid %in% duplicated_snps_CXCL10)
 TYK2_T1D   &lt;- TYK2_T1D    %&gt;% filter(!hm_rsid %in% duplicated_snps_TYK2) 
-TNF_T1D    &lt;- TNF_T1D     %&gt;% filter(!hm_rsid %in% duplicated_snps_TNF)
+JAK1_T1D   &lt;- JAK1_T1D    %&gt;% filter(!hm_rsid %in% duplicated_snps_JAK1)
 JAK2_T1D   &lt;- JAK2_T1D    %&gt;% filter(!hm_rsid %in% duplicated_snps_JAK2)
+JAK3_T1D   &lt;- JAK3_T1D    %&gt;% filter(!hm_rsid %in% duplicated_snps_JAK3)
 IL6ST_T1D  &lt;- IL6ST_T1D %&gt;% filter(!hm_rsid %in% duplicated_snps_IL6ST)
 IL6R_T1D   &lt;- IL6R_T1D    %&gt;% filter(!hm_rsid %in% duplicated_snps_IL6R)
 IL2RB_T1D  &lt;- IL2RB_T1D   %&gt;% filter(!hm_rsid %in% duplicated_snps_IL2RB)
@@ -1382,8 +2103,6 @@ IL2RA_T1D  &lt;- IL2RA_T1D   %&gt;% filter(!hm_rsid %in% duplicated_snps_IL2RA)<
 <div id="write-data-in-twosamplemr-format-1" class="section level2">
 <h2>Write data in TwoSampleMR format</h2>
 <pre class="r"><code>#Change to numeric
-TNF_T1D &lt;- TNF_T1D %&gt;% mutate(p_value = as.numeric(p_value))
-
 rename_for_TwoSampleMR_o  &lt;- function(data, beta, other_allele, effect_allele,
                                       hm_rsid, hm_beta, standard_error, 
                                       hm_effect_allele_frequency,
@@ -1398,20 +2117,18 @@ rename_for_TwoSampleMR_o  &lt;- function(data, beta, other_allele, effect_allele
          ncase = 18942, ncontrol = 501638, samplesize = 18942+501638)
   }
 
-CXCL10_T1D  &lt;- CXCL10_T1D %&gt;% rename_for_TwoSampleMR_o()
 IL12B_T1D   &lt;- IL12B_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL2RA_T1D   &lt;- IL2RA_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL2RB_T1D   &lt;- IL2RB_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL2RG_T1D   &lt;- IL2RG_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL6ST_T1D   &lt;- IL6ST_T1D  %&gt;% rename_for_TwoSampleMR_o()
 IL6R_T1D    &lt;- IL6R_T1D   %&gt;% rename_for_TwoSampleMR_o()
+JAK1_T1D    &lt;- JAK1_T1D   %&gt;% rename_for_TwoSampleMR_o()
 JAK2_T1D    &lt;- JAK2_T1D   %&gt;% rename_for_TwoSampleMR_o()
-TNF_T1D     &lt;- TNF_T1D    %&gt;% rename_for_TwoSampleMR_o()
+JAK3_T1D    &lt;- JAK3_T1D   %&gt;% rename_for_TwoSampleMR_o()
 TYK2_T1D    &lt;- TYK2_T1D   %&gt;% rename_for_TwoSampleMR_o()</code></pre>
 <p>Write data in TwoSampleMR data format</p>
-<pre class="r"><code>CXCL10_T1D %&gt;%
-  export(&quot;data/export/CXCL10_T1D_TwoSampleMR.csv&quot;)
-IL12B_T1D  %&gt;% 
+<pre class="r"><code>IL12B_T1D  %&gt;% 
   export(&quot;data/export/IL12B_T1D_TwoSampleMR.csv&quot;)
 IL2RA_T1D  %&gt;% 
   export(&quot;data/export/IL2RA_T1D_TwoSampleMR.csv&quot;)
@@ -1423,22 +2140,25 @@ IL6ST_T1D  %&gt;%
   export(&quot;data/export/IL6ST_T1D_TwoSampleMR.csv&quot;)
 IL6R_T1D  %&gt;%
   export(&quot;data/export/IL6R_T1D_TwoSampleMR.csv&quot;)
+JAK1_T1D   %&gt;% 
+  export(&quot;data/export/JAK1_T1D_TwoSampleMR.csv&quot;)
 JAK2_T1D   %&gt;% 
   export(&quot;data/export/JAK2_T1D_TwoSampleMR.csv&quot;)
-TNF_T1D    %&gt;% 
-  export(&quot;data/export/TNF_T1D_TwoSampleMR.csv&quot;)
+JAK3_T1D   %&gt;% 
+  export(&quot;data/export/JAK3_T1D_TwoSampleMR.csv&quot;)
 TYK2_T1D   %&gt;% 
   export(&quot;data/export/TYK2_T1D_TwoSampleMR.csv&quot;)</code></pre>
 <pre class="r"><code>#Sanity check: no warnings
-# read_outcome_data(&quot;data/export/CXCL10_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+
 # read_outcome_data(&quot;data/export/IL12B_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_outcome_data(&quot;data/export/IL2RA_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_outcome_data(&quot;data/export/IL2RB_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_outcome_data(&quot;data/export/IL2RG_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_outcome_data(&quot;data/export/IL6ST_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_outcome_data(&quot;data/export/IL6R_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/JAK1_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_outcome_data(&quot;data/export/JAK2_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
-# read_outcome_data(&quot;data/export/TNF_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
+# read_outcome_data(&quot;data/export/JAK3_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)
 # read_outcome_data(&quot;data/export/TYK2_T1D_TwoSampleMR.csv&quot;, sep = &quot;,&quot;)</code></pre>
 <br>
 <p>
@@ -1464,29 +2184,33 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] here_1.0.1      rio_0.5.29      forcats_0.5.1   stringr_1.4.0  
- [5] dplyr_1.0.9     purrr_0.3.4     readr_2.1.2     tidyr_1.2.0    
- [9] tibble_3.1.7    ggplot2_3.4.1   tidyverse_1.3.1 workflowr_1.7.0
+ [1] dtplyr_1.2.1      data.table_1.14.2 TwoSampleMR_0.5.6 here_1.0.1       
+ [5] rio_0.5.29        forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
+ [9] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.7     
+[13] ggplot2_3.4.1     tidyverse_1.3.1   workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8.3      lubridate_1.8.0   getPass_0.2-2     ps_1.7.1         
- [5] assertthat_0.2.1  rprojroot_2.0.3   digest_0.6.29     utf8_1.2.2       
- [9] R6_2.5.1          cellranger_1.1.0  backports_1.4.1   reprex_2.0.1     
-[13] evaluate_0.15     httr_1.4.3        pillar_1.8.0      rlang_1.0.6      
-[17] curl_4.3.2        readxl_1.4.0      data.table_1.14.2 rstudioapi_0.13  
-[21] whisker_0.4       callr_3.7.1       jquerylib_0.1.4   rmarkdown_2.14   
-[25] foreign_0.8-82    munsell_0.5.0     broom_1.0.0       compiler_4.2.1   
-[29] httpuv_1.6.5      modelr_0.1.8      xfun_0.31         pkgconfig_2.0.3  
-[33] htmltools_0.5.2   tidyselect_1.1.2  fansi_1.0.3       crayon_1.5.1     
-[37] withr_2.5.0       tzdb_0.3.0        dbplyr_2.2.1      later_1.3.0      
-[41] grid_4.2.1        jsonlite_1.8.0    gtable_0.3.0      lifecycle_1.0.3  
-[45] DBI_1.1.3         git2r_0.30.1      magrittr_2.0.3    scales_1.2.0     
-[49] zip_2.2.0         cli_3.6.0         stringi_1.7.6     cachem_1.0.6     
-[53] fs_1.5.2          promises_1.2.0.1  xml2_1.3.3        bslib_0.4.0      
-[57] ellipsis_0.3.2    generics_0.1.3    vctrs_0.5.2       openxlsx_4.2.5.1 
-[61] tools_4.2.1       glue_1.6.2        hms_1.1.1         processx_3.6.1   
-[65] fastmap_1.1.0     yaml_2.3.5        colorspace_2.0-3  rvest_1.0.2      
-[69] knitr_1.39        haven_2.5.0       sass_0.4.2       </code></pre>
+ [1] fs_1.5.2         lubridate_1.8.0  httr_1.4.3       rprojroot_2.0.3 
+ [5] tools_4.2.1      backports_1.4.1  bslib_0.4.0      utf8_1.2.2      
+ [9] R6_2.5.1         nortest_1.0-4    DBI_1.1.3        colorspace_2.0-3
+[13] withr_2.5.0      tidyselect_1.1.2 processx_3.6.1   curl_4.3.2      
+[17] compiler_4.2.1   git2r_0.30.1     glmnet_4.1-4     cli_3.6.0       
+[21] rvest_1.0.2      xml2_1.3.3       sass_0.4.2       scales_1.2.0    
+[25] callr_3.7.1      digest_0.6.29    foreign_0.8-82   rmarkdown_2.14  
+[29] pkgconfig_2.0.3  htmltools_0.5.2  mr.raps_0.2      highr_0.9       
+[33] dbplyr_2.2.1     fastmap_1.1.0    rlang_1.0.6      readxl_1.4.0    
+[37] rstudioapi_0.13  shape_1.4.6      jquerylib_0.1.4  generics_0.1.3  
+[41] jsonlite_1.8.0   zip_2.2.0        magrittr_2.0.3   Matrix_1.4-1    
+[45] Rcpp_1.0.8.3     munsell_0.5.0    fansi_1.0.3      lifecycle_1.0.3 
+[49] stringi_1.7.6    whisker_0.4      yaml_2.3.5       grid_4.2.1      
+[53] promises_1.2.0.1 crayon_1.5.1     lattice_0.20-45  splines_4.2.1   
+[57] haven_2.5.0      hms_1.1.1        knitr_1.39       ps_1.7.1        
+[61] pillar_1.8.0     codetools_0.2-18 reprex_2.0.1     glue_1.6.2      
+[65] evaluate_0.15    getPass_0.2-2    modelr_0.1.8     vctrs_0.5.2     
+[69] tzdb_0.3.0       httpuv_1.6.5     foreach_1.5.2    cellranger_1.1.0
+[73] gtable_0.3.0     assertthat_0.2.1 cachem_1.0.6     xfun_0.31       
+[77] openxlsx_4.2.5.1 broom_1.0.0      later_1.3.0      survival_3.3-1  
+[81] iterators_1.0.14 ellipsis_0.3.2  </code></pre>
 </div>
 </div>
 </div>
