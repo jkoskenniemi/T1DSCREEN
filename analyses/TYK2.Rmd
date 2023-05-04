@@ -20,13 +20,114 @@ library(here)
 
 here::i_am("analyses/TYK2.Rmd")
 
+```
 
-TYK2_prot <- read_exposure_data("data/export/TYK2_prot_anno_TwoSampleMR.csv", sep=",")
+
+#eQTL
+
+Load packages and import data
+```{r}
+here::i_am("analyses/TYK2_eQTL.Rmd")
+
+TYK2_eqtl <- read_exposure_data("data/export/TYK2_eqtl_TwoSampleMR.csv", sep=",")
 TYK2_T1D  <- read_outcome_data("data/export/TYK2_T1D_TwoSampleMR.csv", sep=",")
 
+TYK2 <- harmonise_data(TYK2_eqtl, TYK2_T1D)
+
+```
+
+## Manhattan plots
+```{r}
+#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+TYK2_eqtl.fig <-
+  TYK2 %>%
+  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
+  geom_point()+
+  geom_hline(yintercept=8, linetype="dashed")+
+  ggtitle("GWAS of TYK2 gene expression in blood") +
+  ylab("-log10(p)") +
+  xlab(NULL)
+
+TYK2_T1D.fig <-
+  TYK2 %>%
+  ggplot()+
+  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
+  geom_hline(yintercept=8, linetype="dashed")+
+  # geom_vline(xintercept=36.9e6/1000, linetype="dashed")+
+  # geom_vline(xintercept=37.3e6/1000, linetype="dashed")+
+  ggtitle("GWAS of risk of T1D") +
+  ylab("-log10(p)") +
+  xlab("position(kbp)")
+
+#Obtain range for figure of gene
+layer_scales(TYK2_T1D.fig)$x$range$range
+
+TYK2_gene.fig <-
+  ggplot(data = TYK2) +
+  geom_blank() +
+  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  annotate("text", label = "TYK2",
+           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(36521.878, 38571.094) +
+  ylim(0.75, 2) +
+  ylab(NULL) + xlab(NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+fig_TYK2_manhattan <- ggarrange(TYK2_gene.fig, TYK2_eqtl.fig, TYK2_T1D.fig,
+                                heights = c(1, 3, 3), nrow = 3,
+                                ncol = 1, align = "hv")
+# ggsave("figures/TYK2-manhattan-combined-fig.pdf",
+#        height = 6, width = 8, units = "in")
+```
+
+## Coloc assuming 1 causal variant
+```{r}
+#recode MAF
+TYK2 <- TYK2 %>%
+  mutate(maf.exposure  = ifelse(eaf.exposure  < 0.5, eaf.exposure,  1-eaf.exposure)) %>%
+  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
+
+colnames(TYK2)
+
+D1 <- list(
+  type = "quant", # quantitative trait
+  pvalues = TYK2$pval.exposure,
+  N = TYK2$samplesize.exposure,
+  MAF = TYK2$maf.exposure,
+  pos = TYK2$pos.exposure,
+  snp = TYK2$pos.exposure,
+  sdY = 1)
+
+D2 <- list(
+  type = "cc", # case-control trait
+  Beta = TYK2$beta.outcome,
+  varBeta = TYK2$se.outcome,
+  pvalues = TYK2$pval.outcome,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = TYK2$maf.exposure,  #eqtl used here in purpose
+  pos = TYK2$pos.outcome,
+  snp = TYK2$pos.outcome)
+
+check_dataset(D1)
+check_dataset(D2)
+
+coloc_TYK2 <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+sensitivity(coloc_TYK2, "H4 > 0.7")
+```
+
+
+
+# pQTL
+
+```{r}
+TYK2_prot <- read_exposure_data("data/export/TYK2_prot_anno_TwoSampleMR.csv", sep=",")
 TYK2 <- harmonise_data(TYK2_prot, TYK2_T1D)
 
 ```
+
 
 ## Manhattan plots
 
