@@ -23,14 +23,15 @@ navbar:
     href: CRP.html
   - text: IL12B
     href: IL12B.html
+  - text: JAK1
+    href: JAK1.html
   - text: JAK2
     href: JAK2.html
-  - text: TNF
-    href: TNF.html
+  - text: JAK3
+    href: JAK3.html
   - text: TYK2
     href: TYK2.html
-  - text: CXCL10
-    href: CXCL10.html
+
   right:
   - icon: fab fa-github
     text: Source code
