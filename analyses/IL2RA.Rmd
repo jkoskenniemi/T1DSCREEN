@@ -37,6 +37,7 @@ IL2RA      <- harmonise_data(IL2RA_eqtl, IL2RA_T1D)
 ## Manhattan plots
 ```{r}
 #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+
 IL2RA_eqtl.fig <-
   IL2RA %>%
   ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
@@ -51,8 +52,6 @@ IL2RA_T1D.fig <-
   ggplot()+
   geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
   geom_hline(yintercept=8, linetype="dashed")+
-  # geom_vline(xintercept=36.9e6/1000, linetype="dashed")+
-  # geom_vline(xintercept=37.3e6/1000, linetype="dashed")+
   ggtitle("GWAS of risk of T1D") +
   ylab("-log10(p)") +
   xlab("position(kbp)")
@@ -63,10 +62,10 @@ layer_scales(IL2RA_T1D.fig)$x$range$range
 IL2RA_gene.fig <-
   ggplot(data = IL2RA) +
   geom_blank() +
-  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  geom_segment(x=6052.652, xend=6104.288, y=1, yend=1, linewidth = 2) +
   annotate("text", label = "IL2RA",
-           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(36521.878, 38571.094) +
+           x= (6052.652 + 6104.288) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(layer_scales(IL2RA_T1D.fig)$x$range$range) +
   ylim(0.75, 2) +
   ylab(NULL) + xlab(NULL) +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
@@ -76,6 +75,7 @@ IL2RA_gene.fig <-
 fig_IL2RA_manhattan <- ggarrange(IL2RA_gene.fig, IL2RA_eqtl.fig, IL2RA_T1D.fig,
                                  heights = c(1, 3, 3), nrow = 3,
                                  ncol = 1, align = "hv")
+fig_IL2RA_manhattan
 # ggsave("figures/IL2RA-manhattan-combined-fig.pdf",
 #        height = 6, width = 8, units = "in")
 ```
@@ -100,8 +100,6 @@ D1_eqtl <- list(
 
 D2_eqtl <- list(
   type = "cc", # case-control trait
-  Beta = IL2RA$beta.outcome,
-  varBeta = IL2RA$se.outcome,
   pvalues = IL2RA$pval.outcome,
   N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
@@ -109,11 +107,66 @@ D2_eqtl <- list(
   pos = IL2RA$pos.outcome,
   snp = IL2RA$pos.outcome)
 
+
 check_dataset(D1_eqtl)
 check_dataset(D2_eqtl)
 
 coloc_IL2RA <- coloc.abf(D1_eqtl, D2_eqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
 sensitivity(coloc_IL2RA, "H4 > 0.9")
+
+
+D1_bug <- list(
+  type = "quant", # quantitative trait
+  pvalues = IL2RA$pval.exposure, 
+  N = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  pos = IL2RA$pos.exposure,
+  snp = IL2RA$pos.exposure, #results don't differ if SNP is used here
+  sdY = 1)
+
+D2_bug <- list(
+  type = "cc", # case-control trait
+  pvalues = IL2RA$pval.outcome,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = IL2RA$maf.exposure,  #eqtl used here in purpose
+  pos = IL2RA$pos.outcome,
+  snp = IL2RA$pos.exposure) #results don't differ if SNP is used here
+
+
+check_dataset(D1_eqtl)
+check_dataset(D2_eqtl)
+
+coloc_IL2RA <- coloc.abf(D1_eqtl, D2_eqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+sensitivity(coloc_IL2RA, "H4 > 0.9")
+
+D1_pass <- list(
+  type = "quant", # quantitative trait
+  pvalues = IL2RA$pval.exposure,
+  N = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  pos = IL2RA$pos.exposure,
+  snp = IL2RA$pos.outcome,
+  sdY = 1)
+
+D2_pass <- list(
+  type = "cc", # case-control trait
+  pvalues = IL2RA$pval.outcome,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = IL2RA$maf.exposure,  #eqtl used here in purpose
+  pos = IL2RA$pos.outcome,
+  snp = IL2RA$pos.outcome)
+
+check_dataset(D1_pass)
+check_dataset(D2_pass)
+
+coloc_IL2RA <- coloc.abf(D1_pass, D2_pass, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+sensitivity(coloc_IL2RA, "H4 > 0.7")
+
+
+
+
 ```
 
 

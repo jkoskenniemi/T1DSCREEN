@@ -29,7 +29,8 @@ here::i_am("analyses/IL2RB.Rmd")
 IL2RB_eqtl <- read_exposure_data("data/export/IL2RB_eqtl_TwoSampleMR.csv", sep=",")
 IL2RB_T1D  <- read_outcome_data("data/export/IL2RB_T1D_TwoSampleMR.csv", sep=",")
 
-IL2RB <- harmonise_data(IL2RB_eqtl, IL2RB_T1D)
+IL2RB <- harmonise_data(IL2RB_eqtl, IL2RB_T1D) %>%
+  rename(zscore.exposure = beta.exposure)
 
 ```
 
@@ -81,32 +82,35 @@ fig_IL2RB_manhattan <- ggarrange(IL2RB_gene.fig, IL2RB_eqtl.fig, IL2RB_T1D.fig,
 
 ## Coloc assuming 1 causal variant
 ```{r}
-#select the area containing significant SNPs
+
 IL2RB <- IL2RB %>%
   mutate(maf.exposure  = ifelse(eaf.exposure  < 0.5, eaf.exposure,  1-eaf.exposure)) %>%
   mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
+
 
 colnames(IL2RB)
 
 D1_eqtl <- list(
   type = "quant", # quantitative trait
-  pvalues = IL2RB$pval.exposure, #What is this _origin_?
+  pvalues = IL2RB$pval.exposure, 
   N = IL2RB$samplesize.exposure,
   MAF = IL2RB$maf.exposure,
   pos = IL2RB$pos.exposure,
-  snp = IL2RB$pos.exposure,
+  snp = IL2RB$pos.exposure, #used to plot results nicely in 
+  #coloc::sensitivity().
+  #Results are the same if SNP=IL2RB$SNP is used here.
   sdY = 1)
 
 D2_eqtl <- list(
   type = "cc", # case-control trait
   Beta = IL2RB$beta.outcome,
   varBeta = IL2RB$se.outcome,
-  pvalues = IL2RB$pval.outcome, #why _origin_?
+  pvalues = IL2RB$pval.outcome, 
   N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
   MAF = IL2RB$maf.outcome,  #eqtl used here in purpose
   pos = IL2RB$pos.outcome,
-  snp = IL2RB$pos.outcome)
+  snp = IL2RB$pos.exposure)
 
 check_dataset(D1_eqtl)
 check_dataset(D2_eqtl)
