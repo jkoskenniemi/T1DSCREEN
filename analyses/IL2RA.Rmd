@@ -1,7 +1,12 @@
 ---
 title: "IL2RA"
 author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
-output: html_document
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+    code_folding: hide
 date: '2022-05-03'
 editor_options:
   chunk_output_type: console
@@ -9,14 +14,8 @@ editor_options:
 
 Load packages and import data
 ```{r}
-library(tidyverse)
-library(data.table)
-library(coloc)
-library(TwoSampleMR)
-library(ggpubr)
-library(ieugwasr)
-library(rio)
-library(here)
+pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr, 
+               ieugwasr, rio, here)
 
 here::i_am("analyses/IL2RA.Rmd")
 ```
@@ -24,11 +23,13 @@ here::i_am("analyses/IL2RA.Rmd")
 
 # eQTL
 
+TwoSampleMR is used to harmonize the data even though TwoSampleMR is not run. Therefore, data includes variable "beta" which is actually a z-score
 
 ```{r}
 IL2RA_eqtl <- read_exposure_data("data/export/IL2RA_eqtl_TwoSampleMR.csv", sep=",")
 IL2RA_T1D  <- read_outcome_data("data/export/IL2RA_T1D_TwoSampleMR.csv", sep=",")
-IL2RA      <- harmonise_data(IL2RA_eqtl, IL2RA_T1D)
+IL2RA      <- harmonise_data(IL2RA_eqtl, IL2RA_T1D) %>%
+  rename(zscore.exposure = beta.exposure)
 
 ```
 
@@ -36,7 +37,6 @@ IL2RA      <- harmonise_data(IL2RA_eqtl, IL2RA_T1D)
 
 ## Manhattan plots
 ```{r}
-#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
 
 IL2RA_eqtl.fig <-
   IL2RA %>%
@@ -56,9 +56,6 @@ IL2RA_T1D.fig <-
   ylab("-log10(p)") +
   xlab("position(kbp)")
 
-#Obtain range for figure of gene
-layer_scales(IL2RA_T1D.fig)$x$range$range
-
 IL2RA_gene.fig <-
   ggplot(data = IL2RA) +
   geom_blank() +
@@ -76,18 +73,18 @@ fig_IL2RA_manhattan <- ggarrange(IL2RA_gene.fig, IL2RA_eqtl.fig, IL2RA_T1D.fig,
                                  heights = c(1, 3, 3), nrow = 3,
                                  ncol = 1, align = "hv")
 fig_IL2RA_manhattan
-# ggsave("figures/IL2RA-manhattan-combined-fig.pdf",
-#        height = 6, width = 8, units = "in")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
 #recode MAF
 IL2RA <- IL2RA %>%
-  mutate(maf.exposure  = ifelse(eaf.exposure  < 0.5, eaf.exposure,  1-eaf.exposure)) %>%
-  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
-
-colnames(IL2RA)
+  mutate(maf.exposure  = 
+           ifelse(eaf.exposure  < 0.5, eaf.exposure,  
+                  1 - eaf.exposure)) %>%
+  mutate(maf.outcome  = 
+           ifelse(eaf.outcome  < 0.5, eaf.outcome,  
+                  1 - eaf.outcome))
 
 D1_eqtl <- list(
   type = "quant", # quantitative trait
@@ -95,7 +92,7 @@ D1_eqtl <- list(
   N = IL2RA$samplesize.exposure,
   MAF = IL2RA$maf.exposure,
   pos = IL2RA$pos.exposure,
-  snp = IL2RA$pos.exposure,
+  snp = IL2RA$pos.outcome,
   sdY = 1)
 
 D2_eqtl <- list(
@@ -113,58 +110,6 @@ check_dataset(D2_eqtl)
 
 coloc_IL2RA <- coloc.abf(D1_eqtl, D2_eqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
 sensitivity(coloc_IL2RA, "H4 > 0.9")
-
-
-D1_bug <- list(
-  type = "quant", # quantitative trait
-  pvalues = IL2RA$pval.exposure, 
-  N = IL2RA$samplesize.exposure,
-  MAF = IL2RA$maf.exposure,
-  pos = IL2RA$pos.exposure,
-  snp = IL2RA$pos.exposure, #results don't differ if SNP is used here
-  sdY = 1)
-
-D2_bug <- list(
-  type = "cc", # case-control trait
-  pvalues = IL2RA$pval.outcome,
-  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = IL2RA$maf.exposure,  #eqtl used here in purpose
-  pos = IL2RA$pos.outcome,
-  snp = IL2RA$pos.exposure) #results don't differ if SNP is used here
-
-
-check_dataset(D1_eqtl)
-check_dataset(D2_eqtl)
-
-coloc_IL2RA <- coloc.abf(D1_eqtl, D2_eqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-sensitivity(coloc_IL2RA, "H4 > 0.9")
-
-D1_pass <- list(
-  type = "quant", # quantitative trait
-  pvalues = IL2RA$pval.exposure,
-  N = IL2RA$samplesize.exposure,
-  MAF = IL2RA$maf.exposure,
-  pos = IL2RA$pos.exposure,
-  snp = IL2RA$pos.outcome,
-  sdY = 1)
-
-D2_pass <- list(
-  type = "cc", # case-control trait
-  pvalues = IL2RA$pval.outcome,
-  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = IL2RA$maf.exposure,  #eqtl used here in purpose
-  pos = IL2RA$pos.outcome,
-  snp = IL2RA$pos.outcome)
-
-check_dataset(D1_pass)
-check_dataset(D2_pass)
-
-coloc_IL2RA <- coloc.abf(D1_pass, D2_pass, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-sensitivity(coloc_IL2RA, "H4 > 0.7")
-
-
 
 
 ```
