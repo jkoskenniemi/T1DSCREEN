@@ -555,15 +555,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreedb4ef30433c23661866ab99d7693ac92121feb4ctargetblankdb4ef30a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree17a156c2adeb8770e562434e5b09d7ad84fda374targetblank17a156ca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/db4ef30433c23661866ab99d7693ac92121feb4c" target="_blank">db4ef30</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/17a156c2adeb8770e562434e5b09d7ad84fda374" target="_blank">17a156c</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreedb4ef30433c23661866ab99d7693ac92121feb4ctargetblankdb4ef30a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree17a156c2adeb8770e562434e5b09d7ad84fda374targetblank17a156ca"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -573,7 +573,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/db4ef30433c23661866ab99d7693ac92121feb4c" target="_blank">db4ef30</a>.
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/17a156c2adeb8770e562434e5b09d7ad84fda374" target="_blank">17a156c</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -593,24 +593,19 @@ Ignored files:
     Ignored:    data/README_cis_eqtl.txt
     Ignored:    data/README_cis_eqtl_AF.txt
     Ignored:    data/cis-EQTL-AF.txt
+    Ignored:    data/cis_eqtl_sumstats/2019-12-11-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt
+    Ignored:    data/cis_eqtl_sumstats/2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt/
+    Ignored:    data/cis_eqtl_sumstats/cis-eQTL-SMR_20191212.tar.gz
     Ignored:    data/cis_sumstats/2018-07-18_SNP_AF_for_AlleleB_combined_allele_counts_and_MAF_pos_added.txt
     Ignored:    refs/
 
 Untracked files:
-    Untracked:  data/cis_eqtl_sumstats/
-    Untracked:  data/cis_sumstats/JAK1_T1D.rds
-    Untracked:  data/cis_sumstats/JAK3_T1D.rds
-    Untracked:  data/export/IFNAR2_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/IL2RA_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/IL2RB_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/IL2RG_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/IL6R_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/JAK1_T1D_TwoSampleMR.csv
-    Untracked:  data/export/JAK1_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/JAK2_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/JAK3_T1D_TwoSampleMR.csv
-    Untracked:  data/export/JAK3_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/TYK2_eqtl_TwoSampleMR.csv
+    Untracked:  IL2RA_debug.Rmd
+
+Unstaged changes:
+    Modified:   analyses/IL6R.Rmd
+    Modified:   analyses/TYK2.Rmd
+    Modified:   analyses/index.Rmd
 
 </code></pre>
 <p>
@@ -655,6 +650,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/17a156c2adeb8770e562434e5b09d7ad84fda374/analyses/IL2RA.Rmd" target="_blank">17a156c</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Fixed SNP referencing in coloc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/b49016a04b5830e2336cc7f1be6dd2ba7b0943b1/docs/IL2RA.html" target="_blank">b49016a</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1645,6 +1674,7 @@ rs10444202, rs10795239, rs10795240, rs10795260, rs10795263, rs10795591, rs107955
 <div id="manhattan-plots" class="section level2">
 <h2>Manhattan plots</h2>
 <pre class="r"><code>#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+
 IL2RA_eqtl.fig &lt;-
   IL2RA %&gt;%
   ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
@@ -1659,8 +1689,6 @@ IL2RA_T1D.fig &lt;-
   ggplot()+
   geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
   geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
-  # geom_vline(xintercept=36.9e6/1000, linetype=&quot;dashed&quot;)+
-  # geom_vline(xintercept=37.3e6/1000, linetype=&quot;dashed&quot;)+
   ggtitle(&quot;GWAS of risk of T1D&quot;) +
   ylab(&quot;-log10(p)&quot;) +
   xlab(&quot;position(kbp)&quot;)
@@ -1671,10 +1699,10 @@ layer_scales(IL2RA_T1D.fig)$x$range$range</code></pre>
 <pre class="r"><code>IL2RA_gene.fig &lt;-
   ggplot(data = IL2RA) +
   geom_blank() +
-  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
+  geom_segment(x=6052.652, xend=6104.288, y=1, yend=1, linewidth = 2) +
   annotate(&quot;text&quot;, label = &quot;IL2RA&quot;,
-           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(36521.878, 38571.094) +
+           x= (6052.652 + 6104.288) / 2, y=1, hjust = 0.5, vjust = -1) +
+  xlim(layer_scales(IL2RA_T1D.fig)$x$range$range) +
   ylim(0.75, 2) +
   ylab(NULL) + xlab(NULL) +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
@@ -1684,7 +1712,9 @@ layer_scales(IL2RA_T1D.fig)$x$range$range</code></pre>
 fig_IL2RA_manhattan &lt;- ggarrange(IL2RA_gene.fig, IL2RA_eqtl.fig, IL2RA_T1D.fig,
                                  heights = c(1, 3, 3), nrow = 3,
                                  ncol = 1, align = &quot;hv&quot;)
-# ggsave(&quot;figures/IL2RA-manhattan-combined-fig.pdf&quot;,
+fig_IL2RA_manhattan</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ggsave(&quot;figures/IL2RA-manhattan-combined-fig.pdf&quot;,
 #        height = 6, width = 8, units = &quot;in&quot;)</code></pre>
 </div>
 <div id="coloc-assuming-1-causal-variant" class="section level2">
@@ -1718,14 +1748,42 @@ colnames(IL2RA)</code></pre>
 
 D2_eqtl &lt;- list(
   type = &quot;cc&quot;, # case-control trait
-  Beta = IL2RA$beta.outcome,
-  varBeta = IL2RA$se.outcome,
   pvalues = IL2RA$pval.outcome,
   N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
   MAF = IL2RA$maf.exposure,  #eqtl used here in purpose
   pos = IL2RA$pos.outcome,
   snp = IL2RA$pos.outcome)
+
+
+check_dataset(D1_eqtl)</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>check_dataset(D2_eqtl)</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>coloc_IL2RA &lt;- coloc.abf(D1_eqtl, D2_eqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
+<pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 4.54e-05  9.53e-01  1.25e-06  2.62e-02  2.05e-02 
+[1] &quot;PP abf for shared variant: 2.05%&quot;</code></pre>
+<pre class="r"><code>sensitivity(coloc_IL2RA, &quot;H4 &gt; 0.9&quot;)</code></pre>
+<pre><code>Results fail decision rule H4 &gt; 0.9</code></pre>
+<pre class="r"><code>D1_bug &lt;- list(
+  type = &quot;quant&quot;, # quantitative trait
+  pvalues = IL2RA$pval.exposure, 
+  N = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  pos = IL2RA$pos.exposure,
+  snp = IL2RA$pos.exposure, #results don&#39;t differ if SNP is used here
+  sdY = 1)
+
+D2_bug &lt;- list(
+  type = &quot;cc&quot;, # case-control trait
+  pvalues = IL2RA$pval.outcome,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = IL2RA$maf.exposure,  #eqtl used here in purpose
+  pos = IL2RA$pos.outcome,
+  snp = IL2RA$pos.exposure) #results don&#39;t differ if SNP is used here
+
 
 check_dataset(D1_eqtl)</code></pre>
 <pre><code>NULL</code></pre>
@@ -1738,6 +1796,35 @@ check_dataset(D1_eqtl)</code></pre>
 <pre class="r"><code>sensitivity(coloc_IL2RA, &quot;H4 &gt; 0.9&quot;)</code></pre>
 <pre><code>Results fail decision rule H4 &gt; 0.9</code></pre>
 <p><img src="figure/IL2RA.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>D1_pass &lt;- list(
+  type = &quot;quant&quot;, # quantitative trait
+  pvalues = IL2RA$pval.exposure,
+  N = IL2RA$samplesize.exposure,
+  MAF = IL2RA$maf.exposure,
+  pos = IL2RA$pos.exposure,
+  snp = IL2RA$pos.outcome,
+  sdY = 1)
+
+D2_pass &lt;- list(
+  type = &quot;cc&quot;, # case-control trait
+  pvalues = IL2RA$pval.outcome,
+  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+  MAF = IL2RA$maf.exposure,  #eqtl used here in purpose
+  pos = IL2RA$pos.outcome,
+  snp = IL2RA$pos.outcome)
+
+check_dataset(D1_pass)</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>check_dataset(D2_pass)</code></pre>
+<pre><code>NULL</code></pre>
+<pre class="r"><code>coloc_IL2RA &lt;- coloc.abf(D1_pass, D2_pass, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
+<pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 1.34e-87  2.27e-39  8.54e-52  4.45e-04  1.00e+00 
+[1] &quot;PP abf for shared variant: 100%&quot;</code></pre>
+<pre class="r"><code>sensitivity(coloc_IL2RA, &quot;H4 &gt; 0.7&quot;)</code></pre>
+<pre><code>Results pass decision rule H4 &gt; 0.7</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="pqtl" class="section level1">
