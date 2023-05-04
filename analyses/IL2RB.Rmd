@@ -2,7 +2,7 @@
 title: "IL2RB"
 author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
 output: html_document
-date: '2022-24-04'
+date: '2022-04-05'
 editor_options: 
   chunk_output_type: console
 ---
