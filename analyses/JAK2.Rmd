@@ -95,7 +95,7 @@ D1 <- list(
   N = JAK2$samplesize.exposure,
   MAF = JAK2$maf.exposure,
   pos = JAK2$pos.exposure,
-  snp = JAK2$SNP,
+  snp = JAK2$pos.exposure,
   sdY = 1)
 
 D2 <- list(
@@ -107,7 +107,7 @@ D2 <- list(
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
   MAF = JAK2$maf.exposure,  #eqtl used here in purpose
   pos = JAK2$pos.outcome,
-  snp = JAK2$SNP)
+  snp = JAK2$pos.exposure)
 
 check_dataset(D1)
 check_dataset(D2)

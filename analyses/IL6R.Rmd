@@ -98,8 +98,6 @@ D1 <- list(
 
 D2 <- list(
   type = "cc", # case-control trait
-  Beta = IL6R$beta.outcome,
-  varBeta = IL6R$se.outcome,
   pvalues = IL6R$pval.outcome,
   N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
