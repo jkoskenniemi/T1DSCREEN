@@ -555,15 +555,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreedb4ef30433c23661866ab99d7693ac92121feb4ctargetblankdb4ef30a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreefc32168e1730da0b68e2c69f77a74b354ae13749targetblankfc32168a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/db4ef30433c23661866ab99d7693ac92121feb4c" target="_blank">db4ef30</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/fc32168e1730da0b68e2c69f77a74b354ae13749" target="_blank">fc32168</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreedb4ef30433c23661866ab99d7693ac92121feb4ctargetblankdb4ef30a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreefc32168e1730da0b68e2c69f77a74b354ae13749targetblankfc32168a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -573,7 +573,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/db4ef30433c23661866ab99d7693ac92121feb4c" target="_blank">db4ef30</a>.
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/fc32168e1730da0b68e2c69f77a74b354ae13749" target="_blank">fc32168</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -593,27 +593,17 @@ Ignored files:
     Ignored:    data/README_cis_eqtl.txt
     Ignored:    data/README_cis_eqtl_AF.txt
     Ignored:    data/cis-EQTL-AF.txt
+    Ignored:    data/cis_eqtl_sumstats/2019-12-11-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt
+    Ignored:    data/cis_eqtl_sumstats/2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt/
+    Ignored:    data/cis_eqtl_sumstats/cis-eQTL-SMR_20191212.tar.gz
     Ignored:    data/cis_sumstats/2018-07-18_SNP_AF_for_AlleleB_combined_allele_counts_and_MAF_pos_added.txt
     Ignored:    refs/
 
 Untracked files:
-    Untracked:  data/cis_eqtl_sumstats/
-    Untracked:  data/cis_sumstats/JAK1_T1D.rds
-    Untracked:  data/cis_sumstats/JAK3_T1D.rds
-    Untracked:  data/export/IFNAR2_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/IL2RA_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/IL2RB_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/IL2RG_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/IL6R_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/JAK1_T1D_TwoSampleMR.csv
-    Untracked:  data/export/JAK1_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/JAK2_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/JAK3_T1D_TwoSampleMR.csv
-    Untracked:  data/export/JAK3_eqtl_TwoSampleMR.csv
-    Untracked:  data/export/TYK2_eqtl_TwoSampleMR.csv
+    Untracked:  IL2RA_debug.Rmd
 
 Unstaged changes:
-    Modified:   analyses/IL2RB.Rmd
+    Modified:   analyses/index.Rmd
 
 </code></pre>
 <p>
@@ -658,6 +648,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/fc32168e1730da0b68e2c69f77a74b354ae13749/analyses/JAK3.Rmd" target="_blank">fc32168</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+wflow_publish(c("analyses/IL6R.Rmd", "analyses/JAK1.Rmd",
+"analyses/JAK2.Rmd",
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/b49016a04b5830e2336cc7f1be6dd2ba7b0943b1/docs/JAK3.html" target="_blank">b49016a</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1606,7 +1631,7 @@ colnames(JAK3)</code></pre>
   N = JAK3$samplesize.exposure,
   MAF = JAK3$maf.exposure,
   pos = JAK3$pos.exposure,
-  snp = JAK3$SNP,
+  snp = JAK3$pos.exposure,
   sdY = 1)
 
 D2 &lt;- list(
@@ -1618,7 +1643,7 @@ D2 &lt;- list(
   s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
   MAF = JAK3$maf.exposure,  #eqtl used here in purpose
   pos = JAK3$pos.outcome,
-  snp = JAK3$SNP)
+  snp = JAK3$pos.exposure)
 
 check_dataset(D1)</code></pre>
 <pre><code>NULL</code></pre>
