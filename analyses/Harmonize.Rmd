@@ -10,10 +10,7 @@ editor_options:
 ---
 
 ```{r}
-library(tidyverse)
-library(rio)
-library(here)
-library(TwoSampleMR)
+pacman::p_load(tidyverse, rio, here, TwoSampleMR)
 here::i_am("analyses/Harmonize.Rmd")
 ```
 
@@ -616,6 +613,7 @@ IL6R_T1D    <- import("data/cis_sumstats/IL6R_T1D.rds")  %>% as_tibble()
 IL2RB_T1D   <- import("data/cis_sumstats/IL2RB_T1D.rds") %>% as_tibble()
 IL2RG_T1D   <- import("data/cis_sumstats/IL2RG_T1D.rds") %>% as_tibble()
 IL2RA_T1D   <- import("data/cis_sumstats/IL2RA_T1D.rds") %>% as_tibble()
+IFNAR2_T1D  <- import("data/cis_sumstats/IFNAR2_T1D.rds") %>% as_tibble()
 ```
 
 There were no missing rsid values (suppressed)
@@ -632,6 +630,7 @@ IL6R_T1D   %>% pull(hm_rsid) %>% anyNA()
 IL2RB_T1D  %>% pull(hm_rsid) %>% anyNA()
 IL2RG_T1D  %>% pull(hm_rsid) %>% anyNA()
 IL2RA_T1D  %>% pull(hm_rsid) %>% anyNA()
+IFNAR2_T1D %>% pull(hm_rsid) %>% anyNA()
 ```
 
 ## Remove duplicated SNPs
@@ -649,6 +648,7 @@ IL6R_T1D   %>% pull(hm_rsid) %>% anyDuplicated()
 IL2RB_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 IL2RG_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 IL2RA_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
+IFNAR2_T1D %>% pull(hm_rsid) %>% anyDuplicated()
 ```
 
 
@@ -673,6 +673,8 @@ duplicated_snps_IL2RG  <- IL2RG_T1D  %>%
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_IL2RA  <- IL2RA_T1D  %>% 
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
+duplicated_snps_IFNAR2 <- IFNAR2_T1D  %>% 
+  filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 
 IL12B_T1D  <- IL12B_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL12B)
 TYK2_T1D   <- TYK2_T1D    %>% filter(!hm_rsid %in% duplicated_snps_TYK2) 
@@ -684,6 +686,7 @@ IL6R_T1D   <- IL6R_T1D    %>% filter(!hm_rsid %in% duplicated_snps_IL6R)
 IL2RB_T1D  <- IL2RB_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RB)
 IL2RG_T1D  <- IL2RG_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RG)
 IL2RA_T1D  <- IL2RA_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RA)
+IFNAR2_T1D <- IFNAR2_T1D  %>% filter(!hm_rsid %in% duplicated_snps_IFNAR2)
 ```
 
 
@@ -716,6 +719,7 @@ JAK1_T1D    <- JAK1_T1D   %>% rename_for_TwoSampleMR_o()
 JAK2_T1D    <- JAK2_T1D   %>% rename_for_TwoSampleMR_o()
 JAK3_T1D    <- JAK3_T1D   %>% rename_for_TwoSampleMR_o()
 TYK2_T1D    <- TYK2_T1D   %>% rename_for_TwoSampleMR_o()
+IFNAR2_T1D  <- IFNAR2_T1D %>% rename_for_TwoSampleMR_o()
 ```
 
 Write data in TwoSampleMR data format
@@ -740,6 +744,8 @@ JAK3_T1D   %>%
   export("data/export/JAK3_T1D_TwoSampleMR.csv")
 TYK2_T1D   %>% 
   export("data/export/TYK2_T1D_TwoSampleMR.csv")
+IFNAR2_T1D   %>% 
+  export("data/export/IFNAR2_T1D_TwoSampleMR.csv")
 ```
 
 ```{r, results='hide'}
@@ -755,5 +761,6 @@ TYK2_T1D   %>%
 # read_outcome_data("data/export/JAK2_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export/JAK3_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export/TYK2_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export/IFNAR2_T1D_TwoSampleMR.csv", sep = ",")
 ```
 

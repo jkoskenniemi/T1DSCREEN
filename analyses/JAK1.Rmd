@@ -9,103 +9,37 @@ editor_options:
 
   Load packages and import data
 ```{r}
-library(tidyverse)
-library(data.table)
-library(coloc)
-library(TwoSampleMR)
-library(ggpubr)
-library(ieugwasr)
-library(rio)
-library(here)
+pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr, 
+               ieugwasr, rio, here)
+
+source("code/Functions.R")
 
 here::i_am("analyses/JAK1.Rmd")
 
-JAK1_eqtl <- read_exposure_data("data/export/JAK1_eqtl_TwoSampleMR.csv", sep=",")
-JAK1_T1D  <- read_outcome_data("data/export/JAK1_T1D_TwoSampleMR.csv", sep=",")
-
-JAK1 <- harmonise_data(JAK1_eqtl, JAK1_T1D)
-
 ```
+
+# eQTL
+
+Import data 
+```{r}
+JAK1_eqtl <- import_data("data/export/JAK1_eqtl_TwoSampleMR.csv", 
+                         "data/export/JAK1_T1D_TwoSampleMR.csv", has_beta = FALSE)
+```
+
+
 
 ## Manhattan plots
 ```{r}
 #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-JAK1_eqtl.fig <-
-  JAK1 %>%
-  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
-  geom_point()+
-  geom_hline(yintercept=8, linetype="dashed")+
-  ggtitle("GWAS of JAK1 gene expression in blood") +
-  ylab("-log10(p)") +
-  xlab(NULL)
-
-JAK1_T1D.fig <-
-  JAK1 %>%
-  ggplot()+
-  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
-  geom_hline(yintercept=8, linetype="dashed")+
-  # geom_vline(xintercept=36.9e6/1000, linetype="dashed")+
-  # geom_vline(xintercept=37.3e6/1000, linetype="dashed")+
-  ggtitle("GWAS of risk of T1D") +
-  ylab("-log10(p)") +
-  xlab("position(kbp)")
-
-#Obtain range for figure of gene
-layer_scales(JAK1_T1D.fig)$x$range$range
-
-JAK1_gene.fig <-
-  ggplot(data = JAK1) +
-  geom_blank() +
-  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
-  annotate("text", label = "JAK1",
-           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(36521.878, 38571.094) +
-  ylim(0.75, 2) +
-  ylab(NULL) + xlab(NULL) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank())
-
-fig_JAK1_manhattan <- ggarrange(JAK1_gene.fig, JAK1_eqtl.fig, JAK1_T1D.fig,
-                                heights = c(1, 3, 3), nrow = 3,
-                                ncol = 1, align = "hv")
+manhattan_plots(JAK1_eqtl, gene_start = 65298912, 
+                gene_end=65432187, 
+                title = "JAK1")
 # ggsave("figures/JAK1-manhattan-combined-fig.pdf",
 #        height = 6, width = 8, units = "in")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
-#recode MAF
-JAK1 <- JAK1 %>%
-  mutate(maf.exposure  = ifelse(eaf.exposure  < 0.5, eaf.exposure,  1-eaf.exposure)) %>%
-  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
-
-colnames(JAK1)
-
-D1 <- list(
-  type = "quant", # quantitative trait
-  pvalues = JAK1$pval.exposure,
-  N = JAK1$samplesize.exposure,
-  MAF = JAK1$maf.exposure,
-  pos = JAK1$pos.exposure,
-  snp = JAK1$pos.exposure,
-  sdY = 1)
-
-D2 <- list(
-  type = "cc", # case-control trait
-  Beta = JAK1$beta.outcome,
-  varBeta = JAK1$se.outcome,
-  pvalues = JAK1$pval.outcome,
-  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = JAK1$maf.exposure,  #eqtl used here in purpose
-  pos = JAK1$pos.outcome,
-  snp = JAK1$pos.exposure)
-
-check_dataset(D1)
-check_dataset(D2)
-
-coloc_JAK1 <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-sensitivity(coloc_JAK1, "H4 > 0.7")
+analyze_coloc_eqtl(JAK1_eqtl)
 ```
 

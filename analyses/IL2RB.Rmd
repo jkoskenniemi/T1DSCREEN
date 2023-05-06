@@ -1,7 +1,12 @@
 ---
 title: "IL2RB"
 author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
-output: html_document
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+    code_folding: hide
 date: '2022-04-05'
 editor_options: 
   chunk_output_type: console
@@ -9,16 +14,12 @@ editor_options:
 
 Load packages and import data
 ```{r}
-library(tidyverse)
-library(data.table)
-library(coloc)
-library(TwoSampleMR)
-library(ggpubr)
-library(ieugwasr)
-library(rio)
-library(here)
+pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr, 
+               ieugwasr, rio, here)
 
 here::i_am("analyses/IL2RB.Rmd")
+
+source("code/Functions.R")
 ```
 
 
@@ -26,419 +27,53 @@ here::i_am("analyses/IL2RB.Rmd")
 
 
 ```{r}
-IL2RB_eqtl <- read_exposure_data("data/export/IL2RB_eqtl_TwoSampleMR.csv", sep=",")
-IL2RB_T1D  <- read_outcome_data("data/export/IL2RB_T1D_TwoSampleMR.csv", sep=",")
 
-IL2RB <- harmonise_data(IL2RB_eqtl, IL2RB_T1D) %>%
-  rename(zscore.exposure = beta.exposure)
+IL2RB_eqtl <- import_data("data/export/IL2RB_eqtl_TwoSampleMR.csv",
+            "data/export/IL2RB_T1D_TwoSampleMR.csv", has_beta = FALSE)
 
 ```
 
 ## Manhattan plots
 ```{r}
 #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-IL2RB_eqtl.fig <- 
-  IL2RB %>%
-  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
-  geom_point()+
-  geom_hline(yintercept=8, linetype="dashed")+
-  ggtitle("GWAS of IL2RB gene expression in blood") +
-  ylab("-log10(p)") +
-  xlab(NULL)
+manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
 
-IL2RB_T1D.fig <- 
-  IL2RB %>%
-  ggplot()+
-  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
-  geom_hline(yintercept=8, linetype="dashed")+
-  # geom_vline(xintercept=36.9e6/1000, linetype="dashed")+
-  # geom_vline(xintercept=37.3e6/1000, linetype="dashed")+
-  ggtitle("GWAS of risk of T1D") +
-  ylab("-log10(p)") +
-  xlab("position(kbp)")
+# ggsave("figures/IL2RB-eQTL-T1D-manhattan.pdf", height = 6, width = 8)
 
-#Obtain range for figure of gene
-layer_scales(IL2RB_T1D.fig)$x$range$range
-
-IL2RB_gene.fig <- 
-  ggplot(data = IL2RB) +
-  geom_blank() +
-  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
-  annotate("text", label = "IL2RB", 
-           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(36521.878, 38571.094) +
-  ylim(0.75, 2) +
-  ylab(NULL) + xlab(NULL) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank())
-
-fig_IL2RB_manhattan <- ggarrange(IL2RB_gene.fig, IL2RB_eqtl.fig, IL2RB_T1D.fig,
-          heights = c(1, 3, 3), nrow = 3,
-          ncol = 1, align = "hv")
-# ggsave("figures/IL2RB-manhattan-combined-fig.pdf",
-#        height = 6, width = 8, units = "in")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
+analyze_coloc_eqtl(IL2RB_eqtl)
 
-IL2RB <- IL2RB %>%
-  mutate(maf.exposure  = ifelse(eaf.exposure  < 0.5, eaf.exposure,  1-eaf.exposure)) %>%
-  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
-
-
-colnames(IL2RB)
-
-D1_eqtl <- list(
-  type = "quant", # quantitative trait
-  pvalues = IL2RB$pval.exposure, 
-  N = IL2RB$samplesize.exposure,
-  MAF = IL2RB$maf.exposure,
-  pos = IL2RB$pos.exposure,
-  snp = IL2RB$pos.exposure, #used to plot results nicely in 
-  #coloc::sensitivity().
-  #Results are the same if SNP=IL2RB$SNP is used here.
-  sdY = 1)
-
-D2_eqtl <- list(
-  type = "cc", # case-control trait
-  Beta = IL2RB$beta.outcome,
-  varBeta = IL2RB$se.outcome,
-  pvalues = IL2RB$pval.outcome, 
-  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = IL2RB$maf.outcome,  #eqtl used here in purpose
-  pos = IL2RB$pos.outcome,
-  snp = IL2RB$pos.exposure)
-
-check_dataset(D1_eqtl)
-check_dataset(D2_eqtl)
-
-coloc_IL2RB <- coloc.abf(D1_eqtl, D2_eqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-sensitivity(coloc_IL2RB, "H4 > 0.1")
+# pdf("figures/IL2RB-eQTL-T1D-coloc.pdf", height = 6, width = 8)
+# dev.off()
 ```
 
 
 # pQTL
 
-
 ```{r}
-IL2RB_pqtl <- read_exposure_data("data/export/IL2RB_prot_anno_TwoSampleMR.csv", sep=",")
-IL2RB_T1D  <- read_outcome_data("data/export/IL2RB_T1D_TwoSampleMR.csv", sep=",")
-
-IL2RB_pqtl <- harmonise_data(IL2RB_pqtl, IL2RB_T1D)
+IL2RB_pqtl <- import_data("data/export/IL2RB_prot_anno_TwoSampleMR.csv",
+            "data/export/IL2RB_T1D_TwoSampleMR.csv", has_beta = FALSE)
 
 ```
 
 
 ## Manhattan plots
 ```{r}
-#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-IL2RB_pqtl_prot.fig <- 
-  IL2RB_pqtl %>%
-  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
-  geom_point()+
-  geom_hline(yintercept=8, linetype="dashed")+
-  # geom_vline(xintercept=36.9e6/1000, linetype="dashed")+
-  # geom_vline(xintercept=37.3e6/1000, linetype="dashed")+
-  ggtitle("GWAS of IL2RB level in serum") +
-  ylab("-log10(p)") +
-  xlab(NULL)
+manhattan_plots(IL2RB_pqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
 
-IL2RB_pqtl_T1D.fig <- 
-  IL2RB_pqtl %>%
-  ggplot() +
-  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
-  geom_hline(yintercept=8, linetype="dashed")+
-  # geom_vline(xintercept=36.9e6/1000, linetype="dashed")+
-  # geom_vline(xintercept=37.3e6/1000, linetype="dashed")+
-  ggtitle("GWAS of risk of T1D") +
-  ylab("-log10(p)") +
-  xlab("position(kbp)")
-
-#Obtain range for figure of gene
-layer_scales(IL2RB_pqtl_T1D.fig)$x$range$range
-
-IL2RB_pqtl_gene.fig <- 
-  ggplot(data = IL2RB_pqtl) +
-  geom_blank() +
-  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
-  annotate("text", label = "IL2RB_pqtl", 
-           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(36521.878, 38571.094) +
-  ylim(0.75, 2) +
-  ylab(NULL) + xlab(NULL) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank())
-
-fig_IL2RB_pqtl_manhattan <- ggarrange(IL2RB_pqtl_prot.fig, 
-                                      IL2RB_pqtl_T1D.fig, 
-                                      IL2RB_pqtl_gene.fig,
-          heights = c(1, 3, 3), nrow = 3,
-          ncol = 1, align = "hv")
 # ggsave("figures/IL2RB_pqtl-manhattan-combined-fig.pdf", 
 #        height = 6, width = 8, units = "in")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
-#select the area containing significant SNPs
-# IL2RB_pqtl <- IL2RB_pqtl %>%
-#   filter(pos.exposure > 36.9e6 & pos.exposure < 37.3e6)
-
-
-IL2RB_pqtl <- IL2RB_pqtl %>% 
-  mutate(maf.exposure = ifelse(eaf.exposure < 0.5, eaf.exposure, 1-eaf.exposure)) %>%
-  mutate(maf.outcome  = ifelse(eaf.outcome  < 0.5, eaf.outcome,  1-eaf.outcome))
-
-colnames(IL2RB_pqtl)
-
-D1_pqtl <- list(
-  type = "quant", # quantitative trait
-  Beta = IL2RB_pqtl$beta.exposure,
-  varBeta = IL2RB_pqtl$se.exposure^2, 
-  pvalues = IL2RB_pqtl$pval.exposure, #What is this _origin_?
-  N = IL2RB_pqtl$samplesize.exposure,
-  MAF = IL2RB_pqtl$maf.exposure,
-  pos = IL2RB_pqtl$pos.exposure,
-  snp = IL2RB_pqtl$pos.exposure,
-  sdY = 1)
-
-D2_pqtl <- list(
-  type = "cc", # case-control trait
-  Beta = IL2RB_pqtl$beta.outcome,
-  varBeta = IL2RB_pqtl$se.outcome,
-  pvalues = IL2RB_pqtl$pval.outcome, #why _origin_?
-  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = IL2RB_pqtl$maf.outcome,  #prot used here in purpose
-  pos = IL2RB_pqtl$pos.outcome,
-  snp = IL2RB_pqtl$pos.outcome)
-
-check_dataset(D1_pqtl)
-check_dataset(D2_pqtl)
-
-coloc_IL2RB_pqtl <- coloc.abf(D1_pqtl, D2_pqtl, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-sensitivity(coloc_IL2RB_pqtl, "H4 > 0.1")
+analyze_coloc_pqtl(IL2RB_pqtl)
+# pdf("figures/IL2RB-eQTL-T1D-coloc.pdf", height = 6, width = 8)
+# dev.off()
 ```
 
-## SusiE
-
-### Get LD matrix
-```{r}
-
-# ldmat_IL2RB <- ld_matrix_local(
-#     IL2RB_pqtl$SNP,
-#     plink_bin = genetics.binaRies::get_plink_binary(),
-#     bfile = "C:/Users/jajoko/Documents/MR Projects/plinkref/EUR")
-# 
-# save(ldmat_IL2RB, file = "data/IL2RB_pqtl_LDmat-2023-04-25.RData")
-load(file = "data/IL2RB_LDmat-2023-04-25.RData")
-
-str(ldmat_IL2RB)
-```
-
-
-### Harmonize correlation matrix
-
-Change data from correlation matrix to pairwise correlation format
-```{r}
-#Data is changed to data.table so dtplyr can be used for better perfomance 
-ldmat_IL2RB <- cbind(rownames(ldmat_IL2RB), ldmat_IL2RB) %>% 
-  as.data.table() %>%
-  pivot_longer(names_to = "variant2",
-               values_to = "r2",
-               cols = !matches("V1")) %>% 
-  rename("variant1" = "V1") %>%
-  mutate(r2 = as.numeric(r2))
-```
-
-Identify effect orientation and remove effect orientation from variant names
-```{r}
-
-#Extract SNPs and get rid of duplicates 
-ldmat_IL2RB_snps <- ldmat_IL2RB %>%
-  as_tibble() %>%
-  select(variant1) %>%
-  filter(duplicated(variant1) == FALSE)
-
-#Extract EA and NEA
-ldmat_IL2RB_snps <- ldmat_IL2RB_snps %>%
-  mutate(EA_ld  = word(variant1, 2, sep = fixed('_'))) %>%
-  mutate(NEA_ld  = word(variant1, 3, sep = fixed('_'))) %>%
-  mutate(rsid = word(variant1, 1, sep=fixed('_')))
-```
-
-Correct the orientation of effect alleles in IL2RB_pqtl data frame 
-```{r}
-#remove SNPs from original (IL2RB_pqtl) data that are not included in LD
-#correlation matrix
-IL2RB_pqtl <- IL2RB_pqtl %>% 
-  filter(SNP %in% ldmat_IL2RB_snps$rsid)
-
-#join SNP alignment data from the LD matrix to original (IL2RB_pqtl) data 
-#which includes betas and alignment data for the risk of T1D and protein
-#levels
-IL2RB_pqtl <- IL2RB_pqtl %>%
-  full_join(ldmat_IL2RB_snps, by = c("SNP" = "rsid"))
-
-#Look if there are unlikely cases
-#variants that have different effect allele to ref allele combination
-IL2RB_pqtl %>% filter(EA_ld != effect_allele.exposure & 
-                   NEA_ld != other_allele.exposure) #no
-IL2RB_pqtl %>% filter(NEA_ld != other_allele.exposure & 
-                   EA_ld != effect_allele.exposure) #no
-
-#If no, harmonize the alignment of Betas with correlations coefficients in LD correlation matrix
-IL2RB_pqtl <- IL2RB_pqtl %>%
-  mutate(harmonized = ifelse(EA_ld != effect_allele.exposure | 
-                               EA_ld != effect_allele.outcome, 1, 0))
-IL2RB_pqtl %>% filter(harmonized == 1) #0
-
-```
-
-No variants were harmonized. Remove variants that are not found in IL2RB_pqtl data frame
-
-```{r}
-
-#Change to data.table for better performance in following tasks
-ldmat_IL2RB <- ldmat_IL2RB %>% as.data.table()
-
-#Remove orientation from rsids (this time using data.table because of computational reasons)
-ldmat_IL2RB <- ldmat_IL2RB[,rsid1 := gsub('_[ATGC]*_[ATGC]*','',variant1)]
-ldmat_IL2RB <- ldmat_IL2RB[,rsid2 := gsub('_[ATGC]*_[ATGC]*','',variant2)]
-
-## Proof that the approach above works (i.e. there are no characters
-## in rsids)
-# ldmat_IL2RB_unique <- unique(ldmat_IL2RB, by = "rsid1")
-# ldmat_IL2RB_unique <- ldmat_IL2RB_unique[,rsid1 := gsub('rs','',rsid1)]
-# ldmat_IL2RB_unique <- ldmat_IL2RB_unique[,rsid1 := as.numeric(rsid1)]
-# ldmat_IL2RB_unique[is.numeric(rsid1) == FALSE,]
-# rm(ldmat_IL2RB_unique)
-
-#Remove variants that are not found in IL2RB_pqtl data frame
-ldmat_IL2RB <- ldmat_IL2RB[rsid1 %in% IL2RB_pqtl$SNP | 
-                             rsid2 %in% IL2RB_pqtl$SNP]
-length(unique(ldmat_IL2RB$rsid1)) #1460, the correct #
-
-```
-
-
-Format the pairwise LD matrix back to LD correlation matrix form
-```{r}
-ldmat_IL2RB_corr <- ldmat_IL2RB  %>%
-  as_tibble() %>%
-  select(-variant1, -variant2) %>%
-  pivot_wider(names_from = "rsid2", values_from = "r2") 
-
-#test for missing
-ldmat_IL2RB_corr %>% anyNA() #none
-
-dim(ldmat_IL2RB)
-```
-
-Format LD-matrix 
-```{r}
-rownames <- ldmat_IL2RB_corr$rsid1
-ldmat_IL2RB_corr <- ldmat_IL2RB_corr %>%
-  select(-rsid1)
-
-ldmat_IL2RB_corr <- ldmat_IL2RB_corr %>%
-  as.matrix()
-
-dimnames(ldmat_IL2RB_corr)[1] <- list(rownames)
-```
-
-### Prepare coloc data & run coloc.susie
-
-```{r}
-D3_pqtl <- list(
-  type = "quant", # quantitative trait
-  beta = IL2RB_pqtl$beta.exposure,
-  varbeta = IL2RB_pqtl$se.exposure^2, 
-  pvalues = IL2RB_pqtl$pval.exposure,
-  n = IL2RB_pqtl$samplesize.exposure,
-  MAF = IL2RB_pqtl$maf.exposure,
-  position = IL2RB_pqtl$pos.exposure,
-  snp = IL2RB_pqtl$SNP,
-  LD = ldmat_IL2RB_corr,
-  sdY = 1)
-
-D4_pqtl <- list(
-  type = "cc", # case-control trait
-  beta = IL2RB_pqtl$beta.outcome,
-  varbeta = IL2RB_pqtl$se.outcome^2,
-  pvalues = IL2RB_pqtl$pval.outcome,
-  n = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = IL2RB_pqtl$maf.outcome,
-  LD = ldmat_IL2RB_corr,
-  position = IL2RB_pqtl$pos.outcome,
-  snp = IL2RB_pqtl$SNP)
-
-check_dataset(D3_pqtl, req = c("beta", "varbeta", "LD", "snp"))
-check_dataset(D4_pqtl, req = c("beta", "varbeta", "LD", "snp"))
-
-check_alignment(D3_pqtl)
-check_alignment(D4_pqtl)
-
-```
-
-
-### Run coloc.susie
-```{r}
-S3_pqtl <- runsusie(D3_pqtl, n = IL2RB_pqtl$samplesize.exposure[1])
-S4_pqtl <- runsusie(D4_pqtl, n = 18942+501638)
-
-summary(S3_pqtl)
-summary(S4_pqtl)
-
-if(requireNamespace("susieR",quietly=TRUE)) {
-  susie.res=coloc.susie(S3_pqtl,S4_pqtl)
-  print(susie.res$summary)
-}
-
-if(requireNamespace("susieR",quietly=TRUE)) {
-  sensitivity(susie.res,"H4 > 0.7",row=1,dataset1=D3_pqtl,dataset2=D4_pqtl)
-  sensitivity(susie.res,"H4 > 0.7",row=2,dataset1=D3_pqtl,dataset2=D4_pqtl)
-  sensitivity(susie.res,"H4 > 0.7",row=3,dataset1=D3_pqtl,dataset2=D4_pqtl)
-  sensitivity(susie.res,"H4 > 0.7",row=4,dataset1=D3_pqtl,dataset2=D4_pqtl)
-}
-
-susie.res
-
-```
-
-
-## MR
-
-
-### Import GWAS of protein and T1D risk
-```{r}
-
-#Import data
-                      
-IL2RB_pqtl_clumped <- clump_data(IL2RB_pqtl)
-MR_IL2RB_pqtl_res <- TwoSampleMR::mr(IL2RB_pqtl_clumped)
-
-MR_IL2RB_pqtl_res_scatter <- mr_scatter_plot(MR_IL2RB_pqtl_res, IL2RB_pqtl_clumped)
-MR_IL2RB_pqtl_res_single <- mr_singlesnp(IL2RB_pqtl_clumped)
-MR_IL2RB_pqtl_res_forest <- mr_forest_plot(MR_IL2RB_pqtl_res_single)
-
-exp(MR_IL2RB_pqtl_res[3,]$b)
-exp(MR_IL2RB_pqtl_res[3,]$b)
-exp(MR_IL2RB_pqtl_res[3,]$b - 1.96*MR_IL2RB_pqtl_res[3,]$se)
-exp(MR_IL2RB_pqtl_res[3,]$b + 1.96*MR_IL2RB_pqtl_res[3,]$se)
-
-
-exp(MR_IL2RB_pqtl_res_single[2,]$b)
-exp(MR_IL2RB_pqtl_res_single[2,]$b - MR_IL2RB_pqtl_res_single[2,]$se)
-exp(MR_IL2RB_pqtl_res_single[2,]$b + 1.96*MR_IL2RB_pqtl_res_single[2,]$se)
-
-susie.res$results[snp == "rs228953"]
-
-```
 
 
