@@ -1,0 +1,83 @@
+---
+  title: "IFNAR2"
+author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
+output: html_document
+date: '2022-26-04'
+editor_options:
+  chunk_output_type: console
+---
+
+  Load packages and import data
+```{r}
+pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr,
+               ieugwasr, rio, here)
+
+source("code/Functions.R")
+
+here::i_am("analyses/IFNAR2.Rmd")
+```
+
+# eQTL
+
+```{r}
+IFNAR2_eqtl <- import_data("data/export/IFNAR2_eqtl_TwoSampleMR.csv",
+                           "data/export/IFNAR2_T1D_TwoSampleMR.csv",
+                           has_beta = FALSE)
+
+```
+
+
+## Manhattan plots
+
+manhattan plots don't seem to align well. However, this does not matter ery much because there does not seem to be any even remotely genome-wide significant GWAS hits.
+```{r}
+manhattan_plots(IFNAR2_eqtl, gene_start = 34602206, gene_end = 34637980, title = "IFNAR2")
+
+manhattan_exposure <- IFNAR2_eqtl %>%
+    ggplot(aes(x = pos.outcome/1000, y=-log10(pval.exposure))) +
+    geom_point() +
+    geom_hline(yintercept=8, linetype="dashed") +
+    ggtitle(paste0("GWAS of ", IFNAR2_eqtl$exposure[1])) +
+    ylab("-log10(p)") +
+    xlab(NULL) +
+    theme(axis.text.x = element_blank())
+
+  manhattan_outcome <- IFNAR2_eqtl %>%
+    ggplot() +
+    geom_point(aes(x = pos.outcome/1000, y=-log10(pval.outcome))) +
+    geom_hline(yintercept=8, linetype="dashed") +
+    ggtitle(paste0("GWAS of ", IFNAR2_eqtl$outcome[1])) +
+    ylab("-log10(p)") +
+    xlab("position(kbp)")
+
+  
+  gene_start = 34602206
+  gene_end = 34637980
+  
+  gene_figure <- IFNAR2_eqtl %>%
+    ggplot() +
+    geom_blank() +
+    geom_segment(x=gene_start/1000, xend=gene_end/1000, y=1, yend=1, linewidth = 2) +
+    annotate("text", label = paste0("IFNAR2"),
+             x= (gene_start + gene_end)/ 1000 / 2, y=1, hjust = 0.5, vjust = -0.5) +
+    xlim(layer_scales(manhattan_outcome)$x$range$range) +
+    ylim(0.75, 2) +
+    ylab(NULL) + xlab(NULL) +
+    theme(axis.text = element_blank(), axis.ticks.y = element_blank(),
+          panel.grid.major.y = element_blank(),
+          panel.grid.minor.y = element_blank())
+
+  manhattan_plot <- ggarrange(gene_figure, manhattan_exposure, manhattan_outcome,
+                              heights = c(1.2, 3, 3), nrow = 3,
+                              ncol = 1, align = "hv")
+```
+
+## Coloc assuming 1 causal variant
+```{r}
+#recode MAF
+# analyze_coloc_eqtl(IFNAR2_eqtl)
+```
+
+
+
+
