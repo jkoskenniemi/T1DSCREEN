@@ -423,7 +423,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-05-04
+<strong>Last updated:</strong> 2023-05-06
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -554,15 +554,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreefc32168e1730da0b68e2c69f77a74b354ae13749targetblankfc32168a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree8d42249302304a7a9f3c94091a1a6b288947fee9targetblank8d42249a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/fc32168e1730da0b68e2c69f77a74b354ae13749" target="_blank">fc32168</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/8d42249302304a7a9f3c94091a1a6b288947fee9" target="_blank">8d42249</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreefc32168e1730da0b68e2c69f77a74b354ae13749targetblankfc32168a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree8d42249302304a7a9f3c94091a1a6b288947fee9targetblank8d42249a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -572,7 +572,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/fc32168e1730da0b68e2c69f77a74b354ae13749" target="_blank">fc32168</a>.
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/8d42249302304a7a9f3c94091a1a6b288947fee9" target="_blank">8d42249</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -599,10 +599,15 @@ Ignored files:
     Ignored:    refs/
 
 Untracked files:
-    Untracked:  IL2RA_debug.Rmd
-
-Unstaged changes:
-    Modified:   analyses/index.Rmd
+    Untracked:  analyses/IFNAR2.Rmd
+    Untracked:  code/Functions.R
+    Untracked:  code/IL2RA-säästö.Rmd
+    Untracked:  code/IL2RB-säästö-susie-mr.Rmd
+    Untracked:  code/IL6R-säästö-susie-mr.R
+    Untracked:  data/cis_sumstats/IFNAR2_T1D.rds
+    Untracked:  data/export/IFNAR2_T1D_TwoSampleMR.csv
+    Untracked:  data/previous-studies/
+    Untracked:  figures/
 
 </code></pre>
 <p>
@@ -647,6 +652,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/8d42249302304a7a9f3c94091a1a6b288947fee9/analyses/TYK2.Rmd" target="_blank">8d42249</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-06
+</td>
+<td>
+modified all scripts to adhere to functional programming
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/0d3f37017de4946514ff0df852a8abf92c2d0d7e/analyses/TYK2.Rmd" target="_blank">0d3f370</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-06
+</td>
+<td>
+functional programming added to result scripts
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/834297c684eec8c1b25b6516c3838ccc01442219/docs/TYK2.html" target="_blank">834297c</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -994,9 +1050,11 @@ library(here)</code></pre>
 <pre><code>here() starts at C:/Users/jajoko/Documents/T1DSCREEN</code></pre>
 <pre class="r"><code>here::i_am(&quot;analyses/TYK2.Rmd&quot;)</code></pre>
 <pre><code>here() starts at C:/Users/jajoko/Documents/T1DSCREEN</code></pre>
+<pre class="r"><code>source(&quot;code/Functions.R&quot;)</code></pre>
 <p>#eQTL</p>
 <p>Load packages and import data</p>
-<pre class="r"><code>TYK2_eqtl &lt;- read_exposure_data(&quot;data/export/TYK2_eqtl_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)</code></pre>
+<pre class="r"><code>TYK2_eqtl &lt;- import_data(&quot;data/export/TYK2_eqtl_TwoSampleMR.csv&quot;, 
+                         &quot;data/export/TYK2_T1D_TwoSampleMR.csv&quot;, has_beta = FALSE)</code></pre>
 <pre><code>Warning in format_data(as.data.frame(exposure_dat), type = &quot;exposure&quot;, snps =
 NULL, : se column is not numeric. Coercing...</code></pre>
 <pre><code>Warning in format_data(as.data.frame(exposure_dat), type = &quot;exposure&quot;, snps = NULL, : The following SNP(s) are missing required information for the MR tests and will be excluded
@@ -1750,117 +1808,244 @@ rs14052</code></pre>
 <pre><code>Warning in format_data(as.data.frame(exposure_dat), type = &quot;exposure&quot;, snps =
 NULL, : None of the provided SNPs can be used for MR analysis, they are missing
 required information.</code></pre>
-<pre class="r"><code>TYK2_T1D  &lt;- read_outcome_data(&quot;data/export/TYK2_T1D_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
-
-TYK2 &lt;- harmonise_data(TYK2_eqtl, TYK2_T1D)</code></pre>
 <pre><code>Harmonising Whole blood TYK2 mRNA (4vucPG) and Risk of type 1 diabetes (xN25Oe)</code></pre>
 <pre><code>Removing the following SNPs for being palindromic with intermediate allele frequencies:
 rs1037686, rs10409562, rs10413630, rs10416414, rs10417443, rs10421649, rs11085587, rs113098768, rs113623676, rs11668706, rs11673302, rs12460740, rs12710260, rs12979606, rs12981155, rs12981841, rs12982396, rs12982962, rs12985305, rs13344456, rs1368459, rs1644726, rs1644730, rs1862471, rs2016304, rs2075741, rs2287813, rs2305792, rs2361222, rs2445885, rs2569703, rs2738446, rs2738448, rs281432, rs322144, rs322145, rs3786698, rs3826709, rs3826803, rs4611572, rs4804507, rs4804526, rs55686442, rs61032644, rs62128757, rs6511685, rs67475684, rs6887, rs710845, rs7245579, rs7252965, rs7254559, rs7256356, rs7256625, rs7258340, rs73017023, rs749261, rs753859, rs8112953, rs8113000, rs8182463, rs885743, rs896412, rs918539, rs9973219</code></pre>
 <div id="manhattan-plots" class="section level2">
 <h2>Manhattan plots</h2>
-<pre class="r"><code>#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-TYK2_eqtl.fig &lt;-
-  TYK2 %&gt;%
-  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
-  geom_point()+
-  geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
-  ggtitle(&quot;GWAS of TYK2 gene expression in blood&quot;) +
-  ylab(&quot;-log10(p)&quot;) +
-  xlab(NULL)
-
-TYK2_T1D.fig &lt;-
-  TYK2 %&gt;%
-  ggplot()+
-  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
-  geom_hline(yintercept=8, linetype=&quot;dashed&quot;)+
-  # geom_vline(xintercept=36.9e6/1000, linetype=&quot;dashed&quot;)+
-  # geom_vline(xintercept=37.3e6/1000, linetype=&quot;dashed&quot;)+
-  ggtitle(&quot;GWAS of risk of T1D&quot;) +
-  ylab(&quot;-log10(p)&quot;) +
-  xlab(&quot;position(kbp)&quot;)
-
-#Obtain range for figure of gene
-layer_scales(TYK2_T1D.fig)$x$range$range</code></pre>
-<pre><code>[1]  9572.19 11474.33</code></pre>
-<pre class="r"><code>TYK2_gene.fig &lt;-
-  ggplot(data = TYK2) +
-  geom_blank() +
-  geom_segment(x=37521.878, xend=37571.094, y=1, yend=1, linewidth = 2) +
-  annotate(&quot;text&quot;, label = &quot;TYK2&quot;,
-           x= (37521.878 + 37571.094) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(36521.878, 38571.094) +
-  ylim(0.75, 2) +
-  ylab(NULL) + xlab(NULL) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank())
-
-fig_TYK2_manhattan &lt;- ggarrange(TYK2_gene.fig, TYK2_eqtl.fig, TYK2_T1D.fig,
-                                heights = c(1, 3, 3), nrow = 3,
-                                ncol = 1, align = &quot;hv&quot;)
-fig_TYK2_manhattan</code></pre>
+<pre class="r"><code>manhattan_plots(TYK2_eqtl, gene_start = 37521878, gene_end=37571094, 
+                title = &quot;TYK2&quot;)</code></pre>
+<pre><code>Warning: Removed 1 rows containing missing values (`geom_text()`).</code></pre>
 <p><img src="figure/TYK2.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># ggsave(&quot;figures/TYK2-manhattan-combined-fig.pdf&quot;,
 #        height = 6, width = 8, units = &quot;in&quot;)</code></pre>
 </div>
 <div id="coloc-assuming-1-causal-variant" class="section level2">
 <h2>Coloc assuming 1 causal variant</h2>
-<pre class="r"><code>#recode MAF
-TYK2 &lt;- TYK2 %&gt;%
-  mutate(maf.exposure  = ifelse(eaf.exposure  &lt; 0.5, eaf.exposure,  1-eaf.exposure)) %&gt;%
-  mutate(maf.outcome  = ifelse(eaf.outcome  &lt; 0.5, eaf.outcome,  1-eaf.outcome))
-
-colnames(TYK2)</code></pre>
-<pre><code> [1] &quot;SNP&quot;                    &quot;effect_allele.exposure&quot; &quot;other_allele.exposure&quot; 
- [4] &quot;effect_allele.outcome&quot;  &quot;other_allele.outcome&quot;   &quot;beta.exposure&quot;         
- [7] &quot;beta.outcome&quot;           &quot;eaf.exposure&quot;           &quot;eaf.outcome&quot;           
-[10] &quot;remove&quot;                 &quot;palindromic&quot;            &quot;ambiguous&quot;             
-[13] &quot;id.outcome&quot;             &quot;pos.outcome&quot;            &quot;pval.outcome&quot;          
-[16] &quot;se.outcome&quot;             &quot;ncase.outcome&quot;          &quot;ncontrol.outcome&quot;      
-[19] &quot;samplesize.outcome&quot;     &quot;outcome&quot;                &quot;mr_keep.outcome&quot;       
-[22] &quot;pval_origin.outcome&quot;    &quot;data_source.outcome&quot;    &quot;pval.exposure&quot;         
-[25] &quot;pos.exposure&quot;           &quot;samplesize.exposure&quot;    &quot;se.exposure&quot;           
-[28] &quot;exposure&quot;               &quot;mr_keep.exposure&quot;       &quot;pval_origin.exposure&quot;  
-[31] &quot;id.exposure&quot;            &quot;data_source.exposure&quot;   &quot;action&quot;                
-[34] &quot;mr_keep&quot;                &quot;maf.exposure&quot;           &quot;maf.outcome&quot;           </code></pre>
-<pre class="r"><code>D1 &lt;- list(
-  type = &quot;quant&quot;, # quantitative trait
-  pvalues = TYK2$pval.exposure,
-  N = TYK2$samplesize.exposure,
-  MAF = TYK2$maf.exposure,
-  pos = TYK2$pos.exposure,
-  snp = TYK2$pos.exposure,
-  sdY = 1)
-
-D2 &lt;- list(
-  type = &quot;cc&quot;, # case-control trait
-  Beta = TYK2$beta.outcome,
-  varBeta = TYK2$se.outcome,
-  pvalues = TYK2$pval.outcome,
-  N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-  s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-  MAF = TYK2$maf.exposure,  #eqtl used here in purpose
-  pos = TYK2$pos.outcome,
-  snp = TYK2$pos.exposure) #to match the data, SNP works equally 
-#well but doesn&#39;t print well
-
-check_dataset(D1)</code></pre>
-<pre><code>NULL</code></pre>
-<pre class="r"><code>check_dataset(D2)</code></pre>
-<pre><code>NULL</code></pre>
-<pre class="r"><code>coloc_TYK2 &lt;- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)</code></pre>
+<pre class="r"><code>analyze_coloc_eqtl(TYK2_eqtl)</code></pre>
 <pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
 1.03e-173  5.59e-12 1.58e-162  8.60e-01  1.40e-01 
 [1] &quot;PP abf for shared variant: 14%&quot;</code></pre>
-<pre class="r"><code>sensitivity(coloc_TYK2, &quot;H4 &gt; 0.7&quot;)</code></pre>
 <pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
 <p><img src="figure/TYK2.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>$test_D1
+NULL
+
+$test_D2
+NULL
+
+$coloc
+[1] &quot;coloc_D1D2&quot;
+
+$sensitivity
+        PP.H0.abf    PP.H1.abf     PP.H2.abf PP.H3.abf    PP.H4.abf
+1   1.091189e-173 6.500894e-12 1.833995e-162 0.9998367 0.0001632784
+2   1.091181e-173 6.500791e-12 1.833966e-162 0.9998208 0.0001791950
+3   1.091173e-173 6.500677e-12 1.833934e-162 0.9998033 0.0001966629
+4   1.091164e-173 6.500553e-12 1.833899e-162 0.9997842 0.0002158331
+5   1.091154e-173 6.500416e-12 1.833860e-162 0.9997631 0.0002368716
+6   1.091143e-173 6.500266e-12 1.833818e-162 0.9997400 0.0002599603
+7   1.091131e-173 6.500101e-12 1.833771e-162 0.9997147 0.0002852989
+8   1.091118e-173 6.499920e-12 1.833720e-162 0.9996869 0.0003131064
+9   1.091104e-173 6.499722e-12 1.833664e-162 0.9996564 0.0003436234
+10  1.091088e-173 6.499504e-12 1.833603e-162 0.9996229 0.0003771137
+11  1.091070e-173 6.499265e-12 1.833535e-162 0.9995861 0.0004138666
+12  1.091051e-173 6.499003e-12 1.833461e-162 0.9995458 0.0004541997
+13  1.091030e-173 6.498715e-12 1.833380e-162 0.9995015 0.0004984615
+14  1.091008e-173 6.498399e-12 1.833291e-162 0.9994530 0.0005470343
+15  1.090982e-173 6.498053e-12 1.833193e-162 0.9993997 0.0006003375
+16  1.090955e-173 6.497672e-12 1.833086e-162 0.9993412 0.0006588311
+17  1.090925e-173 6.497255e-12 1.832968e-162 0.9992770 0.0007230199
+18  1.090891e-173 6.496797e-12 1.832839e-162 0.9992065 0.0007934575
+19  1.090855e-173 6.496295e-12 1.832697e-162 0.9991292 0.0008707513
+20  1.090815e-173 6.495743e-12 1.832542e-162 0.9990444 0.0009555673
+21  1.090771e-173 6.495138e-12 1.832371e-162 0.9989514 0.0010486362
+22  1.090723e-173 6.494474e-12 1.832184e-162 0.9988492 0.0011507593
+23  1.090670e-173 6.493745e-12 1.831978e-162 0.9987372 0.0012628152
+24  1.090612e-173 6.492946e-12 1.831753e-162 0.9986142 0.0013857676
+25  1.090548e-173 6.492069e-12 1.831505e-162 0.9984793 0.0015206727
+26  1.090479e-173 6.491106e-12 1.831234e-162 0.9983313 0.0016686890
+27  1.090402e-173 6.490050e-12 1.830936e-162 0.9981689 0.0018310862
+28  1.090318e-173 6.488892e-12 1.830609e-162 0.9979907 0.0020092562
+29  1.090226e-173 6.487621e-12 1.830251e-162 0.9977953 0.0022047243
+30  1.090125e-173 6.486227e-12 1.829857e-162 0.9975808 0.0024191622
+31  1.090014e-173 6.484697e-12 1.829426e-162 0.9973456 0.0026544014
+32  1.089892e-173 6.483020e-12 1.828952e-162 0.9970876 0.0029124485
+33  1.089758e-173 6.481179e-12 1.828433e-162 0.9968045 0.0031955012
+34  1.089612e-173 6.479160e-12 1.827864e-162 0.9964940 0.0035059664
+35  1.089451e-173 6.476946e-12 1.827239e-162 0.9961535 0.0038464789
+36  1.089275e-173 6.474518e-12 1.826554e-162 0.9957801 0.0042199233
+37  1.089082e-173 6.471856e-12 1.825803e-162 0.9953705 0.0046294559
+38  1.088870e-173 6.468936e-12 1.824979e-162 0.9949215 0.0050785298
+39  1.088638e-173 6.465734e-12 1.824076e-162 0.9944291 0.0055709218
+40  1.088384e-173 6.462224e-12 1.823086e-162 0.9938892 0.0061107606
+41  1.088104e-173 6.458376e-12 1.822000e-162 0.9932974 0.0067025589
+42  1.087799e-173 6.454159e-12 1.820810e-162 0.9926488 0.0073512462
+43  1.087463e-173 6.449536e-12 1.819506e-162 0.9919378 0.0080622051
+44  1.087096e-173 6.444470e-12 1.818077e-162 0.9911587 0.0088413104
+45  1.086693e-173 6.438920e-12 1.816511e-162 0.9903050 0.0096949700
+46  1.086252e-173 6.432839e-12 1.814796e-162 0.9893698 0.0106301695
+47  1.085769e-173 6.426179e-12 1.812917e-162 0.9883455 0.0116545188
+48  1.085240e-173 6.418885e-12 1.810859e-162 0.9872237 0.0127763023
+49  1.084661e-173 6.410899e-12 1.808606e-162 0.9859955 0.0140045309
+50  1.084027e-173 6.402158e-12 1.806140e-162 0.9846510 0.0153489975
+51  1.083333e-173 6.392591e-12 1.803441e-162 0.9831797 0.0168203341
+52  1.082573e-173 6.382125e-12 1.800488e-162 0.9815699 0.0184300713
+53  1.081743e-173 6.370677e-12 1.797259e-162 0.9798093 0.0201906996
+54  1.080835e-173 6.358161e-12 1.793728e-162 0.9778843 0.0221157316
+55  1.079843e-173 6.344480e-12 1.789868e-162 0.9757802 0.0242197641
+56  1.078759e-173 6.329534e-12 1.785652e-162 0.9734815 0.0265185404
+57  1.077575e-173 6.313211e-12 1.781047e-162 0.9709710 0.0290290101
+58  1.076282e-173 6.295393e-12 1.776020e-162 0.9682306 0.0317693861
+59  1.074872e-173 6.275953e-12 1.770536e-162 0.9652408 0.0347591962
+60  1.073335e-173 6.254756e-12 1.764556e-162 0.9619807 0.0380193282
+61  1.071659e-173 6.231656e-12 1.758039e-162 0.9584279 0.0415720649
+62  1.069834e-173 6.206500e-12 1.750942e-162 0.9545589 0.0454411069
+63  1.067849e-173 6.179124e-12 1.743219e-162 0.9503484 0.0496515798
+64  1.065689e-173 6.149355e-12 1.734821e-162 0.9457700 0.0542300217
+65  1.063343e-173 6.117012e-12 1.725696e-162 0.9407957 0.0592043472
+66  1.060797e-173 6.081905e-12 1.715792e-162 0.9353962 0.0646037823
+67  1.058035e-173 6.043836e-12 1.705052e-162 0.9295412 0.0704587664
+68  1.055044e-173 6.002601e-12 1.693419e-162 0.9231992 0.0768008149
+69  1.051808e-173 5.957987e-12 1.680833e-162 0.9163377 0.0836623373
+70  1.048311e-173 5.909781e-12 1.667234e-162 0.9089236 0.0910764040
+71  1.044538e-173 5.857765e-12 1.652559e-162 0.9009235 0.0990764581
+72  1.040473e-173 5.801722e-12 1.636748e-162 0.8923040 0.1076959655
+73  1.036100e-173 5.741435e-12 1.619741e-162 0.8830320 0.1169679991
+74  1.031404e-173 5.676697e-12 1.601477e-162 0.8730752 0.1269247548
+75  1.026371e-173 5.607306e-12 1.581901e-162 0.8624030 0.1375969979
+76  1.020987e-173 5.533077e-12 1.560960e-162 0.8509866 0.1490134399
+77  1.015239e-173 5.453840e-12 1.538606e-162 0.8387999 0.1612000510
+78  1.009118e-173 5.369450e-12 1.514798e-162 0.8258207 0.1741793145
+79  1.002614e-173 5.279787e-12 1.489503e-162 0.8120306 0.1879694353
+80  9.957216e-174 5.184767e-12 1.462697e-162 0.7974165 0.2025835180
+81  9.884372e-174 5.084343e-12 1.434366e-162 0.7819713 0.2180287352
+82  9.807606e-174 4.978512e-12 1.404509e-162 0.7656945 0.2343055107
+83  9.726952e-174 4.867320e-12 1.373141e-162 0.7485933 0.2514067478
+84  9.642481e-174 4.750868e-12 1.340288e-162 0.7306829 0.2693171348
+85  9.554309e-174 4.629311e-12 1.305995e-162 0.7119874 0.2880125637
+86  9.462591e-174 4.502867e-12 1.270323e-162 0.6925403 0.3074596975
+87  9.367529e-174 4.371813e-12 1.233351e-162 0.6723843 0.3276157213
+88  9.269371e-174 4.236491e-12 1.195174e-162 0.6515717 0.3484283079
+89  9.168407e-174 4.097300e-12 1.155907e-162 0.6301642 0.3698358231
+90  9.064970e-174 3.954699e-12 1.115677e-162 0.6082322 0.3917677864
+91  8.959430e-174 3.809200e-12 1.074630e-162 0.5858544 0.4141455942
+92  8.852192e-174 3.661359e-12 1.032922e-162 0.5631165 0.4368834976
+93  8.743688e-174 3.511773e-12 9.907212e-163 0.5401102 0.4598898159
+94  8.634371e-174 3.361067e-12 9.482049e-163 0.5169316 0.4830683533
+95  8.524710e-174 3.209886e-12 9.055546e-163 0.4936800 0.5063199756
+96  8.415178e-174 3.058882e-12 8.629544e-163 0.4704557 0.5295442910
+97  8.306246e-174 2.908706e-12 8.205875e-163 0.4473586 0.5526413785
+98  8.198375e-174 2.759993e-12 7.786333e-163 0.4244865 0.5755134975
+99  8.092007e-174 2.613353e-12 7.372641e-163 0.4019333 0.5980667196
+100 7.987562e-174 2.469362e-12 6.966423e-163 0.3797876 0.6202124244
+             p12  pass
+1   1.000000e-08 FALSE
+2   1.097499e-08 FALSE
+3   1.204504e-08 FALSE
+4   1.321941e-08 FALSE
+5   1.450829e-08 FALSE
+6   1.592283e-08 FALSE
+7   1.747528e-08 FALSE
+8   1.917910e-08 FALSE
+9   2.104904e-08 FALSE
+10  2.310130e-08 FALSE
+11  2.535364e-08 FALSE
+12  2.782559e-08 FALSE
+13  3.053856e-08 FALSE
+14  3.351603e-08 FALSE
+15  3.678380e-08 FALSE
+16  4.037017e-08 FALSE
+17  4.430621e-08 FALSE
+18  4.862602e-08 FALSE
+19  5.336699e-08 FALSE
+20  5.857021e-08 FALSE
+21  6.428073e-08 FALSE
+22  7.054802e-08 FALSE
+23  7.742637e-08 FALSE
+24  8.497534e-08 FALSE
+25  9.326033e-08 FALSE
+26  1.023531e-07 FALSE
+27  1.123324e-07 FALSE
+28  1.232847e-07 FALSE
+29  1.353048e-07 FALSE
+30  1.484968e-07 FALSE
+31  1.629751e-07 FALSE
+32  1.788650e-07 FALSE
+33  1.963041e-07 FALSE
+34  2.154435e-07 FALSE
+35  2.364489e-07 FALSE
+36  2.595024e-07 FALSE
+37  2.848036e-07 FALSE
+38  3.125716e-07 FALSE
+39  3.430469e-07 FALSE
+40  3.764936e-07 FALSE
+41  4.132012e-07 FALSE
+42  4.534879e-07 FALSE
+43  4.977024e-07 FALSE
+44  5.462277e-07 FALSE
+45  5.994843e-07 FALSE
+46  6.579332e-07 FALSE
+47  7.220809e-07 FALSE
+48  7.924829e-07 FALSE
+49  8.697490e-07 FALSE
+50  9.545485e-07 FALSE
+51  1.047616e-06 FALSE
+52  1.149757e-06 FALSE
+53  1.261857e-06 FALSE
+54  1.384886e-06 FALSE
+55  1.519911e-06 FALSE
+56  1.668101e-06 FALSE
+57  1.830738e-06 FALSE
+58  2.009233e-06 FALSE
+59  2.205131e-06 FALSE
+60  2.420128e-06 FALSE
+61  2.656088e-06 FALSE
+62  2.915053e-06 FALSE
+63  3.199267e-06 FALSE
+64  3.511192e-06 FALSE
+65  3.853529e-06 FALSE
+66  4.229243e-06 FALSE
+67  4.641589e-06 FALSE
+68  5.094138e-06 FALSE
+69  5.590810e-06 FALSE
+70  6.135907e-06 FALSE
+71  6.734151e-06 FALSE
+72  7.390722e-06 FALSE
+73  8.111308e-06 FALSE
+74  8.902151e-06 FALSE
+75  9.770100e-06 FALSE
+76  1.072267e-05 FALSE
+77  1.176812e-05 FALSE
+78  1.291550e-05 FALSE
+79  1.417474e-05 FALSE
+80  1.555676e-05 FALSE
+81  1.707353e-05 FALSE
+82  1.873817e-05 FALSE
+83  2.056512e-05 FALSE
+84  2.257020e-05 FALSE
+85  2.477076e-05 FALSE
+86  2.718588e-05 FALSE
+87  2.983647e-05 FALSE
+88  3.274549e-05 FALSE
+89  3.593814e-05 FALSE
+90  3.944206e-05 FALSE
+91  4.328761e-05 FALSE
+92  4.750810e-05 FALSE
+93  5.214008e-05 FALSE
+94  5.722368e-05 FALSE
+95  6.280291e-05 FALSE
+96  6.892612e-05 FALSE
+97  7.564633e-05 FALSE
+98  8.302176e-05 FALSE
+99  9.111628e-05 FALSE
+100 1.000000e-04 FALSE</code></pre>
 </div>
 <div id="pqtl" class="section level1">
 <h1>pQTL</h1>
-<pre class="r"><code>TYK2_prot &lt;- read_exposure_data(&quot;data/export/TYK2_prot_anno_TwoSampleMR.csv&quot;, sep=&quot;,&quot;)
-TYK2 &lt;- harmonise_data(TYK2_prot, TYK2_T1D)</code></pre>
-<pre><code>Harmonising Serum TYK2 level (qs1g78) and Risk of type 1 diabetes (xN25Oe)</code></pre>
+<pre class="r"><code>TYK2_pqtl &lt;- import_data(&quot;data/export/TYK2_prot_anno_TwoSampleMR.csv&quot;, 
+                         &quot;data/export/TYK2_T1D_TwoSampleMR.csv&quot;, has_beta = TRUE)</code></pre>
+<pre><code>Harmonising Serum TYK2 level (qs1g78) and Risk of type 1 diabetes (f66Ik5)</code></pre>
 <pre><code>Removing the following SNPs for incompatible alleles:
 rs151165116, rs183479123, rs185264289, rs373524333, rs374964295, rs534737045, rs537688931, rs544285808, rs546195204, rs555277654, rs558187292, rs558830521, rs571297393, rs571727951, rs572069029, rs747556448, rs757688587, rs767437573, rs77444625, rs775432199, rs779038836</code></pre>
 <pre><code>Removing the following SNPs for being palindromic with intermediate allele frequencies:
@@ -1869,7 +2054,6 @@ rs1037686, rs10409562, rs10416414, rs10417443, rs11085587, rs11668537, rs1166870
 <h2>Manhattan plots</h2>
 <p>There are no GWAS hits in TYK2 levels in serum. Thus, coloc and MR is
 not done.</p>
-<pre><code>[1]  9461.514 11491.155</code></pre>
 <p><img src="figure/TYK2.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
