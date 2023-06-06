@@ -355,9 +355,6 @@ analyze_coloc_eqtl_pull_top_snp <- function(data) {
 
 # rm(list=ls())
 
-
-#This function is based on
-
 #This is very much a hacked version of the plots in RACER package (https://github.com/oliviasabik/RACER).
 #In particular, the genetic annotation in the bottom panel is based on the "hg19" data object included in
 #the RACER package.
@@ -370,13 +367,7 @@ plot_coloc <- function(genechr,
                        gene_window = 100000,
                        coloc_results, data, D1, D2, LDmat) {
 
-  coloc_results = coloc_results_IL2RA_eqtl$coloc_D1D2
   d = data
-  D1 = coloc_results$D1
-  D2 = coloc_results$D2
-  LDmat = LDmat_IL2RA
-  genome_version = "hg38"
-
 
   stopifnot(class(coloc_results)[1] == "coloc_abf")
   pacman::p_load("coloc", "data.table", "ggplot2", "ggpubr", "ggrepel","reshape2", "RACER")
@@ -517,15 +508,20 @@ plot_coloc <- function(genechr,
                     ncol = 1, common.legend = TRUE, legend = "right", align = "hv")
 }
 
-# plot_coloc(genechr = 10,
-#            fig_start = 5900000,
-#            fig_end = 6250000,
-#            gene_window = 50000,
-#            coloc_results = coloc_results_IL2RA_eqtl$coloc_D1D2,
-#            data = IL2RA_eqtl,
-#            D1 = coloc_results_IL2RA_eqtl$D1,
-#            D2 = coloc_results_IL2RA_eqtl$D2,
-#            LDmat = LDmat_IL2RA)
+get_ld_matrix <- function(target) {
+  # Access the SNP column directly from the harmonized_dfs list
+  target_variants = harmonized_dfs[[target]]$SNP
 
+  ld_matrix(
+    variants = target_variants,
+    pop = "EUR",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
+    with_alleles = FALSE)
+}
 
-
+trim_matrix <- function(input_matrix, reference_data) {
+  input_matrix = input_matrix[rownames(input_matrix) %in% reference_data$SNP, ]
+  input_matrix =  input_matrix[, colnames(input_matrix) %in% reference_data$SNP]
+  return(input_matrix)
+}
