@@ -9,14 +9,7 @@ editor_options:
 
   Load packages and import data
 ```{r}
-library(tidyverse)
-library(data.table)
-library(coloc)
-library(TwoSampleMR)
-library(ggpubr)
-library(ieugwasr)
-library(rio)
-library(here)
+pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr, ieugwasr, rio, here)
 
 here::i_am("analyses/TYK2.Rmd")
 
@@ -40,35 +33,13 @@ TYK2_eqtl <- import_data("data/export/TYK2_eqtl_TwoSampleMR.csv",
 manhattan_plots(TYK2_eqtl, gene_start = 37521878, gene_end=37571094, 
                 title = "TYK2")
 
-# ggsave("figures/TYK2-manhattan-combined-fig.pdf",
-#        height = 6, width = 8, units = "in")
+ggsave("figures/TYK2-eqtl-manhattan-fig.png",
+       height = 6, width = 6, units = "in")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
 analyze_coloc_eqtl(TYK2_eqtl)
-```
-
-
-
-# pQTL
-
-```{r}
-TYK2_pqtl <- import_data("data/export/TYK2_prot_anno_TwoSampleMR.csv", 
-                         "data/export/TYK2_T1D_TwoSampleMR.csv", has_beta = TRUE)
 
 ```
-
-
-## Manhattan plots
-
-There are no GWAS hits in TYK2 levels in serum. Thus, coloc and MR is not done.
-
-```{r, echo = FALSE, message = "FALSE"}
-manhattan_plots(TYK2_pqtl, gene_start = 10461209, 
-                gene_end =10491352, title = "TYK2")
-# ggsave("figures/TYK2-manhattan-combined-fig.pdf",
-#        height = 6, width = 8, units = "in")
-```
-
 

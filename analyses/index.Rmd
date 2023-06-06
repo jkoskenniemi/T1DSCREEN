@@ -4,6 +4,7 @@ site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
+bibliography: references.bib 
 editor_options:
   chunk_output_type: console
 ---
@@ -11,6 +12,8 @@ editor_options:
 ```{r}
 library(tidyverse)
 ```
+
+# Introduction
 
 A research project aimed to evaluate the available genetic evidence
 for efficacy and safety of existing drugs to prevent type 1 diabetes.
@@ -40,6 +43,7 @@ data.frame("gene"       = c("IFNAR2", "IL12B", "IL23A", "IL2RA", "IL2RB",
   knitr::kable(caption = "Summary of study results")
 ```
 
+# Build script
 
 Linux script to get data
 ```{bash, eval = FALSE}
@@ -68,5 +72,28 @@ Build script for workflowr
 workflowr::wflow_build()
 workflowr::wflow_publish(all = TRUE)
 ```
+
+
+
+
+# Manuscript items
+
+
+# (Supplementary) Figure: flow chart of the selection of the targets
+
+# (Supplementary) Table: GWAS summary statistics sources
+
+
+# Table: genomic regions under investigation (gene, chr, start, end, number of variants available for colocalization)
+
+# Table: All colocalization results
+
+# Figures (either separate or different panels): regional Manhattan plots for the colocalizing regions
+
+# (Supplementary Figures: regional Manhattan plots for non-colocalizing regions)
+
+# Table and/or Figure: MR results for the colocalizing regions
+
+
 
 

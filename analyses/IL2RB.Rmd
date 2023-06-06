@@ -38,7 +38,7 @@ IL2RB_eqtl <- import_data("data/export/IL2RB_eqtl_TwoSampleMR.csv",
 #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
 manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
 
-# ggsave("figures/IL2RB-eQTL-T1D-manhattan.pdf", height = 6, width = 8)
+ggsave("figures/IL2RB-eQTL-T1D-manhattan.png", height = 6, width = 6)
 
 ```
 
@@ -46,8 +46,8 @@ manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2
 ```{r}
 analyze_coloc_eqtl(IL2RB_eqtl)
 
-# pdf("figures/IL2RB-eQTL-T1D-coloc.pdf", height = 6, width = 8)
-# dev.off()
+png("figures/IL2RB-eQTL-T1D-coloc.png", height = 6, width = 8)
+dev.off()
 ```
 
 
@@ -64,15 +64,14 @@ IL2RB_pqtl <- import_data("data/export/IL2RB_prot_anno_TwoSampleMR.csv",
 ```{r}
 manhattan_plots(IL2RB_pqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
 
-# ggsave("figures/IL2RB_pqtl-manhattan-combined-fig.pdf", 
-#        height = 6, width = 8, units = "in")
+ggsave("figures/IL2RB_pqtl-manhattan-fig.png",
+       height = 6, width = 6, units = "in")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
 analyze_coloc_pqtl(IL2RB_pqtl)
-# pdf("figures/IL2RB-eQTL-T1D-coloc.pdf", height = 6, width = 8)
-# dev.off()
+
 ```
 
 

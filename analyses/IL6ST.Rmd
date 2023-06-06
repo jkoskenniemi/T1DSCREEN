@@ -9,71 +9,35 @@ editor_options:
 
   Load packages and import data
 ```{r}
-library(tidyverse)
-library(data.table)
-library(coloc)
-library(TwoSampleMR)
-library(ggpubr)
-library(ieugwasr)
-library(rio)
-library(here)
-
+pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr, 
+               ieugwasr, rio, here)
+source("code/Functions.R")
 here::i_am("analyses/IL6ST.Rmd")
+```
 
 
-IL6ST_prot <- read_exposure_data("data/export/IL6ST_prot_anno_TwoSampleMR.csv", sep=",")
-IL6ST_T1D  <- read_outcome_data("data/export/IL6ST_T1D_TwoSampleMR.csv", sep=",")
-
-IL6ST <- harmonise_data(IL6ST_prot, IL6ST_T1D)
-
+```{r}
+IL6ST_pqtl <- import_data("data/export/IL6ST_prot_anno_TwoSampleMR.csv",
+                          "data/export/IL6ST_T1D_TwoSampleMR.csv", 
+                          has_beta=TRUE)
+ggsave("figures/IL6ST-pqtl-manhattan-fig.png",
+       height = 6, width = 6, units = "in")
 ```
 
 ## Manhattan plots
 
 No GWAS hits in T1D. Coloc & MR is not done.
 ```{r}
-#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-IL6ST_prot.fig <-
-  IL6ST %>%
-  ggplot(aes(x = pos.exposure/1000, y=-log10(pval.exposure))) +
-  geom_point()+
-  geom_hline(yintercept=8, linetype="dashed")+
-  ggtitle("GWAS of IL6ST in serum") +
-  ylab("-log10(p)") +
-  xlab(NULL)
+manhattan_plots(IL6ST_pqtl, gene_start = 55230923, gene_end = 55290821, 
+                title = "IL6ST")
 
-IL6ST_T1D.fig <-
-  IL6ST %>%
-  ggplot()+
-  geom_point(mapping=aes(x = pos.exposure/1000, y=-log10(pval.outcome))) +
-  geom_hline(yintercept=8, linetype="dashed")+
-  ggtitle("GWAS of risk of T1D") +
-  ylab("-log10(p)") +
-  xlab("position(kbp)")
-
-#Obtain range for figure of gene
-layer_scales(IL6ST_T1D.fig)$x$range$range
-
-IL6ST_gene.fig <-
-  ggplot(data = IL6ST) +
-  geom_blank() +
-  geom_segment(x=55230.923, xend=55290.821, y=1, yend=1, linewidth = 2) +
-  annotate("text", label = "IL6ST",
-           x= (55230.923 + 55290.821) / 2, y=1, hjust = 0.5, vjust = -1) +
-  xlim(54231.05, 56290.53) +
-  ylim(0.75, 2) +
-  ylab(NULL) + xlab(NULL) +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank())
-
-fig_IL6ST_manhattan <- ggarrange(IL6ST_gene.fig, IL6ST_prot.fig, IL6ST_T1D.fig,
-                                 heights = c(1, 3, 3), nrow = 3,
-                                 ncol = 1, align = "hv")
-fig_IL6ST_manhattan
-
-# ggsave("figures/IL6ST-manhattan-combined-fig.pdf",
-#        height = 6, width = 8, units = "in")
 ```
 
+
+## Coloc
+
+```{r}
+analyze_coloc_pqtl(IL6ST_pqtl)
+
+```
 

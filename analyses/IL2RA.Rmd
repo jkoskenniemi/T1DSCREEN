@@ -32,14 +32,59 @@ IL2RA_eqtl <- import_data("data/export/IL2RA_eqtl_TwoSampleMR.csv",
             "data/export/IL2RA_T1D_TwoSampleMR.csv", has_beta = FALSE)
 ```
 
-## Manhattan plots
+## Initial Manhattan plots
 ```{r}
+manhattan_plots(IL2RA_eqtl, gene_start=6052652, gene_end=6104288, title = "IL2RA")
+IL2RA_eqtl <- IL2RA_eqtl %>% filter(pos.outcome > 5900000 & pos.outcome < 6250000) 
 manhattan_plots(IL2RA_eqtl, gene_start=6052652, gene_end=6104288, title = "IL2RA")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
-analyze_coloc_eqtl(IL2RA_eqtl)
+coloc_results_IL2RA_eqtl <- analyze_coloc_eqtl(IL2RA_eqtl)
+# coloc_results_IL2RA_eqtl$coloc_D1D2 #coloc results
+# coloc_results_IL2RA_eqtl$D1 #data eQTL
+# coloc_results_IL2RA_eqtl$D2 #data t1d
+
+```
+
+
+```{r}
+#
+# LDmat_IL2RA <- ld_matrix(
+#     IL2RA_eqtl$SNP,
+#     pop = "EUR",
+#     plink_bin = genetics.binaRies::get_plink_binary(),
+#     bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
+#     with_alleles = FALSE)
+
+# load(file = "data/export/IL2RA_LDmat.RData")
+# LDmat_IL2RA <- IL2RA
+# LDmat_IL2RA <- filter_matrix(IL2RA, IL2RA_eqtl)
+# save(LDmat_IL2RA, file = "data/IL2RA_eqtl_LDmat-2023-06-01.RData")
+# load(file = "data/export/IL2RA_eqtl_LDmat-2023-06-01.RData")
+
+
+```
+
+
+## Regional manhattan plot
+
+```{r}
+
+load("data/export/IL2RA_LDmat.RData")
+
+plot_coloc(genechr = 10,
+           fig_start = 5900000,
+           fig_end = 6250000,
+           gene_window = 50000,
+           coloc_results = coloc_results_IL2RA_eqtl$coloc_D1D2,
+           data = IL2RA_eqtl,
+           D1 = coloc_results_IL2RA_eqtl$D1,
+           D2 = coloc_results_IL2RA_eqtl$D2,
+           LDmat = IL2RA)
+
+ggsave(filename = "figures/tosihienokuva.png", height = 8, width = 6)
 ```
 
 
@@ -117,7 +162,7 @@ IL2RA_pqtl <- import_data("data/export/IL2RA_prot_anno_TwoSampleMR.csv",
 ```{r}
 
 manhattan_plots(IL2RA_pqtl, gene_start=6052652, gene_end=6104288, title = "IL2RA")
-
+ggsave("figures/IL2RA-eQTL-T1D-manhattan.png", height = 6, width = 6)
 ```
 
 ## Coloc assuming 1 causal variant

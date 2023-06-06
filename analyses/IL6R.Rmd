@@ -31,7 +31,7 @@ IL6R_eqtl <- import_data("data/export/IL6R_eqtl_TwoSampleMR.csv",
 ```{r}
 manhattan_plots(IL6R_eqtl, gene_start=154377669, gene_end=154441926, title = "IL6R")
 
-# ggsave("figures/IL6R-eQTL-T1D-manhattan.pdf", height = 6, width = 8)
+ggsave("figures/IL6R-eQTL-T1D-manhattan.png", height = 6, width = 6)
 
 ```
 

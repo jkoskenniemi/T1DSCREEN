@@ -34,12 +34,14 @@ JAK1_eqtl <- import_data("data/export/JAK1_eqtl_TwoSampleMR.csv",
 manhattan_plots(JAK1_eqtl, gene_start = 65298912, 
                 gene_end=65432187, 
                 title = "JAK1")
-# ggsave("figures/JAK1-manhattan-combined-fig.pdf",
-#        height = 6, width = 8, units = "in")
+ggsave("figures/JAK1-eqtl-manhattan-fig.png",
+       height = 6, width = 8, units = "in")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
 analyze_coloc_eqtl(JAK1_eqtl)
+png("figures/JAK1-eQTL-T1D-coloc.png", units = "in", height = 6, width = 8, res = 300)
+dev.off()
 ```
 
