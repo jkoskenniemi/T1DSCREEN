@@ -49,15 +49,15 @@ IL6R_prot_data.rds is substituted with IL6R_crp_data.rds
 
 ```{r}
 IL2RG_anno  <- import("data/cis_sumstats/IL2RG_anno.rds")
-IL2RG_prot  <- import("data/cis_sumstats/IL2RG_gwas.rds")
+IL2RG_prot  <- import("data/cis_sumstats/IL2RG_prot.rds")
 IL12B_anno  <- import("data/cis_sumstats/IL12B_anno.rds")  
 IL12B_prot  <- import("data/cis_sumstats/IL12B_prot.rds")  
 IL2RA_anno  <- import("data/cis_sumstats/IL2RA_anno.rds")  
 IL2RA_prot  <- import("data/cis_sumstats/IL2RA_prot.rds")  
 IL2RB_prot  <- import("data/cis_sumstats/IL2RB_prot.rds")  
 IL2RB_anno  <- import("data/cis_sumstats/IL2RB_anno.rds")  
-IL6R_anno  <- import("data/cis_sumstats/IL6R_anno.rds")  
-IL6R_prot  <- import("data/cis_sumstats/IL6R_prot.rds")
+IL6R_anno   <- import("data/cis_sumstats/IL6R_anno.rds")  
+IL6R_prot   <- import("data/cis_sumstats/IL6R_prot.rds")
 IL6ST_anno  <- import("data/cis_sumstats/IL6ST_anno.rds")  
 IL6ST_prot  <- import("data/cis_sumstats/IL6ST_prot.rds")
 JAK2_anno   <- import("data/cis_sumstats/JAK2_anno.rds")  
@@ -376,7 +376,6 @@ library(data.table)
 library(dtplyr)
 
 #Read eqtl sumstat
-IFNAR2_eqtl <- import("data/cis_eqtl_sumstats/eqtl_IFNAR2-Gather.rds") %>% as_tibble()
 IL2RA_eqtl  <- import("data/cis_eqtl_sumstats/eqtl_IL2RA-Gather.rds") %>% as_tibble()
 IL2RG_eqtl  <- import("data/cis_eqtl_sumstats/eqtl_IL2RG-Gather.rds") %>% as_tibble()
 IL2RB_eqtl  <- import("data/cis_eqtl_sumstats/eqtl_IL2RB-Gather.rds") %>% as_tibble()
@@ -385,6 +384,23 @@ JAK1_eqtl   <- import("data/cis_eqtl_sumstats/eqtl_JAK1-Gather.rds") %>% as_tibb
 JAK2_eqtl   <- import("data/cis_eqtl_sumstats/eqtl_JAK2-Gather.rds") %>% as_tibble()
 JAK3_eqtl   <- import("data/cis_eqtl_sumstats/eqtl_JAK3-Gather.rds") %>% as_tibble()
 TYK2_eqtl   <- import("data/cis_eqtl_sumstats/eqtl_TYK2-Gather.rds") %>% as_tibble()
+IFNAR2_eqtl <- import("data/cis_eqtl_sumstats/eqtl_IFNAR2-Gather.rds") %>% as_tibble()
+
+#IFNAR2 had a lot of duplicated SNPs, and on closer inspection, there are two genes with different Ensmbl-symbols under IFNAR2 (ENSG00000159110 and ENSG00000249624). The former is IFNAR2 and the other codes a "novel gene"
+IFNAR2_eqtl$Gene %>% factor() %>% levels()
+
+#None of the other genes had two Ensemble codes
+IL2RA_eqtl$Gene %>% factor() %>% levels()
+IL2RG_eqtl$Gene %>% factor() %>% levels()
+IL2RB_eqtl$Gene %>% factor() %>% levels()
+IL6R_eqtl$Gene %>% factor() %>% levels()
+JAK1_eqtl$Gene %>% factor() %>% levels()
+JAK2_eqtl$Gene %>% factor() %>% levels()
+JAK3_eqtl$Gene %>% factor() %>% levels()
+TYK2_eqtl$Gene %>% factor() %>% levels()
+
+#Therefore, all the entries with "Gene == ENSG00000249624" were removed
+IFNAR2_eqtl <- IFNAR2_eqtl %>% filter(Gene == "ENSG00000159110")
 
 
 names_eqtl <- c("IFNAR2_eqtl", 
@@ -721,6 +737,7 @@ JAK3_T1D    <- JAK3_T1D   %>% rename_for_TwoSampleMR_o()
 TYK2_T1D    <- TYK2_T1D   %>% rename_for_TwoSampleMR_o()
 IFNAR2_T1D  <- IFNAR2_T1D %>% rename_for_TwoSampleMR_o()
 ```
+
 
 Write data in TwoSampleMR data format
 ```{r}
