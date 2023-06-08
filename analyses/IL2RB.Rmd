@@ -25,7 +25,6 @@ source("code/Functions.R")
 
 # eQTL
 
-
 ```{r}
 
 IL2RB_eqtl <- import_data("data/export/IL2RB_eqtl_TwoSampleMR.csv",
@@ -33,9 +32,10 @@ IL2RB_eqtl <- import_data("data/export/IL2RB_eqtl_TwoSampleMR.csv",
 
 ```
 
-## Manhattan plots
+## Initial Manhattan plots
 ```{r}
-#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
+manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
+IL2RB_eqtl <- IL2RB_eqtl %>% filter(pos.outcome > 37000000 & pos.outcome < 37475000) 
 manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
 
 ggsave("figures/IL2RB-eQTL-T1D-manhattan.png", height = 6, width = 6)
@@ -44,33 +44,37 @@ ggsave("figures/IL2RB-eQTL-T1D-manhattan.png", height = 6, width = 6)
 
 ## Coloc assuming 1 causal variant
 ```{r}
-analyze_coloc_eqtl(IL2RB_eqtl)
+coloc_results_IL2RB_eqtl <- analyze_coloc_eqtl(IL2RB_eqtl)
+# coloc_results_IL2RB_eqtl$coloc_D1D2 #coloc results
+# coloc_results_IL2RB_eqtl$D1 #data eQTL
+# coloc_results_IL2RB_eqtl$D2 #data t1d
 
-png("figures/IL2RB-eQTL-T1D-coloc.png", height = 6, width = 8)
-dev.off()
 ```
 
+## Regional manhattan plot
+
+```{r}
+
+load("data/export/IL2RB_LDmat.RData")
+
+plot_coloc(genechr = 22,
+           fig_start = 37000000,
+           fig_end = 37475000,
+           gene_window = 50000,
+           coloc_results = coloc_results_IL2RB_eqtl$coloc_D1D2,
+           data = IL2RB_eqtl,
+           D1 = coloc_results_IL2RB_eqtl$D1,
+           D2 = coloc_results_IL2RB_eqtl$D2,
+           LDmat = IL2RB)
+
+ggsave(filename = "figures/IL2RB.png", height = 8, width = 6)
+```
 
 # pQTL
 
 ```{r}
 IL2RB_pqtl <- import_data("data/export/IL2RB_prot_anno_TwoSampleMR.csv",
             "data/export/IL2RB_T1D_TwoSampleMR.csv", has_beta = FALSE)
-
-```
-
-
-## Manhattan plots
-```{r}
-manhattan_plots(IL2RB_pqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
-
-ggsave("figures/IL2RB_pqtl-manhattan-fig.png",
-       height = 6, width = 6, units = "in")
-```
-
-## Coloc assuming 1 causal variant
-```{r}
-analyze_coloc_pqtl(IL2RB_pqtl)
 
 ```
 

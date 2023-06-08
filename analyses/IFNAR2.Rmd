@@ -26,59 +26,41 @@ IFNAR2_eqtl <- import_data("data/export/IFNAR2_eqtl_TwoSampleMR.csv",
 
 ```
 
-
-## Manhattan plots
-
-manhattan plots don't seem to align well. However, this does not matter ery much because there does not seem to be any even remotely genome-wide significant GWAS hits.
+## Initial Manhattan plots
 ```{r}
-manhattan_plots(IFNAR2_eqtl, gene_start = 34602206, gene_end = 34637980, title = "IFNAR2")
-# 
-# manhattan_exposure <- IFNAR2_eqtl %>%
-#     ggplot(aes(x = pos.outcome/1000, y=-log10(pval.exposure))) +
-#     geom_point() +
-#     geom_hline(yintercept=8, linetype="dashed") +
-#     ggtitle(paste0("GWAS of ", IFNAR2_eqtl$exposure[1])) +
-#     ylab("-log10(p)") +
-#     xlab(NULL) +
-#     theme(axis.text.x = element_blank())
-# 
-#   manhattan_outcome <- IFNAR2_eqtl %>%
-#     ggplot() +
-#     geom_point(aes(x = pos.outcome/1000, y=-log10(pval.outcome))) +
-#     geom_hline(yintercept=8, linetype="dashed") +
-#     ggtitle(paste0("GWAS of ", IFNAR2_eqtl$outcome[1])) +
-#     ylab("-log10(p)") +
-#     xlab("position(kbp)")
-# 
-#   
-#   gene_start = 34602206
-#   gene_end = 34637980
-#   
-#   gene_figure <- IFNAR2_eqtl %>%
-#     ggplot() +
-#     geom_blank() +
-#     geom_segment(x=gene_start/1000, xend=gene_end/1000, y=1, yend=1, linewidth = 2) +
-#     annotate("text", label = paste0("IFNAR2"),
-#              x= (gene_start + gene_end)/ 1000 / 2, y=1, hjust = 0.5, vjust = -0.5) +
-#     xlim(layer_scales(manhattan_outcome)$x$range$range) +
-#     ylim(0.75, 2) +
-#     ylab(NULL) + xlab(NULL) +
-#     theme(axis.text = element_blank(), axis.ticks.y = element_blank(),
-#           panel.grid.major.y = element_blank(),
-#           panel.grid.minor.y = element_blank())
-# 
-#   manhattan_plot <- ggarrange(gene_figure, manhattan_exposure, manhattan_outcome,
-#                               heights = c(1.2, 3, 3), nrow = 3,
-#                               ncol = 1, align = "hv")
-ggsave("figures/IFNAR2-eQTL-T1D-manhattan.png", height = 6, width = 6)
-
+manhattan_plots(IFNAR2_eqtl, gene_start=34602206, gene_end=34637980, title = "IFNAR2")
+IFNAR2_eqtl <- IFNAR2_eqtl %>% filter(pos.outcome > 33600000 & pos.outcome < 34000000) 
+manhattan_plots(IFNAR2_eqtl, gene_start=34602206, gene_end=34637980, title = "IFNAR2")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
-#recode MAF
-analyze_coloc_eqtl(IFNAR2_eqtl)
+coloc_results_IFNAR2_eqtl <- analyze_coloc_eqtl(IFNAR2_eqtl)
+# coloc_results_IFNAR2_eqtl$coloc_D1D2 #coloc results
+# coloc_results_IFNAR2_eqtl$D1 #data eQTL
+# coloc_results_IFNAR2_eqtl$D2 #data t1d
+
 ```
+
+## Regional manhattan plot
+
+```{r}
+
+load("data/export/IFNAR2_LDmat.RData")
+
+plot_coloc(genechr = 21,
+           fig_start = 33600000,
+           fig_end = 34000000,
+           gene_window = 50000,
+           coloc_results = coloc_results_IFNAR2_eqtl$coloc_D1D2,
+           data = IFNAR2_eqtl,
+           D1 = coloc_results_IFNAR2_eqtl$D1,
+           D2 = coloc_results_IFNAR2_eqtl$D2,
+           LDmat = IFNAR2)
+
+ggsave(filename = "figures/IFNAR2.png", height = 8, width = 6)
+```
+
 
 
 

@@ -26,22 +26,39 @@ JAK1_eqtl <- import_data("data/export/JAK1_eqtl_TwoSampleMR.csv",
                          "data/export/JAK1_T1D_TwoSampleMR.csv", has_beta = FALSE)
 ```
 
-
-
-## Manhattan plots
+## Initial Manhattan plots
 ```{r}
-#create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-manhattan_plots(JAK1_eqtl, gene_start = 65298912, 
-                gene_end=65432187, 
-                title = "JAK1")
-ggsave("figures/JAK1-eqtl-manhattan-fig.png",
-       height = 6, width = 8, units = "in")
+manhattan_plots(JAK1_eqtl, gene_start=65298912, gene_end=65432187, title = "JAK1")
+JAK1_eqtl <- JAK1_eqtl %>% filter(pos.outcome > 64525000 & pos.outcome < 65250000) 
+manhattan_plots(JAK1_eqtl, gene_start=65298912, gene_end=65432187, title = "JAK1")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
-analyze_coloc_eqtl(JAK1_eqtl)
-png("figures/JAK1-eQTL-T1D-coloc.png", units = "in", height = 6, width = 8, res = 300)
-dev.off()
+coloc_results_JAK1_eqtl <- analyze_coloc_eqtl(JAK1_eqtl)
+# coloc_results_JAK1_eqtl$coloc_D1D2 #coloc results
+# coloc_results_JAK1_eqtl$D1 #data eQTL
+# coloc_results_JAK1_eqtl$D2 #data t1d
+
 ```
+
+## Regional manhattan plot
+
+```{r}
+
+load("data/export/JAK1_LDmat.RData")
+
+plot_coloc(genechr = 1,
+           fig_start = 64525000,
+           fig_end = 65250000,
+           gene_window = 50000,
+           coloc_results = coloc_results_JAK1_eqtl$coloc_D1D2,
+           data = JAK1_eqtl,
+           D1 = coloc_results_JAK1_eqtl$D1,
+           D2 = coloc_results_JAK1_eqtl$D2,
+           LDmat = JAK1)
+
+ggsave(filename = "figures/JAK1.png", height = 8, width = 6)
+```
+
 

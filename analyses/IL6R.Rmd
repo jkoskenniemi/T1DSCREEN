@@ -30,6 +30,8 @@ IL6R_eqtl <- import_data("data/export/IL6R_eqtl_TwoSampleMR.csv",
 ## Manhattan plots
 ```{r}
 manhattan_plots(IL6R_eqtl, gene_start=154377669, gene_end=154441926, title = "IL6R")
+IL6R_eqtl <- IL6R_eqtl %>% filter(pos.outcome > 154250000 & pos.outcome < 154750000) 
+manhattan_plots(IL6R_eqtl, gene_start=154377669, gene_end=154441926, title = "IL6R")
 
 ggsave("figures/IL6R-eQTL-T1D-manhattan.png", height = 6, width = 6)
 
@@ -37,9 +39,31 @@ ggsave("figures/IL6R-eQTL-T1D-manhattan.png", height = 6, width = 6)
 
 ## Coloc assuming 1 causal variant
 ```{r}
-analyze_coloc_eqtl(IL6R_eqtl)
+coloc_results_IL6R_eqtl <- analyze_coloc_eqtl(IL6R_eqtl)
+# coloc_results_IL6R_eqtl$coloc_D1D2 #coloc results
+# coloc_results_IL6R_eqtl$D1 #data eQTL
+# coloc_results_IL6R_eqtl$D2 #data t1d
+
 ```
 
+## Regional manhattan plot
+
+```{r}
+
+load("data/export/IL6R_LDmat.RData")
+
+plot_coloc(genechr = 1,
+           fig_start = 154250000,
+           fig_end = 154750000,
+           gene_window = 50000,
+           coloc_results = coloc_results_IL6R_eqtl$coloc_D1D2,
+           data = IL6R_eqtl,
+           D1 = coloc_results_IL6R_eqtl$D1,
+           D2 = coloc_results_IL6R_eqtl$D2,
+           LDmat = IL6R)
+
+ggsave(filename = "figures/IL6R.png", height = 8, width = 6)
+```
 
 ## Find the top coloc hit
 
