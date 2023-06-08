@@ -51,7 +51,6 @@ load("data/export/JAK1_LDmat.RData")
 plot_coloc(genechr = 1,
            fig_start = 64525000,
            fig_end = 65250000,
-           gene_window = 50000,
            coloc_results = coloc_results_JAK1_eqtl$coloc_D1D2,
            data = JAK1_eqtl,
            D1 = coloc_results_JAK1_eqtl$D1,

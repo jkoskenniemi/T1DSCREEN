@@ -33,7 +33,7 @@ TYK2_eqtl <- import_data("data/export/TYK2_eqtl_TwoSampleMR.csv",
 manhattan_plots(TYK2_eqtl, gene_start = 37521878, gene_end=37571094, 
                 title = "TYK2")
 
-ggsave("figures/TYK2-eqtl-manhattan-fig.png",
+#ggsave("figures/TYK2-eqtl-manhattan-fig.png",
        height = 6, width = 6, units = "in")
 ```
 

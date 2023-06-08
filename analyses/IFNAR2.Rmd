@@ -29,7 +29,7 @@ IFNAR2_eqtl <- import_data("data/export/IFNAR2_eqtl_TwoSampleMR.csv",
 ## Initial Manhattan plots
 ```{r}
 manhattan_plots(IFNAR2_eqtl, gene_start=34602206, gene_end=34637980, title = "IFNAR2")
-IFNAR2_eqtl <- IFNAR2_eqtl %>% filter(pos.outcome > 33600000 & pos.outcome < 34000000) 
+IFNAR2_eqtl <- IFNAR2_eqtl %>% filter(pos.outcome > 33600000 & pos.outcome < 33900000) 
 manhattan_plots(IFNAR2_eqtl, gene_start=34602206, gene_end=34637980, title = "IFNAR2")
 ```
 
@@ -39,6 +39,8 @@ coloc_results_IFNAR2_eqtl <- analyze_coloc_eqtl(IFNAR2_eqtl)
 # coloc_results_IFNAR2_eqtl$coloc_D1D2 #coloc results
 # coloc_results_IFNAR2_eqtl$D1 #data eQTL
 # coloc_results_IFNAR2_eqtl$D2 #data t1d
+
+#ggsave(filename = "figures/IFNAR2_coloc.png", height = 8, width = 6)
 
 ```
 
@@ -50,8 +52,7 @@ load("data/export/IFNAR2_LDmat.RData")
 
 plot_coloc(genechr = 21,
            fig_start = 33600000,
-           fig_end = 34000000,
-           gene_window = 50000,
+           fig_end = 33900000,
            coloc_results = coloc_results_IFNAR2_eqtl$coloc_D1D2,
            data = IFNAR2_eqtl,
            D1 = coloc_results_IFNAR2_eqtl$D1,

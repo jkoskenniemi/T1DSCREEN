@@ -35,7 +35,7 @@ IL2RB_eqtl <- import_data("data/export/IL2RB_eqtl_TwoSampleMR.csv",
 ## Initial Manhattan plots
 ```{r}
 manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
-IL2RB_eqtl <- IL2RB_eqtl %>% filter(pos.outcome > 37000000 & pos.outcome < 37475000) 
+IL2RB_eqtl <- IL2RB_eqtl %>% filter(pos.outcome > 37068000 & pos.outcome < 37350000) 
 manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
 
 ggsave("figures/IL2RB-eQTL-T1D-manhattan.png", height = 6, width = 6)
@@ -58,9 +58,8 @@ coloc_results_IL2RB_eqtl <- analyze_coloc_eqtl(IL2RB_eqtl)
 load("data/export/IL2RB_LDmat.RData")
 
 plot_coloc(genechr = 22,
-           fig_start = 37000000,
-           fig_end = 37475000,
-           gene_window = 50000,
+           fig_start = 37068000,
+           fig_end = 37350000,
            coloc_results = coloc_results_IL2RB_eqtl$coloc_D1D2,
            data = IL2RB_eqtl,
            D1 = coloc_results_IL2RB_eqtl$D1,

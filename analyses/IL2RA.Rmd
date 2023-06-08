@@ -58,7 +58,6 @@ load("data/export/IL2RA_LDmat.RData")
 plot_coloc(genechr = 10,
            fig_start = 5900000,
            fig_end = 6250000,
-           gene_window = 50000,
            coloc_results = coloc_results_IL2RA_eqtl$coloc_D1D2,
            data = IL2RA_eqtl,
            D1 = coloc_results_IL2RA_eqtl$D1,

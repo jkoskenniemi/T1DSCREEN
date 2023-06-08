@@ -14,12 +14,12 @@ editor_options:
 
 Load packages and import data
 ```{r}
-# pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr, 
-#                ieugwasr, rio, here)
-# 
-# here::i_am("analyses/IL2RG.Rmd")
-# 
-# source("code/Functions.R")
+ pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr, 
+                ieugwasr, rio, here)
+ 
+ here::i_am("analyses/IL2RG.Rmd")
+ 
+ source("code/Functions.R")
 ```
 
 
@@ -28,27 +28,26 @@ Load packages and import data
 
 ```{r}
 
-# IL2RG_eqtl <- import_data("data/export/IL2RG_eqtl_TwoSampleMR.csv",
-#             "data/export/IL2RG_T1D_TwoSampleMR.csv", has_beta = FALSE)
+IL2RG_eqtl <- import_data("data/export/IL2RG_eqtl_TwoSampleMR.csv",
+             "data/export/IL2RG_T1D_TwoSampleMR.csv", has_beta = FALSE)
 
 ```
-
-## Manhattan plots
+## Initial Manhattan plots
 ```{r}
-# #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-# manhattan_plots(IL2RG_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RG")
-# 
-# # ggsave("figures/IL2RG-eQTL-T1D-manhattan.pdf", height = 6, width = 8)
-
+manhattan_plots(IL2RG_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RG")
+IL2RG_eqtl <- IL2RG_eqtl %>% filter(pos.outcome > 33600000 & pos.outcome < 34000000) 
+manhattan_plots(IL2RG_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RG")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
-# analyze_coloc_eqtl(IL2RG_eqtl)
-# 
-# # pdf("figures/IL2RG-eQTL-T1D-coloc.pdf", height = 6, width = 8)
-# # dev.off()
+coloc_results_IL2RG_eqtl <- analyze_coloc_eqtl(IL2RG_eqtl)
+# coloc_results_IL2RG_eqtl$coloc_D1D2 #coloc results
+# coloc_results_IL2RG_eqtl$D1 #data eQTL
+# coloc_results_IL2RG_eqtl$D2 #data t1d
+
 ```
+
 
 
 # pQTL

@@ -30,7 +30,7 @@ IL6R_eqtl <- import_data("data/export/IL6R_eqtl_TwoSampleMR.csv",
 ## Manhattan plots
 ```{r}
 manhattan_plots(IL6R_eqtl, gene_start=154377669, gene_end=154441926, title = "IL6R")
-IL6R_eqtl <- IL6R_eqtl %>% filter(pos.outcome > 154250000 & pos.outcome < 154750000) 
+IL6R_eqtl <- IL6R_eqtl %>% filter(pos.outcome > 154300000 & pos.outcome < 154700000) 
 manhattan_plots(IL6R_eqtl, gene_start=154377669, gene_end=154441926, title = "IL6R")
 
 ggsave("figures/IL6R-eQTL-T1D-manhattan.png", height = 6, width = 6)
@@ -53,9 +53,8 @@ coloc_results_IL6R_eqtl <- analyze_coloc_eqtl(IL6R_eqtl)
 load("data/export/IL6R_LDmat.RData")
 
 plot_coloc(genechr = 1,
-           fig_start = 154250000,
-           fig_end = 154750000,
-           gene_window = 50000,
+           fig_start = 154300000,
+           fig_end = 154700000,
            coloc_results = coloc_results_IL6R_eqtl$coloc_D1D2,
            data = IL6R_eqtl,
            D1 = coloc_results_IL6R_eqtl$D1,
@@ -65,76 +64,13 @@ plot_coloc(genechr = 1,
 ggsave(filename = "figures/IL6R.png", height = 8, width = 6)
 ```
 
-## Find the top coloc hit
-
-```{r}
-IL6R_eqtl <- IL6R_eqtl %>%
-    mutate(eaf.exposure = as.numeric(eaf.exposure)) %>%
-    mutate(eaf.outcome  = as.numeric(eaf.outcome)) %>%
-    mutate(maf.exposure  =
-             ifelse(eaf.exposure  < 0.5, eaf.exposure,
-                    1 - eaf.exposure)) %>%
-    mutate(maf.outcome  =
-             ifelse(eaf.outcome  < 0.5, eaf.outcome,
-                    1 - eaf.outcome))
-
-  IL6R_eqtl <- IL6R_eqtl %>%
-    filter(!is.na(pos.outcome))
-
-
-  anyNA(IL6R_eqtl$maf.exposure) 
-  anyNA(IL6R_eqtl$maf.outcome)
-  anyNA(IL6R_eqtl$pos.outcome)
-  
-  
-D1 <- list(
-      type = "quant", # quantitative trait
-      pvalues = IL6R_eqtl$pval.exposure,
-      N = IL6R_eqtl$samplesize.exposure,
-      MAF = IL6R_eqtl$maf.exposure,
-      pos = IL6R_eqtl$pos.outcome,
-      snp = IL6R_eqtl$SNP,
-      sdY = 1)
-
-D2 <- list(
-      type = "cc", # case-control trait
-      pvalues = IL6R_eqtl$pval.outcome,
-      N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-      s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-      MAF = IL6R_eqtl$maf.exposure,  #eqtl used here in purpose
-      pos = IL6R_eqtl$pos.outcome,
-      snp = IL6R_eqtl$SNP)
-
-coloc_results <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-
-#Find top SNP
-coloc_results$results[which(coloc_results$results$SNP.PP.H4==max(coloc_results$results$SNP.PP.H4)),"snp"]
-
-IL6R_eqtl_top <- IL6R_eqtl %>% 
-  filter(SNP == "rs10908839") %>% 
-  select(SNP, zscore.exposure, beta.outcome, se.outcome) 
-
-IL6R_eqtl_top %>%
-  mutate(zscore.exposure = round(zscore.exposure),
-         beta.outcome = round(beta.outcome, 2),
-         exp_beta.T1D = round(exp(beta.outcome), 2),
-         exp_ci_95_low.T1D = round(exp(beta.outcome - 1.96*se.outcome), 2),
-         exp_ci_95_high.T1D = round(exp(beta.outcome + 1.96*se.outcome), 2)) %>% 
-  rename(zscore.IL6R = zscore.exposure,
-         beta.T1D = beta.outcome) %>%
-  knitr::kable()
-```
-
-
-
-
 
 
 # CRP
 
 ```{r}
-IL6R_pqtl <- import_data("data/export/IL6R_crp_TwoSampleMR.csv",
-                         "data/export/IL6R_T1D_TwoSampleMR.csv", has_beta = TRUE)
+#IL6R_pqtl <- import_data("data/export/IL6R_crp_TwoSampleMR.csv",
+#                         "data/export/IL6R_T1D_TwoSampleMR.csv", has_beta = TRUE)
 ```
 
 
@@ -142,82 +78,18 @@ IL6R_pqtl <- import_data("data/export/IL6R_crp_TwoSampleMR.csv",
 ## Manhattan plots
 ```{r}
 
-manhattan_plots(IL6R_pqtl, gene_start = 154377669, gene_end = 154441926,
-                title = "IL6R")
+#manhattan_plots(IL6R_pqtl, gene_start = 154377669, gene_end = 154441926,
+#                title = "IL6R")
 # ggsave("figures/IL6R-manhattan-combined-fig.pdf",
 #        height = 6, width = 8, units = "in")
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
-analyze_coloc_pqtl(IL6R_pqtl)
+#analyze_coloc_pqtl(IL6R_pqtl)
 # pdf("figures/IL6R-eQTL-T1D-coloc.pdf", height = 6, width = 8)
 # dev.off()
 ```
-
-## Find the top hit
-
-```{r}
-IL6R_pqtl <- IL6R_pqtl %>%
-    mutate(eaf.exposure = as.numeric(eaf.exposure)) %>%
-    mutate(eaf.outcome  = as.numeric(eaf.outcome)) %>%
-    mutate(maf.exposure  =
-             ifelse(eaf.exposure  < 0.5, eaf.exposure,
-                    1 - eaf.exposure)) %>%
-    mutate(maf.outcome  =
-             ifelse(eaf.outcome  < 0.5, eaf.outcome,
-                    1 - eaf.outcome))
-
-  IL6R_pqtl <- IL6R_pqtl %>%
-    filter(!is.na(pos.outcome))
-
-
-  sum(is.na(IL6R_pqtl$maf.exposure))
-  sum(is.na(IL6R_pqtl$maf.outcome))
-  
-  anyNA(IL6R_pqtl$pos.outcome)
-  
-  IL6R_pqtl <- IL6R_pqtl %>% filter(!is.na(maf.outcome))
-  
-  
-D1 <- list(
-      type = "quant", # quantitative trait
-      pvalues = IL6R_pqtl$pval.exposure,
-      N = IL6R_pqtl$samplesize.exposure,
-      MAF = IL6R_pqtl$maf.outcome,
-      pos = IL6R_pqtl$pos.outcome,
-      snp = IL6R_pqtl$SNP,
-      sdY = 1)
-
-D2 <- list(
-      type = "cc", # case-control trait
-      pvalues = IL6R_pqtl$pval.outcome,
-      N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-      s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-      MAF = IL6R_pqtl$maf.outcome,  #pqtl used here in purpose
-      pos = IL6R_pqtl$pos.outcome,
-      snp = IL6R_pqtl$SNP)
-
-coloc_results <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-
-#Find top SNP
-coloc_results$results[which(coloc_results$results$SNP.PP.H4==max(coloc_results$results$SNP.PP.H4)),"snp"]
-
-IL6R_pqtl_top <- IL6R_pqtl %>% 
-  filter(SNP == "rs7536152") %>% 
-  select(SNP, beta.exposure, beta.outcome, se.outcome) 
-
-IL6R_pqtl_top %>%
-  mutate(beta.exposure = round(beta.exposure),
-         beta.outcome = round(beta.outcome, 2),
-         exp_beta.T1D = round(exp(beta.outcome), 2),
-         exp_ci_95_low.T1D = round(exp(beta.outcome - 1.96*se.outcome), 2),
-         exp_ci_95_high.T1D = round(exp(beta.outcome + 1.96*se.outcome), 2)) %>% 
-  rename(beta.IL6R = beta.exposure,
-         beta.T1D = beta.outcome) %>%
-  knitr::kable()
-```
-
 
 ## MR
 

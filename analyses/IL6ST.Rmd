@@ -20,16 +20,14 @@ here::i_am("analyses/IL6ST.Rmd")
 IL6ST_pqtl <- import_data("data/export/IL6ST_prot_anno_TwoSampleMR.csv",
                           "data/export/IL6ST_T1D_TwoSampleMR.csv", 
                           has_beta=TRUE)
-ggsave("figures/IL6ST-pqtl-manhattan-fig.png",
-       height = 6, width = 6, units = "in")
 ```
 
 ## Manhattan plots
 
-No GWAS hits in T1D. Coloc & MR is not done.
+No GWAS hits in T1D. MR is not done.
 ```{r}
-manhattan_plots(IL6ST_pqtl, gene_start = 55230923, gene_end = 55290821, 
-                title = "IL6ST")
+#manhattan_plots(IL6ST_pqtl, gene_start = 55230923, gene_end = 55290821, 
+#                title = "IL6ST")
 
 ```
 
