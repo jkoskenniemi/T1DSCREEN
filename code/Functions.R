@@ -380,6 +380,7 @@ plot_coloc <- function(genechr,
   leadSNP_trait2 <- coloc_results[["results"]][
     which.max(coloc_results[["results"]]$lABF.df2),"snp"]
 
+
   #Make a data.frame for the correlation matrix for both SNPs
   d_ld <- data.frame(rsid = colnames(LDmat),
                      LDRsq = LDmat[leadSNP_trait1,]^2)
@@ -405,14 +406,15 @@ plot_coloc <- function(genechr,
   d$lab <- ifelse(d$SNP %in% leadSNP_trait1, leadSNP_trait1, "")
   d$lab2 <- ifelse(d$SNP %in% leadSNP_trait2, leadSNP_trait2, "")
 
+
   #Figure for trait 1 (exposure)
   p1 <- ggplot(d, aes(x = pos.outcome/1000, y = -log10(pval.exposure), col = LD)) +
     geom_point() +
     labs(x = "", y = bquote(-log[10](italic(p)))) +
-    geom_text_repel(aes(label = lab), min.segment.length = 0,
-                    box.padding = 0.5, max.overlaps = Inf, col = "black") +
-    geom_text_repel(aes(label = lab2), min.segment.length = 0,
-                    box.padding = 0.5, max.overlaps = Inf, col = "black") +
+    geom_label_repel(aes(label = lab), min.segment.length = 0,
+                    box.padding = 0.5, max.overlaps = Inf, col = "black", alpha = 0.8) +
+    geom_label_repel(aes(label = lab2), min.segment.length = 0,
+                    box.padding = 0.5, max.overlaps = Inf, col = "black", alpha = 0.8) +
     scale_x_continuous(expand = c(0,0),
                        limits = c(fig_start/1000, fig_end/1000)) +
     scale_colour_manual(name = bquote(italic(R)^2~.(paste0(" with ", leadSNP_trait1))),
@@ -432,10 +434,10 @@ plot_coloc <- function(genechr,
   p2 <- ggplot(d, aes(x = pos.outcome/1000, y = -log10(pval.outcome), col = LD)) +
     geom_point() +
     labs(x = "", y = bquote(-log[10](italic(p)))) +
-    geom_text_repel(aes(label = lab), min.segment.length = 0,
-                    box.padding = 0.5, max.overlaps = Inf, col = "black") +
-    geom_text_repel(aes(label = lab2), min.segment.length = 0,
-                    box.padding = 0.5, max.overlaps = Inf, col = "black") +
+    geom_label_repel(aes(label = lab), min.segment.length = 0,
+                    box.padding = 0.5, max.overlaps = Inf, col = "black", alpha = 0.8) +
+    geom_label_repel(aes(label = lab2), min.segment.length = 0,
+                    box.padding = 0.5, max.overlaps = Inf, col = "black", alpha = 0.8) +
     scale_x_continuous(expand = c(0,0),
                        limits = c(fig_start/1000, fig_end/1000)) +
     scale_colour_manual(name = bquote(italic(R)^2~.(paste0(" with ", leadSNP_trait2))),
@@ -492,7 +494,7 @@ plot_coloc <- function(genechr,
     ggplot2::theme_bw() +
     ggplot2::geom_text(data = plot_lab,
                        aes(x = value/1000, y = y_value, label = GENE_NAME),
-                       hjust = 0, vjust = -1.25, size = 1.5) +
+                       hjust = 1, vjust = -1.25, size = 1.5) +
     ggplot2::scale_x_continuous(expand = c(0,0),
                                 limits = c(fig_start/1000, fig_end/1000)) +
     ggplot2::theme(
