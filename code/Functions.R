@@ -527,3 +527,157 @@ trim_matrix <- function(input_matrix, reference_data) {
   input_matrix =  input_matrix[, colnames(input_matrix) %in% reference_data$SNP]
   return(input_matrix)
 }
+
+
+
+plot_coloc_2 <- function(genechr,
+                       hg38_start = fig_start - gene_window,
+                       hg38_end   = fig_end + gene_window,
+                       fig_start,
+                       fig_end,
+                       gene_window = 100000,
+                       coloc_results, data, D1, D2, LDmat) {
+
+  d = data
+
+  stopifnot(class(coloc_results)[1] == "coloc_abf")
+  pacman::p_load("coloc", "data.table", "ggplot2", "ggpubr", "ggrepel","reshape2", "RACER")
+
+  #Find the lead SNP rsid from coloc_results for trait 1
+  leadSNP_trait1 <- coloc_results[["results"]][
+    which.max(coloc_results[["results"]]$lABF.df1),"snp"]
+
+  #Find the lead SNP rsid from coloc_results for trait 2
+  leadSNP_trait2 <- coloc_results[["results"]][
+    which.max(coloc_results[["results"]]$lABF.df2),"snp"]
+
+
+  #Make a data.frame for the correlation matrix for both SNPs
+  d_ld <- data.frame(rsid = colnames(LDmat),
+                     LDRsq = LDmat[leadSNP_trait1,]^2)
+  d_ld2 <- data.frame(rsid = colnames(LDmat), LDRsq2 = LDmat[leadSNP_trait2,]^2)
+
+  #change from data.frame to data.table
+  setDT(d_ld)
+  setDT(d_ld2)
+  setDT(d)
+
+
+  #Color SNPs according to the R-squared with the lead SNP
+  d_ld[,"LD" := cut(LDRsq, breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+                    labels = c("0.0-0.2", "0.2-0.4", "0.4-0.6", "0.6-0.8", "0.8-1.0"))]
+  d_ld2[,"LD2" := cut(LDRsq2, breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+                      labels = c("0.0-0.2", "0.2-0.4", "0.4-0.6", "0.6-0.8", "0.8-1.0"))]
+
+  #Merge LD data and data
+  d <- d[d_ld, on = c("SNP" = "rsid"), nomatch = NULL]
+  d <- d[d_ld2, on = c("SNP" = "rsid"), nomatch = NULL]
+
+  #Annotate lead SNPs in both traits
+  d$lab <- ifelse(d$SNP %in% leadSNP_trait1, leadSNP_trait1, "")
+  d$lab2 <- ifelse(d$SNP %in% leadSNP_trait2, leadSNP_trait2, "")
+
+
+  #Figure for trait 1 (exposure)
+  p1 <- ggplot(d, aes(x = pos.outcome/1000, y = -log10(pval.exposure), col = LD)) +
+    geom_point() +
+    labs(x = "", y = bquote(-log[10](italic(p)))) +
+    geom_label_repel(aes(label = lab), min.segment.length = 0,
+                     box.padding = 0.5, max.overlaps = Inf, col = "black", alpha = 0.8) +
+    geom_label_repel(aes(label = lab2), min.segment.length = 0,
+                     box.padding = 0.5, max.overlaps = Inf, col = "black", alpha = 0.8) +
+    scale_x_continuous(expand = c(0,0),
+                       limits = c(fig_start/1000, fig_end/1000)) +
+    scale_colour_manual(name = bquote(italic(R)^2~.(paste0(" with ", leadSNP_trait1))),
+                        values = c("0.8-1.0" = "red",
+                                   "0.6-0.8" = "darkorange1",
+                                   "0.4-0.6" = "green1",
+                                   "0.2-0.4" = "skyblue1",
+                                   "0.0-0.2" = "navyblue",
+                                   "NA" = "grey"),
+                        labels = c(levels(d$LD), "Not available"),
+                        drop = FALSE) +
+    theme_bw() +
+    ggtitle(d$exposure[1]) +
+    theme(plot.title = element_text(hjust = 0.5))
+
+  #Figure for trait 2 (outcome)
+  p2 <- ggplot(d, aes(x = pos.outcome/1000, y = -log10(pval.outcome), col = LD)) +
+    geom_point() +
+    labs(x = "", y = bquote(-log[10](italic(p)))) +
+    geom_label_repel(aes(label = lab), min.segment.length = 0,
+                     box.padding = 0.5, max.overlaps = Inf, col = "black", alpha = 0.8) +
+    geom_label_repel(aes(label = lab2), min.segment.length = 0,
+                     box.padding = 0.5, max.overlaps = Inf, col = "black", alpha = 0.8) +
+    scale_x_continuous(expand = c(0,0),
+                       limits = c(fig_start/1000, fig_end/1000)) +
+    scale_colour_manual(name = bquote(italic(R)^2~.(paste0(" with ", leadSNP_trait2))),
+                        values = c("0.8-1.0" = "red",
+                                   "0.6-0.8" = "darkorange1",
+                                   "0.4-0.6" = "green1",
+                                   "0.2-0.4" = "skyblue1",
+                                   "0.0-0.2" = "navyblue",
+                                   "NA" = "grey"),
+                        labels = c(levels(d$LD), "Not available"),
+                        drop = FALSE) +
+    ggtitle(d$outcome[1]) +
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5))
+
+  # Figure 3: genes
+  # add gene info
+  utils::data(hg38)
+  colnames(hg38) = c("GENE_ID", "CHR", "TRX_START",
+                     "TRX_END", "LENGTH", "GENE_NAME",
+                     "TYPE")
+  gene_sub = hg38[hg38$CHR == genechr, ]
+  gene_sub = gene_sub[gene_sub$TYPE == "protein_coding",]
+  gene_sub = subset(gene_sub, gene_sub$TRX_START > ({{hg38_start}}))
+  gene_sub = subset(gene_sub, gene_sub$TRX_END < ({{hg38_end}}))
+  gene_sub = gene_sub[!duplicated(gene_sub$GENE_ID), ]
+  gene_sub = gene_sub[, c(3, 4, 6)]
+
+
+  #remove genes that don't stretch to the area of the figure
+  gene_sub = subset(gene_sub, TRX_END > fig_start | TRX_START < fig_end)
+
+
+  #If the gene starts or ends outside figure, set gene to remain in figure
+  gene_sub$TRX_END   = ifelse(gene_sub$TRX_END   > fig_end,   fig_end-1,   gene_sub$TRX_END)
+  gene_sub$TRX_START = ifelse(gene_sub$TRX_START < fig_start, fig_start+1, gene_sub$TRX_START)
+
+  #Change from wide format (with both end and start per row) to long format
+  #(end and start as separate observations)
+  gene_sub = reshape2::melt(gene_sub, id.vars = "GENE_NAME")
+
+  #Refresh y-axis to exclude empty rows
+  gene_sub$y_value = as.numeric(as.factor(gene_sub$GENE_NAME))
+
+  #Calculate x-axis midpoints for each gene
+  plot_lab = gene_sub %>%
+    group_by(GENE_NAME) %>%
+    summarise(value = mean(value), y_value = mean(y_value))
+
+  #Draw gene figure
+  p_genes <- ggplot2::ggplot(gene_sub,
+                             ggplot2::aes(x = value/1000, y = y_value)) +
+    ggplot2::geom_line(aes(group = GENE_NAME), size = 2) +
+    ggplot2::theme_bw() +
+    geom_text_repel(data = plot_lab,
+                       aes(x = value/1000, y = y_value, label = GENE_NAME),
+                       size = 1.5) +
+    ggplot2::scale_x_continuous(expand = c(0,0),
+                                limits = c(fig_start/1000, fig_end/1000)) +
+    ggplot2::theme(
+      axis.title.y = ggplot2::element_text(color = "white", size = 28),
+      axis.text.y = ggplot2::element_blank(),
+      axis.ticks.y = ggplot2::element_blank()) +
+    ggplot2::xlab(paste0("Chromosome ", genechr, " Position (kB)")) +
+    ggplot2::ylim(0, (max(gene_sub$y_value) + 1))
+
+  #Combine the three figures into 1
+  ggpubr::ggarrange(p1, p2, p_genes,
+                    heights = c(1.5, 1.5, 1), nrow = 3,
+                    ncol = 1, common.legend = TRUE, legend = "right", align = "hv")
+}
+
