@@ -29,9 +29,9 @@ IL6R_eqtl <- import_data("data/export/IL6R_eqtl_TwoSampleMR.csv",
 
 ## Manhattan plots
 ```{r}
-manhattan_plots(IL6R_eqtl, gene_start=154377669, gene_end=154441926, title = "IL6R")
+manhattan_plots(IL6R_eqtl, gene_start=154405193, gene_end=154469450, title = "IL6R")
 IL6R_eqtl <- IL6R_eqtl %>% filter(pos.outcome > 154300000 & pos.outcome < 154700000) 
-manhattan_plots(IL6R_eqtl, gene_start=154377669, gene_end=154441926, title = "IL6R")
+manhattan_plots(IL6R_eqtl, gene_start=154405193, gene_end=154469450, title = "IL6R")
 
 #ggsave("figures/IL6R-eQTL-T1D-manhattan.png", height = 6, width = 6)
 

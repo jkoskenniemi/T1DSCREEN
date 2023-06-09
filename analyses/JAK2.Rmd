@@ -28,9 +28,9 @@ JAK2_eqtl <- import_data("data/export/JAK2_eqtl_TwoSampleMR.csv",
 
 ## Initial Manhattan plots
 ```{r}
-manhattan_plots(JAK2_eqtl, gene_start=4985033, gene_end=5128183, title = "JAK2")
-JAK2_eqtl <- JAK2_eqtl %>% filter(pos.outcome > 4000000 & pos.outcome < 5500000) 
-manhattan_plots(JAK2_eqtl, gene_start=4985033, gene_end=5128183, title = "JAK2")
+manhattan_plots(JAK2_eqtl, gene_start=4984390, gene_end=5129948, title = "JAK2")
+JAK2_eqtl <- JAK2_eqtl %>% filter(pos.outcome > 4200000 & pos.outcome < 5500000) 
+manhattan_plots(JAK2_eqtl, gene_start=4984390, gene_end=5129948, title = "JAK2")
 ```
 
 ## Coloc assuming 1 causal variant
@@ -48,8 +48,8 @@ coloc_results_JAK2_eqtl <- analyze_coloc_eqtl(JAK2_eqtl)
 
 load("data/export/JAK2_LDmat.RData")
 
-plot_coloc(genechr = 9,
-           fig_start = 4000000,
+plot_coloc_2(genechr = 9,
+           fig_start = 4200000,
            fig_end = 5500000,
            coloc_results = coloc_results_JAK2_eqtl$coloc_D1D2,
            data = JAK2_eqtl,

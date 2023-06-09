@@ -34,9 +34,9 @@ IL2RG_eqtl <- import_data("data/export/IL2RG_eqtl_TwoSampleMR.csv",
 ```
 ## Initial Manhattan plots
 ```{r}
-manhattan_plots(IL2RG_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RG")
+manhattan_plots(IL2RG_eqtl, gene_start=71107404, gene_end=71112108, title = "IL2RG")
 IL2RG_eqtl <- IL2RG_eqtl %>% filter(pos.outcome > 33600000 & pos.outcome < 34000000) 
-manhattan_plots(IL2RG_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RG")
+manhattan_plots(IL2RG_eqtl, gene_start=71107404, gene_end=71112108, title = "IL2RG")
 ```
 
 ## Coloc assuming 1 causal variant

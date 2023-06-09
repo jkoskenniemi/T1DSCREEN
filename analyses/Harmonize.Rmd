@@ -49,7 +49,7 @@ IL6R_prot_data.rds is substituted with IL6R_crp_data.rds
 
 ```{r}
 IL2RG_anno  <- import("data/cis_sumstats/IL2RG_anno.rds")
-IL2RG_prot  <- import("data/cis_sumstats/IL2RG_prot.rds")
+IL2RG_prot  <- import("data/cis_sumstats/IL2RG_gwas.rds")
 IL12B_anno  <- import("data/cis_sumstats/IL12B_anno.rds")  
 IL12B_prot  <- import("data/cis_sumstats/IL12B_prot.rds")  
 IL2RA_anno  <- import("data/cis_sumstats/IL2RA_anno.rds")  

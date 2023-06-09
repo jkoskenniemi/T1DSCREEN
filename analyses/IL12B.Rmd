@@ -31,9 +31,9 @@ No GWAS hits were seen for the risk of T1D so no MR is done.
 
 ```{r}
 #create Manhattan plots with vertical lines indicating the selected area (see below 2.4)
-#manhattan_plots(IL12B_pqtl, gene_start = 158741791, gene_end = 158757895, title = "IL12B")
+#manhattan_plots(IL12B_pqtl, gene_start = 159314780, gene_end = 159330863, title = "IL12B")
 #ggsave("figures/IL12B_pqtl-manhattan-fig.png",
-       height = 6, width = 6, units = "in")
+#       height = 6, width = 6, units = "in")
 ```
 
 

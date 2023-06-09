@@ -35,9 +35,9 @@ IL2RA_eqtl <- import_data("data/export/IL2RA_eqtl_TwoSampleMR.csv",
 
 ## Initial Manhattan plots
 ```{r}
-manhattan_plots(IL2RA_eqtl, gene_start=6052652, gene_end=6104288, title = "IL2RA")
-IL2RA_eqtl <- IL2RA_eqtl %>% filter(pos.outcome > 5900000 & pos.outcome < 6250000) 
-manhattan_plots(IL2RA_eqtl, gene_start=6052652, gene_end=6104288, title = "IL2RA")
+manhattan_plots(IL2RA_eqtl, gene_start=6010689, gene_end=6062370, title = "IL2RA")
+IL2RA_eqtl <- IL2RA_eqtl %>% filter(pos.outcome > 5780000 & pos.outcome < 6250000) 
+manhattan_plots(IL2RA_eqtl, gene_start=6010689, gene_end=6062370, title = "IL2RA")
 ```
 
 ## Coloc assuming 1 causal variant
@@ -56,7 +56,7 @@ coloc_results_IL2RA_eqtl <- analyze_coloc_eqtl(IL2RA_eqtl)
 load("data/export/IL2RA_LDmat.RData")
 
 plot_coloc(genechr = 10,
-           fig_start = 5900000,
+           fig_start = 5780000,
            fig_end = 6250000,
            coloc_results = coloc_results_IL2RA_eqtl$coloc_D1D2,
            data = IL2RA_eqtl,

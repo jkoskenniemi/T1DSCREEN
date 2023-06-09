@@ -28,9 +28,9 @@ IFNAR2_eqtl <- import_data("data/export/IFNAR2_eqtl_TwoSampleMR.csv",
 
 ## Initial Manhattan plots
 ```{r}
-manhattan_plots(IFNAR2_eqtl, gene_start=34602206, gene_end=34637980, title = "IFNAR2")
-IFNAR2_eqtl <- IFNAR2_eqtl %>% filter(pos.outcome > 33600000 & pos.outcome < 33900000) 
-manhattan_plots(IFNAR2_eqtl, gene_start=34602206, gene_end=34637980, title = "IFNAR2")
+manhattan_plots(IFNAR2_eqtl, gene_start=33205282, gene_end=33265675, title = "IFNAR2")
+IFNAR2_eqtl <- IFNAR2_eqtl %>% filter(pos.outcome > 33000000 & pos.outcome < 33500000) 
+manhattan_plots(IFNAR2_eqtl, gene_start=33205282, gene_end=33265675, title = "IFNAR2")
 ```
 
 ## Coloc assuming 1 causal variant
@@ -51,8 +51,8 @@ coloc_results_IFNAR2_eqtl <- analyze_coloc_eqtl(IFNAR2_eqtl)
 load("data/export/IFNAR2_LDmat.RData")
 
 plot_coloc(genechr = 21,
-           fig_start = 33600000,
-           fig_end = 33900000,
+           fig_start = 33000000,
+           fig_end = 33500000,
            coloc_results = coloc_results_IFNAR2_eqtl$coloc_D1D2,
            data = IFNAR2_eqtl,
            D1 = coloc_results_IFNAR2_eqtl$D1,

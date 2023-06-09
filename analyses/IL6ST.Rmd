@@ -26,7 +26,7 @@ IL6ST_pqtl <- import_data("data/export/IL6ST_prot_anno_TwoSampleMR.csv",
 
 No GWAS hits in T1D. MR is not done.
 ```{r}
-#manhattan_plots(IL6ST_pqtl, gene_start = 55230923, gene_end = 55290821, 
+#manhattan_plots(IL6ST_pqtl, gene_start = 55935095, gene_end = 55995022, 
 #                title = "IL6ST")
 
 ```

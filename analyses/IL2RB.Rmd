@@ -34,11 +34,11 @@ IL2RB_eqtl <- import_data("data/export/IL2RB_eqtl_TwoSampleMR.csv",
 
 ## Initial Manhattan plots
 ```{r}
-manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
+manhattan_plots(IL2RB_eqtl, gene_start=37118666, gene_end=37175118, title = "IL2RB")
 IL2RB_eqtl <- IL2RB_eqtl %>% filter(pos.outcome > 37068000 & pos.outcome < 37350000) 
-manhattan_plots(IL2RB_eqtl, gene_start=37521878, gene_end=37571094, title = "IL2RB")
+manhattan_plots(IL2RB_eqtl, gene_start=37118666, gene_end=37175118, title = "IL2RB")
 
-ggsave("figures/IL2RB-eQTL-T1D-manhattan.png", height = 6, width = 6)
+#ggsave("figures/IL2RB-eQTL-T1D-manhattan.png", height = 6, width = 6)
 
 ```
 
