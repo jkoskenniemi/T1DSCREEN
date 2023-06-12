@@ -48,7 +48,7 @@ coloc_results_JAK2_eqtl <- analyze_coloc_eqtl(JAK2_eqtl)
 
 load("data/export/JAK2_LDmat.RData")
 
-plot_coloc_2(genechr = 9,
+plot_coloc(genechr = 9,
            fig_start = 4200000,
            fig_end = 5500000,
            coloc_results = coloc_results_JAK2_eqtl$coloc_D1D2,

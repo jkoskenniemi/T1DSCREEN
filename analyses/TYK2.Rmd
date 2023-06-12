@@ -28,10 +28,11 @@ TYK2_eqtl <- import_data("data/export/TYK2_eqtl_TwoSampleMR.csv",
 
 ```
 
-## Manhattan plots
+## Initial Manhattan plots
 ```{r}
-manhattan_plots(TYK2_eqtl, gene_start = 10350533, gene_end=10380608, 
-                title = "TYK2")
+manhattan_plots(TYK2_eqtl, gene_start=10350533, gene_end=10380608, title = "TYK2")
+TYK2_eqtl <- TYK2_eqtl %>% filter(pos.outcome > 10200000 & pos.outcome < 10700000) 
+manhattan_plots(TYK2_eqtl, gene_start=10350533, gene_end=10380608, title = "TYK2")
 
 #ggsave("figures/TYK2-eqtl-manhattan-fig.png",
 #       height = 6, width = 6, units = "in")
@@ -39,7 +40,23 @@ manhattan_plots(TYK2_eqtl, gene_start = 10350533, gene_end=10380608,
 
 ## Coloc assuming 1 causal variant
 ```{r}
-analyze_coloc_eqtl(TYK2_eqtl)
+coloc_results_TYK2_eqtl <- analyze_coloc_eqtl(TYK2_eqtl)
 
 ```
 
+## Regional manhattan plot
+
+```{r}
+
+load("data/export/TYK2_LDmat.RData")
+
+plot_coloc(genechr = 19,
+           fig_start = 10350533,
+           fig_end = 10380608,
+           coloc_results = coloc_results_TYK2_eqtl$coloc_D1D2,
+           data = TYK2_eqtl,
+           D1 = coloc_results_TYK2_eqtl$D1,
+           D2 = coloc_results_TYK2_eqtl$D2,
+           LDmat = TYK2)
+
+ggsave(filename = "figures/TYK2.png", height = 8, width = 6)
