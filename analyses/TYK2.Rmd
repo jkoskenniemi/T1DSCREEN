@@ -47,12 +47,11 @@ coloc_results_TYK2_eqtl <- analyze_coloc_eqtl(TYK2_eqtl)
 ## Regional manhattan plot
 
 ```{r}
-
 load("data/export/TYK2_LDmat.RData")
 
-plot_coloc(genechr = 19,
-           fig_start = 10350533,
-           fig_end = 10380608,
+plot_coloc_2(genechr = 19,
+           fig_start = 10200000,
+           fig_end = 10700000,
            coloc_results = coloc_results_TYK2_eqtl$coloc_D1D2,
            data = TYK2_eqtl,
            D1 = coloc_results_TYK2_eqtl$D1,
