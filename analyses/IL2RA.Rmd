@@ -70,60 +70,60 @@ ggsave(filename = "figures/IL2RA.png", height = 8, width = 6)
 
 ## Find top hit
 ```{r}
-IL2RA_eqtl <- IL2RA_eqtl %>%
-    mutate(eaf.exposure = as.numeric(eaf.exposure)) %>%
-    mutate(eaf.outcome  = as.numeric(eaf.outcome)) %>%
-    mutate(maf.exposure  =
-             ifelse(eaf.exposure  < 0.5, eaf.exposure,
-                    1 - eaf.exposure)) %>%
-    mutate(maf.outcome  =
-             ifelse(eaf.outcome  < 0.5, eaf.outcome,
-                    1 - eaf.outcome))
+#IL2RA_eqtl <- IL2RA_eqtl %>%
+#    mutate(eaf.exposure = as.numeric(eaf.exposure)) %>%
+#    mutate(eaf.outcome  = as.numeric(eaf.outcome)) %>%
+#    mutate(maf.exposure  =
+#             ifelse(eaf.exposure  < 0.5, eaf.exposure,
+#                    1 - eaf.exposure)) %>%
+#    mutate(maf.outcome  =
+#             ifelse(eaf.outcome  < 0.5, eaf.outcome,
+#                    1 - eaf.outcome))
 
-  IL2RA_eqtl <- IL2RA_eqtl %>%
-    filter(!is.na(pos.outcome))
+#  IL2RA_eqtl <- IL2RA_eqtl %>%
+#    filter(!is.na(pos.outcome))
 
 
-  anyNA(IL2RA_eqtl$maf.exposure) & anyNA(IL2RA_eqtl$maf.outcome)
-  anyNA(IL2RA_eqtl$pos.outcome)
+#  anyNA(IL2RA_eqtl$maf.exposure) & #anyNA(IL2RA_eqtl$maf.outcome)
+#  anyNA(IL2RA_eqtl$pos.outcome)
   
   
-D1 <- list(
-      type = "quant", # quantitative trait
-      pvalues = IL2RA_eqtl$pval.exposure,
-      N = IL2RA_eqtl$samplesize.exposure,
-      MAF = IL2RA_eqtl$maf.exposure,
-      pos = IL2RA_eqtl$pos.outcome,
-      snp = IL2RA_eqtl$SNP,
-      sdY = 1)
+#D1 <- list(
+#      type = "quant", # quantitative trait
+#      pvalues = IL2RA_eqtl$pval.exposure,
+#      N = IL2RA_eqtl$samplesize.exposure,
+#      MAF = IL2RA_eqtl$maf.exposure,
+#      pos = IL2RA_eqtl$pos.outcome,
+#      snp = IL2RA_eqtl$SNP,
+#      sdY = 1)
 
-D2 <- list(
-      type = "cc", # case-control trait
-      pvalues = IL2RA_eqtl$pval.outcome,
-      N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-      s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-      MAF = IL2RA_eqtl$maf.exposure,  #eqtl used here in purpose
-      pos = IL2RA_eqtl$pos.outcome,
-      snp = IL2RA_eqtl$SNP)
+#D2 <- list(
+#      type = "cc", # case-control trait
+#      pvalues = IL2RA_eqtl$pval.outcome,
+#      N = 18942+501638, # Case-control study (Chiou et al. #2021 Nature)
+#      s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+#      MAF = IL2RA_eqtl$maf.exposure,  #eqtl used here in #purpose
+#      pos = IL2RA_eqtl$pos.outcome,
+#      snp = IL2RA_eqtl$SNP)
 
-coloc_results <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+#coloc_results <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, #p12 = 1e-5)
 
 #Find top SNP
-coloc_results$results[which(coloc_results$results$SNP.PP.H4==max(coloc_results$results$SNP.PP.H4)),"snp"]
+#coloc_results$results[which(coloc_results$results$SNP.PP.H4#==max(coloc_results$results$SNP.PP.H4)),"snp"]
 
-IL2RA_eqtl_top <- IL2RA_eqtl %>% 
-  filter(SNP == "rs61839660") %>% 
-  select(SNP, zscore.exposure, beta.outcome, se.outcome) 
+#IL2RA_eqtl_top <- IL2RA_eqtl %>% 
+#  filter(SNP == "rs61839660") %>% 
+#  select(SNP, zscore.exposure, beta.outcome, se.outcome) 
 
-IL2RA_eqtl_top %>%
-  mutate(zscore.exposure = round(zscore.exposure),
-         beta.outcome = round(beta.outcome, 2),
-         exp_beta.T1D = round(exp(beta.outcome), 2),
-         exp_ci_95_low.T1D = round(exp(beta.outcome - 1.96*se.outcome), 2),
-         exp_ci_95_high.T1D = round(exp(beta.outcome + 1.96*se.outcome), 2)) %>% 
-  rename(zscore.IL2RA = zscore.exposure,
-         beta.T1D = beta.outcome) %>%
-  knitr::kable()
+#IL2RA_eqtl_top %>%
+#  mutate(zscore.exposure = round(zscore.exposure),
+#        beta.outcome = round(beta.outcome, 2),
+#        exp_beta.T1D = round(exp(beta.outcome), 2),
+#         exp_ci_95_low.T1D = round(exp(beta.outcome - #1.96*se.outcome), 2),
+#         exp_ci_95_high.T1D = round(exp(beta.outcome + #1.96*se.outcome), 2)) %>% 
+#  rename(zscore.IL2RA = zscore.exposure,
+#         beta.T1D = beta.outcome) %>%
+#  knitr::kable()
 ```
 
 
@@ -132,8 +132,8 @@ IL2RA_eqtl_top %>%
 # pQTL
 ```{r}
 
-IL2RA_pqtl <- import_data("data/export/IL2RA_prot_anno_TwoSampleMR.csv",
-            "data/export/IL2RA_T1D_TwoSampleMR.csv", has_beta = TRUE)
+#IL2RA_pqtl <- import_data("data/export/IL2RA_prot_anno_TwoS#ampleMR.csv",
+#            "data/export/IL2RA_T1D_TwoSampleMR.csv", #has_beta = TRUE)
 
 ```
 
@@ -141,12 +141,12 @@ IL2RA_pqtl <- import_data("data/export/IL2RA_prot_anno_TwoSampleMR.csv",
 ## Manhattan plots
 ```{r}
 
-manhattan_plots(IL2RA_pqtl, gene_start=6052652, gene_end=6104288, title = "IL2RA")
-ggsave("figures/IL2RA-pQTL-T1D-manhattan.png", height = 6, width = 6)
+#manhattan_plots(IL2RA_pqtl, gene_start=6052652, #gene_end=6104288, title = "IL2RA")
+#ggsave("figures/IL2RA-pQTL-T1D-manhattan.png", height = 6, #width = 6)
 ```
 
 ## Coloc assuming 1 causal variant
 ```{r}
-analyze_coloc_pqtl(IL2RA_pqtl)
+#analyze_coloc_pqtl(IL2RA_pqtl)
 ```
 
