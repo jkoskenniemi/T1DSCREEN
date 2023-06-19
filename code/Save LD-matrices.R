@@ -9,10 +9,10 @@ pacman::p_load(tidyverse, ieugwasr)
 names_gwas <- c("IFNAR2",
                 "IL2RA",
                 "IL2RB",
-                # "IL12B",
+                "IL12B",
                 # "IL2RG",
                 "IL6R",
-                # "IL6ST",
+                "IL6ST",
                 "JAK1",
                 "JAK2",
                 "JAK3",
@@ -22,6 +22,8 @@ names_gwas <- c("IFNAR2",
 names_eqtl <- paste0("data/export/", names_gwas, "_eqtl_TwoSampleMR.csv")
 names_t1d <- paste0("data/export/", names_gwas, "_T1D_TwoSampleMR.csv")
 
+names_eqtl[4] <- "data/export/IL12B_prot_anno_TwoSampleMR.csv"
+names_eqtl[6] <- "data/export/IL6ST_prot_anno_TwoSampleMR.csv"
 #Harmonize all GWAS of eqtl and t1d and save them to a list
 harmonized_dfs <- map2(names_eqtl, names_t1d, import_data, has_beta = FALSE)
 
