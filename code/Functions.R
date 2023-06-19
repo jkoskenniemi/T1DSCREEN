@@ -186,7 +186,7 @@ analyze_coloc_pqtl <- function(data) {
       N = data$samplesize.exposure,
       MAF = data$maf.outcome,
       pos = data$pos.outcome,
-      snp = data$pos.outcome,
+      snp = data$SNP,
       sdY = 1)
 
     D2 <- list(
@@ -198,7 +198,7 @@ analyze_coloc_pqtl <- function(data) {
       s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
       MAF = data$maf.outcome,  #eqtl used here in purpose
       pos = data$pos.outcome,
-      snp = data$pos.outcome)
+      snp = data$SNP)
 
   } else if(anyNA(data$maf.exposure) == FALSE & anyNA(data$maf.outcome)) {
     D1 <- list(
@@ -207,7 +207,7 @@ analyze_coloc_pqtl <- function(data) {
       N = data$samplesize.exposure,
       MAF = data$maf.exposure,
       pos = data$pos.outcome,
-      snp = data$pos.outcome,
+      snp = data$SNP,
       sdY = 1)
 
     D2 <- list(
@@ -217,7 +217,7 @@ analyze_coloc_pqtl <- function(data) {
       s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
       MAF = data$maf.exposure,  #eqtl used here in purpose
       pos = data$pos.outcome,
-      snp = data$pos.outcome)
+      snp = data$SNP)
 
 
     check_dataset_D1 <- check_dataset(D1)
@@ -239,7 +239,7 @@ analyze_coloc_pqtl <- function(data) {
       N = data$samplesize.exposure,
       MAF = data$maf,
       pos = data$pos.outcome,
-      snp = data$pos.outcome,
+      snp = data$SNP,
       sdY = 1)
 
 
@@ -250,7 +250,7 @@ analyze_coloc_pqtl <- function(data) {
       s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
       MAF = data$maf,
       pos = data$pos.outcome,
-      snp = data$pos.outcome)
+      snp = data$SNP)
 
     check_dataset_D1 <- check_dataset(D1)
     check_dataset_D2 <- check_dataset(D2)
@@ -259,7 +259,7 @@ analyze_coloc_pqtl <- function(data) {
   }
 
   return(list("test_D1" = check_dataset_D1, "test_D2" = check_dataset_D2,
-              coloc = "coloc_D1D2", "sensitivity" = sensitivity_coloc_D1D2))
+              "coloc_D1D2" = coloc_D1D2, "sensitivity" = sensitivity_coloc_D1D2))
 }
 
 
@@ -380,7 +380,6 @@ plot_coloc <- function(genechr,
   leadSNP_trait2 <- coloc_results[["results"]][
     which.max(coloc_results[["results"]]$lABF.df2),"snp"]
 
-
   #Make a data.frame for the correlation matrix for both SNPs
   d_ld <- data.frame(rsid = colnames(LDmat),
                      LDRsq = LDmat[leadSNP_trait1,]^2)
@@ -401,6 +400,8 @@ plot_coloc <- function(genechr,
   #Merge LD data and data
   d <- d[d_ld, on = c("SNP" = "rsid"), nomatch = NULL]
   d <- d[d_ld2, on = c("SNP" = "rsid"), nomatch = NULL]
+
+
 
   #Annotate lead SNPs in both traits
   d$lab <- ifelse(d$SNP %in% leadSNP_trait1, leadSNP_trait1, "")
@@ -680,4 +681,5 @@ plot_coloc_2 <- function(genechr,
                     heights = c(1.5, 1.5, 1), nrow = 3,
                     ncol = 1, common.legend = TRUE, legend = "right", align = "hv")
 }
+
 
