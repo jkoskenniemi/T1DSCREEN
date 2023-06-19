@@ -28,9 +28,9 @@ JAK3_eqtl <- import_data("data/export/JAK3_eqtl_TwoSampleMR.csv",
 
 ## Initial Manhattan plots
 ```{r}
-manhattan_plots(JAK3_eqtl, gene_start=17824780, gene_end=17848071, title = "JAK3")
+manhattan_plots(JAK3_eqtl, gene_start=17935589, gene_end=17958880, title = "JAK3")
 JAK3_eqtl <- JAK3_eqtl %>% filter(pos.outcome > 17750000 & pos.outcome < 18750000) 
-manhattan_plots(JAK3_eqtl, gene_start=17824780, gene_end=17848071, title = "JAK3")
+manhattan_plots(JAK3_eqtl, gene_start=17935589, gene_end=17958880, title = "JAK3")
 ```
 
 ## Coloc assuming 1 causal variant
@@ -57,5 +57,22 @@ plot_coloc_2(genechr = 19,
            D2 = coloc_results_JAK3_eqtl$D2,
            LDmat = JAK3)
 
-ggsave(filename = "figures/JAK3.png", height = 8, width = 6)
+# ggsave(filename = "JAK3.png", height = 8, width = 6)
 ```
+
+
+
+## Functional variants
+
+
+```{r}
+load("data/export/phenoscanner-functional-variants-rsids.RDS")
+
+JAK3_eqtl_orig <- read_csv("data/export/JAK3_eqtl_TwoSampleMR.csv")
+JAK3_eqtl_orig %>%
+  filter(SNP %in% filter(functional_variants, gene == "JAK3")$rsid) #none
+
+
+```
+
+

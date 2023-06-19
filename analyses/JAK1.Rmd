@@ -57,7 +57,21 @@ plot_coloc(genechr = 1,
            D2 = coloc_results_JAK1_eqtl$D2,
            LDmat = JAK1)
 
-ggsave(filename = "figures/JAK1.png", height = 8, width = 6)
+# ggsave(filename = "figures/JAK1.png", height = 8, width = 6)
+```
+
+
+## Functional variants
+
+
+```{r}
+load("data/export/phenoscanner-functional-variants-rsids.RDS")
+
+JAK1_eqtl_orig <- read_csv("data/export/JAK1_eqtl_TwoSampleMR.csv")
+JAK1_eqtl_orig %>%
+  filter(SNP %in% filter(functional_variants, gene == "JAK1")$rsid) #only 1
+
+#Not found
 ```
 
 

@@ -29,7 +29,7 @@ TwoSampleMR is used to harmonize the data even though TwoSampleMR is not run. Th
 
 ```{r}
 IL2RA_eqtl <- import_data("data/export/IL2RA_eqtl_TwoSampleMR.csv",
-            "data/export/IL2RA_T1D_TwoSampleMR.csv", has_beta = FALSE)
+            "data/export/IL2RA_T1D_TwoSampleMR.csv", has_beta = TRUE)
 
 ```
 
@@ -65,6 +65,35 @@ plot_coloc(genechr = 10,
            LDmat = IL2RA)
 
 ggsave(filename = "figures/IL2RA.png", height = 8, width = 6)
+```
+
+## MR
+```{r}
+
+IL2RA_eqtl_rs61839660   <- IL2RA_eqtl %>% filter(SNP == "rs61839660")
+MR_IL2RA_eqtl_rs61839660   <- TwoSampleMR::mr(IL2RA_eqtl_rs61839660)
+
+MR_IL2RA_eqtl_rs61839660
+
+exp(MR_IL2RA_eqtl_rs61839660$b)
+exp(MR_IL2RA_eqtl_rs61839660$b - 1.96*MR_IL2RA_eqtl_rs61839660$se)
+exp(MR_IL2RA_eqtl_rs61839660$b + 1.96*MR_IL2RA_eqtl_rs61839660$se)
+```
+
+
+## Functional variants
+
+```{r}
+load("data/export/phenoscanner-functional-variants-rsids.RDS")
+
+IL2RA_eqtl_orig <- read_csv("data/export/IL2RA_eqtl_TwoSampleMR.csv")
+IL2RA_eqtl_orig %>%
+  filter(SNP == "rs72650666") #no
+
+IL2RA_T1D <- read_csv("data/export/IL2RA_T1D_TwoSampleMR.csv")
+IL2RA_T1D %>%
+  filter(SNP == "rs72650666") #no
+
 ```
 
 

@@ -58,4 +58,22 @@ plot_coloc_2(genechr = 19,
            D2 = coloc_results_TYK2_eqtl$D2,
            LDmat = TYK2)
 
-ggsave(filename = "figures/TYK2.png", height = 8, width = 6)
+# ggsave(filename = "figures/TYK2.png", height = 8, width = 6)
+```
+
+
+```{r}
+load("data/export/phenoscanner-functional-variants-rsids.RDS")
+
+TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
+TYK2_eqtl_orig %>%
+  filter(SNP %in% filter(functional_variants, gene == "TYK2")$rsid) #only 11
+
+```
+
+
+```{r}
+TYK2_eqtl %>%
+  filter(SNP %in% c("rs2304256", "rs12720356", "rs35018800"))
+```
+

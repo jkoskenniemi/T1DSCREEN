@@ -22,7 +22,7 @@ source("code/Functions.R")
 
 ```{r}
 IL6R_eqtl <- import_data("data/export/IL6R_eqtl_TwoSampleMR.csv", 
-                         "data/export/IL6R_T1D_TwoSampleMR.csv", has_beta = FALSE)
+                         "data/export/IL6R_T1D_TwoSampleMR.csv", has_beta = TRUE)
 
 ```
 
@@ -61,16 +61,33 @@ plot_coloc(genechr = 1,
            D2 = coloc_results_IL6R_eqtl$D2,
            LDmat = IL6R)
 
-ggsave(filename = "figures/IL6R.png", height = 8, width = 6)
+# ggsave(filename = "figures/IL6R.png", height = 8, width = 6)
 ```
 
+
+```{r}
+load("data/export/phenoscanner-functional-variants-rsids.RDS")
+
+IL6R_eqtl_orig <- read_csv("data/export/IL6R_eqtl_TwoSampleMR.csv")
+IL6R_eqtl_orig %>%
+  filter(SNP %in% filter(functional_variants, gene == "IL6R")$rsid) #only 11
+
+IL6R_eqtl %>%
+  filter(SNP %in% filter(functional_variants, gene == "IL6R")$rsid) #only 11
+```
 
 
 # CRP
 
 ```{r}
-#IL6R_pqtl <- import_data("data/export/IL6R_crp_TwoSampleMR.csv",
-#                         "data/export/IL6R_T1D_TwoSampleMR.csv", has_beta = TRUE)
+IL6R_pqtl <- import_data("data/export/IL6R_crp_TwoSampleMR.csv",
+                        "data/export/IL6R_T1D_TwoSampleMR.csv", has_beta = TRUE)
+
+IL6R_pqtl %>%
+  filter(SNP %in% filter(functional_variants, gene == "IL6R")$rsid) %>%
+  mr()
+
+
 ```
 
 
