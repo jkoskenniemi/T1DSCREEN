@@ -1,9 +1,9 @@
 
 #Function to import data analysis data
 
-import_data <- function(exposure_data_file, outcome_data_file, has_beta) {
-  exposure_data <- read_exposure_data(exposure_data_file, sep=",")
-  outcome_data  <- read_outcome_data(outcome_data_file, sep=",")
+import_data <- function(exposure_data_file, outcome_data_file, has_beta, min_p = 1e-400) {
+  exposure_data <- read_exposure_data(exposure_data_file, sep=",", min_pval = min_p)
+  outcome_data  <- read_outcome_data(outcome_data_file, sep=",", min_pval = min_p)
 
   if(has_beta) {
     harmonized_data <- harmonise_data(exposure_data, outcome_data)

@@ -1,1 +1,1 @@
-pval,SNP,SNPChr,pos,effect_allele,other_allele,beta,Gene,GeneSymbol,GeneChr,GenePos,NrCohorts,samplesize,FDR,BonferroniP,hg19_chr,hg19_pos,AlleleA,AlleleB,allA_total,allAB_total,allB_total,AF_B,eaf,MAF,Phenotype,se
+pval,SNP,chr,pos,effect_allele,other_allele,Zscore,Gene,GeneSymbol,GeneChr,GenePos,NrCohorts,samplesize,FDR,BonferroniP,hg19_chr,hg19_pos,AlleleA,AlleleB,allA_total,allAB_total,allB_total,AF_B,eaf,MAF,beta,se,Phenotype
