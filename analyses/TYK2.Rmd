@@ -61,6 +61,23 @@ plot_coloc_2(genechr = 19,
 # ggsave(filename = "figures/TYK2.png", height = 8, width = 6)
 ```
 
+## MR
+```{r}
+
+#Find top SNP
+coloc_results_TYK2_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_TYK2_eqtl$coloc_D1D2$results$SNP.PP.H4)] #rs34725611
+
+#MR
+TYK2_eqtl_rs34725611   <- TYK2_eqtl %>% filter(SNP == "rs34725611")
+MR_TYK2_eqtl_rs34725611   <- TwoSampleMR::mr(TYK2_eqtl_rs34725611)
+
+MR_TYK2_eqtl_rs34725611
+
+exp(MR_TYK2_eqtl_rs34725611$b)
+exp(MR_TYK2_eqtl_rs34725611$b - 1.96*MR_TYK2_eqtl_rs34725611$se)
+exp(MR_TYK2_eqtl_rs34725611$b + 1.96*MR_TYK2_eqtl_rs34725611$se)
+```
+
 
 ```{r}
 load("data/export/phenoscanner-functional-variants-rsids.RDS")

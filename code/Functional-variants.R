@@ -15,10 +15,10 @@ names_gwas <- c("IFNAR2", "IL2RA", "IL2RB",
                 "IL6ST", "JAK1", "JAK2",
                 "JAK3", "TYK2")
 
-# functional_variants <- map(names_gwas, ~phenoscanner(genequery = .x))
-# names(functional_variants) <- names_gwas
+functional_variants <- map(names_gwas, ~phenoscanner(genequery = .x))
+names(functional_variants) <- names_gwas
 
-# save(functional_variants, file = "data/export/phenoscanner-functional-variants.RDS")
+save(functional_variants, file = "data/export/phenoscanner-functional-variants.RDS")
 load("data/export/phenoscanner-functional-variants.RDS")
 
 
@@ -33,10 +33,14 @@ df %>%
   filter(str_detect(trait, "diabetes")) %>%
   select(gene, rsid, eur, consequence, protein_position, amino_acids, trait, efo, study, pmid)
 
-df %>%
+filtered_missense <- df %>%
   filter(consequence == "missense") %>%
   filter(duplicated(rsid) == FALSE) %>%
   select(rsid, gene, hg38_coordinates, eur, consequence, protein_position, amino_acids)
+
+
+save(filtered_missense, file = "data/export/phenoscanner-functional-variants-missense.csv")
+
 
 save(functional_variants, file = "data/export/phenoscanner-functional-variants-rsids.RDS")
 
