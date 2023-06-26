@@ -67,22 +67,80 @@ ggsave(filename = "figures/IL6ST.png", height = 8, width = 6)
 ```{r}
 load("data/export/phenoscanner-functional-variants-rsids.RDS")
 
-IL6ST_pqtl_orig <- read_csv("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
-IL6ST_pqtl_orig %>%
-  filter(SNP %in% filter(functional_variants, gene == "IL6ST")$rsid) %>%
-  filter(minus_log10_pval > 5) %>%
-  select(SNP, beta, minus_log10_pval, eaf)
-
-library(TwoSampleMR)
+IL6ST_pqtl <- read_csv("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
 IL6ST_pqtl %>%
-  filter(SNP == "rs141500365")  %>%
-  mr()
+  filter(SNP == "rs61748224") #yes
+
+IL6ST_T1D <- read_csv("data/export/IL6ST_T1D_TwoSampleMR.csv")
+IL6ST_T1D %>%
+  filter(SNP == "rs61748224") #yes
+
+## MR
+
+IL6ST_eqtl_rs61748224   <- IL6ST_pqtl %>% filter(SNP == "rs61748224")
+MR_IL6ST_eqtl_rs61748224   <- TwoSampleMR::mr(IL6ST_eqtl_rs61748224)
+
+MR_IL6ST_eqtl_rs61748224
+
+exp(MR_IL6ST_eqtl_rs61748224$b)
+exp(MR_IL6ST_eqtl_rs61748224$b - 1.96*MR_IL6ST_eqtl_rs61748224$se)
+exp(MR_IL6ST_eqtl_rs61748224$b + 1.96*MR_IL6ST_eqtl_rs61748224$se)
+
+
+IL6ST_eqtl <- read_csv("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
+IL6ST_eqtl %>%
+  filter(SNP == "rs34417936") #yes
+
+IL6ST_T1D <- read_csv("data/export/IL6ST_T1D_TwoSampleMR.csv")
+IL6ST_T1D %>%
+  filter(SNP == "rs34417936") #yes
+
+
+## MR
+
+IL6ST_eqtl_rs34417936   <- IL6ST_eqtl %>% filter(SNP == "rs34417936")
+MR_IL6ST_eqtl_rs34417936   <- TwoSampleMR::mr(IL6ST_eqtl_rs34417936)
+
+MR_IL6ST_eqtl_rs34417936
+
+exp(MR_IL6ST_eqtl_rs34417936$b)
+exp(MR_IL6ST_eqtl_rs34417936$b - 1.96*MR_IL6ST_eqtl_rs34417936$se)
+exp(MR_IL6ST_eqtl_rs34417936$b + 1.96*MR_IL6ST_eqtl_rs34417936$se)
+
+
+IL6ST_eqtl <- read_csv("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
+IL6ST_eqtl %>%
+  filter(SNP == "rs141500365") #yes
+
+IL6ST_T1D <- read_csv("data/export/IL6ST_T1D_TwoSampleMR.csv")
+IL6ST_T1D %>%
+  filter(SNP == "rs141500365") #yes
+
+## MR
+
+IL6ST_eqtl_rs141500365   <- IL6ST_eqtl %>% filter(SNP == "rs141500365")
+MR_IL6ST_eqtl_rs141500365   <- TwoSampleMR::mr(IL6ST_eqtl_rs141500365)
+
+MR_IL6ST_eqtl_rs141500365
+
+exp(MR_IL6ST_eqtl_rs141500365$b)
+exp(MR_IL6ST_eqtl_rs141500365$b - 1.96*MR_IL6ST_eqtl_rs141500365$se)
+exp(MR_IL6ST_eqtl_rs141500365$b + 1.96*MR_IL6ST_eqtl_rs141500365$se)
 
 
 
-IL6ST_pqtl_orig <- read_csv("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
-IL6ST_pqtl_orig %>% 
-  filter()
+
+```
+
+```
+
+```
+
+```
+
+
+
+
 
 ```
 

@@ -23,7 +23,7 @@ here::i_am("analyses/JAK2.Rmd")
 Import data 
 ```{r}
 JAK2_eqtl <- import_data("data/export/JAK2_eqtl_TwoSampleMR.csv", 
-                         "data/export/JAK2_T1D_TwoSampleMR.csv", has_beta = FALSE)
+                         "data/export/JAK2_T1D_TwoSampleMR.csv", has_beta = TRUE)
 ```
 
 ## Initial Manhattan plots
@@ -70,10 +70,22 @@ load("data/export/phenoscanner-functional-variants-rsids.RDS")
 
 JAK2_eqtl_orig <- read_csv("data/export/JAK2_eqtl_TwoSampleMR.csv")
 JAK2_eqtl_orig %>%
-  filter(SNP %in% filter(functional_variants, gene == "JAK2")$rsid) #only 1
+  filter(SNP == "rs41316003") #yes
 
-JAK2_eqtl %>%
-  filter(SNP %in% filter(functional_variants, gene == "JAK2")$rsid) #only 1
+JAK2_T1D <- read_csv("data/export/JAK2_T1D_TwoSampleMR.csv")
+JAK2_T1D %>%
+  filter(SNP == "rs41316003") #yes
+
+## MR
+
+JAK2_eqtl_rs41316003   <- JAK2_eqtl_orig %>% filter(SNP == "rs41316003")
+MR_JAK2_eqtl_rs41316003   <- TwoSampleMR::mr(JAK2_eqtl_rs41316003)
+
+MR_JAK2_eqtl_rs41316003
+
+exp(MR_JAK2_eqtl_rs41316003$b)
+exp(MR_JAK2_eqtl_rs41316003$b - 1.96*MR_JAK2_eqtl_rs41316003$se)
+exp(MR_JAK2_eqtl_rs41316003$b + 1.96*MR_JAK2_eqtl_rs41316003$se)
 
 
 ```

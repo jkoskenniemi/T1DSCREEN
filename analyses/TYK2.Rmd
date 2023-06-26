@@ -24,7 +24,7 @@ Load packages and import data
 ```{r}
 
 TYK2_eqtl <- import_data("data/export/TYK2_eqtl_TwoSampleMR.csv", 
-                         "data/export/TYK2_T1D_TwoSampleMR.csv", has_beta = FALSE)
+                         "data/export/TYK2_T1D_TwoSampleMR.csv", has_beta = TRUE)
 
 ```
 
@@ -78,19 +78,82 @@ exp(MR_TYK2_eqtl_rs34725611$b - 1.96*MR_TYK2_eqtl_rs34725611$se)
 exp(MR_TYK2_eqtl_rs34725611$b + 1.96*MR_TYK2_eqtl_rs34725611$se)
 ```
 
-
+## Functional variants
 ```{r}
 load("data/export/phenoscanner-functional-variants-rsids.RDS")
 
 TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
 TYK2_eqtl_orig %>%
-  filter(SNP %in% filter(functional_variants, gene == "TYK2")$rsid) #only 11
+  filter(SNP == "rs35018800") #yes
+
+TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
+TYK2_T1D %>%
+  filter(SNP == "rs35018800") #yes
+
+#MR
+TYK2_eqtl_rs35018800   <- TYK2_eqtl %>% filter(SNP == "rs35018800")
+MR_TYK2_eqtl_rs35018800   <- TwoSampleMR::mr(TYK2_eqtl_rs35018800)
+
+MR_TYK2_eqtl_rs35018800
+
+exp(MR_TYK2_eqtl_rs35018800$b)
+exp(MR_TYK2_eqtl_rs35018800$b - 1.96*MR_TYK2_eqtl_rs35018800$se)
+exp(MR_TYK2_eqtl_rs35018800$b + 1.96*MR_TYK2_eqtl_rs35018800$se)
+
+
+
+
+TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
+TYK2_eqtl_orig %>%
+  filter(SNP == "rs34536443") #no
+
+TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
+TYK2_T1D %>%
+  filter(SNP == "rs34536443") #yes
+
+
+
+TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
+TYK2_eqtl_orig %>%
+  filter(SNP == "rs55882956") #no
+
+TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
+TYK2_T1D %>%
+  filter(SNP == "rs55882956") #yes
+
+
+TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
+TYK2_eqtl_orig %>%
+  filter(SNP == "rs188833543") #no
+
+TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
+TYK2_T1D %>%
+  filter(SNP == "rs188833543") #yes
+
+
+
+TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
+TYK2_eqtl_orig %>%
+  filter(SNP == "rs55762744") #yes
+
+TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
+TYK2_T1D %>%
+  filter(SNP == "rs55762744") #yes
+
+
+#MR
+TYK2_eqtl_rs55762744   <- TYK2_eqtl %>% filter(SNP == "rs55762744")
+MR_TYK2_eqtl_rs55762744   <- TwoSampleMR::mr(TYK2_eqtl_rs55762744)
+
+MR_TYK2_eqtl_rs55762744
+
+exp(MR_TYK2_eqtl_rs55762744$b)
+exp(MR_TYK2_eqtl_rs55762744$b - 1.96*MR_TYK2_eqtl_rs55762744$se)
+exp(MR_TYK2_eqtl_rs55762744$b + 1.96*MR_TYK2_eqtl_rs55762744$se)
+
+
+
 
 ```
 
-
-```{r}
-TYK2_eqtl %>%
-  filter(SNP %in% c("rs2304256", "rs12720356", "rs35018800"))
-```
 

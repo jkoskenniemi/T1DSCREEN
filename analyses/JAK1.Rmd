@@ -23,7 +23,7 @@ here::i_am("analyses/JAK1.Rmd")
 Import data 
 ```{r}
 JAK1_eqtl <- import_data("data/export/JAK1_eqtl_TwoSampleMR.csv", 
-                         "data/export/JAK1_T1D_TwoSampleMR.csv", has_beta = FALSE)
+                         "data/export/JAK1_T1D_TwoSampleMR.csv", has_beta = TRUE)
 ```
 
 ## Initial Manhattan plots
@@ -69,9 +69,11 @@ load("data/export/phenoscanner-functional-variants-rsids.RDS")
 
 JAK1_eqtl_orig <- read_csv("data/export/JAK1_eqtl_TwoSampleMR.csv")
 JAK1_eqtl_orig %>%
-  filter(SNP %in% filter(functional_variants, gene == "JAK1")$rsid) #only 1
+  filter(SNP == "rs149968614") #no
 
-#Not found
+JAK1_T1D <- read_csv("data/export/JAK1_T1D_TwoSampleMR.csv")
+JAK1_T1D %>%
+  filter(SNP == "rs149968614") #yes
 ```
 
 
