@@ -70,7 +70,11 @@ load("data/export/phenoscanner-functional-variants-rsids.RDS")
 
 JAK3_eqtl_orig <- read_csv("data/export/JAK3_eqtl_TwoSampleMR.csv")
 JAK3_eqtl_orig %>%
-  filter(SNP %in% filter(functional_variants, gene == "JAK3")$rsid) #none
+  filter(SNP == "rs55778349") #no
+
+JAK3_T1D <- read_csv("data/export/JAK3_T1D_TwoSampleMR.csv")
+JAK3_T1D %>%
+  filter(SNP == "rs55778349") #yes
 
 
 ```

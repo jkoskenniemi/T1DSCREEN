@@ -28,7 +28,7 @@ source("code/Functions.R")
 ```{r}
 
 IL2RB_eqtl <- import_data("data/export/IL2RB_eqtl_TwoSampleMR.csv",
-            "data/export/IL2RB_T1D_TwoSampleMR.csv", has_beta = FALSE)
+            "data/export/IL2RB_T1D_TwoSampleMR.csv", has_beta = TRUE)
 
 ```
 
@@ -66,8 +66,36 @@ plot_coloc(genechr = 22,
            D2 = coloc_results_IL2RB_eqtl$D2,
            LDmat = IL2RB)
 
-ggsave(filename = "figures/IL2RB.png", height = 8, width = 6)
+#ggsave(filename = "figures/IL2RB.png", height = 8, width = 6)
 ```
+
+
+
+## Functional variants
+
+```{r}
+load("data/export/phenoscanner-functional-variants-missense.csv")
+
+IL2RB_eqtl_orig <- read_csv("data/export/IL2RB_eqtl_TwoSampleMR.csv")
+IL2RB_eqtl_orig %>%
+  filter(SNP == "rs143857582") #no
+
+IL2RB_T1D <- read_csv("data/export/IL2RB_T1D_TwoSampleMR.csv")
+IL2RB_T1D %>%
+  filter(SNP == "rs143857582") #yes
+
+
+IL2RB_eqtl_orig <- read_csv("data/export/IL2RB_eqtl_TwoSampleMR.csv")
+IL2RB_eqtl_orig %>%
+  filter(SNP == "rs149508414") #no
+
+IL2RB_T1D <- read_csv("data/export/IL2RB_T1D_TwoSampleMR.csv")
+IL2RB_T1D %>%
+  filter(SNP == "rs149508414") #yes
+
+```
+
+
 
 # pQTL
 
