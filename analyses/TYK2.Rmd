@@ -58,7 +58,7 @@ plot_coloc_2(genechr = 19,
            D2 = coloc_results_TYK2_eqtl$D2,
            LDmat = TYK2)
 
-# ggsave(filename = "figures/TYK2.png", height = 8, width = 6)
+ggsave(filename = "TYK2.png", height = 8, width = 6)
 ```
 
 ## MR
@@ -78,82 +78,46 @@ exp(MR_TYK2_eqtl_rs34725611$b - 1.96*MR_TYK2_eqtl_rs34725611$se)
 exp(MR_TYK2_eqtl_rs34725611$b + 1.96*MR_TYK2_eqtl_rs34725611$se)
 ```
 
+
 ## Functional variants
 ```{r}
-load("data/export/phenoscanner-functional-variants-rsids.RDS")
-
-TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
-TYK2_eqtl_orig %>%
-  filter(SNP == "rs35018800") #yes
-
-TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
-TYK2_T1D %>%
-  filter(SNP == "rs35018800") #yes
-
-#MR
-TYK2_eqtl_rs35018800   <- TYK2_eqtl %>% filter(SNP == "rs35018800")
-MR_TYK2_eqtl_rs35018800   <- TwoSampleMR::mr(TYK2_eqtl_rs35018800)
-
-MR_TYK2_eqtl_rs35018800
-
-exp(MR_TYK2_eqtl_rs35018800$b)
-exp(MR_TYK2_eqtl_rs35018800$b - 1.96*MR_TYK2_eqtl_rs35018800$se)
-exp(MR_TYK2_eqtl_rs35018800$b + 1.96*MR_TYK2_eqtl_rs35018800$se)
 
 
 
 
-TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
-TYK2_eqtl_orig %>%
-  filter(SNP == "rs34536443") #no
-
-TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
-TYK2_T1D %>%
-  filter(SNP == "rs34536443") #yes
-
-
-
-TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
-TYK2_eqtl_orig %>%
-  filter(SNP == "rs55882956") #no
-
-TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
-TYK2_T1D %>%
-  filter(SNP == "rs55882956") #yes
+sig2 <- function(x) signif(x, digits = 2)
+TYK2_eqtl %>%
+  filter(SNP %in% c("rs55886939",   "rs34536443", "rs35018800",  "rs55882956",
+                    "rs12720356", "rs139954108", "rs2304256","rs188833543", 
+                    "rs55762744", "rs144960992")) %>%
+  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%
+  mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), sig2))
 
 
-TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
-TYK2_eqtl_orig %>%
-  filter(SNP == "rs188833543") #no
+TYK2_eqtl_funcvar_mr <- TYK2_eqtl %>%
+  filter(SNP %in% c("rs12720356", "rs2304256")) %>%
+  TwoSampleMR::mr_singlesnp() %>%
+  mutate(exp_b = exp(b), 
+         lo_95 = exp(b - (1.96 * se)),
+         hi_95 = exp(b + (1.96 * se))) %>%
+    mutate(across(starts_with(c("b", "se","p", "exp_b", "lo", "hi")), sig2))
 
-TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
-TYK2_T1D %>%
-  filter(SNP == "rs188833543") #yes
-
-
-
-TYK2_eqtl_orig <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv")
-TYK2_eqtl_orig %>%
-  filter(SNP == "rs55762744") #yes
-
-TYK2_T1D <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv")
-TYK2_T1D %>%
-  filter(SNP == "rs55762744") #yes
-
-
-#MR
-TYK2_eqtl_rs55762744   <- TYK2_eqtl %>% filter(SNP == "rs55762744")
-MR_TYK2_eqtl_rs55762744   <- TwoSampleMR::mr(TYK2_eqtl_rs55762744)
-
-MR_TYK2_eqtl_rs55762744
-
-exp(MR_TYK2_eqtl_rs55762744$b)
-exp(MR_TYK2_eqtl_rs55762744$b - 1.96*MR_TYK2_eqtl_rs55762744$se)
-exp(MR_TYK2_eqtl_rs55762744$b + 1.96*MR_TYK2_eqtl_rs55762744$se)
-
-
-
-
+  TYK2_eqtl_funcvar_mr
 ```
 
+
+```{r}
+#LD matrix for interesting variants
+functional_variants_TYK2 <- functional_variants %>% 
+  filter(gene == "TYK2")
+
+library(ieugwasr)
+TYK2_LD <- ld_matrix(
+    variants = c(functional_variants_TYK2$rsid, "rs144309607", "rs34725611"),
+    pop = "EUR",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
+    with_alleles = FALSE)
+
+```
 

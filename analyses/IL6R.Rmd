@@ -33,7 +33,7 @@ manhattan_plots(IL6R_eqtl, gene_start=154405193, gene_end=154469450, title = "IL
 IL6R_eqtl <- IL6R_eqtl %>% filter(pos.outcome > 154300000 & pos.outcome < 154700000) 
 manhattan_plots(IL6R_eqtl, gene_start=154405193, gene_end=154469450, title = "IL6R")
 
-#ggsave("figures/IL6R-eQTL-T1D-manhattan.png", height = 6, width = 6)
+ggsave("figures/IL6R-eQTL-T1D-manhattan.png", height = 6, width = 6)
 
 ```
 
@@ -52,7 +52,7 @@ coloc_results_IL6R_eqtl <- analyze_coloc_eqtl(IL6R_eqtl)
 
 load("data/export/IL6R_LDmat.RData")
 
-plot_coloc(genechr = 1,
+plot_coloc_IL6R(genechr = 1,
            fig_start = 154300000,
            fig_end = 154700000,
            coloc_results = coloc_results_IL6R_eqtl$coloc_D1D2,
@@ -61,7 +61,7 @@ plot_coloc(genechr = 1,
            D2 = coloc_results_IL6R_eqtl$D2,
            LDmat = IL6R)
 
-# ggsave(filename = "figures/IL6R.png", height = 8, width = 6)
+ggsave(filename = "IL6R.png", height = 8, width = 6)
 ```
 
 ## MR
@@ -72,6 +72,11 @@ coloc_results_IL6R_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_IL6R_eqtl
 
 #MR
 IL6R_eqtl_rs10908839   <- IL6R_eqtl %>% filter(SNP == "rs10908839")
+
+exp(IL6R_eqtl_rs10908839$beta.outcome)
+exp(IL6R_eqtl_rs10908839$beta.outcome - 1.96 * IL6R_eqtl_rs10908839$se.outcome)
+exp(IL6R_eqtl_rs10908839$beta.outcome + 1.96 * IL6R_eqtl_rs10908839$se.outcome)
+
 MR_IL6R_eqtl_rs10908839   <- TwoSampleMR::mr(IL6R_eqtl_rs10908839)
 
 MR_IL6R_eqtl_rs10908839
@@ -89,12 +94,12 @@ load("data/export/phenoscanner-functional-variants-rsids.RDS")
 
 IL6R_eqtl_orig <- read_csv("data/export/IL6R_eqtl_TwoSampleMR.csv")
 
-#functional_variants <- as.data.frame(functional_variants)
-#IL6R_eqtl_orig %>%
-#  filter(SNP %in% filter(functional_variants, gene == "IL6R")$rsid) #only 11
+functional_variants <- as.data.frame(functional_variants)
+IL6R_eqtl_orig %>%
+ filter(SNP %in% filter(functional_variants, gene == "IL6R")$rsid) #only 1
 
-#IL6R_eqtl %>%
-#  filter(SNP %in% filter(functional_variants, gene == "IL6R")$rsid) #only 11
+IL6R_eqtl %>%
+ filter(SNP %in% filter(functional_variants, gene == "IL6R")$rsid) #only 1
 
 
 IL6R_eqtl_orig <- read_csv("data/export/IL6R_eqtl_TwoSampleMR.csv")
@@ -183,5 +188,64 @@ IL6R_pqtl %>%
 # exp(MR_IL6R_res[3,]$b + 1.96*MR_IL6R_res[3,]$se)
 
 ```
+
+
+## LD matrix with previous SNPs
+
+```{r}
+
+ld_matrix_l() %>%
+  
+  signif(2) %>%
+  
+IL6R_LD_EUR <- ld_matrix(
+    variants = c("rs10908839", "rs2229238", "rs2228145"),
+    pop = "EUR",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/EUR")
+
+IL6R_LD_AFR <- ld_matrix(
+    variants = c("rs10908839", "rs2229238", "rs2228145"),
+    pop = "AFR",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/AFR")
+
+IL6R_LD_SAS <- ld_matrix(
+    variants = c("rs10908839", "rs2229238", "rs2228145"),
+    pop = "SAS",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/SAS")
+
+IL6R_LD_AMR <- ld_matrix(
+    variants = c("rs10908839", "rs2229238", "rs2228145"),
+    pop = "SAS",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/AMR")
+
+IL6R_LD_EAS <- ld_matrix(
+    variants = c("rs10908839", "rs2229238", "rs2228145"),
+    pop = "EAS",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/EAS")
+
+IL6R_LD <- ld_matrix(
+    variants = c("rs10908839", "rs2229238", "rs2228145"),
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/")
+
+IL6R_LD <- ld_matrix(
+    variants = c("rs10908839", "rs2229238", "rs2228145"))
+
+signif(IL6R_LD_EUR * IL6R_LD_EUR, 2)
+
+
+LD_across <- ld_matrix(
+    variants = c("rs41316003", "rs2304256", "rs141500365"))
+
+
+
+```
+
+
 
 

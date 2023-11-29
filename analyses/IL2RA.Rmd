@@ -64,16 +64,21 @@ plot_coloc(genechr = 10,
            D2 = coloc_results_IL2RA_eqtl$D2,
            LDmat = IL2RA)
 
-ggsave(filename = "figures/IL2RA.png", height = 8, width = 6)
+  ggsave(filename = "IL2RA.png", height = 8, width = 6)
 ```
 
 ## MR
 ```{r}
 
 #Find top SNP
-coloc_results_IL2RA_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_IL2RA_eqtl$coloc_D1D2$results$SNP.PP.H4)]
+coloc_results_IL2RA_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_IL2RA_eqtl$coloc_D1D2$results$SNP.PP.H4)] #rs61839660
 
 IL2RA_eqtl_rs61839660   <- IL2RA_eqtl %>% filter(SNP == "rs61839660")
+
+exp(IL2RA_eqtl_rs61839660$beta.outcome)
+exp(IL2RA_eqtl_rs61839660$beta.outcome - 1.96 * IL2RA_eqtl_rs61839660$se.outcome)
+exp(IL2RA_eqtl_rs61839660$beta.outcome + 1.96 * IL2RA_eqtl_rs61839660$se.outcome)
+
 MR_IL2RA_eqtl_rs61839660   <- TwoSampleMR::mr(IL2RA_eqtl_rs61839660)
 
 MR_IL2RA_eqtl_rs61839660
@@ -81,6 +86,18 @@ MR_IL2RA_eqtl_rs61839660
 exp(MR_IL2RA_eqtl_rs61839660$b)
 exp(MR_IL2RA_eqtl_rs61839660$b - 1.96*MR_IL2RA_eqtl_rs61839660$se)
 exp(MR_IL2RA_eqtl_rs61839660$b + 1.96*MR_IL2RA_eqtl_rs61839660$se)
+
+IL2RA_SNPs_LD <- ld_matrix(
+    variants = c("rs61839660", "rs35285258", "rs56179589", "rs6602437", "rs947474"),
+    pop = "EUR",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
+    with_alleles = FALSE)
+
+signif(IL2RA_SNPs_LD^2, 2)
+
+LDlin
+
 ```
 
 
@@ -192,5 +209,79 @@ exp(MR_IL2RA_eqtl_rs72650666$b + 1.96*MR_IL2RA_eqtl_rs72650666$se)
 ## Coloc assuming 1 causal variant
 ```{r}
 #analyze_coloc_pqtl(IL2RA_pqtl)
+
 ```
+
+## Coloc assuming 2 causal variants
+```{r}
+
+IL2RA_eqtl <- filter(IL2RA_eqtl, !is.na(eaf.outcome))
+
+
+#get LD for the smaller data set
+IL2RA_eqtl_ld  <- ld_matrix(
+    variants = IL2RA_eqtl$SNP,
+    pop = "EUR",
+    plink_bin = genetics.binaRies::get_plink_binary(),
+    bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
+    with_alleles = FALSE)
+
+
+IL2RA_eqtl <- IL2RA_eqtl %>% 
+filter(SNP %in% colnames(IL2RA_eqtl_ld))
+
+#Set up data
+D1 <- list(type = "quant", 
+           pvalues = IL2RA_eqtl$pval.exposure, 
+           beta = IL2RA_eqtl$beta.exposure, 
+           varbeta = (IL2RA_eqtl$se.exposure) ^ 2,
+           N = length(IL2RA_eqtl$samplesize.exposure), 
+           MAF = ifelse(IL2RA_eqtl$eaf.outcome < 0.5, IL2RA_eqtl$eaf.outcome, 1- IL2RA_eqtl$eaf.outcome), 
+           position = IL2RA_eqtl$pos.outcome,
+           snp = IL2RA_eqtl$SNP,
+           sdY = 1,
+           LD = IL2RA_eqtl_ld)
+           
+D2 <- list(type = "cc", # case-control trait
+           pvalues = IL2RA_eqtl$pval.outcome,
+           beta = IL2RA_eqtl$beta.outcome, 
+           varbeta = (IL2RA_eqtl$se.outcome) ^ 2,
+           N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+           s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+           MAF = ifelse(IL2RA_eqtl$eaf.outcome < 0.5, IL2RA_eqtl$eaf.outcome, 1- IL2RA_eqtl$eaf.outcome),
+           position = IL2RA_eqtl$pos.outcome,
+           snp = IL2RA_eqtl$SNP,
+           LD = IL2RA_eqtl_ld)
+           
+#Check datasets for SuSiE           
+check_dataset(D1, req="LD")
+check_dataset(D2, req="LD")
+
+#Run SuSiE
+S1=runsusie(D1)
+S2=runsusie(D2)
+
+#Summarise results
+summary(S1)
+summary(S2)
+
+if(requireNamespace("susieR",quietly=TRUE)) {
+  susie.res=coloc.susie(S1,S2)
+  print(susie.res$summary)
+}
+
+
+if(requireNamespace("susieR",quietly=TRUE)) {
+  susie.res=coloc.susie(S1,S2)
+  print(susie.res$summary)
+}
+
+if(requireNamespace("susieR",quietly=TRUE)) {
+  sensitivity(susie.res,"H4 > 0.9",row=1,dataset1=D1,dataset2=D2)
+  sensitivity(susie.res,"H4 > 0.9",row=2,dataset1=D1,dataset2=D2)
+}
+
+
+```
+
 

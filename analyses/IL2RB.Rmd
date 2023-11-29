@@ -66,7 +66,7 @@ plot_coloc(genechr = 22,
            D2 = coloc_results_IL2RB_eqtl$D2,
            LDmat = IL2RB)
 
-#ggsave(filename = "figures/IL2RB.png", height = 8, width = 6)
+ggsave(filename = "IL2RB.png", height = 8, width = 6)
 ```
 
 

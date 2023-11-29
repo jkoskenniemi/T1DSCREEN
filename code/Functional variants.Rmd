@@ -1,0 +1,145 @@
+---
+title: "Functional variants"
+author: "Jaakko Koskenniemi"
+date: "2023-09-25"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr,
+               ieugwasr, rio, here)
+
+source("code/Functions.R")
+
+here::i_am("analyses/IFNAR2.Rmd")
+```
+
+```{r}
+
+IFNAR2 <- read_csv("data/export/IFNAR2_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+IL2RA <- read_csv("data/export/IL2RA_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+IL2RB <- read_csv("data/export/IL2RB_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+IL6R <- read_csv("data/export/IL6R_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+IL6ST <- read_csv("data/export/IL6ST_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+JAK1 <- read_csv("data/export/JAK1_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+JAK2 <- read_csv("data/export/JAK2_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+JAK3 <- read_csv("data/export/JAK3_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+TYK2 <- read_csv("data/export/TYK2_T1D_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP)
+
+
+
+IFNAR2_qtl <- read_csv("data/export/IFNAR2_eqtl_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+IL2RA_qtl <- read_csv("data/export/IL2RA_eqtl_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+IL2RB_qtl <- read_csv("data/export/IL2RB_eqtl_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+IL6R_qtl <- read_csv("data/export/IL6R_eqtl_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+    rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+IL6ST_qtl <- read_csv("data/export/IL6ST_prot_anno_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+JAK1_qtl <- read_csv("data/export/JAK1_eqtl_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+JAK2_qtl <- read_csv("data/export/JAK2_eqtl_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+JAK3_qtl <- read_csv("data/export/JAK3_eqtl_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+  rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+TYK2_qtl <- read_csv("data/export/TYK2_eqtl_TwoSampleMR.csv") %>%
+  select(SNP, effect_allele, other_allele, beta, se, eaf, pval) %>%
+    rename(rsid = SNP, ea_qtl = effect_allele, nea_qtl = other_allele, 
+         beta_qtl = beta, se_qtl = se, eaf_qtl = eaf, pval_qtl = pval)
+```
+
+
+
+## Functional variants
+```{r}
+load("data/export/phenoscanner-functional-variants-rsids.RDS")
+
+targets <- IFNAR2 %>%
+  bind_rows(IL2RA) %>%
+  bind_rows(IL2RB) %>%
+  bind_rows(IL6R) %>%
+  bind_rows(IL6ST) %>%
+  bind_rows(JAK1) %>%
+  bind_rows(JAK2) %>%
+  bind_rows(JAK3) %>%
+  bind_rows(TYK2) %>%
+  filter(rsid %in% functional_variants$rsid) %>%
+  as_tibble() 
+
+funcvars <- functional_variants %>%
+  select(rsid, gene, eur) %>%
+  full_join(targets)
+
+funcvars <- funcvars %>%
+  rename(ea = effect_allele, nea = other_allele, beta_t1d = beta, se_t1d = se, p_t1d = pval) %>%
+  select(gene, rsid, eaf, ea, nea, beta_t1d, se_t1d, p_t1d)
+  
+
+targets_qtl <- IFNAR2_qtl %>%
+  bind_rows(IL2RA_qtl) %>%
+  bind_rows(IL2RB_qtl) %>%
+  bind_rows(IL6R_qtl) %>%
+  bind_rows(IL6ST_qtl) %>%
+  bind_rows(JAK1_qtl) %>%
+  bind_rows(JAK2_qtl) %>%
+  bind_rows(JAK3_qtl) %>%
+  bind_rows(TYK2_qtl) %>%
+  filter(rsid %in% functional_variants$rsid) %>%
+  as_tibble() 
+
+funcvars <- funcvars %>%
+  full_join(targets_qtl) %>%
+  as_tibble()
+
+funcvars %>% print(n=200)
+
+funcvars <- funcvars %>% 
+  select(-ea_qtl, -nea_qtl, -eaf_qtl)
+
+funcvars %>% 
+  arrange(gene, p_t1d) %>%
+  # mutate(across(any_of(c("eaf", "beta_t1d", "se_t1d", "p_t1d", "beta_qtl", "se_qtl", "pval_qtl", "eaf_qtl")),
+  #               ~signif(.x, digits = 2))) %>%
+  knitr::kable()
+
+
+```

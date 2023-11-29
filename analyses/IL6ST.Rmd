@@ -40,6 +40,8 @@ manhattan_plots(IL6ST_pqtl, gene_start = 55935095, gene_end = 55995022,
 
 ```{r}
 coloc_results_IL6ST_pqtl <- analyze_coloc_pqtl(IL6ST_pqtl)
+
+
 coloc_results_IL6ST_pqtl$coloc_D1D2
 
 ```
@@ -58,7 +60,7 @@ plot_coloc(genechr = 5,
            D2 = coloc_results_IL6ST_pqtl$D2,
            LDmat = IL6ST)
 
-ggsave(filename = "figures/IL6ST.png", height = 8, width = 6)
+ggsave(filename = "IL6ST.png", height = 8, width = 6)
 ```
 
 
@@ -75,75 +77,22 @@ IL6ST_T1D <- read_csv("data/export/IL6ST_T1D_TwoSampleMR.csv")
 IL6ST_T1D %>%
   filter(SNP == "rs61748224") #yes
 
-## MR
 
-IL6ST_eqtl_rs61748224   <- IL6ST_pqtl %>% filter(SNP == "rs61748224")
-MR_IL6ST_eqtl_rs61748224   <- TwoSampleMR::mr(IL6ST_eqtl_rs61748224)
+IL6ST_pqtl_funcvar <- IL6ST_pqtl %>%
+  filter(SNP %in% c("rs61748224", "rs61755738", "rs34417936", "rs141500365"))
 
-MR_IL6ST_eqtl_rs61748224
+IL6ST_pqtl_funcvar %>%
+  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%
+  mutate(across(!matches("SNP"), sig2))
 
-exp(MR_IL6ST_eqtl_rs61748224$b)
-exp(MR_IL6ST_eqtl_rs61748224$b - 1.96*MR_IL6ST_eqtl_rs61748224$se)
-exp(MR_IL6ST_eqtl_rs61748224$b + 1.96*MR_IL6ST_eqtl_rs61748224$se)
+IL6ST_pqtl_funcvar_MR <- IL6ST_pqtl_funcvar %>%
+  filter(pval.exposure < 1e-4) %>% 
+  TwoSampleMR::mr()
 
+IL6ST_pqtl_funcvar_MR
 
-IL6ST_eqtl <- read_csv("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
-IL6ST_eqtl %>%
-  filter(SNP == "rs34417936") #yes
-
-IL6ST_T1D <- read_csv("data/export/IL6ST_T1D_TwoSampleMR.csv")
-IL6ST_T1D %>%
-  filter(SNP == "rs34417936") #yes
-
-
-## MR
-
-IL6ST_eqtl_rs34417936   <- IL6ST_eqtl %>% filter(SNP == "rs34417936")
-MR_IL6ST_eqtl_rs34417936   <- TwoSampleMR::mr(IL6ST_eqtl_rs34417936)
-
-MR_IL6ST_eqtl_rs34417936
-
-exp(MR_IL6ST_eqtl_rs34417936$b)
-exp(MR_IL6ST_eqtl_rs34417936$b - 1.96*MR_IL6ST_eqtl_rs34417936$se)
-exp(MR_IL6ST_eqtl_rs34417936$b + 1.96*MR_IL6ST_eqtl_rs34417936$se)
-
-
-IL6ST_eqtl <- read_csv("data/export/IL6ST_prot_anno_TwoSampleMR.csv")
-IL6ST_eqtl %>%
-  filter(SNP == "rs141500365") #yes
-
-IL6ST_T1D <- read_csv("data/export/IL6ST_T1D_TwoSampleMR.csv")
-IL6ST_T1D %>%
-  filter(SNP == "rs141500365") #yes
-
-## MR
-
-IL6ST_eqtl_rs141500365   <- IL6ST_eqtl %>% filter(SNP == "rs141500365")
-MR_IL6ST_eqtl_rs141500365   <- TwoSampleMR::mr(IL6ST_eqtl_rs141500365)
-
-MR_IL6ST_eqtl_rs141500365
-
-exp(MR_IL6ST_eqtl_rs141500365$b)
-exp(MR_IL6ST_eqtl_rs141500365$b - 1.96*MR_IL6ST_eqtl_rs141500365$se)
-exp(MR_IL6ST_eqtl_rs141500365$b + 1.96*MR_IL6ST_eqtl_rs141500365$se)
-
-
-
+exp(IL6ST_pqtl_funcvar_MR$b)
+exp(IL6ST_pqtl_funcvar_MR$b - 1.96*IL6ST_pqtl_funcvar_MR$se)
+exp(IL6ST_pqtl_funcvar_MR$b + 1.96*IL6ST_pqtl_funcvar_MR$se)
 
 ```
-
-```
-
-```
-
-```
-
-
-
-
-
-```
-
-
-
-
