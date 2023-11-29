@@ -160,11 +160,11 @@ pqtl <- map2(pqtl, pqtl_phenotype_names, ~.x %>% mutate(Phenotype = .y))
 # TwoSampleMR::read_exposure_data()
 
 #Export
-pqtl_filenames <-  paste0("data/export/", pqtl_names, "_prot_anno_TwoSampleMR.csv")
+pqtl_filenames <-  paste0("data/export_harmonization/", pqtl_names, "_prot_anno_TwoSampleMR.csv")
 map2(pqtl, pqtl_filenames, ~export(x=.x, file = .y))
 
 #Sanity check: no warnings
-# map(pqtl_filenames, ~read_exposure_data("data/export/IL12B_prot_anno_TwoSampleMR.csv", sep = ","))
+# map(pqtl_filenames, ~read_exposure_data("data/export_harmonization/IL12B_prot_anno_TwoSampleMR.csv", sep = ","))
 
 
 #2. IL6 CRP data---------------------------------------------------------------
@@ -187,7 +187,7 @@ IL6R_crp <- IL6R_crp %>%
          Phenotype = "Serum C-reactive protein levels")
 
 IL6R_crp  %>%
-  export("data/export/IL6R_crp_TwoSampleMR.csv")
+  export("data/export_harmonization/IL6R_crp_TwoSampleMR.csv")
 
 #eQTL data
 
@@ -335,7 +335,7 @@ eqtl_sumstats <- map2(eqtl_sumstats, eqtl_traitnames, ~.x %>% mutate(Phenotype =
 eqtl_sumstats <- map(eqtl_sumstats, rename_eqtl_data)
 
 #Export to csv-files
-eqtl_exportnames <- paste0("data/export/", names_eqtl, "_TwoSampleMR.csv")
+eqtl_exportnames <- paste0("data/export_harmonization/", names_eqtl, "_TwoSampleMR.csv")
 map2(eqtl_sumstats, eqtl_exportnames, ~export(.x, file = .y))
 
 
@@ -455,39 +455,39 @@ IFNAR2_T1D  <- IFNAR2_T1D %>% rename_for_TwoSampleMR_o()
 
 # Write data in TwoSampleMR data format
 IL12B_T1D  %>%
-  export("data/export/IL12B_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/IL12B_T1D_TwoSampleMR.csv")
 IL2RA_T1D  %>%
-  export("data/export/IL2RA_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv")
 IL2RB_T1D  %>%
-  export("data/export/IL2RB_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/IL2RB_T1D_TwoSampleMR.csv")
 IL2RG_T1D  %>%
-  export("data/export/IL2RG_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/IL2RG_T1D_TwoSampleMR.csv")
 IL6ST_T1D  %>%
-  export("data/export/IL6ST_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/IL6ST_T1D_TwoSampleMR.csv")
 IL6R_T1D  %>%
-  export("data/export/IL6R_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/IL6R_T1D_TwoSampleMR.csv")
 JAK1_T1D   %>%
-  export("data/export/JAK1_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/JAK1_T1D_TwoSampleMR.csv")
 JAK2_T1D   %>%
-  export("data/export/JAK2_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/JAK2_T1D_TwoSampleMR.csv")
 JAK3_T1D   %>%
-  export("data/export/JAK3_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/JAK3_T1D_TwoSampleMR.csv")
 TYK2_T1D   %>%
-  export("data/export/TYK2_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/TYK2_T1D_TwoSampleMR.csv")
 IFNAR2_T1D   %>%
-  export("data/export/IFNAR2_T1D_TwoSampleMR.csv")
+  export("data/export_harmonization/IFNAR2_T1D_TwoSampleMR.csv")
 
 #Sanity check: no warnings
-# read_outcome_data("data/export/IL12B_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/IL2RA_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/IL2RB_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/IL2RG_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/IL6ST_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/IL6R_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/JAK1_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/JAK2_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/JAK3_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/TYK2_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export/IFNAR2_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/IL12B_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/IL2RB_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/IL2RG_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/IL6ST_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/IL6R_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/JAK1_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/JAK2_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/JAK3_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/TYK2_T1D_TwoSampleMR.csv", sep = ",")
+# read_outcome_data("data/export_harmonization/IFNAR2_T1D_TwoSampleMR.csv", sep = ",")
 
 
