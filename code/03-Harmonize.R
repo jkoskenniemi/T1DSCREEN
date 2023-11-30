@@ -29,21 +29,9 @@
 
 ## 1.1 Import pQTL data----------------------------------------------------------
 
-pqtl_names <- c("IL2RA", "IL2RB", "IL2RG", "IL6R",
-                "IL6ST", "IL12B", "JAK2",  "TYK2")
-
-#Load GWAS for proteins
-pqtl_prot_names <- c("IL2RA_prot", "IL2RB_prot", "IL2RG_prot", "IL6R_prot",
-                "IL6ST_prot", "IL12B_prot", "JAK2_prot",  "TYK2_prot")
-pqtl_prot_filenames <- paste0("data/cis_sumstats/", pqtl_prot_names, ".rds")
-pqtl_prot <- map(pqtl_prot_filenames, ~import(.x))
-
-#Load further annotation for GWAS of pqtl
-pqtl_anno_names <- c("IL2RA_anno", "IL2RB_anno", "IL2RG_anno", "IL6R_anno",
-                "IL6ST_anno", "IL12B_anno", "JAK2_anno",  "TYK2_anno")
-pqtl_anno_filenames <- paste0("data/cis_sumstats/", pqtl_anno_names, ".rds")
-pqtl_anno <- map(pqtl_anno_filenames, ~import(.x))
-
+#Load GWAS sumstat for IL6ST
+IL6ST_prot <- import("data/export_cis_sumstats/IL6ST_prot.rds")
+IL6ST_anno <- import("data/export_cis_sumstats/IL6ST_anno.rds")
 
 ## 1.2 Merge protein data with annotations--------------------------------------
 
@@ -57,9 +45,8 @@ pqtl_anno <- map(pqtl_anno_filenames, ~import(.x))
 # Therefore in the join process, only the data available in the annotation (IL2RG_anno)
 # is used (hence, left_join)
 
-left_join_pqtl <- function(x, y) left_join(x, y, by = c("Name", "Chrom", "Pos"))
-pqtl <- map2(pqtl_prot, pqtl_anno, left_join_pqtl)
-names(pqtl) <- pqtl_names
+IL6ST_prot_anno <- left_join(IL6ST_prot, IL6ST_anno, by = c("Name", "Chrom", "Pos"))
+rm(IL6ST_anno, IL6ST_prot)
 
 ## 1.3 Sort conflicts-----------------------------------------------------------
 
@@ -72,8 +59,7 @@ names(pqtl) <- pqtl_names
 #Therefore, multiallelic variants were removed.
 
 filter_multiallelic <- function(x) filter(x, otherAllele.y != "!")
-pqtl <- map(pqtl, filter_multiallelic)
-
+IL6ST_prot_anno <- filter_multiallelic(IL6ST_prot_anno )
 
 # After removal of multiallelic variants there were no conflicts
 # between effectAllele.x and effectAllele.y or between
@@ -90,7 +76,7 @@ check_conflicts_ea_oa <- function(data, effectAllele.x, effectAllele.y) {
 }
 
 #List those with conflicts in effectAllele or otherAllele
-map(pqtl, check_conflicts_ea_oa) #none
+check_conflicts_ea_oa(IL6ST_prot_anno) #none
 
 # After this, the remaining discrepancies between the variables
 # obtained from annotation and protein data files were because those
@@ -110,7 +96,7 @@ check_conflicts_rsid <- function(data, effectAllele.x, effectAllele.y) {
 }
 
 #All the conflicts in rsid.x and rsid.y are because rsid.x is NA and rsid.y is "."
-map(pqtl, check_conflicts_rsid)
+check_conflicts_rsid(IL6ST_prot_anno)
 
 # Thus, only those values variables with .x in their name are preserved.
 # Here, we also remove the remaining multiallelic SNPs
@@ -118,19 +104,16 @@ map(pqtl, check_conflicts_rsid)
 
 
 #Discard all variables that end with an ".y"
-pqtl <- map(pqtl, ~.x %>% select(!ends_with(".y")))
+IL6ST_prot_anno <- IL6ST_prot_anno %>% select(!ends_with(".y"))
 
 #Remove ".x" from variable names
-pqtl <- map(pqtl, ~.x %>% rename_with(~gsub(".x", "", .x, fixed = TRUE)))
+IL6ST_prot_anno <- IL6ST_prot_anno %>% rename_with(~gsub(".x", "", .x, fixed = TRUE))
 
 #Sanity checks
-map(pqtl, colnames)
+colnames(IL6ST_prot_anno) #all colnames are clean (n colname.x or colname.y)
 
-
-# All data files seem to have entries without rsids. They are now removed
-map(pqtl, ~anyNA(.x$rsids))
-pqtl <- map(pqtl, ~filter(.x, !is.na(rsids)))
-# map(pqtl, ~anyNA(.x$rsids)) #none
+# Entries without rsids are removed
+IL6ST_prot_anno <- filter(IL6ST_prot_anno, !is.na(rsids))
 
 ## 1.4 Write data in TwoSampleMR format-----------------------------------------
 
@@ -149,70 +132,36 @@ rename_for_TwoSampleMR_e  <- function(data, rsids, Beta, SE, effectAlleleFreq,
   }
 
 #Rename
-pqtl <- map(pqtl, rename_for_TwoSampleMR_e)
+IL6ST_prot_anno <- rename_for_TwoSampleMR_e(IL6ST_prot_anno)
 
 #Add phenotype information
 pqtl_phenotype_names <- paste0("Serum ", pqtl_names, " level")
-pqtl <- map2(pqtl, pqtl_phenotype_names, ~.x %>% mutate(Phenotype = .y))
+IL6ST_prot_anno <- IL6ST_prot_anno %>%  mutate(Phenotype = "Serum")
 
 
 # Export filest to a CSV file with default parameters of
 # TwoSampleMR::read_exposure_data()
 
 #Export
-pqtl_filenames <-  paste0("data/export_harmonization/", pqtl_names, "_prot_anno_TwoSampleMR.csv")
-map2(pqtl, pqtl_filenames, ~export(x=.x, file = .y))
-
-#Sanity check: no warnings
-# map(pqtl_filenames, ~read_exposure_data("data/export_harmonization/IL12B_prot_anno_TwoSampleMR.csv", sep = ","))
+export(IL6ST_prot_anno, file = "data/export_harmonization/IL6ST_prot_anno_TwoSampleMR.csv")
 
 
-#2. IL6 CRP data---------------------------------------------------------------
+#2. eQTL data---------------------------------------------------------------
 
-## 2.1 Write IL6R_crp in TwoSampleMR format-------------------------------------
-
-IL6R_crp   <- import("data/cis_sumstats/IL6R_crp.rds")
-
-# colnames(IL6R_crp)
-IL6R_crp <- IL6R_crp %>%
-  select(-other_allele, -effect_allele, -beta) %>%
-  rename(SNP = hm_rsid, beta = hm_beta, se = standard_error,
-           eaf = hm_effect_allele_frequency,
-           effect_allele = hm_effect_allele,
-           other_allele = hm_other_allele,
-           pval = p_value, pos = hm_pos) %>%
-  mutate(pval = as.numeric(pval),
-         eaf = as.numeric(eaf),
-         samplesize = 575531,
-         Phenotype = "Serum C-reactive protein levels")
-
-IL6R_crp  %>%
-  export("data/export_harmonization/IL6R_crp_TwoSampleMR.csv")
-
-#eQTL data
-
-## 2.2 Import data--------------------------------------------------------------
+## 2.1 Import data--------------------------------------------------------------
 pacman::p_load(data.table, dtplyr)
 
-names_eqtl <- c("eqtl_IFNAR2", "eqtl_IL2RA", "eqtl_IL2RG", "eqtl_IL2RB",
-                "eqtl_IL6R", "eqtl_JAK1", "eqtl_JAK2", "eqtl_JAK3", "eqtl_TYK2")
+names_eqtl <- c("eqtl_IL2RA", "eqtl_IL2RB", "eqtl_IL6R",
+                "eqtl_JAK2", "eqtl_JAK3", "eqtl_TYK2")
 
 #Read eqtl sumstat
-filenames_eqtl <- paste0("data/cis_eqtl_sumstats/", names_eqtl,"-Gather.rds")
+filenames_eqtl <- paste0("data/export_cis_sumstats/", names_eqtl,"-Gather.rds")
 eqtl_sumstats <- map(filenames_eqtl, ~as_tibble(import(file = .x)))
 
-names_eqtl <- c("IFNAR2_eqtl",  "IL2RA_eqtl", "IL2RG_eqtl", "IL2RB_eqtl",
-                "IL6R_eqtl",  "JAK1_eqtl", "JAK2_eqtl",  "JAK3_eqtl",
-                "TYK2_eqtl")
+names_eqtl <- c("IL2RA_eqtl", "IL2RB_eqtl", "IL6R_eqtl",
+                "JAK2_eqtl",  "JAK3_eqtl", "TYK2_eqtl")
 
 names(eqtl_sumstats) <- names_eqtl
-#IFNAR2 had a lot of duplicated SNPs, and on closer inspection, there are two genes with different Ensmbl-symbols under IFNAR2 (ENSG00000159110 and ENSG00000249624). The former is IFNAR2 and the other codes a "novel gene"
-eqtl_sumstats$IFNAR2_eqtl$Gene %>% factor() %>% levels()
-
-#None of the other genes had two Ensemble codes (not shown)
-
-#Therefore, all the entries with "Gene == ENSG00000249624" were removed
-eqtl_sumstats$IFNAR2_eqtl <- eqtl_sumstats$IFNAR2_eqtl %>% filter(Gene == "ENSG00000159110")
 
 # According to the readme files of eQTLGEN phase I
 # (data/REAMDE_cis_eqtl.txt and data/README_cis_eqtl_allele_frequency.txt):
@@ -249,12 +198,10 @@ get_n_conflicts  <- function(data, AlleleB=AlleleB, AssessedAllele=AssessedAllel
   pull(SNP) %>% length()
 }
 
-table_conflicts_eqtl <- c("IFNAR2", get_n_conflicts(eqtl_sumstats$IFNAR2_eqtl),
+table_conflicts_eqtl <- c(
   "IL2RA", get_n_conflicts(eqtl_sumstats$IL2RA_eqtl),
-  "IL2RG", get_n_conflicts(eqtl_sumstats$IL2RG_eqtl),
   "IL2RB", get_n_conflicts(eqtl_sumstats$IL2RB_eqtl),
   "IL6R", get_n_conflicts(eqtl_sumstats$IL6R_eqtl),
-  "JAK1", get_n_conflicts(eqtl_sumstats$JAK1_eqtl),
   "JAK2", get_n_conflicts(eqtl_sumstats$JAK2_eqtl),
   "JAK3", get_n_conflicts(eqtl_sumstats$JAK3_eqtl),
   "TYK2", get_n_conflicts(eqtl_sumstats$TYK2_eqtl)) %>%
@@ -263,7 +210,6 @@ table_conflicts_eqtl <- c("IFNAR2", get_n_conflicts(eqtl_sumstats$IFNAR2_eqtl),
 colnames(table_conflicts_eqtl) <- c("eQTL", "n conflicts")
 
 knitr::kable(table_conflicts_eqtl)
-
 
 summarize_agreement <- function(data, AlleleB=AlleleB,
                            AssessedAllele=AssessedAllele,
@@ -315,11 +261,9 @@ eqtl_sumstats <- map(eqtl_sumstats, ~.x %>%
 #### Where N = sample size (max. 31864)"
 
 #Rename files
-eqtl_traitnames <- paste0("Whole blood ", c("IFNAR2",  "IL2RA",
-                     "IL2RG", "IL2RB",
-                     "IL6R", "JAK1",
-                     "JAK2", "JAK3",
-                     "TYK2"), " gene expression")
+eqtl_traitnames <- paste0("Whole blood ",
+                          c("IL2RA", "IL2RB", "IL6R", "JAK2", "JAK3", "TYK2"),
+                          " gene expression")
 
 rename_eqtl_data <- function(data, Phenotype, EAF, AssessedAllele, OtherAllele,
                               Pvalue, SNPPos, NrSamples) {
@@ -342,55 +286,37 @@ map2(eqtl_sumstats, eqtl_exportnames, ~export(.x, file = .y))
 #3. Outcome data---------------------------------------------------------------
 
 #3.1 Import outcome data-------------------------------------------------------
-IL12B_T1D   <- import("data/cis_sumstats/IL12B_T1D.rds") %>% as_tibble()
-TYK2_T1D    <- import("data/cis_sumstats/TYK2_T1D.rds")  %>% as_tibble()
-JAK1_T1D    <- import("data/cis_sumstats/JAK1_T1D.rds")  %>% as_tibble()
-JAK2_T1D    <- import("data/cis_sumstats/JAK2_T1D.rds")  %>% as_tibble()
-JAK3_T1D    <- import("data/cis_sumstats/JAK3_T1D.rds")  %>% as_tibble()
-IL6ST_T1D   <- import("data/cis_sumstats/IL6ST_T1D.rds") %>% as_tibble()
-IL6R_T1D    <- import("data/cis_sumstats/IL6R_T1D.rds")  %>% as_tibble()
-IL2RB_T1D   <- import("data/cis_sumstats/IL2RB_T1D.rds") %>% as_tibble()
-IL2RG_T1D   <- import("data/cis_sumstats/IL2RG_T1D.rds") %>% as_tibble()
-IL2RA_T1D   <- import("data/cis_sumstats/IL2RA_T1D.rds") %>% as_tibble()
-IFNAR2_T1D  <- import("data/cis_sumstats/IFNAR2_T1D.rds") %>% as_tibble()
+TYK2_T1D    <- import("data/export_cis_sumstats/TYK2_T1D.rds")  %>% as_tibble()
+JAK2_T1D    <- import("data/export_cis_sumstats/JAK2_T1D.rds")  %>% as_tibble()
+JAK3_T1D    <- import("data/export_cis_sumstats/JAK3_T1D.rds")  %>% as_tibble()
+IL6ST_T1D   <- import("data/export_cis_sumstats/IL6ST_T1D.rds") %>% as_tibble()
+IL6R_T1D    <- import("data/export_cis_sumstats/IL6R_T1D.rds")  %>% as_tibble()
+IL2RB_T1D   <- import("data/export_cis_sumstats/IL2RB_T1D.rds") %>% as_tibble()
+IL2RA_T1D   <- import("data/export_cis_sumstats/IL2RA_T1D.rds") %>% as_tibble()
 
-# There were no missing rsid values (suppressed)
-
-#every
-IL12B_T1D  %>% pull(hm_rsid) %>% anyNA()
+# There were no missing rsid values
 TYK2_T1D   %>% pull(hm_rsid) %>% anyNA()
-JAK1_T1D   %>% pull(hm_rsid) %>% anyNA()
 JAK2_T1D   %>% pull(hm_rsid) %>% anyNA()
 JAK3_T1D   %>% pull(hm_rsid) %>% anyNA()
 IL6ST_T1D  %>% pull(hm_rsid) %>% anyNA()
 IL6R_T1D   %>% pull(hm_rsid) %>% anyNA()
 IL2RB_T1D  %>% pull(hm_rsid) %>% anyNA()
-IL2RG_T1D  %>% pull(hm_rsid) %>% anyNA()
 IL2RA_T1D  %>% pull(hm_rsid) %>% anyNA()
-IFNAR2_T1D %>% pull(hm_rsid) %>% anyNA()
 
 
 ## 3.2 Remove duplicated SNPs--------------------------------------------------
 
 # All data frames had duplicated rsids (suppressed). They are
 # removed.
-IL12B_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 TYK2_T1D   %>% pull(hm_rsid) %>% anyDuplicated()
-JAK1_T1D   %>% pull(hm_rsid) %>% anyDuplicated()
 JAK2_T1D   %>% pull(hm_rsid) %>% anyDuplicated()
 JAK3_T1D   %>% pull(hm_rsid) %>% anyDuplicated()
 IL6ST_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 IL6R_T1D   %>% pull(hm_rsid) %>% anyDuplicated()
 IL2RB_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
-IL2RG_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
 IL2RA_T1D  %>% pull(hm_rsid) %>% anyDuplicated()
-IFNAR2_T1D %>% pull(hm_rsid) %>% anyDuplicated()
 
-duplicated_snps_IL12B  <- IL12B_T1D  %>%
-  filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_TYK2   <- TYK2_T1D   %>%
-  filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
-duplicated_snps_JAK1   <- JAK1_T1D   %>%
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_JAK2   <- JAK2_T1D   %>%
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
@@ -402,24 +328,16 @@ duplicated_snps_IL6R   <- IL6R_T1D   %>%
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_IL2RB  <- IL2RB_T1D  %>%
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
-duplicated_snps_IL2RG  <- IL2RG_T1D  %>%
-  filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 duplicated_snps_IL2RA  <- IL2RA_T1D  %>%
   filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
-duplicated_snps_IFNAR2 <- IFNAR2_T1D  %>%
-  filter(duplicated(hm_rsid)) %>% pull(hm_rsid)
 
-IL12B_T1D  <- IL12B_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL12B)
 TYK2_T1D   <- TYK2_T1D    %>% filter(!hm_rsid %in% duplicated_snps_TYK2)
-JAK1_T1D   <- JAK1_T1D    %>% filter(!hm_rsid %in% duplicated_snps_JAK1)
 JAK2_T1D   <- JAK2_T1D    %>% filter(!hm_rsid %in% duplicated_snps_JAK2)
 JAK3_T1D   <- JAK3_T1D    %>% filter(!hm_rsid %in% duplicated_snps_JAK3)
 IL6ST_T1D  <- IL6ST_T1D %>% filter(!hm_rsid %in% duplicated_snps_IL6ST)
 IL6R_T1D   <- IL6R_T1D    %>% filter(!hm_rsid %in% duplicated_snps_IL6R)
 IL2RB_T1D  <- IL2RB_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RB)
-IL2RG_T1D  <- IL2RG_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RG)
 IL2RA_T1D  <- IL2RA_T1D   %>% filter(!hm_rsid %in% duplicated_snps_IL2RA)
-IFNAR2_T1D <- IFNAR2_T1D  %>% filter(!hm_rsid %in% duplicated_snps_IFNAR2)
 
 
 ## 3.3 Write data in TwoSampleMR format-----------------------------------------
@@ -439,55 +357,37 @@ rename_for_TwoSampleMR_o  <- function(data, beta, other_allele, effect_allele,
          ncase = 18942, ncontrol = 501638, samplesize = 18942+501638)
   }
 
-IL12B_T1D   <- IL12B_T1D  %>% rename_for_TwoSampleMR_o()
 IL2RA_T1D   <- IL2RA_T1D  %>% rename_for_TwoSampleMR_o()
 IL2RB_T1D   <- IL2RB_T1D  %>% rename_for_TwoSampleMR_o()
-IL2RG_T1D   <- IL2RG_T1D  %>% rename_for_TwoSampleMR_o()
 IL6ST_T1D   <- IL6ST_T1D  %>% rename_for_TwoSampleMR_o()
 IL6R_T1D    <- IL6R_T1D   %>% rename_for_TwoSampleMR_o()
-JAK1_T1D    <- JAK1_T1D   %>% rename_for_TwoSampleMR_o()
 JAK2_T1D    <- JAK2_T1D   %>% rename_for_TwoSampleMR_o()
 JAK3_T1D    <- JAK3_T1D   %>% rename_for_TwoSampleMR_o()
 TYK2_T1D    <- TYK2_T1D   %>% rename_for_TwoSampleMR_o()
-IFNAR2_T1D  <- IFNAR2_T1D %>% rename_for_TwoSampleMR_o()
-
-
 
 # Write data in TwoSampleMR data format
-IL12B_T1D  %>%
-  export("data/export_harmonization/IL12B_T1D_TwoSampleMR.csv")
 IL2RA_T1D  %>%
   export("data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv")
 IL2RB_T1D  %>%
   export("data/export_harmonization/IL2RB_T1D_TwoSampleMR.csv")
-IL2RG_T1D  %>%
-  export("data/export_harmonization/IL2RG_T1D_TwoSampleMR.csv")
 IL6ST_T1D  %>%
   export("data/export_harmonization/IL6ST_T1D_TwoSampleMR.csv")
 IL6R_T1D  %>%
   export("data/export_harmonization/IL6R_T1D_TwoSampleMR.csv")
-JAK1_T1D   %>%
-  export("data/export_harmonization/JAK1_T1D_TwoSampleMR.csv")
 JAK2_T1D   %>%
   export("data/export_harmonization/JAK2_T1D_TwoSampleMR.csv")
 JAK3_T1D   %>%
   export("data/export_harmonization/JAK3_T1D_TwoSampleMR.csv")
 TYK2_T1D   %>%
   export("data/export_harmonization/TYK2_T1D_TwoSampleMR.csv")
-IFNAR2_T1D   %>%
-  export("data/export_harmonization/IFNAR2_T1D_TwoSampleMR.csv")
 
 #Sanity check: no warnings
-# read_outcome_data("data/export_harmonization/IL12B_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export_harmonization/IL2RB_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export_harmonization/IL2RG_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export_harmonization/IL6ST_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export_harmonization/IL6R_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export_harmonization/JAK1_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export_harmonization/JAK2_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export_harmonization/JAK3_T1D_TwoSampleMR.csv", sep = ",")
 # read_outcome_data("data/export_harmonization/TYK2_T1D_TwoSampleMR.csv", sep = ",")
-# read_outcome_data("data/export_harmonization/IFNAR2_T1D_TwoSampleMR.csv", sep = ",")
 
 

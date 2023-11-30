@@ -1,6 +1,7 @@
-
+rm(list=ls())
 #Load packages
 
+source("code/01-Functions.R")
 #If run for the first time
 # install.packages("devtools")
 # library(devtools)
@@ -9,16 +10,13 @@
 
 #1 Obtain functional variants from Phenoscanner--------------------------------
 
-# names_gwas <- c("IFNAR2", "IL2RA", "IL2RB",
-#                 "IL12B", "IL2RG", "IL6R",
-#                 "IL6ST", "JAK1", "JAK2",
-#                 "JAK3", "TYK2")
+# names_gwas <- c("IL2RA", "IL2RB","IL6R", "IL6ST", "JAK2", "JAK3", "TYK2")
 #
 # functional_variants <- map(names_gwas, ~phenoscanner(genequery = .x))
 # names(functional_variants) <- names_gwas
 #
-# save(functional_variants, file = "data/export/phenoscanner-functional-variants.RDS")
-load("data/import/phenoscanner-functional-variants.RDS")
+# save(functional_variants, file = "data/export_functional_variants/phenoscanner-entries.RDS")
+load("data/export_functional_variants/phenoscanner-entries.RDS")
 
 #2 Turn results to a simple data frame-----------------------------------------
 
@@ -28,11 +26,7 @@ functional_variants_flattened <- sapply(functional_variants, function(x) x[2])
 #Change to data.frame
 df <- bind_rows(functional_variants_flattened)
 
-#Select only diabetes variants
-df %>%
-  filter(str_detect(trait, "diabetes")) %>%
-  select(gene, rsid, eur, consequence, protein_position, amino_acids, trait, efo, study, pmid)
-
+#filter only missense variants
 filtered_missense <- df %>%
   filter(consequence == "missense") %>%
   filter(duplicated(rsid) == FALSE) %>%
@@ -41,16 +35,15 @@ filtered_missense <- df %>%
 # 3 Load QTL and T1D data on functional variants-------------------------------
 
 #Names of available GWAS
-names_gwas <- c("IFNAR2", "IL2RA", "IL2RB", "IL6R",
-                "JAK1", "JAK2", "JAK3", "TYK2")
-#IL6ST
+names_gwas <- c("IL2RA", "IL2RB", "IL6R",
+                "JAK2", "JAK3", "TYK2")
 
-names_eqtl <- paste0("data/export/", names_gwas, "_eqtl_TwoSampleMR.csv")
-names_t1d <- paste0("data/export/", names_gwas, "_T1D_TwoSampleMR.csv")
+names_eqtl <- paste0("data/export_harmonization/", names_gwas, "_eqtl_TwoSampleMR.csv")
+names_t1d <- paste0("data/export_harmonization/", names_gwas, "_T1D_TwoSampleMR.csv")
 
 #Add IL6ST
-names_eqtl <- c(names_eqtl, "data/export/IL6ST_prot_anno_TwoSampleMR.csv")
-names_t1d  <- c(names_t1d, "data/export/IL6ST_T1D_TwoSampleMR.csv")
+names_eqtl <- c(names_eqtl, "data/export_harmonization/IL6ST_prot_anno_TwoSampleMR.csv")
+names_t1d  <- c(names_t1d, "data/export_harmonization/IL6ST_T1D_TwoSampleMR.csv")
 
 harmonized_dfs <- map2(names_eqtl, names_t1d, import_data, has_beta = TRUE)
 
@@ -64,7 +57,7 @@ filtered_missense <- filtered_missense %>%
 funcvars_MR <- left_join(funcvars_MR, filtered_missense)
 
 #4 Run MR-----------------------------------------------------------
-funcvars_MR <- filter(funcvars_MR, pval.exposure < 1e-04)
+funcvars_MR <- filter(funcvars_MR, pval.exposure < 1e-05)
 MR_funcvars_MR <- mr_singlesnp(funcvars_MR)
 
 MR_funcvars_MR <- MR_funcvars_MR %>%
@@ -105,9 +98,6 @@ filtered_missense_t1d %>%
   left_join(MR_funcvars_MR, by = "SNP") %>%
   select(gene, SNP, MAF, beta_t1d, se_t1d, p_t1d, beta_exp, p_exp, b, se, p, OR, ci95_lo, ci95_hi) %>%
   mutate(across(!c(gene, SNP), ~signif(.x, 2))) %>% #for nicer display
-  write.csv("data/export/functional-variants-Table3.csv")
-
-#expand
-write.csv("data/export/functional_variants_t1d.csv")
+  write.csv("data/export_manuscript/functional-variants-Table3.csv")
 
 
