@@ -4,8 +4,6 @@
 .Ruserdata
 .Rapp.history
 .DS_Store
-data/
-docs/
 figures/
 manuscript/
 references.bib
