@@ -1,10 +1,13 @@
-﻿.Rproj.user
+.Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 .Rapp.history
 .DS_Store
 data/import/
+data/export_LDmat/
+data/export_manuscript/
+data/export_cis_sumstats/
 figures/
 manuscript/
 references.bib
