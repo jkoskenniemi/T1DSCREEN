@@ -13,7 +13,7 @@ pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr, ieugwasr, rio,
 
 here::i_am("analyses/TYK2.Rmd")
 
-source("code/Functions.R")
+source("code/01-Functions.R")
 
 ```
 
@@ -23,8 +23,8 @@ source("code/Functions.R")
 Load packages and import data
 ```{r}
 
-TYK2_eqtl <- import_data("data/export/TYK2_eqtl_TwoSampleMR.csv", 
-                         "data/export/TYK2_T1D_TwoSampleMR.csv", has_beta = TRUE)
+TYK2_eqtl <- import_data("data/export_harmonization/TYK2_eqtl_TwoSampleMR.csv", 
+                         "data/export_harmonization/TYK2_T1D_TwoSampleMR.csv", has_beta = TRUE)
 
 ```
 
@@ -47,7 +47,7 @@ coloc_results_TYK2_eqtl <- analyze_coloc_eqtl(TYK2_eqtl)
 ## Regional manhattan plot
 
 ```{r}
-load("data/export/TYK2_LDmat.RData")
+load("data/export_LDmat/TYK2_LDmat.RDA")
 
 plot_coloc_2(genechr = 19,
            fig_start = 10200000,
@@ -58,7 +58,7 @@ plot_coloc_2(genechr = 19,
            D2 = coloc_results_TYK2_eqtl$D2,
            LDmat = TYK2)
 
-ggsave(filename = "TYK2.png", height = 8, width = 6)
+ggsave(filename = "figures/TYK2.png", height = 8, width = 6)
 ```
 
 ## MR
@@ -71,8 +71,10 @@ coloc_results_TYK2_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_TYK2_eqtl
 TYK2_eqtl_rs34725611   <- TYK2_eqtl %>% filter(SNP == "rs34725611")
 MR_TYK2_eqtl_rs34725611   <- TwoSampleMR::mr(TYK2_eqtl_rs34725611)
 
+#MR results (unexponentiated)
 MR_TYK2_eqtl_rs34725611
 
+#Exponentiate betas and 95% CIs
 exp(MR_TYK2_eqtl_rs34725611$b)
 exp(MR_TYK2_eqtl_rs34725611$b - 1.96*MR_TYK2_eqtl_rs34725611$se)
 exp(MR_TYK2_eqtl_rs34725611$b + 1.96*MR_TYK2_eqtl_rs34725611$se)
@@ -82,42 +84,41 @@ exp(MR_TYK2_eqtl_rs34725611$b + 1.96*MR_TYK2_eqtl_rs34725611$se)
 ## Functional variants
 ```{r}
 
+#Find TYK2 missense variants
+TYK2_missense <- functional_variants$TYK2$results %>% 
+  filter(consequence == "missense") %>%  
+  distinct(rsid) %>% pull()
 
+TYK2_missense #rs55886939, rs34536443, rs35018800, rs55882956, rs12720356, 
+              #rs139954108, rs2304256,rs188833543, rs55762744, rs144960992
 
-
-sig2 <- function(x) signif(x, digits = 2)
+#give betas and se for eQTL and T1D risk (note, this is not MR!
 TYK2_eqtl %>%
-  filter(SNP %in% c("rs55886939",   "rs34536443", "rs35018800",  "rs55882956",
-                    "rs12720356", "rs139954108", "rs2304256","rs188833543", 
-                    "rs55762744", "rs144960992")) %>%
+  filter(SNP %in% TYK2_missense) %>%
   select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%
-  mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), sig2))
+  mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), function(x) signif(x, digits = 2)))
 
-
+#Select only rs12720356 and rs2304256 (as p for their exposure is < 10^-5) and run MR
 TYK2_eqtl_funcvar_mr <- TYK2_eqtl %>%
   filter(SNP %in% c("rs12720356", "rs2304256")) %>%
   TwoSampleMR::mr_singlesnp() %>%
   mutate(exp_b = exp(b), 
          lo_95 = exp(b - (1.96 * se)),
          hi_95 = exp(b + (1.96 * se))) %>%
-    mutate(across(starts_with(c("b", "se","p", "exp_b", "lo", "hi")), sig2))
+    mutate(across(starts_with(c("b", "se","p", "exp_b", "lo", "hi")), function(x) signif(x, digits = 2)))
 
-  TYK2_eqtl_funcvar_mr
+  TYK2_eqtl_funcvar_mr %>% 
+    select(-id.exposure, -id.outcome, -samplesize) %>% 
+    knitr::kable()
 ```
 
 
 ```{r}
 #LD matrix for interesting variants
-functional_variants_TYK2 <- functional_variants %>% 
-  filter(gene == "TYK2")
 
-library(ieugwasr)
-TYK2_LD <- ld_matrix(
-    variants = c(functional_variants_TYK2$rsid, "rs144309607", "rs34725611"),
-    pop = "EUR",
-    plink_bin = genetics.binaRies::get_plink_binary(),
-    bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
-    with_alleles = FALSE)
+load("data/export_LDmat/TYK2_tophits.rda")
+
+knitr::kable(TYK2_SNPs_LD)
 
 ```
 

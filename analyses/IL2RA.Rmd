@@ -7,7 +7,7 @@ output:
     toc_float: yes
     number_sections: yes
     code_folding: hide
-date: '2022-05-03'
+date: '2023-12-01'
 editor_options:
   chunk_output_type: console
 ---
@@ -19,7 +19,7 @@ pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr,
 
 here::i_am("analyses/IL2RA.Rmd")
 
-source("code/Functions.R")
+source("code/01-Functions.R")
 ```
 
 
@@ -28,8 +28,8 @@ source("code/Functions.R")
 TwoSampleMR is used to harmonize the data even though TwoSampleMR is not run. Therefore, data includes variable "beta" which is actually a z-score
 
 ```{r}
-IL2RA_eqtl <- import_data("data/export/IL2RA_eqtl_TwoSampleMR.csv",
-            "data/export/IL2RA_T1D_TwoSampleMR.csv", has_beta = TRUE)
+IL2RA_eqtl <- import_data("data/export_harmonization/IL2RA_eqtl_TwoSampleMR.csv",
+            "data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv", has_beta = TRUE)
 
 ```
 
@@ -53,7 +53,7 @@ coloc_results_IL2RA_eqtl <- analyze_coloc_eqtl(IL2RA_eqtl)
 
 ```{r}
 
-load("data/export/IL2RA_LDmat.RData")
+load("data/export_LDmat/IL2RA_LDmat.rda")
 
 plot_coloc(genechr = 10,
            fig_start = 5780000,
@@ -64,7 +64,7 @@ plot_coloc(genechr = 10,
            D2 = coloc_results_IL2RA_eqtl$D2,
            LDmat = IL2RA)
 
-  ggsave(filename = "IL2RA.png", height = 8, width = 6)
+ggsave(filename = "figures/IL2RA.png", height = 8, width = 6)
 ```
 
 ## MR
@@ -73,30 +73,30 @@ plot_coloc(genechr = 10,
 #Find top SNP
 coloc_results_IL2RA_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_IL2RA_eqtl$coloc_D1D2$results$SNP.PP.H4)] #rs61839660
 
+#Filter top SNP
 IL2RA_eqtl_rs61839660   <- IL2RA_eqtl %>% filter(SNP == "rs61839660")
 
+#Calculate beta for outcome (not MR)
 exp(IL2RA_eqtl_rs61839660$beta.outcome)
+
+#Calculate 95% CI for beta for outcome (not MR)
 exp(IL2RA_eqtl_rs61839660$beta.outcome - 1.96 * IL2RA_eqtl_rs61839660$se.outcome)
 exp(IL2RA_eqtl_rs61839660$beta.outcome + 1.96 * IL2RA_eqtl_rs61839660$se.outcome)
 
+#Run MR
 MR_IL2RA_eqtl_rs61839660   <- TwoSampleMR::mr(IL2RA_eqtl_rs61839660)
 
+#MR results (unexponentiated beta and se)
 MR_IL2RA_eqtl_rs61839660
 
+#Exponentiate 
 exp(MR_IL2RA_eqtl_rs61839660$b)
 exp(MR_IL2RA_eqtl_rs61839660$b - 1.96*MR_IL2RA_eqtl_rs61839660$se)
 exp(MR_IL2RA_eqtl_rs61839660$b + 1.96*MR_IL2RA_eqtl_rs61839660$se)
 
-IL2RA_SNPs_LD <- ld_matrix(
-    variants = c("rs61839660", "rs35285258", "rs56179589", "rs6602437", "rs947474"),
-    pop = "EUR",
-    plink_bin = genetics.binaRies::get_plink_binary(),
-    bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
-    with_alleles = FALSE)
-
+#Look how our variant (rs61839660) relates to top hits by Robertson et al.
+load("data/export_LDmat/IL2RA_tophits.rda")
 signif(IL2RA_SNPs_LD^2, 2)
-
-LDlin
 
 ```
 
@@ -104,184 +104,23 @@ LDlin
 ## Functional variants
 
 ```{r}
-load("data/export/phenoscanner-functional-variants-missense.csv")
+load("data/export_functional_variants/phenoscanner-entries.RDS")
 
-IL2RA_eqtl_orig <- read_csv("data/export/IL2RA_eqtl_TwoSampleMR.csv")
+#Look for missense variants for IL2RA 
+functional_variants$IL2RA$results %>% 
+  filter(consequence == "missense") %>%  
+  distinct(rsid) #only rs72650666
+
+#Do we have data for IL2RA eqtl fo this variant?
+IL2RA_eqtl_orig <- read_csv("data/export_harmonization/IL2RA_eqtl_TwoSampleMR.csv")
 IL2RA_eqtl_orig %>%
   filter(SNP == "rs72650666") #no
 
-IL2RA_T1D <- read_csv("data/export/IL2RA_T1D_TwoSampleMR.csv")
+#Do we have data for T1D risk for this variant?
+IL2RA_T1D <- read_csv("data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv")
 IL2RA_T1D %>%
   filter(SNP == "rs72650666") #yes
 
-## MR
-
-IL2RA_eqtl_rs72650666   <- IL2RA_eqtl %>% filter(SNP == "rs72650666")
-MR_IL2RA_eqtl_rs72650666   <- TwoSampleMR::mr(IL2RA_eqtl_rs72650666)
-
-MR_IL2RA_eqtl_rs72650666
-
-exp(MR_IL2RA_eqtl_rs72650666$b)
-exp(MR_IL2RA_eqtl_rs72650666$b - 1.96*MR_IL2RA_eqtl_rs72650666$se)
-exp(MR_IL2RA_eqtl_rs72650666$b + 1.96*MR_IL2RA_eqtl_rs72650666$se)
-```
+# MR cannot be done because we don't have eQTL data
 
 ```
-
-
-## Find top hit
-```{r}
-#IL2RA_eqtl <- IL2RA_eqtl %>%
-#    mutate(eaf.exposure = as.numeric(eaf.exposure)) %>%
-#    mutate(eaf.outcome  = as.numeric(eaf.outcome)) %>%
-#    mutate(maf.exposure  =
-#             ifelse(eaf.exposure  < 0.5, eaf.exposure,
-#                    1 - eaf.exposure)) %>%
-#    mutate(maf.outcome  =
-#             ifelse(eaf.outcome  < 0.5, eaf.outcome,
-#                    1 - eaf.outcome))
-
-#  IL2RA_eqtl <- IL2RA_eqtl %>%
-#    filter(!is.na(pos.outcome))
-
-
-#  anyNA(IL2RA_eqtl$maf.exposure) & #anyNA(IL2RA_eqtl$maf.outcome)
-#  anyNA(IL2RA_eqtl$pos.outcome)
-  
-  
-#D1 <- list(
-#      type = "quant", # quantitative trait
-#      pvalues = IL2RA_eqtl$pval.exposure,
-#      N = IL2RA_eqtl$samplesize.exposure,
-#      MAF = IL2RA_eqtl$maf.exposure,
-#      pos = IL2RA_eqtl$pos.outcome,
-#      snp = IL2RA_eqtl$SNP,
-#      sdY = 1)
-
-#D2 <- list(
-#      type = "cc", # case-control trait
-#      pvalues = IL2RA_eqtl$pval.outcome,
-#      N = 18942+501638, # Case-control study (Chiou et al. #2021 Nature)
-#      s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-#      MAF = IL2RA_eqtl$maf.exposure,  #eqtl used here in #purpose
-#      pos = IL2RA_eqtl$pos.outcome,
-#      snp = IL2RA_eqtl$SNP)
-
-#coloc_results <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, #p12 = 1e-5)
-
-#Find top SNP
-#coloc_results$results[which(coloc_results$results$SNP.PP.H4#==max(coloc_results$results$SNP.PP.H4)),"snp"]
-
-#IL2RA_eqtl_top <- IL2RA_eqtl %>% 
-#  filter(SNP == "rs61839660") %>% 
-#  select(SNP, zscore.exposure, beta.outcome, se.outcome) 
-
-#IL2RA_eqtl_top %>%
-#  mutate(zscore.exposure = round(zscore.exposure),
-#        beta.outcome = round(beta.outcome, 2),
-#        exp_beta.T1D = round(exp(beta.outcome), 2),
-#         exp_ci_95_low.T1D = round(exp(beta.outcome - #1.96*se.outcome), 2),
-#         exp_ci_95_high.T1D = round(exp(beta.outcome + #1.96*se.outcome), 2)) %>% 
-#  rename(zscore.IL2RA = zscore.exposure,
-#         beta.T1D = beta.outcome) %>%
-#  knitr::kable()
-```
-
-
-
-
-# pQTL
-```{r}
-
-#IL2RA_pqtl <- import_data("data/export/IL2RA_prot_anno_TwoS#ampleMR.csv",
-#            "data/export/IL2RA_T1D_TwoSampleMR.csv", #has_beta = TRUE)
-
-```
-
-
-## Manhattan plots
-```{r}
-
-#manhattan_plots(IL2RA_pqtl, gene_start=6052652, #gene_end=6104288, title = "IL2RA")
-#ggsave("figures/IL2RA-pQTL-T1D-manhattan.png", height = 6, #width = 6)
-```
-
-## Coloc assuming 1 causal variant
-```{r}
-#analyze_coloc_pqtl(IL2RA_pqtl)
-
-```
-
-## Coloc assuming 2 causal variants
-```{r}
-
-IL2RA_eqtl <- filter(IL2RA_eqtl, !is.na(eaf.outcome))
-
-
-#get LD for the smaller data set
-IL2RA_eqtl_ld  <- ld_matrix(
-    variants = IL2RA_eqtl$SNP,
-    pop = "EUR",
-    plink_bin = genetics.binaRies::get_plink_binary(),
-    bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
-    with_alleles = FALSE)
-
-
-IL2RA_eqtl <- IL2RA_eqtl %>% 
-filter(SNP %in% colnames(IL2RA_eqtl_ld))
-
-#Set up data
-D1 <- list(type = "quant", 
-           pvalues = IL2RA_eqtl$pval.exposure, 
-           beta = IL2RA_eqtl$beta.exposure, 
-           varbeta = (IL2RA_eqtl$se.exposure) ^ 2,
-           N = length(IL2RA_eqtl$samplesize.exposure), 
-           MAF = ifelse(IL2RA_eqtl$eaf.outcome < 0.5, IL2RA_eqtl$eaf.outcome, 1- IL2RA_eqtl$eaf.outcome), 
-           position = IL2RA_eqtl$pos.outcome,
-           snp = IL2RA_eqtl$SNP,
-           sdY = 1,
-           LD = IL2RA_eqtl_ld)
-           
-D2 <- list(type = "cc", # case-control trait
-           pvalues = IL2RA_eqtl$pval.outcome,
-           beta = IL2RA_eqtl$beta.outcome, 
-           varbeta = (IL2RA_eqtl$se.outcome) ^ 2,
-           N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
-           s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
-           MAF = ifelse(IL2RA_eqtl$eaf.outcome < 0.5, IL2RA_eqtl$eaf.outcome, 1- IL2RA_eqtl$eaf.outcome),
-           position = IL2RA_eqtl$pos.outcome,
-           snp = IL2RA_eqtl$SNP,
-           LD = IL2RA_eqtl_ld)
-           
-#Check datasets for SuSiE           
-check_dataset(D1, req="LD")
-check_dataset(D2, req="LD")
-
-#Run SuSiE
-S1=runsusie(D1)
-S2=runsusie(D2)
-
-#Summarise results
-summary(S1)
-summary(S2)
-
-if(requireNamespace("susieR",quietly=TRUE)) {
-  susie.res=coloc.susie(S1,S2)
-  print(susie.res$summary)
-}
-
-
-if(requireNamespace("susieR",quietly=TRUE)) {
-  susie.res=coloc.susie(S1,S2)
-  print(susie.res$summary)
-}
-
-if(requireNamespace("susieR",quietly=TRUE)) {
-  sensitivity(susie.res,"H4 > 0.9",row=1,dataset1=D1,dataset2=D2)
-  sensitivity(susie.res,"H4 > 0.9",row=2,dataset1=D1,dataset2=D2)
-}
-
-
-```
-
-
