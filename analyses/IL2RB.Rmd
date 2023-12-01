@@ -7,7 +7,7 @@ output:
     toc_float: yes
     number_sections: yes
     code_folding: hide
-date: '2022-04-05'
+date: '2023-12-01'
 editor_options: 
   chunk_output_type: console
 ---
@@ -19,7 +19,7 @@ pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr,
 
 here::i_am("analyses/IL2RB.Rmd")
 
-source("code/Functions.R")
+source("code/01-Functions.R")
 ```
 
 
@@ -27,8 +27,8 @@ source("code/Functions.R")
 
 ```{r}
 
-IL2RB_eqtl <- import_data("data/export/IL2RB_eqtl_TwoSampleMR.csv",
-            "data/export/IL2RB_T1D_TwoSampleMR.csv", has_beta = TRUE)
+IL2RB_eqtl <- import_data("data/export_harmonization/IL2RB_eqtl_TwoSampleMR.csv",
+            "data/export_harmonization/IL2RB_T1D_TwoSampleMR.csv", has_beta = TRUE)
 
 ```
 
@@ -55,7 +55,7 @@ coloc_results_IL2RB_eqtl <- analyze_coloc_eqtl(IL2RB_eqtl)
 
 ```{r}
 
-load("data/export/IL2RB_LDmat.RData")
+load("data/export_LDmat/IL2RB_LDmat.RDA")
 
 plot_coloc(genechr = 22,
            fig_start = 37068000,
@@ -66,7 +66,7 @@ plot_coloc(genechr = 22,
            D2 = coloc_results_IL2RB_eqtl$D2,
            LDmat = IL2RB)
 
-ggsave(filename = "IL2RB.png", height = 8, width = 6)
+ggsave(filename = "figures/IL2RB.png", height = 8, width = 6)
 ```
 
 
@@ -74,36 +74,25 @@ ggsave(filename = "IL2RB.png", height = 8, width = 6)
 ## Functional variants
 
 ```{r}
-load("data/export/phenoscanner-functional-variants-missense.csv")
-
-IL2RB_eqtl_orig <- read_csv("data/export/IL2RB_eqtl_TwoSampleMR.csv")
-IL2RB_eqtl_orig %>%
-  filter(SNP == "rs143857582") #no
-
-IL2RB_T1D <- read_csv("data/export/IL2RB_T1D_TwoSampleMR.csv")
-IL2RB_T1D %>%
-  filter(SNP == "rs143857582") #yes
+load("data/export_functional_variants/phenoscanner-entries.RDS")
 
 
-IL2RB_eqtl_orig <- read_csv("data/export/IL2RB_eqtl_TwoSampleMR.csv")
-IL2RB_eqtl_orig %>%
-  filter(SNP == "rs149508414") #no
+#Find IL2RB missense variants
+IL2RB_missense <- functional_variants$IL2RB$results %>% 
+  filter(consequence == "missense") %>%  
+  distinct(rsid) %>% pull()
 
-IL2RB_T1D <- read_csv("data/export/IL2RB_T1D_TwoSampleMR.csv")
-IL2RB_T1D %>%
-  filter(SNP == "rs149508414") #yes
+IL2RB_missense #rs143857582, rs149508414
+
+#give betas and se for eQTL and T1D risk (note, this is not MR!
+IL2RB_eqtl %>%
+  filter(SNP %in% IL2RB_missense) %>%
+  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%
+  mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), function(x) signif(x, digits = 2))) #none
 
 ```
 
 
-
-# pQTL
-
-```{r}
-IL2RB_pqtl <- import_data("data/export/IL2RB_prot_anno_TwoSampleMR.csv",
-            "data/export/IL2RB_T1D_TwoSampleMR.csv", has_beta = FALSE)
-
-```
 
 
 

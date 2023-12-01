@@ -2,7 +2,7 @@
 title: "JAK2 eQTL"
 author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
 output: html_document
-date: '2022-05-03'
+date: '2023-12-01'
 editor_options:
   chunk_output_type: console
 ---
@@ -12,7 +12,7 @@ editor_options:
 pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr, 
                ieugwasr, rio, here)
 
-source("code/Functions.R")
+source("code/01-Functions.R")
 
 here::i_am("analyses/JAK2.Rmd")
 
@@ -22,8 +22,8 @@ here::i_am("analyses/JAK2.Rmd")
 
 Import data 
 ```{r}
-JAK2_eqtl <- import_data("data/export/JAK2_eqtl_TwoSampleMR.csv", 
-                         "data/export/JAK2_T1D_TwoSampleMR.csv", has_beta = TRUE)
+JAK2_eqtl <- import_data("data/export_harmonization/JAK2_eqtl_TwoSampleMR.csv", 
+                         "data/export_harmonization/JAK2_T1D_TwoSampleMR.csv", has_beta = TRUE)
 ```
 
 ## Initial Manhattan plots
@@ -36,9 +36,6 @@ manhattan_plots(JAK2_eqtl, gene_start=4985033, gene_end=5128183, title = "JAK2")
 ## Coloc assuming 1 causal variant
 ```{r}
 coloc_results_JAK2_eqtl <- analyze_coloc_eqtl(JAK2_eqtl)
-# coloc_results_JAK2_eqtl$coloc_D1D2 #coloc results
-# coloc_results_JAK2_eqtl$D1 #data eQTL
-# coloc_results_JAK2_eqtl$D2 #data t1d
 
 ```
 
@@ -46,7 +43,7 @@ coloc_results_JAK2_eqtl <- analyze_coloc_eqtl(JAK2_eqtl)
 
 ```{r}
 
-load("data/export/JAK2_LDmat.RData")
+load("data/export_LDmat/JAK2_LDmat.RDA")
 
 plot_coloc_2(genechr = 9,
            fig_start = 4000000,
@@ -57,7 +54,7 @@ plot_coloc_2(genechr = 9,
            D2 = coloc_results_JAK2_eqtl$D2,
            LDmat = JAK2)
 
-ggsave(filename = "JAK2.png", height = 8, width = 6)
+ggsave(filename = "figures/JAK2.png", height = 8, width = 6)
 ```
 
 
@@ -66,36 +63,35 @@ ggsave(filename = "JAK2.png", height = 8, width = 6)
 
 
 ```{r}
-load("data/export/phenoscanner-functional-variants-rsids.RDS")
-
-functional_variants_JAK2 <- functional_variants %>% filter(gene == "JAK2")
+load("data/export_functional_variants/phenoscanner-entries.RDS")
 
 
+#Find JAK2 missense variants
+JAK2_missense <- functional_variants$JAK2$results %>% 
+  filter(consequence == "missense") %>%  
+  distinct(rsid) %>% pull()
 
-JAK2_eqtl_orig <- read_csv("data/export/JAK2_eqtl_TwoSampleMR.csv")
-JAK2_eqtl_orig %>%
-  filter(SNP %in% functional_variants_JAK2$rsid) %>%
-  select(SNP) #yes, rs41316003
+JAK2_missense #rs143103233, rs150221602, rs41316003
 
-JAK2_T1D <- read_csv("data/export/JAK2_T1D_TwoSampleMR.csv")
-JAK2_T1D %>%
-  filter(SNP %in% functional_variants_JAK2$rsid) %>%
-  select(SNP) #yes, rs143103233, rs150221602, and rs41316003 
+#give betas and se for eQTL and T1D risk (note, this is not MR!
+JAK2_eqtl %>%
+  filter(SNP %in% JAK2_missense) %>%
+  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%
+  mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), function(x) signif(x, digits = 2)))
 
-JAK2_T1D %>%
-  filter(SNP == "rs41316003") #yes
 
-## MR
+#Select only rs12720356 and rs2304256 (as p for their exposure is < 10^-5) and run MR
+JAK2_eqtl_funcvar_mr <- JAK2_eqtl %>%
+  filter(SNP %in% c("rs41316003")) %>%
+  TwoSampleMR::mr_singlesnp() %>%
+  mutate(exp_b = exp(b), 
+         lo_95 = exp(b - (1.96 * se)),
+         hi_95 = exp(b + (1.96 * se))) %>%
+    mutate(across(starts_with(c("b", "se","p", "exp_b", "lo", "hi")), function(x) signif(x, digits = 2)))
 
-JAK2_eqtl_rs41316003   <- JAK2_eqtl %>% filter(SNP == "rs41316003")
-MR_JAK2_eqtl_rs41316003   <- TwoSampleMR::mr(JAK2_eqtl_rs41316003)
-
-MR_JAK2_eqtl_rs41316003
-
-exp(MR_JAK2_eqtl_rs41316003$b)
-exp(MR_JAK2_eqtl_rs41316003$b - 1.96*MR_JAK2_eqtl_rs41316003$se)
-exp(MR_JAK2_eqtl_rs41316003$b + 1.96*MR_JAK2_eqtl_rs41316003$se)
-
+  JAK2_eqtl_funcvar_mr %>% 
+    select(-id.exposure, -id.outcome, -samplesize) %>% 
+    knitr::kable()
 
 ```
 

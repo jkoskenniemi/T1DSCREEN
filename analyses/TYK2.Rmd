@@ -2,7 +2,7 @@
 title: "TYK2"
 author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
 output: html_document
-date: '2022-26-04'
+date: '2023-12-01'
 editor_options:
   chunk_output_type: console
 ---
@@ -83,6 +83,8 @@ exp(MR_TYK2_eqtl_rs34725611$b + 1.96*MR_TYK2_eqtl_rs34725611$se)
 
 ## Functional variants
 ```{r}
+
+load("data/export_functional_variants/phenoscanner-entries.RDS")
 
 #Find TYK2 missense variants
 TYK2_missense <- functional_variants$TYK2$results %>% 
