@@ -1,0 +1,74 @@
+---
+title: "Tables"
+author: "Jaakko Koskenniemi"
+date: "2023-12-01"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+here::i_am("analyses/Tables.Rmd")
+```
+
+## Purpose
+
+This script is used to build tables. All figures are built in their relevant scripts (IL2RA.Rmd, IL2RB.Rmd, IL6R.Rmd, IL6ST.Rmd, JAK2.Rmd, JAK3.Rmd, TYK2.Rmd).
+
+Tables  
+- Table 1: Genomic reginos under investigation (not built using R)
+- Table 2: Results of colocalization between drug target (eQTL/pQTL) and risk of type 1 diabetes (not built using R)
+- Table 3: Functional variants in the examined 7 drug targets
+- Supplementary Table 1: Selected drug targets (not built using R)
+- Supplementary Table 2: Source studies of GWAS summary statistic (not built using R)
+- Supplementary Table 3. Mendelian randomization effect sizes of four functional variants
+- Supplementary Table 4. Linkage disequilibrium (LD) matrix (r2) between four genetic variants near TYK2 gene
+
+
+## Table 3
+
+*Functional variants in the examined 7 drug targets*
+```{r cars}
+library(readr)
+library(tidyverse)
+table34 <- read_csv("data/export_manuscript/functional-variants-Table3.csv")
+
+table34 %>% 
+  filter(!is.na(b)) %>% 
+  select(gene, SNP, b, se, OR, ci95_lo, ci95_hi, p) %>% 
+  knitr::kable()
+#modify code/04-Functional-variants.R
+```
+
+## Supplementary Table 3.
+
+*Mendelian randomization effect sizes of four functional variants*
+
+
+```{r}
+table34 %>% 
+  select(gene, SNP, MAF, beta_t1d, se_t1d, p_t1d, beta_exp, p_exp) %>% 
+  knitr::kable()
+```
+
+
+
+## Supplementary Table 4
+
+*Linkage disequilibrium (LD) matrix (r2) between four genetic variants near TYK2 gene*
+
+```{r}
+load("data/export_LDmat/TYK2_tophits.rda")
+
+rownames_TYK2 <- rownames(TYK2_SNPs_LD)
+
+TYK2_SNPs_LD %>% 
+  as_tibble() %>% 
+  mutate(across(.cols = everything(), ~signif(.x, digits = 2))) %>% 
+  mutate(names = rownames_TYK2) %>% 
+  select(names, "rs34536443", "rs12720356", "rs2304256", "rs34725611", "rs144309607") %>% 
+  knitr::kable() 
+```
+
+
