@@ -10,6 +10,9 @@ source("code/01-Functions.R")
 
 #1 Obtain functional variants from Phenoscanner--------------------------------
 
+# These lines are commented out to avoid straining the Phenoscanner (the entries
+# are instead loaded below), but if you want to fully reproduce our findings, uncomment them)
+# reproduce our
 # names_gwas <- c("IL2RA", "IL2RB","IL6R", "IL6ST", "JAK2", "JAK3", "TYK2")
 #
 # functional_variants <- map(names_gwas, ~phenoscanner(genequery = .x))
