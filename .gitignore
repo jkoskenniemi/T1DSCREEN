@@ -9,7 +9,7 @@ data/export_LDmat/
 data/export_manuscript/
 data/export_cis_sumstats/
 data/export_harmonization/
-figures/
+figures/*
 manuscript/
 references.bib
 refs/
