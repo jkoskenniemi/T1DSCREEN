@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Tea Heikkilä, Emilia Kaiser &amp; Jaakko Koskenniemi" />
+
+<meta name="date" content="2023-12-01" />
+
+<title>IL2RA</title>
+
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">T1DSCREEN</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+<li>
+  <a href="Harmonize.html">Harmonize</a>
+</li>
+<li>
+  <a href="IL2RA.html">IL2RA</a>
+</li>
+<li>
+  <a href="IL2RB.html">IL2RB</a>
+</li>
+<li>
+  <a href="IL2RG.html">IL2RG</a>
+</li>
+<li>
+  <a href="IL6R.html">IL6R</a>
+</li>
+<li>
+  <a href="CRP.html">CRP</a>
+</li>
+<li>
+  <a href="IL12B.html">IL12B</a>
+</li>
+<li>
+  <a href="JAK1.html">JAK1</a>
+</li>
+<li>
+  <a href="JAK2.html">JAK2</a>
+</li>
+<li>
+  <a href="JAK3.html">JAK3</a>
+</li>
+<li>
+  <a href="TYK2.html">TYK2</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jkoskenniemi/T1DSCREEN">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">IL2RA</h1>
+<h4 class="author">Tea Heikkilä, Emilia Kaiser &amp; Jaakko
+Koskenniemi</h4>
+<h4 class="date">2023-12-01</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2023-12-01
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>T1DSCREEN/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220313code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20220313)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220313code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220313)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree18c6971dd10101c97181d4f157de6de5878adb28targetblank18c6971a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/18c6971dd10101c97181d4f157de6de5878adb28" target="_blank">18c6971</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree18c6971dd10101c97181d4f157de6de5878adb28targetblank18c6971a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/18c6971dd10101c97181d4f157de6de5878adb28" target="_blank">18c6971</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    data/export_LDmat/
+    Ignored:    data/export_harmonization/
+    Ignored:    data/export_manuscript/
+    Ignored:    refs/
+    Ignored:    submission/
+    Ignored:    zz_trash/
+
+Untracked files:
+    Untracked:  data/export_functional_variants/
+
+Unstaged changes:
+    Modified:   Build-script.R
+    Modified:   analyses/IL2RB.Rmd
+    Modified:   analyses/IL6ST.Rmd
+    Modified:   analyses/JAK2.Rmd
+    Modified:   analyses/JAK3.Rmd
+    Modified:   analyses/TYK2.Rmd
+    Modified:   figures/IL2RA.png
+    Modified:   figures/IL2RB.png
+    Modified:   figures/IL6R.png
+    Modified:   figures/IL6ST.png
+    Modified:   figures/JAK2.png
+    Modified:   figures/JAK3.png
+    Modified:   figures/TYK2.png
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analyses/IL2RA.Rmd</code>) and HTML
+(<code>docs/IL2RA.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/97a891d8917fee45d67478b0068718d506f0dc8d/analyses/IL2RA.Rmd" target="_blank">97a891d</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-12-01
+</td>
+<td>
+Updated links to external files, added some commenting and moved
+construction of LD-matrices to 05-Save-LD-matrices.R.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/ec92abef07a326209ed54e411624621fc2b65572/docs/IL2RA.html" target="_blank">ec92abe</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-11-29
+</td>
+<td>
+Removed old files
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/e9284326b798a707db2c6545a10733d944edbcfc/analyses/IL2RA.Rmd" target="_blank">e928432</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-11-29
+</td>
+<td>
+Updated handling data and data scripts
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/465a64acf25107162d637b48201501cc7b5d5c2a/analyses/IL2RA.Rmd" target="_blank">465a64a</a>
+</td>
+<td>
+EmiliaKaiser
+</td>
+<td>
+2023-06-21
+</td>
+<td>
+updated MR code
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/67ff5baecf6e8f3646eb18cb9f06387349ccd734/analyses/IL2RA.Rmd" target="_blank">67ff5ba</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-06-19
+</td>
+<td>
+Merge branch ‘main’ of <a
+href="https://github.com/jkoskenniemi/T1DSCREEN"
+class="uri">https://github.com/jkoskenniemi/T1DSCREEN</a>
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/72b2249e1827cc6a63bd5a592763426449565422/analyses/IL2RA.Rmd" target="_blank">72b2249</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-06-19
+</td>
+<td>
+Updated analysis scripts
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/7f2af489dc6b46158f31d821763b43ab4f56fe85/analyses/IL2RA.Rmd" target="_blank">7f2af48</a>
+</td>
+<td>
+EmiliaKaiser
+</td>
+<td>
+2023-06-13
+</td>
+<td>
+Updated
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/f5c5bba2ba87e00f4a8fb8a798311a7021e24fdc/analyses/IL2RA.Rmd" target="_blank">f5c5bba</a>
+</td>
+<td>
+EmiliaKaiser
+</td>
+<td>
+2023-06-09
+</td>
+<td>
+updated gene positions and data
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/483e05761db04da549daa7411e453064b0eeb707/analyses/IL2RA.Rmd" target="_blank">483e057</a>
+</td>
+<td>
+EmiliaKaiser
+</td>
+<td>
+2023-06-08
+</td>
+<td>
+updated analyses
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/71be5686ae01c2531a0517ae591dffeac94d760a/analyses/IL2RA.Rmd" target="_blank">71be568</a>
+</td>
+<td>
+EmiliaKaiser
+</td>
+<td>
+2023-06-08
+</td>
+<td>
+updated analyses scripts
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/33552121336054e9123921a00555d41b064ac71d/analyses/IL2RA.Rmd" target="_blank">3355212</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-06-06
+</td>
+<td>
+Updated analyses scripts
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/8d42249302304a7a9f3c94091a1a6b288947fee9/docs/IL2RA.html" target="_blank">8d42249</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-06
+</td>
+<td>
+modified all scripts to adhere to functional programming
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/0d3f37017de4946514ff0df852a8abf92c2d0d7e/analyses/IL2RA.Rmd" target="_blank">0d3f370</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-06
+</td>
+<td>
+functional programming added to result scripts
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/3302e5a80dad8b914c5d2fd7d5194a968470a836/docs/IL2RA.html" target="_blank">3302e5a</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/ab53bada82b514971719562c35c4b8e3d7afe483/analyses/IL2RA.Rmd" target="_blank">ab53bad</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+wflow_publish("analyses/IL2RA.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/3a71cd50383b7b03cc2c63a6486c8c5f30998411/docs/IL2RA.html" target="_blank">3a71cd5</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/17a156c2adeb8770e562434e5b09d7ad84fda374/analyses/IL2RA.Rmd" target="_blank">17a156c</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Fixed SNP referencing in coloc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/b49016a04b5830e2336cc7f1be6dd2ba7b0943b1/docs/IL2RA.html" target="_blank">b49016a</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/c541480d23ea12e6e28d6b3a11d930db54659c36/docs/IL2RA.html" target="_blank">c541480</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/8a72b0ce8859914b800639ffc1f402df203ccbf9/docs/IL2RA.html" target="_blank">8a72b0c</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/530d505d4f7653a0c54929c3c6ec4d55f2c4b57a/analyses/IL2RA.Rmd" target="_blank">530d505</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-03
+</td>
+<td>
+Added eQTL data, corrected an error in coloc sensitivity figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/e0d3987fcbf69cf5b42d345572022434bb91990f/docs/IL2RA.html" target="_blank">e0d3987</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-04-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/c8d146f5d34c2ded365b3a66c1596afc77c502b7/docs/IL2RA.html" target="_blank">c8d146f</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/1dac76ddc1f9c8c70848fe09c6aa9eae24079225/docs/IL2RA.html" target="_blank">1dac76d</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/c2fe2f8d829ffb312adcf5a44d55c492c89d793a/analyses/IL2RA.Rmd" target="_blank">c2fe2f8</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-26
+</td>
+<td>
+First commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/24d77f36926c4897c8f7817b4eaa2bf63238fb73/docs/IL2RA.html" target="_blank">24d77f3</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2022-11-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/e86595d567aec82d7280c4fdbbaed04cc0d85823/analyses/IL2RA.Rmd" target="_blank">e86595d</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2022-11-05
+</td>
+<td>
+wflow_publish(c("analyses/CRP.Rmd", "analyses/CXCL10.Rmd",
+"analyses/IL2RA.Rmd",
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Load packages and import data</p>
+<pre class="r"><code>pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr, 
+               ieugwasr, rio, here)
+
+here::i_am(&quot;analyses/IL2RA.Rmd&quot;)</code></pre>
+<pre><code>here() starts at C:/Users/jajoko/T1DSCREEN</code></pre>
+<pre class="r"><code>source(&quot;code/01-Functions.R&quot;)</code></pre>
+<div id="eqtl" class="section level1">
+<h1>eQTL</h1>
+<p>TwoSampleMR is used to harmonize the data even though TwoSampleMR is
+not run. Therefore, data includes variable “beta” which is actually a
+z-score</p>
+<pre class="r"><code>IL2RA_eqtl &lt;- import_data(&quot;data/export_harmonization/IL2RA_eqtl_TwoSampleMR.csv&quot;,
+            &quot;data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv&quot;, has_beta = TRUE)</code></pre>
+<pre><code>Harmonising Whole blood IL2RA gene expression (4vucPG) and Risk of type 1 diabetes (xN25Oe)</code></pre>
+<pre><code>Removing the following SNPs for incompatible alleles:
+rs11592539, rs146234410, rs5027484, rs7894984</code></pre>
+<pre><code>Removing the following SNPs for being palindromic with intermediate allele frequencies:
+rs10444202, rs10795239, rs10795240, rs10795260, rs10795263, rs10795591, rs10795595, rs10795990, rs10905054, rs10905919, rs10905924, rs10905925, rs1110030, rs11252965, rs11252969, rs11252984, rs11252986, rs11252995, rs11253001, rs11253120, rs11259366, rs11517339, rs11596992, rs11598835, rs12218872, rs12219621, rs12249094, rs12250785, rs12258845, rs12416002, rs12768094, rs1372800, rs1417017, rs1417026, rs189900452, rs1937877, rs1937911, rs1937918, rs2263201, rs2380208, rs2386632, rs2387089, rs2398200, rs2398206, rs2486876, rs2490678, rs2791417, rs2791425, rs2895063, rs34074567, rs34797495, rs3750638, rs4242800, rs4282898, rs4291579, rs4357593, rs4427472, rs4430409, rs4436455, rs4494227, rs4497300, rs4567357, rs4747385, rs4747846, rs4747892, rs4747960, rs4748301, rs4748304, rs4748361, rs4748627, rs4880712, rs4880713, rs4880727, rs4881442, rs4881462, rs584804, rs630516, rs645611, rs6601912, rs6602364, rs672624, rs678304, rs7071371, rs7073128, rs7088072, rs7088914, rs7091223, rs7896234, rs7896512, rs7897260, rs7900903, rs7910038, rs7914609, rs7916376, rs7916509, rs885046, rs9423400, rs9423596, rs9424179</code></pre>
+<div id="initial-manhattan-plots" class="section level2">
+<h2>Initial Manhattan plots</h2>
+<pre class="r"><code>manhattan_plots(IL2RA_eqtl, gene_start=6010689, gene_end=6062370, title = &quot;IL2RA&quot;)</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>IL2RA_eqtl &lt;- IL2RA_eqtl %&gt;% filter(pos.outcome &gt; 5780000 &amp; pos.outcome &lt; 6250000) 
+manhattan_plots(IL2RA_eqtl, gene_start=6010689, gene_end=6062370, title = &quot;IL2RA&quot;)</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="coloc-assuming-1-causal-variant" class="section level2">
+<h2>Coloc assuming 1 causal variant</h2>
+<pre class="r"><code>coloc_results_IL2RA_eqtl &lt;- analyze_coloc_eqtl(IL2RA_eqtl)</code></pre>
+<pre><code>PP.H0.abf PP.H1.abf PP.H2.abf PP.H3.abf PP.H4.abf 
+ 1.34e-87  2.27e-39  8.54e-52  4.45e-04  1.00e+00 
+[1] &quot;PP abf for shared variant: 100%&quot;</code></pre>
+<pre><code>Results pass decision rule H4 &gt; 0.7</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># coloc_results_IL2RA_eqtl$coloc_D1D2 #coloc results
+# coloc_results_IL2RA_eqtl$D1 #data eQTL
+# coloc_results_IL2RA_eqtl$D2 #data t1d</code></pre>
+</div>
+<div id="regional-manhattan-plot" class="section level2">
+<h2>Regional manhattan plot</h2>
+<pre class="r"><code>load(&quot;data/export_LDmat/IL2RA_LDmat.rda&quot;)
+
+plot_coloc(genechr = 10,
+           fig_start = 5780000,
+           fig_end = 6250000,
+           coloc_results = coloc_results_IL2RA_eqtl$coloc_D1D2,
+           data = IL2RA_eqtl,
+           D1 = coloc_results_IL2RA_eqtl$D1,
+           D2 = coloc_results_IL2RA_eqtl$D2,
+           LDmat = IL2RA)</code></pre>
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+i Please use `linewidth` instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.</code></pre>
+<pre><code>Warning: Removed 1 row containing missing values (`geom_line()`).</code></pre>
+<pre><code>Warning: Removed 1 rows containing missing values (`geom_text()`).</code></pre>
+<p><img src="figure/IL2RA.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(filename = &quot;figures/IL2RA.png&quot;, height = 8, width = 6)</code></pre>
+</div>
+<div id="mr" class="section level2">
+<h2>MR</h2>
+<pre class="r"><code>#Find top SNP
+coloc_results_IL2RA_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_IL2RA_eqtl$coloc_D1D2$results$SNP.PP.H4)] #rs61839660</code></pre>
+<pre><code>[1] &quot;rs61839660&quot;</code></pre>
+<pre class="r"><code>#Filter top SNP
+IL2RA_eqtl_rs61839660   &lt;- IL2RA_eqtl %&gt;% filter(SNP == &quot;rs61839660&quot;)
+
+#Calculate beta for outcome (not MR)
+exp(IL2RA_eqtl_rs61839660$beta.outcome)</code></pre>
+<pre><code>[1] 0.699464</code></pre>
+<pre class="r"><code>#Calculate 95% CI for beta for outcome (not MR)
+exp(IL2RA_eqtl_rs61839660$beta.outcome - 1.96 * IL2RA_eqtl_rs61839660$se.outcome)</code></pre>
+<pre><code>[1] 0.6647123</code></pre>
+<pre class="r"><code>exp(IL2RA_eqtl_rs61839660$beta.outcome + 1.96 * IL2RA_eqtl_rs61839660$se.outcome)</code></pre>
+<pre><code>[1] 0.7360325</code></pre>
+<pre class="r"><code>#Run MR
+MR_IL2RA_eqtl_rs61839660   &lt;- TwoSampleMR::mr(IL2RA_eqtl_rs61839660)</code></pre>
+<pre><code>Analysing &#39;4vucPG&#39; on &#39;xN25Oe&#39;</code></pre>
+<pre class="r"><code>#MR results (unexponentiated beta and se)
+MR_IL2RA_eqtl_rs61839660</code></pre>
+<pre><code>  id.exposure id.outcome                 outcome
+1      4vucPG     xN25Oe Risk of type 1 diabetes
+                           exposure     method nsnp         b        se
+1 Whole blood IL2RA gene expression Wald ratio    1 -1.532361 0.1114628
+          pval
+1 5.255213e-43</code></pre>
+<pre class="r"><code>#Exponentiate 
+exp(MR_IL2RA_eqtl_rs61839660$b)</code></pre>
+<pre><code>[1] 0.216025</code></pre>
+<pre class="r"><code>exp(MR_IL2RA_eqtl_rs61839660$b - 1.96*MR_IL2RA_eqtl_rs61839660$se)</code></pre>
+<pre><code>[1] 0.1736301</code></pre>
+<pre class="r"><code>exp(MR_IL2RA_eqtl_rs61839660$b + 1.96*MR_IL2RA_eqtl_rs61839660$se)</code></pre>
+<pre><code>[1] 0.2687715</code></pre>
+<pre class="r"><code>#Look how our variant (rs61839660) relates to top hits by Robertson et al.
+load(&quot;data/export_LDmat/IL2RA_tophits.rda&quot;)
+signif(IL2RA_SNPs_LD^2, 2)</code></pre>
+<pre><code>           rs61839660 rs35285258 rs6602437 rs947474
+rs61839660    1.00000    0.02200    0.0410  0.00094
+rs35285258    0.02200    1.00000    0.3600  0.00067
+rs6602437     0.04100    0.36000    1.0000  0.00130
+rs947474      0.00094    0.00067    0.0013  1.00000</code></pre>
+</div>
+<div id="functional-variants" class="section level2">
+<h2>Functional variants</h2>
+<pre class="r"><code>load(&quot;data/export_functional_variants/phenoscanner-entries.RDS&quot;)
+
+#Look for missense variants for IL2RA 
+functional_variants$IL2RA$results %&gt;% 
+  filter(consequence == &quot;missense&quot;) %&gt;%  
+  distinct(rsid) #only rs72650666</code></pre>
+<pre><code>        rsid
+1 rs72650666</code></pre>
+<pre class="r"><code>#Do we have data for IL2RA eqtl fo this variant?
+IL2RA_eqtl_orig &lt;- read_csv(&quot;data/export_harmonization/IL2RA_eqtl_TwoSampleMR.csv&quot;)</code></pre>
+<pre><code>Rows: 10205 Columns: 28
+-- Column specification --------------------------------------------------------
+Delimiter: &quot;,&quot;
+chr  (8): SNP, effect_allele, other_allele, Gene, GeneSymbol, AlleleA, Allel...
+dbl (20): pval, chr, pos, Zscore, GeneChr, GenePos, NrCohorts, samplesize, F...
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>IL2RA_eqtl_orig %&gt;%
+  filter(SNP == &quot;rs72650666&quot;) #no</code></pre>
+<pre><code># A tibble: 0 x 28
+# i 28 variables: SNP &lt;chr&gt;, pval &lt;dbl&gt;, chr &lt;dbl&gt;, pos &lt;dbl&gt;,
+#   effect_allele &lt;chr&gt;, other_allele &lt;chr&gt;, Zscore &lt;dbl&gt;, Gene &lt;chr&gt;,
+#   GeneSymbol &lt;chr&gt;, GeneChr &lt;dbl&gt;, GenePos &lt;dbl&gt;, NrCohorts &lt;dbl&gt;,
+#   samplesize &lt;dbl&gt;, FDR &lt;dbl&gt;, BonferroniP &lt;dbl&gt;, hg19_chr &lt;dbl&gt;,
+#   hg19_pos &lt;dbl&gt;, AlleleA &lt;chr&gt;, AlleleB &lt;chr&gt;, allA_total &lt;dbl&gt;,
+#   allAB_total &lt;dbl&gt;, allB_total &lt;dbl&gt;, AF_B &lt;dbl&gt;, eaf &lt;dbl&gt;, MAF &lt;dbl&gt;,
+#   beta &lt;dbl&gt;, se &lt;dbl&gt;, Phenotype &lt;chr&gt;</code></pre>
+<pre class="r"><code>#Do we have data for T1D risk for this variant?
+IL2RA_T1D &lt;- read_csv(&quot;data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv&quot;)</code></pre>
+<pre><code>Rows: 52744 Columns: 25
+-- Column specification --------------------------------------------------------
+Delimiter: &quot;,&quot;
+chr  (6): hm_variant_id, SNP, other_allele, effect_allele, variant_id, Pheno...
+dbl (13): hm_chrom, pos, beta, eaf, hm_code, pval, chromosome, base_pair_loc...
+lgl  (6): hm_odds_ratio, hm_ci_lower, hm_ci_upper, odds_ratio, ci_lower, ci_...
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>IL2RA_T1D %&gt;%
+  filter(SNP == &quot;rs72650666&quot;) #yes</code></pre>
+<pre><code># A tibble: 1 x 25
+  hm_variant_id  SNP        hm_chrom     pos other_allele effect_allele  beta
+  &lt;chr&gt;          &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;         &lt;dbl&gt;
+1 10_6024339_G_A rs72650666       10 6024339 G            A             0.182
+# i 18 more variables: hm_odds_ratio &lt;lgl&gt;, hm_ci_lower &lt;lgl&gt;,
+#   hm_ci_upper &lt;lgl&gt;, eaf &lt;dbl&gt;, hm_code &lt;dbl&gt;, variant_id &lt;chr&gt;, pval &lt;dbl&gt;,
+#   chromosome &lt;dbl&gt;, base_pair_location &lt;dbl&gt;, effect_allele_frequency &lt;dbl&gt;,
+#   se &lt;dbl&gt;, odds_ratio &lt;lgl&gt;, ci_lower &lt;lgl&gt;, ci_upper &lt;lgl&gt;,
+#   Phenotype &lt;chr&gt;, ncase &lt;dbl&gt;, ncontrol &lt;dbl&gt;, samplesize &lt;dbl&gt;</code></pre>
+<pre class="r"><code># MR cannot be done because we don&#39;t have eQTL data</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.3.0 (2023-04-21 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 14393)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=Finnish_Finland.1252  LC_CTYPE=Finnish_Finland.1252   
+[3] LC_MONETARY=Finnish_Finland.1252 LC_NUMERIC=C                    
+[5] LC_TIME=Finnish_Finland.1252    
+
+time zone: America/New_York
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] RACER_1.0.0       reshape2_1.4.4    ggrepel_0.9.3     here_1.0.1       
+ [5] rio_0.5.29        ieugwasr_0.1.5    ggpubr_0.6.0      TwoSampleMR_0.5.7
+ [9] coloc_5.2.2       data.table_1.14.8 lubridate_1.9.2   forcats_1.0.0    
+[13] stringr_1.5.0     dplyr_1.1.2       purrr_1.0.1       readr_2.1.4      
+[17] tidyr_1.3.0       tibble_3.2.1      ggplot2_3.4.2     tidyverse_2.0.0  
+[21] workflowr_1.7.0  
+
+loaded via a namespace (and not attached):
+ [1] gridExtra_2.3     readxl_1.4.3      rlang_1.1.1       magrittr_2.0.3   
+ [5] git2r_0.32.0      matrixStats_1.0.0 susieR_0.12.35    compiler_4.3.0   
+ [9] getPass_0.2-2     systemfonts_1.0.4 callr_3.7.3       vctrs_0.6.2      
+[13] pkgconfig_2.0.3   crayon_1.5.2      fastmap_1.1.1     backports_1.4.1  
+[17] labeling_0.4.2    utf8_1.2.3        promises_1.2.0.1  rmarkdown_2.23   
+[21] tzdb_0.4.0        haven_2.5.3       ps_1.7.5          ragg_1.2.5       
+[25] bit_4.0.5         xfun_0.39         cachem_1.0.8      jsonlite_1.8.7   
+[29] highr_0.10        later_1.3.1       reshape_0.8.9     parallel_4.3.0   
+[33] broom_1.0.5       irlba_2.3.5.1     R6_2.5.1          bslib_0.5.0      
+[37] stringi_1.7.12    car_3.1-2         jquerylib_0.1.4   cellranger_1.1.0 
+[41] Rcpp_1.0.10       knitr_1.43        pacman_0.5.1      httpuv_1.6.11    
+[45] Matrix_1.5-4      timechange_0.2.0  tidyselect_1.2.0  rstudioapi_0.15.0
+[49] abind_1.4-5       yaml_2.3.7        viridis_0.6.3     curl_5.0.1       
+[53] processx_3.8.1    lattice_0.21-8    plyr_1.8.8        withr_2.5.0      
+[57] evaluate_0.21     foreign_0.8-84    zip_2.3.0         pillar_1.9.0     
+[61] carData_3.0-5     whisker_0.4.1     generics_0.1.3    vroom_1.6.3      
+[65] rprojroot_2.0.3   hms_1.1.3         munsell_0.5.0     scales_1.2.1     
+[69] glue_1.6.2        tools_4.3.0       openxlsx_4.2.5.2  ggsignif_0.6.4   
+[73] fs_1.6.2          cowplot_1.1.1     grid_4.3.0        colorspace_2.1-0 
+[77] cli_3.6.1         textshaping_0.3.6 fansi_1.0.4       mixsqp_0.3-48    
+[81] viridisLite_0.4.2 gtable_0.3.3      rstatix_0.7.2     sass_0.4.6       
+[85] digest_0.6.31     farver_2.1.1      htmltools_0.5.5   lifecycle_1.0.3  
+[89] httr_1.4.6        bit64_4.0.5      </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
