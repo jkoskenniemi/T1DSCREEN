@@ -5,7 +5,7 @@
 #install.packages("devtools")
 #devtools::install_github("phenoscanner")
 #install_github("phenoscanner/phenoscanner")
-pacman::p_load(data.table, dtplyr, dplyr, tidyverse, rio, here, TwoSampleMR, phenoscanner, phenoscanner)
+pacman::p_load(data.table, dtplyr, dplyr, tidyverse, rio, here, TwoSampleMR, phenoscanner, phenoscanner, purrr)
 
 
 source("code/01-Functions.R")
