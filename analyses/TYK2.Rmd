@@ -94,7 +94,7 @@ TYK2_missense <- functional_variants$TYK2$results %>%
 TYK2_missense #rs55886939, rs34536443, rs35018800, rs55882956, rs12720356, 
               #rs139954108, rs2304256,rs188833543, rs55762744, rs144960992
 
-#give betas and se for eQTL and T1D risk (note, this is not MR!
+#give betas and se for eQTL and T1D risk (note, this is not MR!)
 TYK2_eqtl %>%
   filter(SNP %in% TYK2_missense) %>%
   select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%

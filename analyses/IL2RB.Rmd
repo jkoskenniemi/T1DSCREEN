@@ -84,7 +84,7 @@ IL2RB_missense <- functional_variants$IL2RB$results %>%
 
 IL2RB_missense #rs143857582, rs149508414
 
-#give betas and se for eQTL and T1D risk (note, this is not MR!
+#give betas and se for eQTL and T1D risk (note, this is not MR!)
 IL2RB_eqtl %>%
   filter(SNP %in% IL2RB_missense) %>%
   select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%
