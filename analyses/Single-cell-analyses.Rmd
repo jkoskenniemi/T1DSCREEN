@@ -1,0 +1,101 @@
+---
+title: "Single cell analyses for IL2RA, TYK2, and IL6R"
+author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
+output:
+  html_document:
+  toc: yes
+toc_float: yes
+number_sections: yes
+code_folding: hide
+date: '2024-05-14'
+editor_options:
+  chunk_output_type: console
+---
+
+Load packages and import data
+```{r}
+pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr,
+               ieugwasr, rio, here, viridis)
+
+here::i_am("analyses/IL2RA.Rmd")
+
+source("code/01-Functions.R")
+```
+
+
+## Single cell
+
+```{r}
+
+#Example how data can be imported to R
+IL2RA_bin <- import_data("data/export_sc_harmonized/IL2RA_bin_TwoSampleMR.csv",
+                         "data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv", has_beta = FALSE)
+
+#List the possible combinations of target and cell type
+testing_grid <- expand.grid(
+  exposure_gene = c("IL2RA", "IL6R", "TYK2"),
+  exposure_celltype = c(
+    "bin",
+    "bmem",
+    "cd4et",
+    "cd4nc",
+    "cd4sox4",
+    "cd8et",
+    "cd8nc",
+    "cd8s100b",
+    "dc",
+    "monoc",
+    "mononc",
+    "nkr",
+    "nk",
+    "plasma"
+  )
+)
+
+#Exclude those combinations for which there is no data (and turn to character)
+testing_grid <- testing_grid %>%
+  filter(!(exposure_gene == "IL2RA" & exposure_celltype %in% c("dc", "mononc", "plasma"))) %>%
+  filter(!(exposure_gene == "IL6R" & exposure_celltype %in% c("nkr"))) %>%
+  mutate(across(everything(), as.character))
+
+dir.create("figures/sc_coloc_sensitivity/")
+png(file = paste0("figures/sc_coloc_sensitivity/", "plot_%03d.png"), width = 900, height = 600)
+
+#Test for the 38 colocalizations  (target + cell type) and get the coloc hypothesis tables
+# (h0= neither is associated with SNPs h1 = only exposure is associated with SNPs,
+#  h2 = only outcome is associated with SNPs, h3= both are associated with SNPs, but does not colocalize,
+#  h4 = both are associated and colocalize)
+res <- map2(testing_grid$exposure_gene,
+            testing_grid$exposure_celltype,
+            ~get_coloc_hypothesis_table_for_sc(.x, .y))
+
+
+#Format
+res_final  <- res %>%
+  unlist() %>%
+  matrix(ncol = 6, byrow = TRUE) %>%
+  as_tibble() %>%
+  mutate(gene = testing_grid$exposure_gene,
+         celltype = testing_grid$exposure_celltype)  %>%
+  rename(n_snps = V1,
+         h0 = V2,
+         h1 = V3,
+         h2 = V4,
+         h3 = V5,
+         h4 = V6) %>%
+  mutate(across(contains("h"), ~ round(.x * 100, 1))) %>%
+  arrange(gene, celltype)
+
+#Add full cell type names
+sc_names <- read_csv(here::here("data/export_harmonization/single_cell_types.csv"))
+res_final <- res_final %>%
+  left_join(sc_names, by = "celltype") %>%
+  select(gene, celltype, celltype_long, n_snps, h0, h1, h2, h3, h4)
+
+print(tibble(res_final$h0))
+
+dev.off()
+
+
+```
+
