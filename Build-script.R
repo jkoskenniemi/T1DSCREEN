@@ -10,6 +10,7 @@ install.packages("devtools")
 devtools::install_github("phenoscanner/phenoscanner")
 install.packages("remotes")
 remotes::install_github("MRCIEU/TwoSampleMR")
+remotes::install_github("oliviasabik/RACER")
 remotes::install_github("MRCIEU/genetics.binaRies")
 
 #Load packages
