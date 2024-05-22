@@ -44,10 +44,44 @@ IL6ST <- IL6ST[Chrom == "chr5"]
 IL6ST <- IL6ST[Pos >=  55230923 - mbp & Pos < 55290821 + mbp]
 IL6ST_anno <- anno[Chrom == "chr5"]
 IL6ST_anno <- IL6ST_anno[Pos >=  55230923 - mbp & Pos <  55290821 + mbp]
-saveRDS(IL6ST, file = "data/cis_sumstats/IL6ST_prot.rds")
-saveRDS(IL6ST_anno, file = "data/cis_sumstats/IL6ST_anno.rds")
+saveRDS(IL6ST, file = "data/export_cis_sumstats/IL6ST_prot.rds")
+saveRDS(IL6ST_anno, file = "data/export_cis_sumstats/IL6ST_anno.rds")
+rm(IL6ST_anno, IL6ST)
 
-rm(list=ls())
+#IL2RA (asked during review even if this makes little sense)
+IL2RA <- fread("data/import/3151_6_IL2RA_IL_2_sRa.txt")
+IL2RA <- IL2RA[Chrom == "chr10"]
+IL2RA <- IL2RA[Pos >=  6010689 - mbp & Pos < 6062367 + mbp]
+IL2RA_anno <- anno[Chrom == "chr10"]
+IL2RA_anno <- IL2RA_anno[Pos >=  6010689 - mbp & Pos <  6062367 + mbp]
+saveRDS(IL2RA, file = "data/cis_sumstats/IL2RA_prot.rds")
+saveRDS(IL2RA_anno, file = "data/export_cis_sumstats/IL2RA_anno.rds")
+rm(IL2RA_anno, IL2RA)
+
+#TYK2 (asked during review even if this makes little sense)
+TYK2 <- fread("data/import/5260_80_TYK2_TYK2.txt")
+TYK2 <- TYK2[Chrom == "chr19"]
+TYK2 <- TYK2[Pos >=  10350533  - mbp & Pos < 10350533  + mbp]
+TYK2_anno <- anno[Chrom == "chr19"]
+TYK2_anno <- TYK2_anno[Pos >=  10350533  - mbp & Pos <  10350533  + mbp]
+saveRDS(TYK2, file = "data/cis_sumstats/TYK2_prot.rds")
+saveRDS(TYK2_anno, file = "data/export_cis_sumstats/TYK2_anno.rds")
+rm(TYK2_anno, TYK2)
+
+#IL6R (asked during review even if this makes little sense)
+IL6R <- fread("data/import/15602_43_IL6R_IL_6_sRa.txt")
+IL6R <- IL6R[Chrom == "chr1"]
+IL6R <- IL6R[Pos >=  154405193 - mbp & Pos < 154469450 + mbp]
+IL6R_anno <- anno[Chrom == "chr1"]
+IL6R_anno <- IL6R_anno[Pos >=  154405193 - mbp & Pos <  154469450 + mbp]
+saveRDS(IL6R, file = "data/cis_sumstats/IL6R_prot.rds")
+saveRDS(IL6R_anno, file = "data/export_cis_sumstats/IL6R_anno.rds")
+rm(IL6R_anno, IL6R)
+
+
+
+#IL6R (asked during review even if this makes little sense)
+
 gc()
 
 
@@ -104,8 +138,8 @@ gc()
   JAK3_T1D <- JAK3_T1D[hm_pos >=  17935589 - mbp & hm_pos < 17958880  + mbp]
   saveRDS(JAK3_T1D, file = "data/export_cis_sumstats/JAK3_T1D.rds")
 
-
-  rm(list=ls())
+  rm(IL2RA_T1D, IL2RB_T1D, IL6R_T1D, IL6ST_T1D, JAK2_T1D, JAK3_T1D, T1D, TYK2_T1D)
+  # rm(list=ls())
   gc()
 
   #4 read EQTL data-----------------------------------------
@@ -161,6 +195,8 @@ gc()
   eqtl_JAK2   <- eqtl_full_AF[GeneSymbol == "JAK2"]
   eqtl_JAK3   <- eqtl_full_AF[GeneSymbol == "JAK3"]
   eqtl_TYK2   <- eqtl_full_AF[GeneSymbol == "TYK2"]
+  eqtl_IL6ST   <- eqtl_full_AF[GeneSymbol == "IL6ST"] #per request of a the reviewer
+
   rm(eqtl_full_AF)
 
   #Save output files
@@ -170,6 +206,7 @@ gc()
   saveRDS(eqtl_JAK2,   file = "data/export_cis_sumstats/eqtl_JAK2-Gather.rds")
   saveRDS(eqtl_JAK3,   file = "data/export_cis_sumstats/eqtl_JAK3-Gather.rds")
   saveRDS(eqtl_TYK2,   file = "data/export_cis_sumstats/eqtl_TYK2-Gather.rds")
+  saveRDS(eqtl_IL6ST,   file = "data/export_cis_sumstats/eqtl_IL6ST-Gather.rds")
 
 
   cat("All Done with parsing")

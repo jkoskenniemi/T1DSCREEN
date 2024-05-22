@@ -1,6 +1,8 @@
 
 rm(list=ls())
 #Get function import_data
+plink_path = "~/Documents/plinkref/EUR"
+
 source("code/01-Functions.R")
 pacman::p_load(tidyverse, ieugwasr, TwoSampleMR)
 
@@ -51,7 +53,7 @@ IL2RA_SNPs_LD <- ld_matrix(
   variants = c("rs61839660", "rs35285258", "rs56179589", "rs6602437", "rs947474"),
   pop = "EUR",
   plink_bin = genetics.binaRies::get_plink_binary(),
-  bfile = "C:/Users/jajoko/Documents/plinkref/EUR", #change this to your own plink location
+  bfile = plink_path, #change this to your own plink location
   with_alleles = FALSE)
 
 save(IL2RA_SNPs_LD, file = "data/export_LDmat/IL2RA_tophits.rda")

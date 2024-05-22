@@ -1,4 +1,354 @@
+#1. Processing before harmonization of data------------------------------------------------------
+rename_eqtl_data <- function(data, Phenotype, EAF, AssessedAllele, OtherAllele,
+                             Pvalue, SNPPos, NrSamples) {
+  data %>%
+    rename(eaf = EAF, effect_allele = AssessedAllele,
+           other_allele = OtherAllele, pval = Pvalue,
+           pos = SNPPos, chr = SNPChr, samplesize = NrSamples) %>%
+    mutate(pval = as.numeric(pval),
+           eaf = as.numeric(eaf),
+           Phenotype = Phenotype)
+}
 
+check_conflicts_rsid <- function(data, effectAllele.x, effectAllele.y) {
+  filter(data, rsids.x != rsids.y |
+           is.na(rsids.x) & !is.na(rsids.y) |
+           !is.na(rsids.x) &  is.na(rsids.y)) %>%
+    mutate(rsids.x = factor(rsids.x),
+           rsids.y = factor(rsids.y)) %>%
+    select(rsids.x, rsids.y) %>%
+    summary()
+}
+
+check_conflicts_ea_oa <- function(data, effectAllele.x, effectAllele.y) {
+  filter(data, effectAllele.x != effectAllele.y |
+           is.na(effectAllele.x) & !is.na(effectAllele.y) |
+           !is.na(effectAllele.x) &  is.na(effectAllele.y) |
+           otherAllele.x != otherAllele.y |
+           is.na(otherAllele.x) & !is.na(otherAllele.y) |
+           !is.na(otherAllele.x) &  is.na(otherAllele.y))
+}
+
+# Rename files
+rename_for_TwoSampleMR_e  <- function(data, rsids, Beta, SE, effectAlleleFreq,
+                                      effectAllele, otherAllele,
+                                      Pval, Pos, N) {
+  data %>%
+    rename(SNP = rsids, beta = Beta, se = SE, eaf = effectAlleleFreq,
+           effect_allele = effectAllele, other_allele = otherAllele,
+           pval = Pval, pos = Pos) %>%
+    mutate(samplesize = N)
+}
+
+get_n_conflicts  <- function(data, AlleleB=AlleleB, AssessedAllele=AssessedAllele) {
+  data %>%
+    filter(AlleleB != AssessedAllele) %>%
+    pull(SNP) %>% length()
+}
+
+summarize_agreement <- function(data, AlleleB=AlleleB,
+                                AssessedAllele=AssessedAllele,
+                                AlleleB_all=AlleleB_all) {
+  data %>%
+    mutate(AlleleB_vs_AssessedAllele =
+             ifelse(AlleleB == AssessedAllele, "AlleleB == AssessedAllele",
+                    "AlleleB != AssessedAllele")) %>%
+    group_by(AlleleB_vs_AssessedAllele) %>%
+    summarise(p_AF_m40  = round(sum(AlleleB_all < 0.40) / length(AlleleB_all), 4),
+              p_AF_4050 = round(sum(AlleleB_all >= 0.40 & AlleleB_all < 0.50)  /
+                                  length(AlleleB_all), 4),
+              p_AF_5060 = round(sum(AlleleB_all > 0.50 & AlleleB_all <= 0.60)  /
+                                  length(AlleleB_all), 4),
+              p_AF_p60  = round(sum(AlleleB_all > 0.60) / length(AlleleB_all), 4),
+              p_AF_50  = round(sum(AlleleB_all == 0.50) / length(AlleleB_all), 4),
+              n_AF_NA = sum(is.na(AlleleB_all)))
+}
+
+rename_for_TwoSampleMR_o  <- function(data, beta, other_allele, effect_allele,
+                                      hm_rsid, hm_beta, standard_error,
+                                      hm_effect_allele_frequency,
+                                      hm_effectAllele, hm_otherAllele,
+                                      p_value, hm_pos) {
+  data %>%
+    select(-beta, -other_allele, -effect_allele) %>%
+    rename(SNP = hm_rsid, beta = hm_beta, se = standard_error, eaf = hm_effect_allele_frequency,
+           effect_allele = hm_effect_allele, other_allele = hm_other_allele,
+           pval = p_value, pos = hm_pos) %>%
+    mutate(Phenotype = "Risk of type 1 diabetes",
+           ncase = 18942, ncontrol = 501638, samplesize = 18942+501638)
+}
+
+#2. Colocaization analysis for single cells-----------------------------------------
+
+# The Main function
+get_coloc_hypothesis_tables <- function(exposure_gene, exposure_celltype) {
+
+  data <- import_coloc_data(exposure_gene=exposure_gene, exposure_celltype=exposure_celltype)
+  coloc_results <- analyze_coloc_celltypes(data)
+  h_table <- coloc_results$coloc_results$summary
+  h_table <- unname(h_table)
+  h_table <- suppressMessages(h_table)
+  h_table <- suppressWarnings(h_table)
+  attributes(h_table) <- NULL
+  h_table
+
+}
+
+# Supporting functions----------------------------------------------------------#
+analyze_coloc_celltypes <- function(data) {
+
+  data <- data %>%
+    filter(!is.na(eaf.outcome))
+
+  D1 <- list(
+    type = "quant", # quantitative trait
+    pvalues = data$pval.exposure,
+    N = data$samplesize.exposure, #this is WRONG, but I'll let it be for now
+    MAF = ifelse(!is.na(data$eaf.exposure),
+                 ifelse(data$eaf.exposure < 0.5, data$eaf.exposure, 1  - data$eaf.exposure),
+                 ifelse(data$eaf.outcome < 0.5, data$eaf.outcome, 1  - data$eaf.outcome)),
+    position = data$pos.outcome,
+    phenotype = data$exposure,
+    snp = data$SNP,
+    sdY = 1)
+
+  D2 <- list(
+    type = "cc", # case-control trait
+    pvalues = data$pval.outcome,
+    N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+    s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+    MAF = ifelse(data$eaf.outcome < 0.5, data$eaf.outcome, 1  - data$eaf.outcome),
+    position = data$pos.outcome,
+    phenotype = data$exposure,
+    snp = data$SNP)
+
+  # check_dataset_D1 <- check_dataset(D1)
+  # check_dataset_D2 <- check_dataset(D2)
+
+  coloc_D1D2 <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+  sensitivity_coloc_D1D2 <- sensitivity_custom(coloc_D1D2, "H4 > 0.7",
+                                               label1 = data$exposure[1],
+                                               label2  = data$outcome[1])
+
+  list(coloc_results = coloc_D1D2,
+       coloc_sensitivity = sensitivity_coloc_D1D2)
+}
+import_coloc_data <- function(exposure_gene, exposure_celltype) {
+  import_data(
+    paste0(
+      here::here("data/export_celltypes_harmonized/"),
+      exposure_gene,
+      "_",
+      exposure_celltype,
+      "_TwoSampleMR.csv"
+    ),
+    paste0(
+      here::here("data/export_harmonization/"),
+      exposure_gene,
+      "_T1D_TwoSampleMR.csv"
+    ),
+    has_beta = FALSE
+  )
+}
+
+#Custom colocalization sensitivity function to get add labels
+#(tweaked by Jake Linm see email on May 14, 2024)
+sensitivity_custom <- function(obj,rule="",label1="trait 1", label2="trait 2",
+                               dataset1=NULL,dataset2=NULL,
+                               npoints=100,doplot=TRUE,plot.manhattans=TRUE,
+                               preserve.par=FALSE,
+                               row=1) {
+  stopifnot("list" %in% class(obj))
+  stopifnot("priors" %in% names(obj))
+  stopifnot("summary" %in% names(obj))
+  if(rule=="")
+    stop("please supply a rule to define colocalisation, eg 'H4 > thr' where thr is some probability of H4 that you accept as colocalisation")
+  rule.init <- rule
+  rule <- gsub("(H.)","PP.\\1.abf",rule,perl=TRUE)
+
+  ## massage results object
+  results=obj$results
+  ## multiple signals?
+  multiple=FALSE
+  if(is.data.table(obj$summary)) { # we're not in coloc.abf anymore
+    if(!(row %in% 1:nrow(obj$summary)))
+      stop("row must be between 1 and ",nrow(obj$summary))
+    pp <- unlist(c(obj$summary[row,grep("PP|nsnp",names(obj$summary)),with=FALSE]))
+    if(paste0("SNP.PP.H4.row",row) %in% names(results)) {
+      multiple=TRUE
+      results[["SNP.PP.H4"]]  <- results[[paste0("SNP.PP.H4.row",row)]]
+    }
+    if(paste0("z.df1.row",row) %in% names(results)) { # might be passed here or in separate dataset objects
+      results[["z.df1"]]  <- results[[paste0("z.df1.row",row)]]
+      results[["z.df2"]]  <- results[[paste0("z.df2.row",row)]]
+    } else {
+      pp <- unlist(c(obj$summary[row,grep("PP|nsnp",names(obj$summary)),with=FALSE]))
+    }
+  } else {
+    pp <- obj$summary
+  }
+  ## need to add z score from datasets?
+  if(!is.null(dataset1) && !is.null(dataset2)) {
+    df1=with(dataset1,data.table(snp=snp,position=position,z.df1=beta/sqrt(varbeta)))
+    df2=with(dataset2,data.table(snp=snp,position=position,z.df2=beta/sqrt(varbeta)))
+    df=merge(df1,df2,by=c("snp","position"),all=TRUE)
+    results=merge(results,df,by="snp")
+  }
+
+  p12 <- obj$priors["p12"]
+  p1 <- obj$priors["p1"]
+  p2 <- obj$priors["p2"]
+  check <- function(pp) { with(as.list(pp),eval(parse(text=rule))) }
+  pass.init <- check(pp)
+  message("Results ",if(check(pp)) { "pass" } else { "fail" }, " decision rule ",rule.init)
+
+  testp12 <- 10^seq(log10(p1*p2),log10(min(p1,p1)),length.out=npoints)
+  testH <- prior.snp2hyp(pp["nsnps"],p12=testp12,p1=p1,p2=p2)
+  testpp <- as.data.frame(prior.adjust(summ=pp,newp12=testp12,p1=p1,p2=p2,p12=p12))
+  colnames(testpp) <- gsub("(H.)","PP.\\1.abf",colnames(testpp),perl=TRUE)
+  pass <- check(testpp)
+  w <- which(pass)
+
+  if(doplot) {
+    H <- as.character(0:4)
+    palette(c("#ffffffff",viridis(5,alpha=1)[-1]))
+    op <- par('mfcol', 'mar', 'mfrow','mar','mgp','las','tck')
+    on.exit(par(op))
+    if(!preserve.par) {
+      if(plot.manhattans)
+        layout(mat = matrix(1:4,2,2),
+               heights = c(1, 1), # Heights of the two rows
+               widths = c(2, 3)) # Widths of the two columns
+      else
+        par(mfcol=c(1,2))
+    }
+    par(mar = c(3, 3, 2, 1) # Dist' from plot to side of page
+        ,mgp = c(2, 0.4, 0) # Dist' plot to label
+        ,las = 1 # Rotate y-axis text
+        ,tck = -.01 # Reduce tick length
+    )
+    if(plot.manhattans) {
+      if(!("z.df1" %in% colnames(results)) || !("z.df2" %in% colnames(results)))
+        stop("please supply dataset1, dataset2, if you want to view Manhattan plots. Otherwise set plot.manhattans=FALSE.")
+      manh.plot(results,1)
+      title(main=paste(label1, if(multiple) { paste("row",row) } else { "" }))
+      manh.plot(results,2)
+      title(main=paste(label2, if(multiple) { paste("row",row) } else { "" }))
+    }
+    m <- list(testH,as.matrix(testpp))
+    ti <-   list("Prior probabilities", "Posterior probabilities")
+    for(i in 1:2) {
+      ym <- if(i==1) { max(m[[i]][,-1]) } else { max(m[[i]]) }
+      matplot(testp12,m[[i]],log="x",xlab="p12",ylab="Prob",
+              type="b",
+              bg = 1:5, # Fill colour
+              pch = 21, # Shape: circles that can filed
+              col="gray20",
+              frame.plot = FALSE, # Remove the frame
+              panel.first = abline(h = seq(0, 1, 0.2), col = "grey80"),
+              ylim=c(0,ym))
+      title(main=ti[[i]],adj=0)
+      title(sub=paste("shaded region:",rule.init),adj=0)
+      ## title(main=paste("Acceptance rule (shaded region):",rule.init))
+      ## legend("topleft",pch=rep(21,5),pt.bg=1:5,legend=paste0("H",0:4))
+      if(i==1)
+        legend("left",inset=c(0.1,0),bg="white",pch=rep(21,5),pt.bg=1:5,pt.cex=2,legend=paste0("H",0:4))
+      abline(v=p12,lty="dashed",col="gray")
+      text(p12,0.5,"results",srt=90,col="gray40")
+      if(any(pass))
+        rect(xleft=testp12[min(w)],ybottom=0,
+             xright=testp12[max(w)],ytop=1,
+             col=rgb(0,1,0,alpha=0.1), border="green")
+      ## add text showing rule
+      ## mtext(paste("shaded region:",rule.init),side=3,adj=1)
+    }
+  }
+
+  invisible(cbind(testpp,p12=testp12,pass=pass))
+}
+
+#Supporting functions not exported by coloc
+prior.adjust <- function(summ,newp12,p1=1e-4,p2=1e-4,p12=1e-6) {
+  if(is.list(summ) && "summary" %in% names(summ))
+    summ <- summ$summary
+  if(!identical(names(summ), c("nsnps", "PP.H0.abf", "PP.H1.abf", "PP.H2.abf", "PP.H3.abf", "PP.H4.abf")))
+    stop("not a coloc summary vector")
+  ## back calculate likelihoods
+  f <- function(p12)
+    prior.snp2hyp(summ["nsnps"],p12=p12,p1=p1,p2=p2)
+  pr1 <- f(newp12)
+  pr0 <- matrix(f(p12),nrow=nrow(pr1),ncol=ncol(pr1),byrow=TRUE)
+  ## make everything conformable
+  ## if(is.matrix(summ) && nrow(summ)==1) summ <- as.vector(summ)
+  ## if(nrow(pr1)==1) pr1 <- as.vector(pr1)
+  ## if(nrow(pr1)>1) pr1 <- t(pr1)
+  newpp <- matrix(summ[-1],nrow=nrow(pr1),ncol=ncol(pr1),byrow=TRUE) * pr1/pr0 # prop to, not equal to
+  newpp/rowSums(newpp)
+}
+
+
+prior.snp2hyp <- function(nsnp,p12=1e-6,p1=1e-4,p2=1e-4) {
+  if(any(p12<p1*p2) || any(p12 > p1) || any(p12 > p2))
+    return(NULL)
+  tmp <- cbind(nsnp * p1,
+               nsnp * p2,
+               nsnp * (nsnp-1) * p1 * p2,
+               nsnp * p12)
+  tmp <- cbind(1-rowSums(tmp),tmp)
+  ## if(nrow(tmp)==1) {
+  ##     tmp <- c(tmp)
+  ##     names(tmp) <- paste0("H",0:4)
+  ## } else
+  colnames(tmp) <- paste0("H",0:4)
+  tmp
+}
+
+manh.plot <- function(df,wh,
+                      position=if("position" %in% names(df)) {
+                        df$position
+                      } else {
+                        1:nrow(df)
+                      }) {
+  znm <- if(wh==1) { "z.df1" } else {"z.df2" }
+  ## print(znm)
+  ## print(head(df))
+  logp <- - ( pnorm(-abs(df[[znm]]),log.p=TRUE) + log(2) ) / log(10)
+  ## mycol <- ifelse(A$snp %in% nCV, "red","black")
+  Pal <- colorRampPalette(c('white','blue'))
+
+  ##This adds a column of color values
+  ## based on the y values
+  Col <- Pal(100)[ceiling(100*df$SNP.PP.H4)]
+  plot(position,logp,col="gray20",
+       bg = Col, # Fill colour
+       pch = 21, # Shape: circles that can filed
+       frame.plot = FALSE, # Remove the frame
+       xlab=if("position" %in% names(df)) {
+         "Chromosome position"
+       } else {
+         "SNP number"
+       },
+       ylab="-log10(p)",
+       xaxt='n')
+  ## main=paste("Trait",wh))
+  axis(side=1,labels=FALSE)
+}
+
+
+#Not dependent, but good for testing purposes--------------------------------#
+
+get_coloc_for_celltypes_simple <- function(exposure_gene, exposure_celltype) {
+
+  data <- import_coloc_data(exposure_gene=exposure_gene, exposure_celltype=exposure_celltype)
+  res <- analyze_coloc_celltypes(data)
+  return(res$coloc_results)
+}
+# coloc_IL2RA_cd8et <- get_coloc_for_celltypes_simple("IL2RA", "cd8et")
+#end coloc------------------------------------------------------------------------#
+
+
+
+#3. other functions--------------------------------------------------------------------
 #Function to import data analysis data
 
 import_data <- function(exposure_data_file, outcome_data_file, has_beta, min_p = 1e-400) {
@@ -81,7 +431,7 @@ analyze_coloc_eqtl <- function(data) {
         pvalues = data$pval.exposure,
         N = data$samplesize.exposure,
         MAF = data$maf.outcome,
-        pos = data$pos.outcome,
+        position = data$pos.outcome,
         snp = data$SNP,
         sdY = 1)
 
@@ -91,7 +441,7 @@ analyze_coloc_eqtl <- function(data) {
         N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
         s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
         MAF = data$maf.outcome,  #eqtl used here in purpose
-        pos = data$pos.outcome,
+        position = data$pos.outcome,
         snp = data$SNP)
 
     } else if(anyNA(data$maf.exposure) == FALSE & anyNA(data$maf.outcome)) {
@@ -100,7 +450,7 @@ analyze_coloc_eqtl <- function(data) {
           pvalues = data$pval.exposure,
           N = data$samplesize.exposure,
           MAF = data$maf.exposure,
-          pos = data$pos.outcome,
+          position = data$pos.outcome,
           snp = data$SNP,
           sdY = 1)
 
@@ -110,7 +460,7 @@ analyze_coloc_eqtl <- function(data) {
       N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
       s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
       MAF = data$maf.exposure,  #eqtl used here in purpose
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP)
 
 
@@ -132,7 +482,7 @@ analyze_coloc_eqtl <- function(data) {
       pvalues = data$pval.exposure,
       N = data$samplesize.exposure,
       MAF = data$maf,
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP,
       sdY = 1)
 
@@ -143,13 +493,15 @@ analyze_coloc_eqtl <- function(data) {
       N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
       s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
       MAF = data$maf,
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP)
 
     check_dataset_D1 <- check_dataset(D1)
     check_dataset_D2 <- check_dataset(D2)
     coloc_D1D2 <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-    sensitivity_coloc_D1D2 <- sensitivity(coloc_D1D2, "H4 > 0.7")
+    sensitivity_coloc_D1D2 <- sensitivity_custom(coloc_D1D2, "H4 > 0.7",
+                                                 label1 = data$exposure[1],
+                                                 label2  = data$outcome[1])
   }
 
   return(list("test_D1" = check_dataset_D1,
@@ -184,7 +536,7 @@ analyze_coloc_pqtl <- function(data) {
       varBeta = data$beta.exposure^2,
       N = data$samplesize.exposure,
       MAF = data$maf.outcome,
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP,
       sdY = 1)
 
@@ -196,7 +548,7 @@ analyze_coloc_pqtl <- function(data) {
       N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
       s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
       MAF = data$maf.outcome,  #eqtl used here in purpose
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP)
 
   } else if(anyNA(data$maf.exposure) == FALSE & anyNA(data$maf.outcome)) {
@@ -205,7 +557,7 @@ analyze_coloc_pqtl <- function(data) {
       pvalues = data$pval.exposure,
       N = data$samplesize.exposure,
       MAF = data$maf.exposure,
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP,
       sdY = 1)
 
@@ -215,7 +567,7 @@ analyze_coloc_pqtl <- function(data) {
       N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
       s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
       MAF = data$maf.exposure,  #eqtl used here in purpose
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP)
 
 
@@ -237,7 +589,7 @@ analyze_coloc_pqtl <- function(data) {
       pvalues = data$pval.exposure,
       N = data$samplesize.exposure,
       MAF = data$maf,
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP,
       sdY = 1)
 
@@ -248,7 +600,7 @@ analyze_coloc_pqtl <- function(data) {
       N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
       s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
       MAF = data$maf,
-      pos = data$pos.outcome,
+      position = data$pos.outcome,
       snp = data$SNP)
 
     check_dataset_D1 <- check_dataset(D1)
@@ -261,6 +613,105 @@ analyze_coloc_pqtl <- function(data) {
               "coloc_D1D2" = coloc_D1D2, "sensitivity" = sensitivity_coloc_D1D2))
 }
 
+
+analyze_coloc_pqtl_nosensitivitity <- function(data) {
+  data <- data %>%
+    mutate(eaf.exposure = as.numeric(eaf.exposure)) %>%
+    mutate(eaf.outcome  = as.numeric(eaf.outcome)) %>%
+    mutate(maf.exposure  =
+             ifelse(eaf.exposure  < 0.5, eaf.exposure,
+                    1 - eaf.exposure)) %>%
+    mutate(maf.outcome  =
+             ifelse(eaf.outcome  < 0.5, eaf.outcome,
+                    1 - eaf.outcome))
+
+  data <- data %>%
+    filter(!is.na(pos.outcome))
+
+  if(anyNA(data$maf.exposure) & anyNA(data$maf.outcome) == FALSE) {
+    D1 <- list(
+      type = "quant", # quantitative trait
+      pvalues = data$pval.exposure,
+      beta = data$beta.exposure,
+      varBeta = data$beta.exposure^2,
+      N = data$samplesize.exposure,
+      MAF = data$maf.outcome,
+      position = data$pos.outcome,
+      snp = data$SNP,
+      sdY = 1)
+
+    D2 <- list(
+      type = "cc", # case-control trait
+      pvalues = data$pval.outcome,
+      beta = IL6R$beta.outcome,
+      varbeta = IL6R$se.outcome^2,
+      N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+      s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+      MAF = data$maf.outcome,  #eqtl used here in purpose
+      position = data$pos.outcome,
+      snp = data$SNP)
+
+  } else if(anyNA(data$maf.exposure) == FALSE & anyNA(data$maf.outcome)) {
+    D1 <- list(
+      type = "quant", # quantitative trait
+      pvalues = data$pval.exposure,
+      N = data$samplesize.exposure,
+      MAF = data$maf.exposure,
+      position = data$pos.outcome,
+      snp = data$SNP,
+      sdY = 1)
+
+    D2 <- list(
+      type = "cc", # case-control trait
+      pvalues = data$pval.outcome,
+      N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+      s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+      MAF = data$maf.exposure,  #eqtl used here in purpose
+      position = data$pos.outcome,
+      snp = data$SNP)
+
+
+    check_dataset_D1 <- check_dataset(D1)
+    check_dataset_D2 <- check_dataset(D2)
+    coloc_D1D2 <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+    # sensitivity_coloc_D1D2 <- sensitivity(coloc_D1D2, "H4 > 0.7")
+  } else {
+
+    data <- data %>%
+      mutate(more_non_na_maf = ifelse(length(!is.na(maf.exposure)) >
+                                        length(!is.na(maf.outcome)),
+                                      "exposure", "outcome")) %>%
+      mutate(maf = ifelse(more_non_na_maf == "exposure", maf.exposure, maf.outcome)) %>%
+      filter(!is.na(maf))
+
+    D1 <- list(
+      type = "quant", # quantitative trait
+      pvalues = data$pval.exposure,
+      N = data$samplesize.exposure,
+      MAF = data$maf,
+      position = data$pos.outcome,
+      snp = data$SNP,
+      sdY = 1)
+
+
+    D2 <- list(
+      type = "cc", # case-control trait
+      pvalues = data$pval.outcome,
+      N = 18942+501638, # Case-control study (Chiou et al. 2021 Nature)
+      s = 18942/(18942+501638), # N_case/(N_case+ N_ctrl)
+      MAF = data$maf,
+      position = data$pos.outcome,
+      snp = data$SNP)
+
+    check_dataset_D1 <- check_dataset(D1)
+    check_dataset_D2 <- check_dataset(D2)
+    coloc_D1D2 <- coloc.abf(D1, D2, p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+    # sensitivity_coloc_D1D2 <- sensitivity(coloc_D1D2, "H4 > 0.7")
+  }
+
+  return(list("test_D1" = check_dataset_D1, "test_D2" = check_dataset_D2,
+              "coloc_D1D2" = coloc_D1D2))
+}
 
 analyze_coloc_eqtl_pull_top_snp <- function(data) {
   data <- data %>%
@@ -351,6 +802,14 @@ analyze_coloc_eqtl_pull_top_snp <- function(data) {
 
   return(coloc_results$results[which(coloc_results$results$SNP.PP.H4==max(coloc_results$results$SNP.PP.H4)),"snp"])
 }
+
+
+
+
+
+
+
+
 
 # rm(list=ls())
 
@@ -682,7 +1141,7 @@ get_ld_matrix <- function(target) {
     variants = target_variants,
     pop = "EUR",
     plink_bin = genetics.binaRies::get_plink_binary(),
-    bfile = "C:/Users/jajoko/Documents/plinkref/EUR",
+    bfile = plink_path,
     with_alleles = FALSE)
 }
 
@@ -847,3 +1306,6 @@ plot_coloc_2 <- function(genechr,
 
 
 sig2 <- function(x) signif(x, digits = 2)
+
+
+

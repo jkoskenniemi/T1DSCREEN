@@ -1,8 +1,11 @@
 #Script to get data from DECODE, GWAS catalog and eQTLgen
 
-#Make sure you are in T1DSCREEN/data
+#Open terminal and move to folder T1DSCREEN/data
 
-#Get T1D data from gwas catalog (Chiou et al.)
+#Get T1D data from gwas catalog (Chiou et al.),
+#https://www.ebi.ac.uk/gwas/studies/GCST90014023 OR use wget to download straight from
+#the GWAS catalog FTP folder
+#https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90014001-GCST90015000/GCST90014023/harmonised/
 wget http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90014001-GCST90015000/GCST90014023/harmonised/34012112-GCST90014023-EFO_0001359.h.tsv.gz
 wget http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90014001-GCST90015000/GCST90014023/harmonised/md5sum.txt
 wget http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90014001-GCST90015000/GCST90014023/README.txt
@@ -23,9 +26,10 @@ wget https://molgenis26.gcc.rug.nl/downloads/eqtlgen/cis-eqtl/README_cis
 # https://www.decode.com/summarydata/ under 2021 and
 #
 # Ferkingstad, E. et al. Large-scale integration of the plasma proteome with genetics and disease. Summary data (list).
-# Extra annotation (430 MB). Excluded variants (52 MB)  Read me file (2 KB).
+# Extra annotation (430 MB). Excluded variants (52 MB)  Read me file (2 KB). You need all these files.
 #
 # Direct links to downloads (you have to fill a form first)
+#wget/aria2 options didn't work for me, so I suggest downloading the files using web browser
 # Summary data (list): https://download.decode.is/form/folder/proteomics
 #    -> 2620_4_IL6ST_gp130__soluble.txt.gz (decompress to get to 2620_4_IL6ST_gp130__soluble.txt)
 #    -> save to data/import/
@@ -36,10 +40,6 @@ wget https://molgenis26.gcc.rug.nl/downloads/eqtlgen/cis-eqtl/README_cis
 #    -> proteomics_readme.txt
 #    -> save to data/import/
 
-#For internal use try
-wget https://download.decode.is/s3/download?token=c1bbd243-510e-498b-94f7-3b1aad118fd5&file=2620_4_IL6ST_gp130__soluble.txt.gz
-wget https://download.decode.is/s3/download?token=c1bbd243-510e-498b-94f7-3b1aad118fd5&file=2620_4_IL6ST_gp130__soluble.txt.md5sum
-
 #decompress data
 zcat -d assocvariants.annotated.txt.gz > assocvariants.annotated.txt
 zcat -d 2620_4_IL6ST_gp130__soluble.txt.gz > 2620_4_IL6ST_gp130__soluble.txt
@@ -47,7 +47,15 @@ zcat -d 34012112-GCST90014023-EFO_0001359.h.tsv.gz > 34012112-GCST90014023-EFO_0
 zcat -d 2019-12-11-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz > cis-EQTL-full.txt
 zcat -d 2018-07-18_SNP_AF_for_AlleleB_combined_allele_counts_and_MAF_pos_added.txt.gz > cis-EQTL-AF.txt
 
-#Move data to imports
-mv *.tsv imports/
-mv *.txt imports/
-mv README_cis imports/
+#Move data to import
+mkdir import
+mv *.tsv import/
+mv *.txt import/
+mv README_cis import/
+#remove all gz files
+rm *.gz
+
+#prepare for analyses
+mkdir export_cis_sumstats
+mkdir export_manuscript
+mkdir export_celltypes_harmonized
