@@ -52,7 +52,8 @@ map2(names_gwas, trimmed_ld_matrices, ~{
 IL2RA_SNPs_LD <- ld_matrix(
   variants = c("rs61839660", "rs35285258", "rs56179589", "rs6602437", "rs947474"),
   pop = "EUR",
-  plink_bin = genetics.binaRies::get_plink_binary(),
+  #plink_bin = genetics.binaRies::get_plink_binary(), #this should work for most users, however for me genetics.binaRies() installs a faulty version of plink
+  plink_bin = "/bin/plink1.9",
   bfile = plink_path, #change this to your own plink location
   with_alleles = FALSE)
 
