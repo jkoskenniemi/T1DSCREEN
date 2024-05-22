@@ -28,12 +28,12 @@ source("code/01-Functions.R")
 ```{r}
 
 #Example how data can be imported to R
-IL2RA_bin <- import_data("data/export_sc_harmonized/IL2RA_bin_TwoSampleMR.csv",
+IL2RA_cd8et <- import_data("data/export_celltypes_harmonized/IL2RA_cd8et_TwoSampleMR.csv",
                          "data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv", has_beta = FALSE)
 
 #List the possible combinations of target and cell type
 testing_grid <- expand.grid(
-  exposure_gene = c("IL2RA", "IL6R", "TYK2"),
+  exposure_gene = c("IL2RA", "IL6R", "TYK2", "IL6ST"),
   exposure_celltype = c(
     "bin",
     "bmem",
@@ -58,7 +58,7 @@ testing_grid <- testing_grid %>%
   filter(!(exposure_gene == "IL6R" & exposure_celltype %in% c("nkr"))) %>%
   mutate(across(everything(), as.character))
 
-dir.create("figures/sc_coloc_sensitivity/")
+# dir.create("figures/sc_coloc_sensitivity/")
 png(file = paste0("figures/sc_coloc_sensitivity/", "plot_%03d.png"), width = 900, height = 600)
 
 #Test for the 38 colocalizations  (target + cell type) and get the coloc hypothesis tables
@@ -67,7 +67,7 @@ png(file = paste0("figures/sc_coloc_sensitivity/", "plot_%03d.png"), width = 900
 #  h4 = both are associated and colocalize)
 res <- map2(testing_grid$exposure_gene,
             testing_grid$exposure_celltype,
-            ~get_coloc_hypothesis_table_for_sc(.x, .y))
+            ~get_coloc_hypothesis_tables(.x, .y))
 
 
 #Format
@@ -92,9 +92,36 @@ res_final <- res_final %>%
   left_join(sc_names, by = "celltype") %>%
   select(gene, celltype, celltype_long, n_snps, h0, h1, h2, h3, h4)
 
-print(tibble(res_final$h0))
+print(res_final, n = 52)
+
+  res_final %>% 
+    write_csv("sc-results.csv")
+
 
 dev.off()
+
+
+coloc_IL2RA_cd8et <- analyze_coloc_celltypes(IL2RA_cd8et)
+coloc_IL2RA_cd8et$coloc_results$results[coloc_IL2RA_cd8et$coloc_results$results$SNP.PP.H4==max(coloc_IL2RA_cd8et$coloc_results$results$SNP.PP.H4),]
+
+
+IL6ST_cd4nc <- import_data(
+  "data/export_celltypes_harmonized/IL6ST_cd4nc_TwoSampleMR.csv",
+  "data/export_harmonization/IL6ST_T1D_TwoSampleMR.csv",
+  has_beta = FALSE
+)
+
+coloc_IL6ST_cd4nc <- analyze_coloc_celltypes(IL6ST_cd4nc)
+coloc_IL6ST_cd4nc$coloc_results$results[coloc_IL6ST_cd4nc$coloc_results$results$SNP.PP.H4==max(coloc_IL6ST_cd4nc$coloc_results$results$SNP.PP.H4),]
+
+IL6ST_cd8nc <- import_data(
+  "data/export_celltypes_harmonized/IL6ST_cd8nc_TwoSampleMR.csv",
+  "data/export_harmonization/IL6ST_T1D_TwoSampleMR.csv",
+  has_beta = FALSE
+)
+
+coloc_IL6ST_cd8nc <- analyze_coloc_celltypes(IL6ST_cd8nc)
+coloc_IL6ST_cd8nc$coloc_results$results[coloc_IL6ST_cd8nc$coloc_results$results$SNP.PP.H4==max(coloc_IL6ST_cd8nc$coloc_results$results$SNP.PP.H4),]
 
 
 ```
