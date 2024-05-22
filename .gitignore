@@ -7,6 +7,7 @@
 .Rapp.history
 .DS_Store
 data/import/*
+data/export_/*
 figures/*
 manuscript/
 references.bib
@@ -23,3 +24,4 @@ IL-6-signaling-infographic.pdf
 IL-6-signaling-infographic.png
 IL-6-signaling-infographic.svg
 IL6ST-eQTL_coloc-sensitivity.png
+data/export_LDmat/IL6ST_ldmat.Rds
