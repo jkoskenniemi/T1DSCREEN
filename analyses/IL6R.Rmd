@@ -71,6 +71,9 @@ coloc_results_IL6R_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_IL6R_eqtl
 IL6R_eqtl_rs10908839   <- IL6R_eqtl %>% 
   filter(SNP == "rs10908839")
 
+IL6R_eqtl_rs10908839   <- IL6R_eqtl_rs10908839 %>% 
+  mutate(Fstat = (beta.exposure/se.exposure)^2)
+
 #betas and 95% CI for beta of T1D (not MR!)
 exp(IL6R_eqtl_rs10908839$beta.outcome)
 exp(IL6R_eqtl_rs10908839$beta.outcome - 1.96 * IL6R_eqtl_rs10908839$se.outcome)
@@ -121,4 +124,19 @@ IL6R_eqtl %>%
   mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), function(x) signif(x, digits = 2)))
 #Does not meet our target for p.val.exposure  < 10^-5
 ```
+
+
+
+## pQTL
+
+Per request of reviewers
+```{r}
+IL6R_pqtl <- import_data("data/export_harmonization/IL6R_prot_anno_TwoSampleMR.csv",
+            "data/export_harmonization/IL6R_T1D_TwoSampleMR.csv", has_beta = TRUE)
+
+IL6R_pqtl <- IL6R_pqtl %>% filter(pval.exposure > 0 & pval.outcome > 0)
+
+coloc_results_IL6R_pqtl <- analyze_coloc_pqtl_nosensitivitity(IL6R_pqtl)
+```
+
 

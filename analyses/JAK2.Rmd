@@ -76,7 +76,8 @@ JAK2_missense #rs143103233, rs150221602, rs41316003
 #give betas and se for eQTL and T1D risk (note, this is not MR!)
 JAK2_eqtl %>%
   filter(SNP %in% JAK2_missense) %>%
-  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%
+  mutate(Fstat = (beta.exposure/se.exposure)^2) %>% 
+  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure, Fstat) %>%
   mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), function(x) signif(x, digits = 2)))
 
 

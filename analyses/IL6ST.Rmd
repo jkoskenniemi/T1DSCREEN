@@ -79,7 +79,8 @@ IL6ST_missense #rs61748224, rs61755738, rs34417936, rs141500365
 #give betas and se for eQTL and T1D risk (note, this is not MR!)
 IL6ST_pqtl %>%
   filter(SNP %in% IL6ST_missense) %>%
-  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %>%
+  mutate(Fstat = (beta.exposure/se.exposure)^2) %>% 
+  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure, Fstat) %>%
   mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), function(x) signif(x, digits = 2)))
 
 
@@ -97,3 +98,41 @@ IL6ST_pqtl_funcvar_mr <- IL6ST_pqtl %>%
     knitr::kable()
 
 ```
+
+
+#eQTL
+
+```{r}
+IL6ST_eqtl <- import_data("data/export_harmonization/IL6ST_eqtl_TwoSampleMR.csv",
+            "data/export_harmonization/IL6ST_T1D_TwoSampleMR.csv", has_beta = TRUE)
+
+analyze_coloc_eqtl(IL6ST_eqtl)$coloc_results
+coloc_IL6ST_eqtl <- analyze_coloc_eqtl(IL6ST_eqtl)
+
+
+str(coloc_IL6ST_eqtl)
+coloc_IL6ST_eqtl$sensitivity
+top_snp <- coloc_IL6ST_eqtl$coloc_D1D2$results[coloc_IL6ST_eqtl$coloc_D1D2$results$SNP.PP.H4 ==
+                                         max(coloc_IL6ST_eqtl$coloc_D1D2$results$SNP.PP.H4), ]
+top_snp <- top_snp$snp # "rs7731626"
+```
+
+
+#MR 
+```{r}
+
+IL6ST_eqtl_rs7731626 <- IL6ST_eqtl %>% 
+  filter(SNP == top_snp)
+
+IL6ST_eqtl_rs7731626 %>% 
+  mutate(Fstat = (beta.exposure/se.exposure)^2) 
+
+mr_IL6ST_rs7731626 <- IL6ST_eqtl_rs7731626 %>% 
+  mr()
+
+generate_odds_ratios(mr_IL6ST_rs7731626) %>% 
+  select(or, or_lci95, or_uci95, pval) %>% 
+  mutate(across(everything(), ~signif(.x, 3)))
+```
+
+

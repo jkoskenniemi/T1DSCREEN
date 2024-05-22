@@ -15,7 +15,7 @@ editor_options:
 Load packages and import data
 ```{r}
 pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr, 
-               ieugwasr, rio, here)
+               ieugwasr, rio, here, viridis)
 
 here::i_am("analyses/IL2RA.Rmd")
 
@@ -79,6 +79,11 @@ IL2RA_eqtl_rs61839660   <- IL2RA_eqtl %>% filter(SNP == "rs61839660")
 #Calculate beta for outcome (not MR)
 exp(IL2RA_eqtl_rs61839660$beta.outcome)
 
+
+#Calculate F statistic
+IL2RA_eqtl_rs61839660 %>% 
+  mutate(Fstat = (beta.exposure/se.exposure)^2)
+
 #Calculate 95% CI for beta for outcome (not MR)
 exp(IL2RA_eqtl_rs61839660$beta.outcome - 1.96 * IL2RA_eqtl_rs61839660$se.outcome)
 exp(IL2RA_eqtl_rs61839660$beta.outcome + 1.96 * IL2RA_eqtl_rs61839660$se.outcome)
@@ -93,6 +98,7 @@ MR_IL2RA_eqtl_rs61839660
 exp(MR_IL2RA_eqtl_rs61839660$b)
 exp(MR_IL2RA_eqtl_rs61839660$b - 1.96*MR_IL2RA_eqtl_rs61839660$se)
 exp(MR_IL2RA_eqtl_rs61839660$b + 1.96*MR_IL2RA_eqtl_rs61839660$se)
+
 
 #Look how our variant (rs61839660) relates to top hits by Robertson et al.
 load("data/export_LDmat/IL2RA_tophits.rda")
@@ -124,3 +130,16 @@ IL2RA_T1D %>%
 # MR cannot be done because we don't have eQTL data
 
 ```
+
+## pQTL
+
+Per request of reviewers
+```{r}
+IL2RA_pqtl <- import_data("data/export_harmonization/IL2RA_prot_anno_TwoSampleMR.csv",
+            "data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv", has_beta = TRUE)
+
+IL2RA_pqtl
+
+coloc_results_IL2RA_pqtl <- analyze_coloc_pqtl_nosensitivitity(IL2RA_pqtl)
+```
+
