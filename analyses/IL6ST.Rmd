@@ -24,7 +24,6 @@ IL6ST_pqtl <- import_data("data/export_harmonization/IL6ST_prot_anno_TwoSampleMR
 
 ## Manhattan plots
 
-No GWAS hits in T1D. MR is not done.
 ```{r}
 manhattan_plots(IL6ST_pqtl, gene_start = 55935095, gene_end = 55995022,
                title = "IL6ST")
@@ -36,7 +35,7 @@ manhattan_plots(IL6ST_pqtl, gene_start = 55935095, gene_end = 55995022,
 ```
 
 
-## Coloc
+## Coloc for pQTL
 
 ```{r}
 coloc_results_IL6ST_pqtl <- analyze_coloc_pqtl(IL6ST_pqtl)
@@ -46,61 +45,7 @@ coloc_results_IL6ST_pqtl$coloc_D1D2
 
 ```
 
-
-```{r}
-
-load("data/export_LDmat/IL6ST_LDmat.RDA")
-
-plot_coloc(genechr = 5,
-           fig_start = 55600000,
-           fig_end = 56200000,
-           coloc_results = coloc_results_IL6ST_pqtl$coloc_D1D2,
-           data = IL6ST_pqtl,
-           D1 = coloc_results_IL6ST_pqtl$D1,
-           D2 = coloc_results_IL6ST_pqtl$D2,
-           LDmat = IL6ST)
-
-ggsave(filename = "figures/IL6ST.png", height = 8, width = 6)
-```
-
-
-## Functional variants
-
-```{r}
-load("data/export_functional_variants/phenoscanner-entries.RDS")
-
-#Find IL6ST missense variants
-IL6ST_missense <- functional_variants$IL6ST$results %>% 
-  filter(consequence == "missense") %>%  
-  distinct(rsid) %>% pull()
-
-IL6ST_missense #rs61748224, rs61755738, rs34417936, rs141500365
-
-#give betas and se for eQTL and T1D risk (note, this is not MR!)
-IL6ST_pqtl %>%
-  filter(SNP %in% IL6ST_missense) %>%
-  mutate(Fstat = (beta.exposure/se.exposure)^2) %>% 
-  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure, Fstat) %>%
-  mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), function(x) signif(x, digits = 2)))
-
-
-#Select only rs141500365 (as p for its exposure is < 10^-5) and run MR
-IL6ST_pqtl_funcvar_mr <- IL6ST_pqtl %>%
-  filter(SNP %in% c("rs141500365")) %>%
-  TwoSampleMR::mr_singlesnp() %>%
-  mutate(exp_b = exp(b), 
-         lo_95 = exp(b - (1.96 * se)),
-         hi_95 = exp(b + (1.96 * se))) %>%
-    mutate(across(starts_with(c("b", "se","p", "exp_b", "lo", "hi")), function(x) signif(x, digits = 2)))
-
-  IL6ST_pqtl_funcvar_mr %>% 
-    select(-id.exposure, -id.outcome, -samplesize) %>% 
-    knitr::kable()
-
-```
-
-
-#eQTL
+#Coloc for eQTL
 
 ```{r}
 IL6ST_eqtl <- import_data("data/export_harmonization/IL6ST_eqtl_TwoSampleMR.csv",
@@ -134,5 +79,61 @@ generate_odds_ratios(mr_IL6ST_rs7731626) %>%
   select(or, or_lci95, or_uci95, pval) %>% 
   mutate(across(everything(), ~signif(.x, 3)))
 ```
+
+
+# Regional manhattan plot for eQTL coloc
+```{r}
+
+IL6ST_ldmat <- readRDS("data/export_LDmat/IL6ST_ldmat.Rds")
+
+plot_coloc(genechr = 5,
+           fig_start = 55600000,
+           fig_end = 56200000,
+           coloc_results = coloc_IL6ST_eqtl$coloc_D1D2,
+           data = IL6ST_eqtl,
+           D1 = coloc_IL6ST_eqtl$D1,
+           D2 = coloc_IL6ST_eqtl$D2,
+           LDmat = IL6ST_ldmat)
+
+ggsave(filename = "figures/IL6ST.png", height = 8, width = 6)
+```
+
+
+## Functional variants
+
+```{r}
+load("data/export_functional_variants/phenoscanner-entries.RDS")
+
+#Find IL6ST missense variants
+IL6ST_missense <- functional_variants$IL6ST$results %>% 
+  filter(consequence == "missense") %>%  
+  distinct(rsid) %>% pull()
+
+IL6ST_missense #rs61748224, rs61755738, rs34417936, rs141500365
+
+#give betas and se for eQTL and T1D risk (note, this is not MR!)
+IL6ST_pqtl %>%
+  filter(SNP %in% IL6ST_missense) %>%
+  mutate(Fstat = (beta.exposure/se.exposure)^2) %>% 
+  select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure, Fstat) %>%
+  mutate(across(!matches(c("SNP", "pval.outcome", "pval.exposure")), function(x) signif(x, digits = 2)))
+
+
+#Select only rs141500365 (as p for its exposure is < 10^-5) and run MR
+IL6ST_pqtl_funcvar_mr <- IL6ST_pqtl %>%caht
+  filter(SNP %in% c("rs141500365")) %>%
+  TwoSampleMR::mr_singlesnp() %>%
+  mutate(exp_b = exp(b), 
+         lo_95 = exp(b - (1.96 * se)),
+         hi_95 = exp(b + (1.96 * se))) %>%
+    mutate(across(starts_with(c("b", "se","p", "exp_b", "lo", "hi")), function(x) signif(x, digits = 2)))
+
+  IL6ST_pqtl_funcvar_mr %>% 
+    select(-id.exposure, -id.outcome, -samplesize) %>% 
+    knitr::kable()
+
+```
+
+
 
 
