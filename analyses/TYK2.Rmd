@@ -9,8 +9,6 @@ editor_options:
 
   Load packages and import data
 ```{r}
-pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr, ieugwasr, rio, here)
-
 here::i_am("analyses/TYK2.Rmd")
 
 source("code/01-Functions.R")
@@ -47,9 +45,10 @@ coloc_results_TYK2_eqtl <- analyze_coloc_eqtl(TYK2_eqtl)
 ## Regional manhattan plot
 
 ```{r}
-load("data/export_LDmat/TYK2_LDmat.RDA")
+load("data/export_LDmat/TYK2_eqtl_LDmat.rda")
 
-plot_coloc_2(genechr = 19,
+
+plot_coloc(genechr = 19,
            fig_start = 10200000,
            fig_end = 10700000,
            coloc_results = coloc_results_TYK2_eqtl$coloc_D1D2,
