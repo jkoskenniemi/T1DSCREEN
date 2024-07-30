@@ -9,8 +9,6 @@ editor_options:
 
   Load packages and import data
 ```{r}
-pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr, 
-               ieugwasr, rio, here)
 
 source("code/01-Functions.R")
 
@@ -43,9 +41,9 @@ coloc_results_JAK2_eqtl <- analyze_coloc_eqtl(JAK2_eqtl)
 
 ```{r}
 
-load("data/export_LDmat/JAK2_LDmat.RDA")
+load("data/export_LDmat/JAK2_eqtl_LDmat.rda")
 
-plot_coloc_2(genechr = 9,
+plot_coloc(genechr = 9,
            fig_start = 4000000,
            fig_end = 5500000,
            coloc_results = coloc_results_JAK2_eqtl$coloc_D1D2,
