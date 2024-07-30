@@ -14,8 +14,7 @@ editor_options:
 
 Load packages and import data
 ```{r}
-pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr, 
-               ieugwasr, rio, here)
+
 
 here::i_am("analyses/IL2RB.Rmd")
 
@@ -55,7 +54,7 @@ coloc_results_IL2RB_eqtl <- analyze_coloc_eqtl(IL2RB_eqtl)
 
 ```{r}
 
-load("data/export_LDmat/IL2RB_LDmat.RDA")
+load("data/export_LDmat/IL2RB_eqtl_LDmat.rda")
 
 plot_coloc(genechr = 22,
            fig_start = 37068000,
