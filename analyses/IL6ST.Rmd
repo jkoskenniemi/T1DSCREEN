@@ -9,8 +9,7 @@ editor_options:
 
   Load packages and import data
 ```{r}
-pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr, 
-               ieugwasr, rio, here)
+
 source("code/01-Functions.R")
 here::i_am("analyses/IL6ST.Rmd")
 ```
@@ -38,10 +37,10 @@ manhattan_plots(IL6ST_pqtl, gene_start = 55935095, gene_end = 55995022,
 ## Coloc for pQTL
 
 ```{r}
-coloc_results_IL6ST_pqtl <- analyze_coloc_pqtl(IL6ST_pqtl)
+coloc_IL6ST_pqtl <- analyze_coloc_pqtl(IL6ST_pqtl)
 
 
-coloc_results_IL6ST_pqtl$coloc_D1D2
+coloc_IL6ST_pqtl$coloc_D1D2
 
 ```
 
@@ -84,7 +83,7 @@ generate_odds_ratios(mr_IL6ST_rs7731626) %>%
 # Regional manhattan plot for eQTL coloc
 ```{r}
 
-IL6ST_ldmat <- readRDS("data/export_LDmat/IL6ST_ldmat.Rds")
+load("data/export_LDmat/IL6ST_eqtl_LDmat.rda")
 
 plot_coloc(genechr = 5,
            fig_start = 55600000,
@@ -93,9 +92,21 @@ plot_coloc(genechr = 5,
            data = IL6ST_eqtl,
            D1 = coloc_IL6ST_eqtl$D1,
            D2 = coloc_IL6ST_eqtl$D2,
-           LDmat = IL6ST_ldmat)
+           LDmat = IL6ST)
 
-ggsave(filename = "figures/IL6ST.png", height = 8, width = 6)
+ggsave(filename = "figures/IL6ST_eqtl.png", height = 8, width = 6)
+
+load("data/export_LDmat/IL6ST_pqtl_LDmat.rda")
+plot_coloc(genechr = 5,
+           fig_start = 55600000,
+           fig_end = 56200000,
+           coloc_results = coloc_IL6ST_pqtl$coloc_D1D2,
+           data = IL6ST_pqtl,
+           D1 = coloc_IL6ST_pqtl$D1,
+           D2 = coloc_IL6ST_pqtl$D2,
+           LDmat = IL6ST)
+
+ggsave(filename = "figures/IL6ST_pqtl.png", height = 8, width = 6)
 ```
 
 
