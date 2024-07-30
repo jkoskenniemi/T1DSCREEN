@@ -131,7 +131,7 @@ IL6ST_pqtl %>%
 
 
 #Select only rs141500365 (as p for its exposure is < 10^-5) and run MR
-IL6ST_pqtl_funcvar_mr <- IL6ST_pqtl %>%caht
+IL6ST_pqtl_funcvar_mr <- IL6ST_pqtl %>%
   filter(SNP %in% c("rs141500365")) %>%
   TwoSampleMR::mr_singlesnp() %>%
   mutate(exp_b = exp(b), 
