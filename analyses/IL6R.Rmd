@@ -87,7 +87,7 @@ ggsave(filename = "figures/IL6R_pqtl.png", height = 8, width = 6)
 ```{r}
 
 #Find top SNP
-coloc_results_IL6R_eqtl$coloc_D1D2$results$snp[which.max(coloc_results_IL6R_eqtl$coloc_D1D2$results$SNP.PP.H4)] #rs10908839
+coloc_IL6R_eqtl$coloc_D1D2$results$snp[which.max(coloc_IL6R_eqtl$coloc_D1D2$results$SNP.PP.H4)] #rs10908839
 
 #Find entries for top SNP
 IL6R_eqtl_rs10908839   <- IL6R_eqtl %>% 
@@ -158,7 +158,7 @@ IL6R_pqtl <- import_data("data/export_harmonization/IL6R_prot_anno_TwoSampleMR.c
 
 IL6R_pqtl <- IL6R_pqtl %>% filter(pval.exposure > 0 & pval.outcome > 0)
 
-coloc_results_IL6R_pqtl <- analyze_coloc_pqtl_nosensitivitity(IL6R_pqtl)
+coloc_IL6R_pqtl <- analyze_coloc_pqtl_nosensitivitity(IL6R_pqtl)
 ```
 
 
