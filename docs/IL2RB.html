@@ -11,11 +11,11 @@
 
 <meta name="author" content="Tea Heikkilä, Emilia Kaiser &amp; Jaakko Koskenniemi" />
 
-<meta name="date" content="2022-04-05" />
+<meta name="date" content="2023-12-01" />
 
 <title>IL2RB</title>
 
-<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -37,8 +37,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -395,7 +395,7 @@ div.tocify {
 <h1 class="title toc-ignore">IL2RB</h1>
 <h4 class="author">Tea Heikkilä, Emilia Kaiser &amp; Jaakko
 Koskenniemi</h4>
-<h4 class="date">2022-04-05</h4>
+<h4 class="date">2023-12-01</h4>
 
 </div>
 
@@ -424,7 +424,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-12-01
+<strong>Last updated:</strong> 2024-07-30
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -433,7 +433,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>T1DSCREEN/</code> <span
+<strong>Knit directory:</strong> <code>2023-T1DSCREEN/</code> <span
 class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
@@ -442,7 +442,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -555,15 +555,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree7d6e835a24c037699e48ace47514e146b1e33f8ctargetblank7d6e835a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreed7fb2bbf111c445c87f9989a2d6facbe205c3c1ctargetblankd7fb2bba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/7d6e835a24c037699e48ace47514e146b1e33f8c" target="_blank">7d6e835</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/d7fb2bbf111c445c87f9989a2d6facbe205c3c1c" target="_blank">d7fb2bb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree7d6e835a24c037699e48ace47514e146b1e33f8ctargetblank7d6e835a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreed7fb2bbf111c445c87f9989a2d6facbe205c3c1ctargetblankd7fb2bba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -573,7 +573,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/7d6e835a24c037699e48ace47514e146b1e33f8c" target="_blank">7d6e835</a>.
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/d7fb2bbf111c445c87f9989a2d6facbe205c3c1c" target="_blank">d7fb2bb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -590,25 +590,124 @@ were generated:
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    data/export_LDmat/
-    Ignored:    data/export_harmonization/
-    Ignored:    data/export_manuscript/
-    Ignored:    refs/
+    Ignored:    IL-6-example.svg
+    Ignored:    IL-6-signaling-infographic-v2-extra-spacing-around-trans.svg
+    Ignored:    IL-6-signaling-infographic-v2.pdf
+    Ignored:    IL-6-signaling-infographic-v2.svg.2024_05_18_21_52_31.0.svg
+    Ignored:    IL-6-signaling-infographic.pdf
+    Ignored:    IL-6-signaling-infographic.png
+    Ignored:    IL-6-signaling-infographic.svg
+    Ignored:    IL6ST-eQTL_coloc-sensitivity.png
+    Ignored:    analyses/figure/
+    Ignored:    data/export_celltypes_harmonized/IL2RA_Spleen_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_bin_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_bmem_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_cd4et_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_cd4nc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_cd4sox4_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_cd8et_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_cd8nc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_cd8s100b_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_monoc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_nk_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL2RA_nkr_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_Pancreas_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_Spleen_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_bin_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_bmem_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_cd4et_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_cd4nc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_cd4sox4_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_cd8et_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_cd8nc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_cd8s100b_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_dc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_monoc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_mononc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_nk_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6R_plasma_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_Pancreas_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_Spleen_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_bin_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_bmem_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_cd4et_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_cd4nc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_cd4sox4_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_cd8et_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_cd8nc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_cd8s100b_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_dc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_monoc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_mononc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_nk_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_nkr_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/IL6ST_plasma_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/NA_NA_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_Pancreas_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_Spleen_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_bin_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_bmem_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_cd4et_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_cd4nc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_cd4sox4_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_cd8et_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_cd8nc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_cd8s100b_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_dc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_monoc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_mononc_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_nk_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_nkr_TwoSampleMR.csv
+    Ignored:    data/export_celltypes_harmonized/TYK2_plasma_TwoSampleMR.csv
+    Ignored:    data/export_cis_sumstats/eqtl_IL6ST-Gather.rds
+    Ignored:    data/import/
+    Ignored:    figures/IL6R-eQTL-T1D-manhattan.png
+    Ignored:    figures/IL6R-pQTL-T1D-manhattan.png
+    Ignored:    figures/IL6R_eqtl.png
+    Ignored:    figures/IL6R_pqtl.png
+    Ignored:    figures/IL6ST_eqtl.png
+    Ignored:    figures/IL6ST_pqtl.png
+    Ignored:    figures/diagram-sc-analyses.svg
+    Ignored:    figures/gtex_coloc_sensitivity/
+    Ignored:    figures/sc_coloc_sensitivity/
     Ignored:    submission/
-    Ignored:    zz_trash/
 
 Untracked files:
-    Untracked:  data/export_functional_variants/
+    Untracked:  .figure-modifications.swp
+    Untracked:  21062024 Glucagin manuscript HK_JT.docx
+    Untracked:  Attached file_ 24-0231-Heikkila-ed-EL-KT_vk240724.docx
+    Untracked:  ESM.docx
+    Untracked:  ESMT1Dscreen_vk240724.docx
+    Untracked:  Figure-changes.pdf
+    Untracked:  IL-6-signaling-infographic-v3.pdf
+    Untracked:  IL-6-signaling-infographic-v3.svg
+    Untracked:  README.txt.1
+    Untracked:  Rebuttal.docx
+    Untracked:  STROBE-MR-checklist-fillable(2).docx
+    Untracked:  Supplementary Table X.docx
+    Untracked:  analyses/Tissue-atlas-analyses.Rmd
+    Untracked:  celltypes_scQTL_coloc.tar.gz
+    Untracked:  coloc-sensitivity-IL2RA-cd4eff.png
+    Untracked:  coloc-sensitivity-spleen-IL2RA.png
+    Untracked:  coloc-sensitivity_IL2RA-CD8em.png
+    Untracked:  data/export_LDmat/
+    Untracked:  data/get-data
+    Untracked:  drawing.svg
+    Untracked:  halli.svg
+    Untracked:  input_scQTL_coloc.tar.gz
+    Untracked:  md5sum.txt.1
+    Untracked:  plot_coloc_comb.R
+    Untracked:  sc-results.csv
+    Untracked:  wget-log
+    Untracked:  wget-log.1
+    Untracked:  wget-log.2
 
 Unstaged changes:
-    Modified:   Build-script.R
-    Modified:   analyses/JAK3.Rmd
-    Modified:   analyses/TYK2.Rmd
-    Modified:   analyses/index.Rmd
+    Modified:   T1DSCREEN.Rproj
+    Modified:   code/00-shell-wget-decompress-T1D-and-eQTLgen
+    Modified:   code/01-Functions.R
     Modified:   figures/IL2RA.png
     Modified:   figures/IL2RB.png
-    Modified:   figures/IL6R.png
-    Modified:   figures/IL6ST.png
     Modified:   figures/JAK2.png
     Modified:   figures/JAK3.png
     Modified:   figures/TYK2.png
@@ -661,7 +760,41 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/7d6e835a24c037699e48ace47514e146b1e33f8c/analyses/IL2RB.Rmd" target="_blank">7d6e835</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/3a52e7025b4d6d16811292fd7a6607d341071da6/analyses/IL2RB.Rmd" target="_blank">3a52e70</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+<td>
+Fixed path to LD matrix, moved packaged loading to functions.R
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ae508303741282e6c94fd958ef76dd692dfce69/analyses/IL2RB.Rmd" target="_blank">1ae5083</a>
+</td>
+<td>
+teehei
+</td>
+<td>
+2023-12-04
+</td>
+<td>
+Added )
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1458f89f762593b1d8d35d8f29002db2dcb351ea/analyses/IL2RB.Rmd" target="_blank">1458f89</a>
 </td>
 <td>
 jkoskenniemi
@@ -670,7 +803,7 @@ jkoskenniemi
 2023-12-01
 </td>
 <td>
-updated external file links and cleaned functional variants
+corrected the date
 </td>
 </tr>
 <tr>
@@ -678,7 +811,24 @@ updated external file links and cleaned functional variants
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/ec92abef07a326209ed54e411624621fc2b65572/docs/IL2RB.html" target="_blank">ec92abe</a>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/a4a6c974a0f36b26466c590d7dd0381cddeef7f5/docs/IL2RB.html" target="_blank">a4a6c97</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-12-01
+</td>
+<td>
+Added all files within docs/
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/e8630b5fb0b2940d61e8fdcf0ed072614e7a3e31/docs/IL2RB.html" target="_blank">e8630b5</a>
 </td>
 <td>
 jkoskenniemi
@@ -695,7 +845,7 @@ Removed old files
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/e9284326b798a707db2c6545a10733d944edbcfc/analyses/IL2RB.Rmd" target="_blank">e928432</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/99be834453d9fb86f277c7f16e36928d995faac9/analyses/IL2RB.Rmd" target="_blank">99be834</a>
 </td>
 <td>
 jkoskenniemi
@@ -712,7 +862,7 @@ Updated handling data and data scripts
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/b709fc86d8972db99f53d3e3c7adb6a957ab2a2d/analyses/IL2RB.Rmd" target="_blank">b709fc8</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/9b9a19ed7b31dd7be42cbcc0cb00b81517f2a5c0/analyses/IL2RB.Rmd" target="_blank">9b9a19e</a>
 </td>
 <td>
 EmiliaKaiser
@@ -729,7 +879,7 @@ functional variants code
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/f5c5bba2ba87e00f4a8fb8a798311a7021e24fdc/analyses/IL2RB.Rmd" target="_blank">f5c5bba</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/6d22c1ed000d1afeacc74867939ae94c3187c759/analyses/IL2RB.Rmd" target="_blank">6d22c1e</a>
 </td>
 <td>
 EmiliaKaiser
@@ -746,7 +896,7 @@ updated gene positions and data
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/483e05761db04da549daa7411e453064b0eeb707/analyses/IL2RB.Rmd" target="_blank">483e057</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/c8769f414ee24c2d850b43a22a2cf2534f0c4a14/analyses/IL2RB.Rmd" target="_blank">c8769f4</a>
 </td>
 <td>
 EmiliaKaiser
@@ -763,7 +913,7 @@ updated analyses
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/71be5686ae01c2531a0517ae591dffeac94d760a/analyses/IL2RB.Rmd" target="_blank">71be568</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/9d2c121f17e2c2aaa794b48ad6c83c8a4e3ecd8f/analyses/IL2RB.Rmd" target="_blank">9d2c121</a>
 </td>
 <td>
 EmiliaKaiser
@@ -780,7 +930,7 @@ updated analyses scripts
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/33552121336054e9123921a00555d41b064ac71d/analyses/IL2RB.Rmd" target="_blank">3355212</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/5fff409c9bb56bb20aede19540b75b3471cc024e/analyses/IL2RB.Rmd" target="_blank">5fff409</a>
 </td>
 <td>
 jkoskenniemi
@@ -797,7 +947,7 @@ Updated analyses scripts
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/0d3f37017de4946514ff0df852a8abf92c2d0d7e/analyses/IL2RB.Rmd" target="_blank">0d3f370</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/ed8bb669c616620c14743c49b23d0e4148619ce6/analyses/IL2RB.Rmd" target="_blank">ed8bb66</a>
 </td>
 <td>
 jkoskenniemi
@@ -814,7 +964,7 @@ functional programming added to result scripts
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/3a71cd50383b7b03cc2c63a6486c8c5f30998411/docs/IL2RB.html" target="_blank">3a71cd5</a>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/7e5b296c467633d91dd3d87926a15702527d94c7/docs/IL2RB.html" target="_blank">7e5b296</a>
 </td>
 <td>
 jkoskenniemi
@@ -831,7 +981,7 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/17a156c2adeb8770e562434e5b09d7ad84fda374/analyses/IL2RB.Rmd" target="_blank">17a156c</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/f709349c430d7a6d9550060bff0d4057e4c0351e/analyses/IL2RB.Rmd" target="_blank">f709349</a>
 </td>
 <td>
 jkoskenniemi
@@ -848,7 +998,7 @@ Fixed SNP referencing in coloc
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/8468a09c261fe6fcadd02036b1df2c3340b88cd4/analyses/IL2RB.Rmd" target="_blank">8468a09</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/e751cb5bc05ee6d7a6aea7cd794178cf1816f6d8/analyses/IL2RB.Rmd" target="_blank">e751cb5</a>
 </td>
 <td>
 jkoskenniemi
@@ -865,7 +1015,7 @@ added eQTL to data, harmonization and analyses
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/b49016a04b5830e2336cc7f1be6dd2ba7b0943b1/docs/IL2RB.html" target="_blank">b49016a</a>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/84179cf67da603ac4d9722bd0fbd096da8397b0c/docs/IL2RB.html" target="_blank">84179cf</a>
 </td>
 <td>
 jkoskenniemi
@@ -882,7 +1032,7 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/db4ef30433c23661866ab99d7693ac92121feb4c/analyses/IL2RB.Rmd" target="_blank">db4ef30</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/bda8c3febea57bab20693673a96779bb031208c6/analyses/IL2RB.Rmd" target="_blank">bda8c3f</a>
 </td>
 <td>
 jkoskenniemi
@@ -899,7 +1049,7 @@ wflow_publish(all = TRUE, republish = TRUE)
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/db4ef30433c23661866ab99d7693ac92121feb4c/docs/IL2RB.html" target="_blank">db4ef30</a>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/bda8c3febea57bab20693673a96779bb031208c6/docs/IL2RB.html" target="_blank">bda8c3f</a>
 </td>
 <td>
 jkoskenniemi
@@ -916,7 +1066,7 @@ wflow_publish(all = TRUE, republish = TRUE)
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/c541480d23ea12e6e28d6b3a11d930db54659c36/docs/IL2RB.html" target="_blank">c541480</a>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/a4fff74d53d38d0d2c6c69b7f5b03e14398b43d9/docs/IL2RB.html" target="_blank">a4fff74</a>
 </td>
 <td>
 jkoskenniemi
@@ -933,7 +1083,7 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/725b02dba222f6fa171c3d611bc281f47cde35aa/analyses/IL2RB.Rmd" target="_blank">725b02d</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/bfe9a3feaf309487f9b350e073d0e5b67fbc193d/analyses/IL2RB.Rmd" target="_blank">bfe9a3f</a>
 </td>
 <td>
 jkoskenniemi
@@ -950,7 +1100,7 @@ wflow_publish(all = TRUE, republish = TRUE)
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/725b02dba222f6fa171c3d611bc281f47cde35aa/docs/IL2RB.html" target="_blank">725b02d</a>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/bfe9a3feaf309487f9b350e073d0e5b67fbc193d/docs/IL2RB.html" target="_blank">bfe9a3f</a>
 </td>
 <td>
 jkoskenniemi
@@ -967,7 +1117,7 @@ wflow_publish(all = TRUE, republish = TRUE)
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/4ea0ac98277459d6bcc35b1ee0a43ff3ed7b6d24/docs/IL2RB.html" target="_blank">4ea0ac9</a>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/6ce427e6416eb69ae89d65c7058f3b3f4e78f56b/docs/IL2RB.html" target="_blank">6ce427e</a>
 </td>
 <td>
 jkoskenniemi
@@ -984,7 +1134,7 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/9ee30ea309329747fe4e82b490aa4af941c4d57f/analyses/IL2RB.Rmd" target="_blank">9ee30ea</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/d5d82576b61a8d2a04d1123fb6aeb9966476625a/analyses/IL2RB.Rmd" target="_blank">d5d8257</a>
 </td>
 <td>
 jkoskenniemi
@@ -1001,7 +1151,7 @@ Added eQTL data, corrected an error in coloc sensitivity figures
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/e0d3987fcbf69cf5b42d345572022434bb91990f/docs/IL2RB.html" target="_blank">e0d3987</a>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/1a5d3d34074563df2f67eb6f768b215950073362/docs/IL2RB.html" target="_blank">1a5d3d3</a>
 </td>
 <td>
 jkoskenniemi
@@ -1107,11 +1257,8 @@ wflow_publish(c("analyses/CRP.Rmd", "analyses/CXCL10.Rmd",
 </div>
 </div>
 <p>Load packages and import data</p>
-<pre class="r"><code>pacman::p_load(tidyverse, data.table, coloc,TwoSampleMR, ggpubr, 
-               ieugwasr, rio, here)
-
-here::i_am(&quot;analyses/IL2RB.Rmd&quot;)</code></pre>
-<pre><code>here() starts at C:/Users/jajoko/T1DSCREEN</code></pre>
+<pre class="r"><code>here::i_am(&quot;analyses/IL2RB.Rmd&quot;)</code></pre>
+<pre><code>here() starts at /home/jajoko/Documents/2023-T1DSCREEN</code></pre>
 <pre class="r"><code>source(&quot;code/01-Functions.R&quot;)</code></pre>
 <div id="eqtl" class="section level1">
 <h1>eQTL</h1>
@@ -1124,9 +1271,105 @@ rs10427673, rs10775741, rs11089827, rs116948647, rs12162647, rs12484612, rs13061
 <h2>Initial Manhattan plots</h2>
 <pre class="r"><code>manhattan_plots(IL2RB_eqtl, gene_start=37118666, gene_end=37175118, title = &quot;IL2RB&quot;)</code></pre>
 <p><img src="figure/IL2RB.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/a4a6c974a0f36b26466c590d7dd0381cddeef7f5/docs/figure/IL2RB.Rmd/unnamed-chunk-3-1.png" target="_blank">a4a6c97</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-12-01
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/6ce427e6416eb69ae89d65c7058f3b3f4e78f56b/docs/figure/IL2RB.Rmd/unnamed-chunk-3-1.png" target="_blank">6ce427e</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-03
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/57ee62a0b71a26ecdcad3f4a93c7fd5f13b64c86/docs/figure/IL2RB.Rmd/unnamed-chunk-3-1.png" target="_blank">57ee62a</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2023-04-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>IL2RB_eqtl &lt;- IL2RB_eqtl %&gt;% filter(pos.outcome &gt; 37068000 &amp; pos.outcome &lt; 37350000) 
 manhattan_plots(IL2RB_eqtl, gene_start=37118666, gene_end=37175118, title = &quot;IL2RB&quot;)</code></pre>
 <p><img src="figure/IL2RB.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-2">
+Past versions of unnamed-chunk-3-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/a4a6c974a0f36b26466c590d7dd0381cddeef7f5/docs/figure/IL2RB.Rmd/unnamed-chunk-3-2.png" target="_blank">a4a6c97</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>#ggsave(&quot;figures/IL2RB-eQTL-T1D-manhattan.png&quot;, height = 6, width = 6)</code></pre>
 </div>
 <div id="coloc-assuming-1-causal-variant" class="section level2">
@@ -1137,13 +1380,83 @@ manhattan_plots(IL2RB_eqtl, gene_start=37118666, gene_end=37175118, title = &quo
 [1] &quot;PP abf for shared variant: 0.259%&quot;</code></pre>
 <pre><code>Results fail decision rule H4 &gt; 0.7</code></pre>
 <p><img src="figure/IL2RB.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/a4a6c974a0f36b26466c590d7dd0381cddeef7f5/docs/figure/IL2RB.Rmd/unnamed-chunk-4-1.png" target="_blank">a4a6c97</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-12-01
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/b59964d1d2374a1961d283422516ed2d19de42ef/docs/figure/IL2RB.Rmd/unnamed-chunk-4-1.png" target="_blank">b59964d</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-06
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/7e5b296c467633d91dd3d87926a15702527d94c7/docs/figure/IL2RB.Rmd/unnamed-chunk-4-1.png" target="_blank">7e5b296</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-04
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/6ce427e6416eb69ae89d65c7058f3b3f4e78f56b/docs/figure/IL2RB.Rmd/unnamed-chunk-4-1.png" target="_blank">6ce427e</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-05-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># coloc_results_IL2RB_eqtl$coloc_D1D2 #coloc results
 # coloc_results_IL2RB_eqtl$D1 #data eQTL
 # coloc_results_IL2RB_eqtl$D2 #data t1d</code></pre>
 </div>
 <div id="regional-manhattan-plot" class="section level2">
 <h2>Regional manhattan plot</h2>
-<pre class="r"><code>load(&quot;data/export_LDmat/IL2RB_LDmat.RDA&quot;)
+<pre class="r"><code>load(&quot;data/export_LDmat/IL2RB_eqtl_LDmat.rda&quot;)
 
 plot_coloc(genechr = 22,
            fig_start = 37068000,
@@ -1154,13 +1467,52 @@ plot_coloc(genechr = 22,
            D2 = coloc_results_IL2RB_eqtl$D2,
            LDmat = IL2RB)</code></pre>
 <pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-i Please use `linewidth` instead.
+ℹ Please use `linewidth` instead.
 This warning is displayed once every 8 hours.
 Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 generated.</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values (`geom_line()`).</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values (`geom_text()`).</code></pre>
+<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
+(`geom_label()`).</code></pre>
 <p><img src="figure/IL2RB.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/a4a6c974a0f36b26466c590d7dd0381cddeef7f5/docs/figure/IL2RB.Rmd/unnamed-chunk-5-1.png" target="_blank">a4a6c97</a>
+</td>
+<td>
+jkoskenniemi
+</td>
+<td>
+2023-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(filename = &quot;figures/IL2RB.png&quot;, height = 8, width = 6)</code></pre>
 </div>
 <div id="functional-variants" class="section level2">
@@ -1175,7 +1527,7 @@ IL2RB_missense &lt;- functional_variants$IL2RB$results %&gt;%
 
 IL2RB_missense #rs143857582, rs149508414</code></pre>
 <pre><code>[1] &quot;rs143857582&quot; &quot;rs149508414&quot;</code></pre>
-<pre class="r"><code>#give betas and se for eQTL and T1D risk (note, this is not MR!
+<pre class="r"><code>#give betas and se for eQTL and T1D risk (note, this is not MR!)
 IL2RB_eqtl %&gt;%
   filter(SNP %in% IL2RB_missense) %&gt;%
   select(SNP, beta.outcome, se.outcome, pval.outcome, beta.exposure, pval.exposure) %&gt;%
@@ -1190,55 +1542,56 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.3.0 (2023-04-21 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 14393)
+<pre><code>R version 4.4.0 (2024-04-24)
+Platform: x86_64-pc-linux-gnu
+Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
-
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0
 
 locale:
-[1] LC_COLLATE=Finnish_Finland.1252  LC_CTYPE=Finnish_Finland.1252   
-[3] LC_MONETARY=Finnish_Finland.1252 LC_NUMERIC=C                    
-[5] LC_TIME=Finnish_Finland.1252    
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 time zone: America/New_York
-tzcode source: internal
+tzcode source: system (glibc)
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] RACER_1.0.0       reshape2_1.4.4    ggrepel_0.9.3     here_1.0.1       
- [5] rio_0.5.29        ieugwasr_0.1.5    ggpubr_0.6.0      TwoSampleMR_0.5.7
- [9] coloc_5.2.2       data.table_1.14.8 lubridate_1.9.2   forcats_1.0.0    
-[13] stringr_1.5.0     dplyr_1.1.2       purrr_1.0.1       readr_2.1.4      
-[17] tidyr_1.3.0       tibble_3.2.1      ggplot2_3.4.2     tidyverse_2.0.0  
-[21] workflowr_1.7.0  
+ [1] RACER_1.0.0       reshape2_1.4.4    ggrepel_0.9.5     viridis_0.6.5    
+ [5] viridisLite_0.4.2 scales_1.3.0      here_1.0.1        rio_1.0.1        
+ [9] ieugwasr_1.0.0    ggpubr_0.6.0      TwoSampleMR_0.6.2 coloc_5.2.3      
+[13] data.table_1.15.4 lubridate_1.9.3   forcats_1.0.0     stringr_1.5.1    
+[17] dplyr_1.1.4       purrr_1.0.2       readr_2.1.5       tidyr_1.3.1      
+[21] tibble_3.2.1      ggplot2_3.5.1     tidyverse_2.0.0   workflowr_1.7.1  
 
 loaded via a namespace (and not attached):
- [1] gridExtra_2.3     readxl_1.4.3      rlang_1.1.1       magrittr_2.0.3   
- [5] git2r_0.32.0      matrixStats_1.0.0 susieR_0.12.35    compiler_4.3.0   
- [9] getPass_0.2-2     systemfonts_1.0.4 callr_3.7.3       vctrs_0.6.2      
-[13] pkgconfig_2.0.3   crayon_1.5.2      fastmap_1.1.1     backports_1.4.1  
-[17] labeling_0.4.2    utf8_1.2.3        promises_1.2.0.1  rmarkdown_2.23   
-[21] tzdb_0.4.0        haven_2.5.3       ps_1.7.5          ragg_1.2.5       
-[25] xfun_0.39         cachem_1.0.8      jsonlite_1.8.7    highr_0.10       
-[29] later_1.3.1       reshape_0.8.9     broom_1.0.5       irlba_2.3.5.1    
-[33] R6_2.5.1          bslib_0.5.0       stringi_1.7.12    car_3.1-2        
-[37] jquerylib_0.1.4   cellranger_1.1.0  Rcpp_1.0.10       knitr_1.43       
-[41] pacman_0.5.1      httpuv_1.6.11     Matrix_1.5-4      timechange_0.2.0 
-[45] tidyselect_1.2.0  rstudioapi_0.15.0 abind_1.4-5       yaml_2.3.7       
-[49] viridis_0.6.3     curl_5.0.1        processx_3.8.1    lattice_0.21-8   
-[53] plyr_1.8.8        withr_2.5.0       evaluate_0.21     foreign_0.8-84   
-[57] zip_2.3.0         pillar_1.9.0      carData_3.0-5     whisker_0.4.1    
-[61] generics_0.1.3    rprojroot_2.0.3   hms_1.1.3         munsell_0.5.0    
-[65] scales_1.2.1      glue_1.6.2        tools_4.3.0       openxlsx_4.2.5.2 
-[69] ggsignif_0.6.4    fs_1.6.2          cowplot_1.1.1     grid_4.3.0       
-[73] colorspace_2.1-0  cli_3.6.1         textshaping_0.3.6 fansi_1.0.4      
-[77] mixsqp_0.3-48     viridisLite_0.4.2 gtable_0.3.3      rstatix_0.7.2    
-[81] sass_0.4.6        digest_0.6.31     farver_2.1.1      htmltools_0.5.5  
-[85] lifecycle_1.0.3   httr_1.4.6       </code></pre>
+ [1] tidyselect_1.2.1  farver_2.1.2      fastmap_1.2.0     reshape_0.8.9    
+ [5] pacman_0.5.1      promises_1.3.0    digest_0.6.35     timechange_0.3.0 
+ [9] lifecycle_1.0.4   processx_3.8.4    magrittr_2.0.3    compiler_4.4.0   
+[13] rlang_1.1.4       sass_0.4.9        tools_4.4.0       utf8_1.2.4       
+[17] yaml_2.3.8        knitr_1.47        ggsignif_0.6.4    labeling_0.4.3   
+[21] plyr_1.8.9        abind_1.4-5       withr_3.0.0       grid_4.4.0       
+[25] fansi_1.0.6       susieR_0.12.35    git2r_0.33.0      colorspace_2.1-0 
+[29] cli_3.6.2         rmarkdown_2.27    crayon_1.5.2      ragg_1.3.1       
+[33] generics_0.1.3    rstudioapi_0.16.0 httr_1.4.7        tzdb_0.4.0       
+[37] cachem_1.1.0      matrixStats_1.3.0 vctrs_0.6.5       Matrix_1.6-5     
+[41] jsonlite_1.8.8    carData_3.0-5     car_3.1-2         callr_3.7.6      
+[45] hms_1.1.3         mixsqp_0.3-54     rstatix_0.7.2     irlba_2.3.5.1    
+[49] systemfonts_1.0.6 jquerylib_0.1.4   glue_1.7.0        ps_1.7.6         
+[53] cowplot_1.1.3     stringi_1.8.4     gtable_0.3.5      later_1.3.2      
+[57] munsell_0.5.1     pillar_1.9.0      htmltools_0.5.8.1 R6_2.5.1         
+[61] textshaping_0.3.7 rprojroot_2.0.4   evaluate_0.24.0   lattice_0.22-5   
+[65] highr_0.11        backports_1.5.0   broom_1.0.6       httpuv_1.6.15    
+[69] bslib_0.7.0       Rcpp_1.0.12       gridExtra_2.3     whisker_0.4.1    
+[73] xfun_0.44         fs_1.6.4          getPass_0.2-4     pkgconfig_2.0.3  </code></pre>
 </div>
 </div>
 </div>
