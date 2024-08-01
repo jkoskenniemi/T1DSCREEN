@@ -25,3 +25,5 @@ IL-6-signaling-infographic.png
 IL-6-signaling-infographic.svg
 IL6ST-eQTL_coloc-sensitivity.png
 data/export_LDmat/IL6ST_ldmat.Rds
+T1DSCREEN.Rproj
+code/00-shell-wget-decompress-T1D-and-eQTLgen
