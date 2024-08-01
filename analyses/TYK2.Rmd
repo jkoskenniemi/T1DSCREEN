@@ -32,7 +32,7 @@ manhattan_plots(TYK2_eqtl, gene_start=10350533, gene_end=10380608, title = "TYK2
 TYK2_eqtl <- TYK2_eqtl %>% filter(pos.outcome > 10200000 & pos.outcome < 10700000) 
 manhattan_plots(TYK2_eqtl, gene_start=10350533, gene_end=10380608, title = "TYK2")
 
-#ggsave("figures/TYK2-eqtl-manhattan-fig.png",
+#ggsave("figures/TYK2-eqtl-manhattan-fig.pdf",
 #       height = 6, width = 6, units = "in")
 ```
 
@@ -57,7 +57,7 @@ plot_coloc(genechr = 19,
            D2 = coloc_results_TYK2_eqtl$D2,
            LDmat = TYK2)
 
-ggsave(filename = "figures/TYK2.png", height = 8, width = 6)
+ggsave(filename = "figures/TYK2.pdf", height = 8, width = 6)
 ```
 
 ## MR

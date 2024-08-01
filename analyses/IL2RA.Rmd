@@ -62,7 +62,7 @@ plot_coloc(genechr = 10,
            D2 = coloc_results_IL2RA_eqtl$D2,
            LDmat = IL2RA)
 
-ggsave(filename = "figures/IL2RA.png", height = 8, width = 6)
+ggsave(filename = "figures/IL2RA.pdf", height = 8, width = 6)
 ```
 
 ## MR

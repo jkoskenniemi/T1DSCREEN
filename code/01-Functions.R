@@ -1,6 +1,6 @@
 
 pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr,
-               ieugwasr, rio, here, scales)
+               ieugwasr, rio, here, scales, viridis)
 
 
 #1. Processing before harmonization of data------------------------------------------------------

@@ -55,7 +55,7 @@ plot_coloc(genechr = 19,
            D2 = coloc_results_JAK3_eqtl$D2,
            LDmat = JAK3)
 
-ggsave(filename = "figures/JAK3.png", height = 8, width = 6)
+ggsave(filename = "figures/JAK3.pdf", height = 8, width = 6)
 ```
 
 

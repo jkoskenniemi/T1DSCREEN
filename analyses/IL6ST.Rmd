@@ -94,7 +94,7 @@ plot_coloc(genechr = 5,
            D2 = coloc_IL6ST_eqtl$D2,
            LDmat = IL6ST)
 
-ggsave(filename = "figures/IL6ST_eqtl.png", height = 8, width = 6)
+ggsave(filename = "figures/IL6ST_eqtl.pdf", height = 8, width = 6)
 
 load("data/export_LDmat/IL6ST_pqtl_LDmat.rda")
 plot_coloc(genechr = 5,
@@ -106,7 +106,7 @@ plot_coloc(genechr = 5,
            D2 = coloc_IL6ST_pqtl$D2,
            LDmat = IL6ST)
 
-ggsave(filename = "figures/IL6ST_pqtl.png", height = 8, width = 6)
+ggsave(filename = "figures/IL6ST_pqtl.pdf", height = 8, width = 6)
 ```
 
 

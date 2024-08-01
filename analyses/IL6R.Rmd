@@ -31,13 +31,13 @@ manhattan_plots(IL6R_eqtl, gene_start=154405193, gene_end=154469450, title = "IL
 IL6R_eqtl <- IL6R_eqtl %>% filter(pos.outcome > 154300000 & pos.outcome < 154700000) 
 manhattan_plots(IL6R_eqtl, gene_start=154405193, gene_end=154469450, title = "IL6R")
 
-ggsave("figures/IL6R-eQTL-T1D-manhattan.png", height = 6, width = 6)
+ggsave("figures/IL6R-eQTL-T1D-manhattan.pdf", height = 6, width = 6)
 
 manhattan_plots(IL6R_pqtl, gene_start=154405193, gene_end=154469450, title = "IL6R pqtl")
 IL6R_pqtl <- IL6R_pqtl %>% filter(pos.outcome > 154300000 & pos.outcome < 154700000) 
 manhattan_plots(IL6R_pqtl, gene_start=154405193, gene_end=154469450, title = "IL6R")
 
-ggsave("figures/IL6R-pQTL-T1D-manhattan.png", height = 6, width = 6)
+ggsave("figures/IL6R-pQTL-T1D-manhattan.pdf", height = 6, width = 6)
 
 ```
 
@@ -66,7 +66,7 @@ plot_coloc(genechr = 1,
            D1 = coloc_IL6R_eqtl$D1,
            D2 = coloc_IL6R_eqtl$D2,
            LDmat = IL6R)
-ggsave(filename = "figures/IL6R_eqtl.png", height = 8, width = 6)
+ggsave(filename = "figures/IL6R_eqtl.pdf", height = 8, width = 6)
 
 
 load("data/export_LDmat/IL6R_pqtl_LDmat.rda")
@@ -80,7 +80,7 @@ plot_coloc(genechr = 1,
            D2 = coloc_IL6R_pqtl$D2,
            LDmat = IL6R)
 
-ggsave(filename = "figures/IL6R_pqtl.png", height = 8, width = 6)
+ggsave(filename = "figures/IL6R_pqtl.pdf", height = 8, width = 6)
 ```
 
 ## MR
