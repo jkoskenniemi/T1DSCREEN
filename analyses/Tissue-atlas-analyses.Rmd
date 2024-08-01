@@ -1,0 +1,83 @@
+---
+title: "Tissue atlas analyses for IL2RA, TYK2, and IL6R"
+author: "Tea Heikkilä, Emilia Kaiser & Jaakko Koskenniemi"
+output:
+  html_document:
+  toc: yes
+toc_float: yes
+number_sections: yes
+code_folding: hide
+date: '2024-05-14'
+editor_options:
+  chunk_output_type: console
+---
+
+Load packages and import data
+```{r}
+pacman::p_load(tidyverse, data.table, coloc, TwoSampleMR, ggpubr,
+               ieugwasr, rio, here, viridis)
+
+here::i_am("analyses/IL2RA.Rmd")
+
+source("code/01-Functions.R")
+```
+
+
+## Tissue atlas analyses for IL2RA, IL
+
+```{r}
+
+#Example how data can be imported to R
+IL2RA_spleen <- import_data("data/export_celltypes_harmonized/IL2RA_Spleen_TwoSampleMR.csv",
+                         "data/export_harmonization/IL2RA_T1D_TwoSampleMR.csv", has_beta = FALSE)
+
+#List the possible combinations of target and cell type
+testing_grid <- expand.grid(
+  exposure_gene = c("IL2RA", "IL6R", "IL6ST", "TYK2"),
+  exposure_tissue = c(
+    "Spleen", "Pancreas"))
+
+#Exclude those combinations for which there is no data (and turn to character)
+testing_grid <- testing_grid %>%
+  filter(!(exposure_gene == "IL2RA" & exposure_tissue %in% "Pancreas")) %>%
+  mutate(across(everything(), as.character))
+
+# dir.create("figures/gtex_coloc_sensitivity/")
+png(file = paste0("figures/gtex_coloc_sensitivity/", "plot_%03d.png"), width = 900, height = 600)
+
+#Test for the 7 colocalizations  (target + cell type) and get the coloc hypothesis tables
+# (h0= neither is associated with SNPs h1 = only exposure is associated with SNPs,
+#  h2 = only outcome is associated with SNPs, h3= both are associated with SNPs, but does not colocalize,
+#  h4 = both are associated and colocalize)
+res <- map2(testing_grid$exposure_gene,
+            testing_grid$exposure_tissue,
+            ~get_coloc_hypothesis_tables(.x, .y))
+
+#Format
+res_final  <- res %>%
+  unlist() %>%
+  matrix(ncol = 6, byrow = TRUE) %>%
+  as_tibble() %>%
+  mutate(gene = testing_grid$exposure_gene,
+         celltype = testing_grid$exposure_tissue)  %>%
+  rename(n_snps = V1,
+         h0 = V2,
+         h1 = V3,
+         h2 = V4,
+         h3 = V5,
+         h4 = V6) %>%
+  mutate(across(contains("h"), ~ round(.x * 100, 1))) %>%
+  arrange(gene, celltype) %>% 
+  select(gene, celltype, n_snps, h0, h1, h2, h3, h4)
+res_final
+
+dev.off()
+
+
+coloc_IL2RA_spleen <- analyze_coloc_celltypes(IL2RA_spleen)
+  
+coloc_IL2RA_spleen$coloc_results$results
+coloc_IL2RA_spleen$coloc_results$results[coloc_IL2RA_spleen$coloc_results$results$SNP.PP.H4==max(coloc_IL2RA_spleen$coloc_results$results$SNP.PP.H4),]
+
+```
+
