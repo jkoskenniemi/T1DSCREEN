@@ -424,7 +424,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-07-30
+<strong>Last updated:</strong> 2024-08-01
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -555,15 +555,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreeb2f2f4b73d7d244bc037fcdb78b5a4e66fff497ctargetblankb2f2f4ba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree9432e3afcb181cfe2fb2bdb07dd7fd0c195eb1d3targetblank9432e3aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/b2f2f4b73d7d244bc037fcdb78b5a4e66fff497c" target="_blank">b2f2f4b</a>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/9432e3afcb181cfe2fb2bdb07dd7fd0c195eb1d3" target="_blank">9432e3a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtreeb2f2f4b73d7d244bc037fcdb78b5a4e66fff497ctargetblankb2f2f4ba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjkoskenniemiT1DSCREENtree9432e3afcb181cfe2fb2bdb07dd7fd0c195eb1d3targetblank9432e3aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -573,7 +573,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/b2f2f4b73d7d244bc037fcdb78b5a4e66fff497c" target="_blank">b2f2f4b</a>.
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/tree/9432e3afcb181cfe2fb2bdb07dd7fd0c195eb1d3" target="_blank">9432e3a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -660,8 +660,10 @@ Ignored files:
     Ignored:    data/export_celltypes_harmonized/TYK2_plasma_TwoSampleMR.csv
     Ignored:    data/export_cis_sumstats/eqtl_IL6ST-Gather.rds
     Ignored:    data/import/
-    Ignored:    figures/IL6R-eQTL-T1D-manhattan.png
-    Ignored:    figures/IL6R-pQTL-T1D-manhattan.png
+    Ignored:    figures/IL2RA.pdf
+    Ignored:    figures/IL2RA_italic.pdf
+    Ignored:    figures/IL2RA_italic.png
+    Ignored:    figures/IL2RA_regular.png
     Ignored:    figures/IL6R_eqtl.png
     Ignored:    figures/IL6R_pqtl.png
     Ignored:    figures/IL6ST_eqtl.png
@@ -704,7 +706,6 @@ Untracked files:
 Unstaged changes:
     Modified:   T1DSCREEN.Rproj
     Modified:   code/00-shell-wget-decompress-T1D-and-eQTLgen
-    Modified:   code/01-Functions.R
     Modified:   figures/IL2RA.png
     Modified:   figures/IL2RB.png
     Modified:   figures/JAK2.png
@@ -754,6 +755,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/7d17279b71a730ddff61ffd1855e192b7face55e/analyses/IL6R.Rmd" target="_blank">7d17279</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-08-01
+</td>
+<td>
+changed exported filetype from png to pdf
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jkoskenniemi/T1DSCREEN/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/IL6R.html" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1304,6 +1339,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/figure/IL6R.Rmd/unnamed-chunk-2-1.png" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/bbcf16081f26bcf96128785cb2bac4cec64af745/docs/figure/IL6R.Rmd/unnamed-chunk-2-1.png" target="_blank">bbcf160</a>
 </td>
 <td>
@@ -1331,14 +1377,125 @@ Jaakko Koskenniemi
 <pre class="r"><code>IL6R_eqtl &lt;- IL6R_eqtl %&gt;% filter(pos.outcome &gt; 154300000 &amp; pos.outcome &lt; 154700000) 
 manhattan_plots(IL6R_eqtl, gene_start=154405193, gene_end=154469450, title = &quot;IL6R&quot;)</code></pre>
 <p><img src="figure/IL6R.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(&quot;figures/IL6R-eQTL-T1D-manhattan.png&quot;, height = 6, width = 6)
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-2">
+Past versions of unnamed-chunk-2-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/figure/IL6R.Rmd/unnamed-chunk-2-2.png" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>ggsave(&quot;figures/IL6R-eQTL-T1D-manhattan.pdf&quot;, height = 6, width = 6)
 
 manhattan_plots(IL6R_pqtl, gene_start=154405193, gene_end=154469450, title = &quot;IL6R pqtl&quot;)</code></pre>
 <p><img src="figure/IL6R.Rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-3">
+Past versions of unnamed-chunk-2-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/figure/IL6R.Rmd/unnamed-chunk-2-3.png" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>IL6R_pqtl &lt;- IL6R_pqtl %&gt;% filter(pos.outcome &gt; 154300000 &amp; pos.outcome &lt; 154700000) 
 manhattan_plots(IL6R_pqtl, gene_start=154405193, gene_end=154469450, title = &quot;IL6R&quot;)</code></pre>
 <p><img src="figure/IL6R.Rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(&quot;figures/IL6R-pQTL-T1D-manhattan.png&quot;, height = 6, width = 6)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-4">
+Past versions of unnamed-chunk-2-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/figure/IL6R.Rmd/unnamed-chunk-2-4.png" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>ggsave(&quot;figures/IL6R-pQTL-T1D-manhattan.pdf&quot;, height = 6, width = 6)</code></pre>
 </div>
 <div id="coloc" class="section level2">
 <h2>Coloc</h2>
@@ -1376,6 +1533,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/figure/IL6R.Rmd/unnamed-chunk-3-1.png" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/a4a6c974a0f36b26466c590d7dd0381cddeef7f5/docs/figure/IL6R.Rmd/unnamed-chunk-3-1.png" target="_blank">a4a6c97</a>
@@ -1451,6 +1619,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/figure/IL6R.Rmd/unnamed-chunk-3-2.png" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/a4a6c974a0f36b26466c590d7dd0381cddeef7f5/docs/figure/IL6R.Rmd/unnamed-chunk-3-2.png" target="_blank">a4a6c97</a>
 </td>
 <td>
@@ -1511,6 +1690,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/figure/IL6R.Rmd/unnamed-chunk-4-1.png" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/a4a6c974a0f36b26466c590d7dd0381cddeef7f5/docs/figure/IL6R.Rmd/unnamed-chunk-4-1.png" target="_blank">a4a6c97</a>
 </td>
 <td>
@@ -1546,10 +1736,18 @@ jkoskenniemi
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(filename = &quot;figures/IL6R_eqtl.png&quot;, height = 8, width = 6)
-
-
-load(&quot;data/export_LDmat/IL6R_pqtl_LDmat.rda&quot;)
+<pre class="r"><code>ggsave(filename = &quot;figures/IL6R_eqtl.pdf&quot;, height = 8, width = 6)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.8–1.0&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.6–0.8&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.4–0.6&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.2–0.4&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.0–0.2&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre class="r"><code>load(&quot;data/export_LDmat/IL6R_pqtl_LDmat.rda&quot;)
 
 plot_coloc(genechr = 1,
            fig_start = 154300000,
@@ -1560,11 +1758,58 @@ plot_coloc(genechr = 1,
            D2 = coloc_IL6R_pqtl$D2,
            LDmat = IL6R)</code></pre>
 <pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_line()`).
-Removed 3 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_label()`).</code></pre>
 <p><img src="figure/IL6R.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(filename = &quot;figures/IL6R_pqtl.png&quot;, height = 8, width = 6)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
+Past versions of unnamed-chunk-4-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jkoskenniemi/T1DSCREEN/blob/1ab48c06063c6b435841b6e34ecf33dc497a219e/docs/figure/IL6R.Rmd/unnamed-chunk-4-2.png" target="_blank">1ab48c0</a>
+</td>
+<td>
+Jaakko Koskenniemi
+</td>
+<td>
+2024-07-30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>ggsave(filename = &quot;figures/IL6R_pqtl.pdf&quot;, height = 8, width = 6)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.8–1.0&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.6–0.8&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.4–0.6&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.2–0.4&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+for &#39;0.0–0.2&#39; in &#39;mbcsToSbcs&#39;: - substituted for – (U+2013)</code></pre>
 </div>
 <div id="mr" class="section level2">
 <h2>MR</h2>
