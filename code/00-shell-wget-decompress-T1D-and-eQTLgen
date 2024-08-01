@@ -59,3 +59,4 @@ rm *.gz
 mkdir export_cis_sumstats
 mkdir export_manuscript
 mkdir export_celltypes_harmonized
+mkdir export_LDmat
