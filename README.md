@@ -1,4 +1,4 @@
-# T1DSCREEN
+# Genetic evidence for efficacy of targeting IL-2, IL-6, and TYK2 signaling in prevention of type 1 diabetes: A Mendelian randomization study  
 
 Repository for analyses related to article Heikkilä et al. 2024 published in 
 Diabetologia (add DOI, link to publisher website, and full bibliographical details once they are available).
